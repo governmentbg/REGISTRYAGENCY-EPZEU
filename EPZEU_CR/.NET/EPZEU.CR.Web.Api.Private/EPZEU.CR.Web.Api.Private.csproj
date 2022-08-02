@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="CNSys.Rebus.Oracle" Version="1.2.6" />      
+    <PackageReference Include="Rebus.Microsoft.Extensions.Logging" Version="1.0.1" />
+    <PackageReference Include="Rebus.ServiceProvider" Version="4.0.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.1.3" />
+    <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.1" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="3.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+    <PackageReference Include="RA.CR.Integration.EPZEU.Core" Version="1.0.108">
+      <CopyToOutputDirectory>lib\netstandard2.0\*</CopyToOutputDirectory>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\EPZEU\.NET\EPZEU.Cache.Polling\EPZEU.Cache.Polling.csproj" />
+    <ProjectReference Include="..\..\..\EPZEU\.NET\EPZEU.Core\EPZEU.Core.csproj" />
+    <ProjectReference Include="..\..\..\EPZEU\.NET\EPZEU.ServiceLimits.AspNetCore\EPZEU.ServiceLimits.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\..\EPZEU\.NET\EPZEU.Web.Core\EPZEU.Web.Core.csproj" />
+    <ProjectReference Include="..\..\..\EPZEU\.NET\EPZEU.Web.Swagger\EPZEU.Web.Swagger.csproj" />
+    <ProjectReference Include="..\EPZEU.CR.Web\EPZEU.CR.Web.Core.csproj" />
+    <ProjectReference Include="..\EPZEU.CR\EPZEU.CR.csproj" />
+  </ItemGroup>
+
+  <!-- We want xml documentation from nuget packages to be copied to project after build, so it can be uised for swagger -->
+  <!-- https://snede.net/add-nuget-package-xml-documentation-to-swagger/ -->
+  <!-- https://github.com/dotnet/sdk/issues/9498 -->
+  <Target Name="CopyPackages" AfterTargets="Build">
+    <ItemGroup>
+      <PackageReferenceFiles Condition="%(PackageReference.CopyToOutputDirectory) != ''" Include="$(NugetPackageRoot)\%(PackageReference.Identity)\%(PackageReference.Version)\%(PackageReference.CopyToOutputDirectory)" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PackageReferenceFiles)" DestinationFolder="$(OutDir)" />
+  </Target>
+
+  <!-- We want xml documentation from nuget packages to be copied to pubish folder, so it can be uised for swagger -->
+  <Target Name="CopyPackagess" BeforeTargets="PrepareForPublish">
+    <ItemGroup>
+      <PackageReferenceFiles Condition="%(PackageReference.CopyToOutputDirectory) != ''" Include="$(NugetPackageRoot)\%(PackageReference.Identity)\%(PackageReference.Version)\%(PackageReference.CopyToOutputDirectory)" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PackageReferenceFiles)" DestinationFolder="$(PublishDir)" />
+  </Target>
+  
+</Project>

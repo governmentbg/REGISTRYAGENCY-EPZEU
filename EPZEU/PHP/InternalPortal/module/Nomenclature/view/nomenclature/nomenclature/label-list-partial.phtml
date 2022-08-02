@@ -1,0 +1,47 @@
+<? foreach ($labelList as $baseObj) {?>
+	<tr id="edit-row-<?=$baseObj->getlabelId()?>">
+		<td class="word-break"><?=$baseObj->getCode()?></td>
+
+		<td id="edit-value-<?=$baseObj->getlabelId()?>">
+
+			<div class="edit-value-<?=$baseObj->getlabelId()?>">
+
+				<span class="preview-<?=$baseObj->getlabelId()?>">
+					<span class="label-value"><?=$baseObj->getValue()?></span>
+				</span>
+
+				<span class="edit-<?=$baseObj->getlabelId()?> d-none">
+					<textarea class="form-control" id="labelValue-<?=$baseObj->getlabelId()?>" name="labelValue" rows="3" maxlength="1000"><?=$this->escapeHtml($baseObj->getValue())?></textarea>
+				</span>
+			</div>
+
+		</td>
+
+		<td id="edit-description-<?=$baseObj->getlabelId()?>">
+
+			<div class="edit-description-<?=$baseObj->getlabelId()?>">
+
+				<div class="preview-<?=$baseObj->getlabelId()?>">
+					<span class="label-value label-description-wrapper"><?=$baseObj->getDescription()?></span>
+				</div>
+
+				<div class="edit-<?=$baseObj->getlabelId()?> d-none">
+					<div class="w-100 col-12">
+						<textarea class="form-control ckeditor-basic" id="description-<?=$baseObj->getlabelId()?>" name="descriptiption" rows="3" maxlength="2000"><?=$baseObj->getDescription()?></textarea>
+					</div>
+				</div>
+			</div>
+		</td>
+
+		<? if ($this->isAllowed('label_edit')) { ?>
+		<td class="buttons-td">
+			<button class="preview-<?=$baseObj->getlabelId()?> btn btn-secondary edit-section-<?=$baseObj->getlabelId()?>" onclick="editLabel('<?=$baseObj->getlabelId()?>', '<?=$baseObj->getCode()?>')" title="<?=$this->translate('GL_EDIT_L')?>"><i class="ui-icon ui-icon-edit"></i></button>
+
+			<span class="edit-<?=$baseObj->getlabelId()?> d-none btn-group">
+				<button class="btn btn-secondary" onClick="saveLabelChanges('<?=$baseObj->getlabelId()?>', '<?=$baseObj->getCode()?>')" title="<?=$this->translate('GL_SAVE_L')?>"><i class="ui-icon ui-icon-check"></i></button>
+				<button class="btn btn-secondary" onClick="cancelEditLabel('<?=$baseObj->getlabelId()?>')" title="<?=$this->translate('GL_REFUSE_L')?>"><i class="ui-icon ui-icon-ban"></i></button>
+			</span>
+		</td>
+		<? } ?>
+	</tr>
+<? } ?>

@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E2E8B7BF-9F91-432B-8D50-F73B60CC8B22}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EPZEU.UnitTests</RootNamespace>
+    <AssemblyName>EPZEU.UnitTests</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Integration.EPZEU.Core">
+      <HintPath>..\ExternalDlls\Integration.EPZEU.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Integration.EPZEU.Core.Client">
+      <HintPath>..\ExternalDlls\Integration.EPZEU.Core.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\EmailsTests.cs" />
+    <Compile Include="Core\IdentityTokenTests.cs" />
+    <Compile Include="Core\CacheTests.cs" />
+    <Compile Include="Core\NomenclaturesTests.cs" />
+    <Compile Include="Core\AuditTests.cs" />
+    <Compile Include="Core\UsersTests.cs" />
+    <Compile Include="Integration\CRTests.cs" />
+    <Compile Include="Integration\IISDATests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="IdentityModel">
+      <Version>3.10.10</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory">
+      <Version>2.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration">
+      <Version>2.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <Version>2.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="MSTest.TestAdapter">
+      <Version>1.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="MSTest.TestFramework">
+      <Version>1.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="Npgsql">
+      <Version>4.0.3</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EPZEU.Core\EPZEU.Core.csproj">
+      <Project>{a17dc679-dae1-4616-a8bf-cde6b3d39ef6}</Project>
+      <Name>EPZEU.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EPZEU.Emails\EPZEU.Emails.csproj">
+      <Project>{7bcdd59a-d3f3-4f9e-b5cd-af6d619fbb8f}</Project>
+      <Name>EPZEU.Emails</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EPZEU.Integration.IISDA\EPZEU.Integration.IISDA.csproj">
+      <Project>{3bfe3a35-dbc8-4e0b-80cd-179ae42eca52}</Project>
+      <Name>EPZEU.Integration.IISDA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EPZEU.Npgsql\EPZEU.Npgsql.csproj">
+      <Project>{80d84215-88b5-4cc2-83f8-9f01bf2c1e63}</Project>
+      <Name>EPZEU.Npgsql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EPZEU.Users\EPZEU.Users.csproj">
+      <Project>{0b233c93-420c-4bdf-b40a-370722d57b07}</Project>
+      <Name>EPZEU.Users</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EPZEU\EPZEU.csproj">
+      <Project>{4952ebea-7e47-4eeb-8453-392c0841fd26}</Project>
+      <Name>EPZEU</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="appsettings.json" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

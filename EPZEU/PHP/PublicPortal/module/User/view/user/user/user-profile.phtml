@@ -1,0 +1,281 @@
+<? $this->headTitle('EP_USR_ACC_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_ACC_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_USR_ACC_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+				<div class="card card-page">
+					<?php
+					$userForm->setAttribute('action', $this->url('user_profile', ['lang' => $this->language()->getCurrentLang()]));
+					$userForm->prepare();
+
+					$userFieldset = $userForm->get('userFieldset');
+
+					echo $this->form()->openTag($userForm);
+
+					?>
+					<div class="card-body card-page__body">
+
+						<div class="row">
+							<div class="col-12">
+								<?=$this->partial('partial/messages.phtml')?>
+
+								<?=$this->formHidden($userFieldset->get('id'))?>
+
+								<div class="row">
+
+									<div class="col-sm-6 form-group">
+										<?=$this->formRow($userFieldset->get('cin'))?>
+									</div>
+
+									<div class="col-sm-6 form-group">
+
+										<?=$this->formRow($userFieldset->get('updatedOn')->setValue(
+												$this->dateFormat(
+												strtotime($userObj->getUpdatedOn()),
+												IntlDateFormatter::MEDIUM, // date
+												IntlDateFormatter::NONE, // time
+												$this->plugin('translate')->getTranslator()->getLocale(),
+												\Application\View\Helper\DateFormat::DATETIME
+											)
+										))?>
+									</div>
+
+
+									<div class="col-sm-6 form-group">
+										<?=$this->formRow($userFieldset->get('email'))?>
+									</div>
+
+									<div class="col-sm-6 form-group">
+										<?=$this->formRow($userFieldset->get('firstName'))?>
+									</div>
+
+									<div class="col-sm-6 form-group">
+										<?=$this->formRow($userFieldset->get('middleName'))?>
+									</div>
+
+									<div class="col-sm-6 form-group">
+										<?=$this->formRow($userFieldset->get('familyName'))?>
+									</div>
+								</div>
+
+								<div class="row">
+
+									<div class="col-sm-6 form-group">
+										<label class="field-title field-title--form"><?=$this->translate('EP_USR_00002_L')?></label>
+										<?=$this->formRow($userFieldset->get('crBulletinAcceptance'), 'append', null, 'partial/checkbox')?>
+										<?=$this->formRow($userFieldset->get('prBulletinAcceptance'), 'append', null, 'partial/checkbox')?>
+									</div>
+
+									<div class="col-sm-6 form-group">
+										<label class="field-title field-title--form"><?=$this->translate('EP_USR_00013_L')?></label>
+										<?=$this->formRow($userFieldset->get('crMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+										<?=$this->formRow($userFieldset->get('prMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+										<?=$this->formRow($userFieldset->get('epzeuMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+									</div>
+
+								</div>
+
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group form-inline">
+										<?=$this->formRow($userFieldset->get('specialAccess'), 'append', null, 'partial/checkbox')?>
+										</div>
+									</div>
+								</div>
+
+								<fieldset id="special-access-section" style="display: none;">
+									<h2 class="section-title section-title--form"><?=$this->translate('EP_USR_00007_L');?></h2>
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="alert alert-info"><?=$this->translate('EP_USR_00002_I');?></div>
+										</div>
+
+										<div class="col-sm-12 form-group">
+											<?=$this->formRow($userFieldset->get('contactData'), null, true, "")?>
+											<div class="help-text-inline"><?=$this->translate('EP_USR_00006_I')?></div>
+										</div>
+
+										<div class="col-sm-6 form-group">
+											<?=$this->formRow($userFieldset->get('organization'), null, true, "")?>
+										</div>
+
+										<div class="w-100"></div>
+
+										<div class="col-sm-12">
+											<label class="required-field field-title field-title--form"><?=$this->translate('EP_USR_00008_L')?></label>
+											<?=$this->partial('partial/uploader.phtml', ['maxFileSize' => $config['GL_DOCUMENT_MAX_FILE_SIZE'], 'fileArr' => $fileArr])?>
+											<?=$this->formRow($userFieldset->get('files'))?>
+										</div>
+
+
+									</div>
+								</fieldset>
+							</div>
+						</div>
+					</div>
+
+					<div class="card-footer card-page__footer">
+						<div class="button-bar">
+							<a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+							<?=$this->formSubmit($userForm->get('submit'));?>
+						</div>
+					</div>
+
+					<?=$this->form()->closeTag();?>
+
+				</div>
+
+
+
+				<? if (count($specialAccessArr)) { ?>
+
+				<br />
+				<section class="card card-page card--collapsible">
+
+					<div class="card-header card-page__header" data-toggle="collapse" data-target="#collapsable-content-1" aria-expanded="true">
+						<h2 class="section-title section-title--page">
+							<?=$this->translate('EP_USR_LIST_REQSPACC_L')?>
+						</h2>
+						<button class="system-button toggle-collapse">
+							<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+						</button>
+					</div>
+
+					<div id="collapsable-content-1" class="collapse show" >
+
+						<div class="card-body card-page__body">
+
+							<div class="table-responsive-block">
+							<table class="table table-borderless table-striped table-hover">
+
+									<thead>
+									<tr>
+										<th><?=$this->translate('EP_USR_REQUEST_DATA_L')?></th>
+										<th><?=$this->translate('EP_USR_00008_L')?></th>
+										<th><?=$this->translate('EP_USR_CONF_REJ_DATA_L')?></th>
+										<th><?=$this->translate('GL_CONDITION_L')?></th>
+									</tr>
+									</thead>
+
+
+								<?php foreach ($specialAccessArr as $specialAccess) { ?>
+									<tr>
+										<td>
+										<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_USR_REQUEST_DATA_L')?></span>
+										<p>
+										<?=$this->dateFormat(
+											strtotime($specialAccess->getCreatedOn()),
+										    IntlDateFormatter::MEDIUM, // date
+										    IntlDateFormatter::NONE, // time
+										    $this->plugin('translate')->getTranslator()->getLocale(),
+											\Application\View\Helper\DateFormat::DATETIME
+										)?>
+										</p>
+										</td>
+
+										<td>
+											<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_USR_00008_L')?></span>
+											<?php if (isset($documentArray[$specialAccess->getRequestId()])) { ?>
+												<?php foreach ($documentArray[$specialAccess->getRequestId()] as $file) { ?>
+													<p><a href="<?=$this->url('special_access_document_download', ['lang' => $this->language()->getCurrentLang(), 'documentId' => $file->getDocId()])?>">
+													<?=\Document\Service\DocumentService::getOriginalFilename($file->getName())?>
+													</a></p>
+												<?php } ?>
+											<?php } ?>
+										</td>
+
+										<td>
+										<span class="field-title field-title--preview d-sm-none">
+										<?=$this->translate('EP_USR_CONF_REJ_DATA_L')?></span>
+										<p>
+										<?=$this->dateFormat(
+											strtotime($specialAccess->getProcessingDate()),
+										    IntlDateFormatter::MEDIUM, // date
+										    IntlDateFormatter::NONE, // time
+										    $this->plugin('translate')->getTranslator()->getLocale(),
+											\Application\View\Helper\DateFormat::DATETIME
+										)?>
+										</p>
+										</td>
+
+										<td class="icons-td">
+										<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_CONDITION_L')?></span>
+
+										<p><?php
+										switch ($specialAccessStatusList[$specialAccess->getAccessStatus()]) {
+
+											case 'EP_USR_SP_ACCESS_WAITING_L':?><i class="ui-icon ui-icon-state-waiting" aria-hidden="true"></i><?php
+												break;
+
+											case 'EP_USR_SP_ACCESS_APPROVED_L':
+												?><i class="ui-icon ui-icon-state-active" aria-hidden="true"></i>
+												<?php
+												break;
+
+											case 'EP_USR_SP_ACCESS_DISAPPROVED_L':
+												?><i class="ui-icon ui-icon-state-canceled" aria-hidden="true"></i>
+												<?php
+												break;
+										}?><?=$this->translate($specialAccessStatusList[$specialAccess->getAccessStatus()])?>
+
+										</p>
+										</td>
+									</tr>
+								<?} ?>
+							</table>
+							</div>
+						</div>
+
+					</div>
+				</section>
+				<?} ?>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+$(document).ready(function(){
+	showPasswordStrength();
+});
+
+$("#special-access").on('click', function(){
+	this.checked ? $('#contact-label').addClass('required-field') : $('#contact-label').removeClass('required-field');
+	this.checked ? $("#special-access-section").show() : $("#special-access-section").hide();
+});
+
+$(document).ready(function(){
+	var specialAccess = document.getElementById("special-access").checked
+	specialAccess ? $("#special-access-section").show() : $("#special-access-section").hide();
+});
+
+$(document).on('submit','#userform',function(){
+	showGlobalLoader();
+});
+
+</script>

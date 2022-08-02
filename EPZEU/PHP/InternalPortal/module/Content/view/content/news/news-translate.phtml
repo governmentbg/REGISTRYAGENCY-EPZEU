@@ -1,0 +1,135 @@
+<?php
+$this->headTitle('EP_CMS_TRANSLATE_NEW_L');
+?>
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_TRANSLATION_TRANSLATIONS_L')?></li>
+		<li class="breadcrumb-item"><a href="<?=$this->url('news_list_translate')?>"><?=$this->translate('EP_CMS_NEWS_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_TRANSLATE_NEW_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_CMS_TRANSLATE_NEW_L')?></h2>
+</div>
+
+<?=$this->partial('partial\language-drop-down.phtml')?>
+
+<div class="card">
+
+	<?php
+	$newsForm->setAttribute('action', $this->url('news_translate', ['lang' => $params->fromRoute('lang'), 'newsId' => $newsId]));
+	$newsForm->setAttribute('id', 'news-form');
+	$newsForm->prepare();
+
+	echo $this->form()->openTag($newsForm);
+	?>
+
+	<div class="card-body">
+
+		<?=$this->partial('partial/messages.phtml')?>
+
+		<div class="row">
+			<div class="col-sm-6 form-group">
+				<?=$this->formRow($newsForm->get('registerId'))?>
+			</div>
+			<div class="col-sm-6 form-group">
+				<div class="form-group col-sm-6 col-xxl-4">
+					<label for="status"><?=$this->translate('EP_CMS_DATЕ_NEWS_L');?></label>
+					<? $newsDateFormated = $this->dateFormat(
+							strtotime($newsDate),
+							IntlDateFormatter::NONE, // date
+							IntlDateFormatter::NONE, // time
+							$this->plugin('translate')->getTranslator()->getLocale(),
+							\Application\View\Helper\DateFormat::DATETIME
+						);
+					?>
+					<input class="form-control" id="status" disabled="disabled" value="<?=$newsDateFormated?>">
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<label for=""><?=$this->translate($newsForm->get('title')->getLabel())?></label>
+				<div>
+					<?=$newsForm->get('title')->getValue() ?>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<?=$this->formLabel($newsForm->get('titleI18n'))?><span class="label-description"> (<?=$this->language()->getLanguagesName()?>)</span>
+				<?=$this->formElement($newsForm->get('titleI18n'))?>
+				<?=$this->formElementErrors($newsForm->get('titleI18n'))?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<label for=""><?=$this->translate($newsForm->get('shortDescription')->getLabel())?></label>
+				<div>
+					<?=$newsForm->get('shortDescription')->getValue() ?>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<?=$this->formLabel($newsForm->get('shortDescriptionI18n'))?><span class="label-description"> (<?=$this->language()->getLanguagesName()?>)</span>
+				<?=$this->formElement($newsForm->get('shortDescriptionI18n'))?>
+				<?=$this->formElementErrors($newsForm->get('shortDescriptionI18n'))?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group disabled">
+				<label for=""><?=$this->translate($newsForm->get('description')->getLabel())?></label>
+				<div class="form-text-srollable-large">
+					<?=$newsForm->get('description')->getValue() ?>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<?=$this->formLabel($newsForm->get('descriptionI18n'))?><span class="label-description"> (<?=$this->language()->getLanguagesName()?>)</span>
+				<?=$this->formElement($newsForm->get('descriptionI18n'))?>
+				<?=$this->formElementErrors($newsForm->get('descriptionI18n'))?>
+
+				<? if ($this->FormElementErrors($newsForm->get('descriptionI18n'))) { ?>
+					<script>
+						CKEDITOR.on('instanceReady', function() {
+							$('#cke_descriptionI18n').addClass('input-error');
+						});
+					</script>
+				<? } ?>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url('news_list_translate',['lang' => $params->fromRoute('lang')], ['query' => $params->fromQuery()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<?=$this->formSubmit($newsForm->get('submit'));?>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+
+</div>
+
+<?$this->headScript()->appendFile($this->basePath('js/ckeditor/ckeditor.js'));?>
+
+<script>
+$(document).on('submit', '#news-form', function(){
+	showGlobalLoader();
+});
+
+$(document).ready(function(){
+	$('#language-select').attr("disabled", true);
+})
+</script>

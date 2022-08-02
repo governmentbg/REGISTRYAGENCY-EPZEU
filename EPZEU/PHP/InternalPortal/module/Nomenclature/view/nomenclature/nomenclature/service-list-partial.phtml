@@ -1,0 +1,317 @@
+<? foreach ($serviceList as $baseObj) { ?>
+
+	<tr>
+		<td><?=(!empty($registerList[$baseObj->getRegisterId()]) ? $this->translate($registerList[$baseObj->getRegisterId()]) : '')?></td>
+		<td>
+			<?if (empty($baseObj->getIsDiscontinued())) {
+				if ($baseObj->getIsAdm()) { ?>
+					<span class="label-description" title="<?=$baseObj->getIsAdm() ? $this->escapeHtmlAttr($this->translate('EP_NOM_SERVICES_IS_IISDA_L')) : ''?>">(<?=$this->translate('IISDA')?>)</span><br/>
+				<? } ?>
+				<a href="javascript://" onclick="openPreview('<?=$this->url('preview_service', ['serviceId' => $baseObj->getServiceId(), 'lang' => $params->fromRoute('lang')])?>', event)" role="button" aria-pressed="true"><b><?=$baseObj->getServiceNumber().' '.$baseObj->getName()?></b></a><br/>
+
+				<?if (!empty($baseObj->getShortDescription())) {
+					if (mb_strlen(strip_tags($baseObj->getShortDescription()), 'UTF-8') > $serviceDescriptionLength) {?>
+						<a href="javascript://" onclick="openPreview('<?=$this->url('preview_service', ['serviceId' => $baseObj->getServiceId(), 'lang' => $params->fromRoute('lang')], ['query'=>['shortDescription'=>'1']])?>', event)" role="button" aria-pressed="true"><?=nl2br(mb_substr(strip_tags($baseObj->getShortDescription()), 0, $serviceDescriptionLength, 'UTF-8')).'...'?></a>
+					<?}
+					else
+						echo nl2br($baseObj->getShortDescription());
+				}
+			}
+			else {?>
+				<span class="text-danger">
+					<?=$this->translate('EP_NOM_NO_SERVICES_IISDA_E')?>
+				</span>
+			<?}?>
+		</td>
+		<td><?=(!empty($applicationTypeList[$baseObj->getAppTypeId()]) ? $applicationTypeList[$baseObj->getAppTypeId()] : '')?></td>
+		<td>
+			<?
+			if (!empty($baseObj->getServiceTypeIds()))
+				foreach ($baseObj->getServiceTypeIds() as $serviceType)
+					if (!empty($serviceTypeList[$serviceType]))
+						echo $this->translate($serviceTypeList[$serviceType]).'<br />';
+			?>
+		</td>
+		<td>
+			<?
+			if (!empty($baseObj->getPaymentTypeIds()))
+				foreach ($baseObj->getPaymentTypeIds() as $paymentType)
+					if (!empty($paymentTypeList[$paymentType]))
+						echo $this->translate($paymentTypeList[$paymentType]).'<br />';
+			?>
+		</td>
+		<td id="provide-td-<?=$baseObj->getServiceId()?>">
+			<div class="provide-preview" id="provide-preview-<?=$baseObj->getServiceId()?>">
+
+				<?if ($this->isAllowed('manage_service_status') && empty($baseObj->getIsDiscontinued())) {?>
+					<span id="provide-action-<?=$baseObj->getServiceId()?>" class="<?=(($baseObj->getStatus() == $serviceStatusCancel || $baseObj->getStatus() == $serviceStatusPending) ? '' : 'd-none')?>">
+						<button class="btn btn-secondary float-right ml-2 provide-btn-<?=$baseObj->getServiceId()?>" onclick="openEditSection('<?=$baseObj->getServiceId()?>', 'provide')" title="<?=$this->escapeHtmlAttr($this->translate('EP_NOM_REVIVAL_SERVICE_L'))?>">
+							 <i class="ui-icon ui-icon-activate"></i>
+						</button>
+					</span>
+				<?}?>
+
+				<span id="provide-date-time-<?=$baseObj->getServiceId()?>">
+					<?if ($baseObj->getStatus() == $serviceStatusProvided || $baseObj->getStatus() == $serviceStatusPending) {
+						echo $this->dateFormat(
+							strtotime($baseObj->getStatusDate()),
+							IntlDateFormatter::NONE, // date
+							IntlDateFormatter::NONE, // time
+							$this->plugin('translate')->getTranslator()->getLocale(),
+							\Application\View\Helper\DateFormat::DATEHOUR
+						);
+					}?>
+				</span>
+			</div>
+
+			<div class="provide-edit d-none" id="provide-edit-<?=$baseObj->getServiceId()?>">
+
+				<div class="row">
+					<div class="col-12">
+						<label class="required-field"><?=$this->translate('EP_NOM_DATE_REVIVAL_SERVICE_L')?></label>
+					</div>
+				</div>
+
+				<?if (!empty($synchronizeMessage) && !empty($baseObj->getIsAdm())) {?>
+					<div class="row">
+						<div class="col-12 form-group">
+							<div class="alert alert-warning" role="alert">
+								<?=$synchronizeMessage?>
+							</div>
+						</div>
+					</div>
+				<?}?>
+
+				<?
+				$currentDateObj = new \DateTime();
+				$currentDateObj->add(new \DateInterval('PT1H'));
+
+				$serviceStatusDate = $currentDateObj->format('d.m.Y');
+				$serviceStatusTime = $currentDateObj->format('H');
+
+				if (!is_null($baseObj->getPendingStatus()) && $baseObj->getStatus() != $baseObj->getPendingStatus()) {
+					$serviceStatusDateObj = new \DateTime($baseObj->getPendingStatusDate());
+					$serviceStatusDate = $serviceStatusDateObj->format('d.m.Y');
+					$serviceStatusTime = $serviceStatusDateObj->format('H');
+				}
+				?>
+
+				<div class="form-row">
+					<div class="form-group col-7 date-control">
+	               		<div class="input-group date statusDate" id="provideStatusDate-<?=$baseObj->getServiceId()?>" data-target-input="nearest">
+						    <input name="provideStatusDateInput-<?=$baseObj->getServiceId()?>" id="provideStatusDateInput-<?=$baseObj->getServiceId()?>" class="form-control datetimepicker-input" data-target="#provideStatusDate-<?=$baseObj->getServiceId()?>" maxlength="20" value="<?=(!empty($serviceStatusDate) ? $serviceStatusDate : '')?>" type="text">
+							<div class="input-group-append" data-target="#provideStatusDate-<?=$baseObj->getServiceId()?>" data-toggle="datetimepicker">
+								<button class="btn btn-secondary" type="button">
+									<i class="ui-icon ui-icon-calendar"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="form-group col-5 time-control">
+	               		<div class="input-group date statusTime" id="provideStatusTime-<?=$baseObj->getServiceId()?>" data-target-input="nearest">
+							<input name="provideStatusTimeInput-<?=$baseObj->getServiceId()?>" id="provideStatusTimeInput-<?=$baseObj->getServiceId()?>" class="form-control datetimepicker-input" data-target="#provideStatusTime-<?=$baseObj->getServiceId()?>" maxlength="20" value="<?=(!empty($serviceStatusTime) ? $serviceStatusTime : '')?>" type="text">
+							<div class="input-group-append" data-target="#provideStatusTime-<?=$baseObj->getServiceId()?>" data-toggle="datetimepicker">
+								<button class="btn btn-secondary" type="button">
+									<i class="ui-icon ui-icon-clock"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+    				<div class="col-12">
+        				<div class="btn-group float-right">
+				            <button class="btn btn-secondary" onClick="saveService('<?=$baseObj->getServiceId()?>', 'provide')" title="<?=$this->escapeHtmlAttr($this->translate('GL_SAVE_L'))?>">
+				                <i class="ui-icon ui-icon-check"></i>
+				            </button>
+				            <button class="btn btn-secondary" onClick="closeEditSection('<?=$baseObj->getServiceId()?>', 'provide')" title="<?=$this->escapeHtmlAttr($this->translate('GL_REFUSE_L'))?>">
+				                <i class="ui-icon ui-icon-ban"></i>
+				            </button>
+        				</div>
+    				</div>
+				</div>
+
+			</div>
+		</td>
+
+		<td id="cancel-td-<?=$baseObj->getServiceId()?>">
+			<div class="cancel-preview" id="cancel-preview-<?=$baseObj->getServiceId()?>">
+
+				<?if ($this->isAllowed('manage_service_status')) {?>
+					<span id="cancel-action-<?=$baseObj->getServiceId()?>" class="<?=($baseObj->getStatus() == $serviceStatusProvided ? '' : 'd-none')?>">
+						 <button class="btn btn-secondary float-right ml-2 cancel-btn-<?=$baseObj->getServiceId()?>" onclick="openEditSection('<?=$baseObj->getServiceId()?>', 'cancel')" title="<?=$this->escapeHtmlAttr($this->translate('EP_NOM_CANCEL_SERVICE_L'))?>">
+							<i class="ui-icon ui-icon-deactivate"></i>
+						</button>
+					</span>
+				<?}?>
+
+				<span id="cancel-date-time-<?=$baseObj->getServiceId()?>">
+					<?if ($baseObj->getStatus() == $serviceStatusCancel) {
+						echo $this->dateFormat(
+							strtotime($baseObj->getStatusDate()),
+							IntlDateFormatter::NONE, // date
+							IntlDateFormatter::NONE, // time
+							$this->plugin('translate')->getTranslator()->getLocale(),
+							\Application\View\Helper\DateFormat::DATEHOUR
+						);
+					}?>
+				</span>
+			</div>
+
+			<div class="cancel-edit d-none" id="cancel-edit-<?=$baseObj->getServiceId()?>">
+
+				<div class="row">
+					<div class="col-12">
+						<label class="required-field"><?=$this->translate('EP_NOM_STOP_REVIVAL_SERVICE_L')?></label>
+					</div>
+				</div>
+
+				<?if (!empty($synchronizeMessage) && !empty($baseObj->getIsAdm())) {?>
+					<div class="row">
+						<div class="col-12 form-group">
+							<div class="alert alert-warning" role="alert">
+								<?=$synchronizeMessage?>
+							</div>
+						</div>
+					</div>
+				<?}?>
+
+				<?
+				$currentDateObj = new \DateTime();
+				$currentDateObj->add(new \DateInterval('PT1H'));
+
+				$serviceStatusDate = $currentDateObj->format('d.m.Y');
+				$serviceStatusTime = $currentDateObj->format('H');
+
+				if (!is_null($baseObj->getPendingStatus()) && $baseObj->getStatus() != $baseObj->getPendingStatus()) {
+					$serviceStatusDateObj = new \DateTime($baseObj->getPendingStatusDate());
+					$serviceStatusDate = $serviceStatusDateObj->format('d.m.Y');
+					$serviceStatusTime = $serviceStatusDateObj->format('H');
+				}
+				?>
+
+				<div class="form-row">
+					<div class="form-group col-7 date-control">
+               			<div class="input-group date statusDate" id="cancelStatusDate-<?=$baseObj->getServiceId()?>" data-target-input="nearest">
+					    	<input name="cancelStatusDateInput-<?=$baseObj->getServiceId()?>" id="cancelStatusDateInput-<?=$baseObj->getServiceId()?>" class="form-control datetimepicker-input" data-target="#cancelStatusDate-<?=$baseObj->getServiceId()?>" maxlength="20" value="<?=(!empty($serviceStatusDate) ? $serviceStatusDate : '')?>" type="text">
+							<div class="input-group-append" data-target="#cancelStatusDate-<?=$baseObj->getServiceId()?>" data-toggle="datetimepicker">
+								<button class="btn btn-secondary" type="button">
+									<i class="ui-icon ui-icon-calendar"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="form-group col-5 time-control">
+               			<div class="input-group date statusTime" id="cancelStatusTime-<?=$baseObj->getServiceId()?>" data-target-input="nearest">
+					    	<input name="cancelStatusTimeInput-<?=$baseObj->getServiceId()?>" id="cancelStatusTimeInput-<?=$baseObj->getServiceId()?>" class="form-control datetimepicker-input" data-target="#cancelStatusTime-<?=$baseObj->getServiceId()?>" maxlength="20" value="<?=(!empty($serviceStatusTime) ? $serviceStatusTime : '')?>" type="text">
+							<div class="input-group-append" data-target="#cancelStatusTime-<?=$baseObj->getServiceId()?>" data-toggle="datetimepicker">
+								<button class="btn btn-secondary" type="button">
+									<i class="ui-icon ui-icon-clock"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+    				<div class="col-12">
+        				<div class="btn-group float-right">
+				            <button class="btn btn-secondary" onClick="saveService('<?=$baseObj->getServiceId()?>', 'cancel')" title="<?=$this->escapeHtmlAttr($this->translate('GL_SAVE_L'))?>">
+				                <i class="ui-icon ui-icon-check"></i>
+				            </button>
+				            <button class="btn btn-secondary" onClick="closeEditSection('<?=$baseObj->getServiceId()?>', 'cancel')" title="<?=$this->escapeHtmlAttr($this->translate('GL_REFUSE_L'))?>">
+				                <i class="ui-icon ui-icon-ban"></i>
+				            </button>
+        				</div>
+    				</div>
+				</div>
+
+			</div>
+		</td>
+		<td class="icons-td">
+			<div id="status-<?=$baseObj->getServiceId()?>">
+				<?if ($baseObj->getStatus() == $serviceStatusProvided) {?>
+					<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i><span class="text-wrap"><?=$this->translate('EP_NOM_STATUS_PROVIDED_L')?></span>
+				<?}
+				else if ($baseObj->getStatus() == $serviceStatusCancel){?>
+					<i class="ui-icon ui-icon-state-inactive" aria-hidden="true"></i><span class="text-wrap"><?=$this->translate('EP_NOM_STATUS_CANCEL_PROVIDED_L')?></span>
+				<?}
+				else if ($baseObj->getStatus() == $serviceStatusPending){?>
+					<i class="ui-icon ui-icon-state-waiting" aria-hidden="true"></i><span class="text-wrap"><?=$this->translate('EP_NOM_STATUS_PENDING_L')?></span>
+				<?}?>
+			</div>
+		</td>
+
+		<? if ($this->isAllowed('edit_service')) { ?>
+			<td class="buttons-td">
+				<?
+				$datePeriodValidator = new \Application\Validator\DatePeriodValidator([
+					'token' 			=> 'now',
+					'currentDateHour' 	=> true,
+					'compareType' 		=> \Application\Validator\DatePeriodValidator::LESS
+				]);
+
+
+				$showEditClass = 'd-none';
+
+				if (
+					$this->isAllowed('edit_service')
+					&&
+					empty($baseObj->getIsDiscontinued())
+					&&
+					$datePeriodValidator->isValid(date('d.m.Y H:00:00', strtotime($baseObj->getStatusDate())))
+					&&
+					$baseObj->getStatus() == $serviceStatusPending
+				)
+					$showEditClass = '';
+				?>
+
+				<span id="edit-action-<?=$baseObj->getServiceId()?>" class="<?=$showEditClass?>">
+					<a href="<?=$this->url('edit_service', ['serviceId' => $baseObj->getServiceId(), 'lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_EDIT_L'))?>">
+						<i class="ui-icon ui-icon-edit"></i>
+					</a>
+				</span>
+			</td>
+		<? } ?>
+
+	</tr>
+<? } ?>
+
+<script>
+$(function () {
+    $('.statusDate').datetimepicker({
+		widgetPositioning: {
+        	horizontal: 'left',
+           	vertical: 'bottom'
+		},
+    	useCurrent: true,
+    	format: "DD.MM.YYYY",
+    	locale: moment.locale('bg')
+    });
+});
+
+$(function () {
+    $('.statusTime').datetimepicker({
+		widgetPositioning: {
+			horizontal: 'left',
+			vertical: 'bottom'
+		},
+		useCurrent: true,
+		format: "HH"
+	});
+});
+
+// Add space for datetimepicker in .table-responsive on show.datetimepicker
+$(".statusDate, .statusTime").on("show.datetimepicker", function(event) {
+	$responsive_container = $(event.target).closest('.table-responsive');
+	$responsive_container_padding_bottom = $responsive_container.css("padding-bottom");
+	$responsive_container.css("padding-bottom", "15.625rem");
+});
+
+// Remove space added for datetimepicker in .table-responsive on hide.datetimepicker
+$(".statusDate, .statusTime").on("hide.datetimepicker", function(event) {
+	$responsive_container = $(event.target).closest('.table-responsive');
+	$responsive_container.css("padding-bottom", $responsive_container_padding_bottom );
+ });
+</script>

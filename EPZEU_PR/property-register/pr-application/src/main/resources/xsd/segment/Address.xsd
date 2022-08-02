@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="EKATTE.xsd"/>
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+    <xsd:complexType name="Address">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">
+                Адрес на територията на страната за кореспонденция
+
+                Settlement - населено място
+                Area - район(районно деление София, Пловдив и Варна)
+                Municipality - Община
+                Region - Област
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="Settlement" type="EKATTE" />
+            <xsd:element name="Area" type="EKATTE" minOccurs="0"/>
+            <xsd:element name="Municipality" type="EKATTE" />
+            <xsd:element name="Region" type="EKATTE" />
+            <xsd:element name="PostCode" type="val:PostCode" />
+            <xsd:element name="Street" type="val:Street" minOccurs="0"/>
+            <xsd:element name="HousingEstate" type="val:HousingEstate" minOccurs="0"/>
+            <xsd:element name="StreetNumber" type="val:StreetNumber" minOccurs="0"/>
+            <xsd:element name="Block" type="val:Block" minOccurs="0"/>
+            <xsd:element name="Entrance" type="val:Entrance" minOccurs="0"/>
+            <xsd:element name="Floor" type="val:Floor" minOccurs="0"/>
+            <xsd:element name="Apartment" type="val:Apartment" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

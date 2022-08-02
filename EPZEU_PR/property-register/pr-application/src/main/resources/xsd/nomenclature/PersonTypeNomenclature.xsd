@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/nomenclatures"
+            xmlns="http://www.registryagency.bg/schemas/property-register/nomenclatures"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:simpleType name="PersonTypeNomenclature">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="bg">Вид лице:
+              10000500000000000015 - Физическо лице
+              10000500000000000017 - Юридическо лице
+              10000500000000000018 - Юридическо лице без ЕИК
+              10000500000000000019 - Чуждестранно лице с ЛНЧ
+              10000500000000000020 - Чуждестранно лице без ЛНЧ
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="10000500000000000015" />
+            <xsd:enumeration value="10000500000000000017" />
+            <xsd:enumeration value="10000500000000000018" />
+            <xsd:enumeration value="10000500000000000019" />
+            <xsd:enumeration value="10000500000000000020" />
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

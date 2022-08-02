@@ -1,0 +1,36 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer Localizer
+
+@model ErrorViewModel
+@{
+    var error = Model?.Error?.Error;
+    var returnUrl = Model?.Error?.RedirectUri;
+}
+<div class="fixed-content-width">
+    <div class="panel-body">
+
+        @if (string.IsNullOrEmpty(error))
+        {
+            <div class="alert alert-danger"><p>@Localizer["GL_ERROR_OCCURRE_E"]</p></div>
+        }
+        else
+        {
+            if (Model.IsWarning)
+            {
+                <div class="alert alert-warning"><p>@error</p></div>
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    <p>@Localizer["GL_ERROR_OCCURRE_E"]</p>
+                    <p>
+                        @error
+                        @if (returnUrl != null)
+                        {
+                            <a class="PostLogoutRedirectUri" href="@returnUrl">@Localizer["GL_BACK_I"]</a>
+                        }
+                    </p>
+                </div>
+            }
+        }
+    </div>
+</div>

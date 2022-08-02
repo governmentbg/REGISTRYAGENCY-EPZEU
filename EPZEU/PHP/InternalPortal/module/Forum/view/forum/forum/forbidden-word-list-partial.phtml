@@ -1,0 +1,41 @@
+<? foreach ($forbiddenWordList as $baseObj) {?>
+
+	<tr id="edit-row-<?=$baseObj->getWordId()?>">
+		<td id="edit-forbidden-word-<?=$baseObj->getWordId()?>">
+			<div class="edit-forbidden-word-<?=$baseObj->getWordId()?>">
+
+				<span class="preview-<?=$baseObj->getWordId()?>">
+					<span class="forbidden-word-value"><?=$baseObj->getWord()?></span>
+				</span>
+
+				<span class="edit-<?=$baseObj->getWordId()?> d-none">
+					<input name="forbiddenWordValue" class="form-control" value="<?=$baseObj->getWord()?>" type="text" maxlength="200">
+				</span>
+			</div>
+		</td>
+
+		<? if ($this->isAllowed('edit_forbidden_word') || $this->isAllowed('delete_forbidden_word')) { ?>
+			<td class="buttons-td">
+
+				<?if ($this->isAllowed('edit_forbidden_word')) {?>
+					<span class="preview-<?=$baseObj->getWordId()?>">
+						<button class="btn btn-secondary edit-section-<?=$baseObj->getWordId()?>" onclick="editForbiddenWord('<?=$baseObj->getWordId()?>')" title="<?=$this->translate('GL_EDIT_L')?>"><i class="ui-icon ui-icon-edit"></i></button>
+					</span>
+
+					<span class="edit-<?=$baseObj->getWordId()?> d-none btn-group">
+						<button class="btn btn-secondary save-inline" onClick="saveForbiddenWordChanges('<?=$baseObj->getWordId()?>')" title="<?=$this->translate('GL_CONFIRM_L')?>"><i class="ui-icon ui-icon-check"></i></button>
+						<button class="btn btn-secondary" onClick="cancelEditForbiddenWord('<?=$baseObj->getWordId()?>')" title="<?=$this->translate('GL_REFUSE_L')?>"><i class="ui-icon ui-icon-ban"></i></button>
+					</span>
+				<?}?>
+
+				<? if ($this->isAllowed('delete_forbidden_word')) { ?>
+					<a href="<?=$this->url('delete_forbidden_word', ['forbiddenWordId' => $baseObj->getWordId(), 'lang' => $params->fromRoute('lang')], ['query' => $params->fromQuery()])?>" title="<?=$this->escapeHtmlAttr($this->translate('GL_DELETE_L'))?>" onclick="openModalConfirm(this, '<?=str_replace('{DEL_ITEM_NAME}', $baseObj->getWord(), $this->translate('GL_DEL_CONFIRM_L'))?>', event)"  class="btn btn-secondary">
+						<i class="ui-icon ui-icon-trash"></i>
+					</a>
+				<?}?>
+
+			</td>
+		<? } ?>
+
+	</tr>
+<? } ?>

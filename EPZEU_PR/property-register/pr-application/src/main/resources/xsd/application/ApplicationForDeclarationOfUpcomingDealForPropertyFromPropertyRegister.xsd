@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+	targetNamespace="http://www.registryagency.bg/schemas/property-register/applications"
+	xmlns="http://www.registryagency.bg/schemas/property-register/applications"
+    xmlns:seg="http://www.registryagency.bg/schemas/property-register/segments"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	elementFormDefault="qualified">
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/segments" schemaLocation="../segment/Segments.xsd" />
+
+    <xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="../SystemSchemas_xmlsig.xsd" />
+
+	<xsd:element
+		name="ApplicationForDeclarationOfUpcomingDealForPropertyFromPropertyRegister"
+		type="ApplicationForDeclarationOfUpcomingDealForPropertyFromPropertyRegister" />
+
+	<xsd:complexType
+		name="ApplicationForDeclarationOfUpcomingDealForPropertyFromPropertyRegister">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="bg">Заявление за деклариране на предстояща сделка с недвижим имот</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ApplicantData" type="seg:ApplicantData" />
+            <xsd:element name="UpcomingDealForProperty" type="seg:UpcomingDealForProperty" />
+            <xsd:element name="GDPRAgreement" type="seg:GDPRAgreement" />
+            <xsd:element ref="ds:Signature" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

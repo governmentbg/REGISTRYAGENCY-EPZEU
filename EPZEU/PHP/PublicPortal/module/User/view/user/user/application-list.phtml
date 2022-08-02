@@ -1,0 +1,76 @@
+<? $this->headTitle('EP_MY_APPLICATIONS_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_MY_APPLICATIONS_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_MY_APPLICATIONS_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="main-wrapper section-wrapper section-wrapper--margins fixed-content-width">
+
+	<div class="page-wrapper">
+
+		<ul class="nav nav-tabs flex-column flex-sm-row flex-nowrap">
+			<li class="nav-item <?=($selectedTab == 'draft' ? 'active': '')?> tab-section">
+				<a href="javascript://" class="nav-link <?=($selectedTab == 'draft' ? 'active': '')?>" id="tab_draft"><?=$this->translate('EP_MY_DRAFT_APPLICATIONS_L')?></a>
+			</li>
+			<? foreach ($registerList as $id => $register) { ?>
+				<li class="nav-item <?=(strtoupper($selectedTab) == $register ? 'active': '')?> tab-section">
+					<a href="javascript://" class="nav-link <?=(strtoupper($selectedTab) == $register ? 'active': '')?>" id="tab_<?=strtolower($register)?>"><?=$this->translate('GL_'.$register.'_REG_NAME_L'.($register == 'CR' ? '_SHORT_L' : ''))?></a>
+				</li>
+			<? } ?>
+		</ul>
+
+		<div class="section-wrapper section-wrapper--margins">
+			<div id="tab-section-content">
+				<?=$this->partial('application-list-section.phtml')?>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<?$this->headScript()->prependFile($this->basePath('js/combobox.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/jquery-ui.js'));?>
+
+<?$this->headLink()->appendStylesheet($this->basePath('js/bootstrap-4-datepicker/css/tempusdominus-bootstrap-4.min.css'));?>
+<?$this->headScript()->prependFile($this->basePath('js/bootstrap-4-datepicker/js/tempusdominus-bootstrap-4.min.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/moment-with-locales.min.js'));?>
+
+<?$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');?>
+<?$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');?>
+
+<script>
+$('.tab-section').on("click", function(e){
+
+	var selectedTab = $(this).find('a:first').attr('id').replace('tab_', '');
+
+	$('.nav-link').removeClass('active');
+	$('.nav-item').removeClass('active');
+
+	$('#tab_'+selectedTab).addClass('active');
+	$('#tab_'+selectedTab).closest('.nav-item').addClass('active');
+
+	history.pushState(null, null, createQuery({section:selectedTab}, {page: 'page', search: 'search', applicationNumber: 'applicationNumber', dateFrom: 'dateFrom', dateTo: 'dateTo', applicationTypeId: 'applicationTypeId'}));
+
+	ajaxRequest('', {'changeSectionTab':1, 'section': selectedTab}, '#tab-section-content', '#tab-section-content');
+})
+</script>

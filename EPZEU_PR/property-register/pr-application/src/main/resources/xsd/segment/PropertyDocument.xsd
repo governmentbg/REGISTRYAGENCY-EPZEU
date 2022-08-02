@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+    <xsd:complexType name="PropertyDocument">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Документ за собственост</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="Type" type="val:PropertyDocumentType" />
+            <xsd:element name="ActNumber" type="val:ActNumber" minOccurs="0" />
+            <xsd:element name="Volume" type="val:Volume" minOccurs="0" />
+            <xsd:element name="IncomingRegisterNumber" type="val:IncomingRegisterNumber" minOccurs="0" />
+            <xsd:element name="PropertyDocumentDate" type="val:PropertyDocumentDate" minOccurs="0" />
+            <xsd:element name="Description" type="val:Description" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

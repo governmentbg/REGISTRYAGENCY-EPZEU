@@ -1,0 +1,390 @@
+<? $this->headTitle('EP_ODIT_VIEW_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_ODIT_VIEW_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_ODIT_VIEW_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="main-wrapper section-wrapper section-wrapper--margins fixed-content-width">
+	<div class="page-wrapper">
+
+
+
+	<div class="alert alert-info alert-dismissible hide d-none" id="audit-info-message" role="alert"></div>
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="search-box search-box--report">
+				<div class="card card--search card--collapsible">
+					<div class="card-header" data-toggle="collapse" data-target="#collapsable-content" aria-expanded="true">
+						<h3><?=$this->translate('GL_SEARCHING_L')?></h3>
+						<button class="system-button toggle-collapse">
+							<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+						</button>
+					</div>
+					<div id="collapsable-content" class="collapse show">
+						<?
+						$auditForm->setAttribute('action', $this->url('audit_list', ['lang' => $this->language()->getCurrentLang()]));
+						$auditForm->prepare();
+						echo $this->form()->openTag($auditForm);
+						?>
+						<div class="card-body card-page__body">
+
+                        	<div class="row">
+								<?=$this->formRow($auditForm->get('search'))?>
+								<div class="col-sm-12 col-lg-4 col-xxl-2 form-group">
+									<?=$this->formRow($auditForm->get('actionType'), null, true)?>
+								</div>
+
+								<div class="col-sm-12 col-lg-4 col-xxl-2 form-group">
+									<?=$this->formRow($auditForm->get('searchType'))?>
+								</div>
+
+								<div class="col-sm-12 col-lg-6 col-xxl-4 form-group">
+									<label id="date-from-label"><?=$this->translate('GL_PERIOD_L')?> <?=$this->translate('GL_START_DATE_L')?></label>
+									<div class="row">
+										<div class="col-sm-6 col-md-7 col-lg-8 col-xl-8 form-group">
+									    	<div class="input-group date" id="dateFrom" data-target-input="nearest">
+									            <?=$this->formRow($auditForm->get('dateFrom'), null, false, "")?>
+									            <div class="input-group-append" data-target="#dateFrom" data-toggle="datetimepicker">
+									           		<button class="btn btn-secondary" type="button">
+														<i class="ui-icon ui-icon-calendar"></i>
+													</button>
+									            </div>
+									        	<?=$this->FormElementErrors($auditForm->get('dateFrom'))?>
+											</div>
+										</div>
+
+										<div class="col-sm-6 col-md-5 col-lg-4 col-xl-4 form-group">
+											<div class="input-group date" id="timeFrom" data-target-input="nearest">
+												<?=$this->formRow($auditForm->get('timeFrom'), null, false)?>
+												<div class="input-group-append" data-target="#timeFrom" data-toggle="datetimepicker">
+								             		<button class="btn btn-secondary" type="button">
+								         				<i class="ui-icon ui-icon-clock"></i>
+								             		</button>
+								            	</div>
+								            	<?=$this->FormElementErrors($auditForm->get('timeFrom'))?>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-sm-12 col-lg-6 col-xxl-4 form-group">
+									<label id="date-to-label"><?=$this->translate('GL_PERIOD_L')?> <?=$this->translate('GL_END_DATE_L')?></label>
+									<div class="row">
+										<div class="col-sm-6 col-md-7 col-lg-8 col-xl-8 form-group">
+									    	<div class="input-group date" id="dateTo" data-target-input="nearest">
+									            <?=$this->formRow($auditForm->get('dateTo'), null, null, "")?>
+									            <div class="input-group-append" data-target="#dateTo" data-toggle="datetimepicker">
+									           		<button class="btn btn-secondary" type="button">
+														<i class="ui-icon ui-icon-calendar"></i>
+													</button>
+									            </div>
+									        	<?=$this->FormElementErrors($auditForm->get('dateTo'))?>
+											</div>
+										</div>
+
+										<div class="col-sm-6 col-md-5 col-lg-4 col-xl-4 form-group">
+											<div class="input-group date" id="timeTo" data-target-input="nearest">
+												<?=$this->formRow($auditForm->get('timeTo'), null, null)?>
+												<div class="input-group-append" data-target="#timeTo" data-toggle="datetimepicker">
+								             		<button class="btn btn-secondary" type="button">
+								         				<i class="ui-icon ui-icon-clock"></i>
+								             		</button>
+								            	</div>
+								            	<?=$this->FormElementErrors($auditForm->get('timeTo'))?>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-sm-12 col-lg-4 col-xxl-2 form-group">
+									<?=$this->formRow($auditForm->get('moduleId'))?>
+								</div>
+
+								<div class="col-sm-12 col-lg-4 col-xxl-2 form-group">
+									<?=$this->formRow($auditForm->get('functionality'))?>
+								</div>
+
+								<div class="col-sm-12 col-lg-4 col-xxl-2 form-group">
+									<?=$this->formRow($auditForm->get('objectType'))?>
+								</div>
+
+
+								<div class="col-sm-12 col-lg-4 col-xxl-2 form-group">
+									<?=$this->formRow($auditForm->get('key'))?>
+								</div>
+
+								<div class="col-sm-12 col-lg-4 col-xxl-2 form-group">
+									<?=$this->formRow($auditForm->get('event'))?>
+								</div>
+
+
+
+								<div class="col-sm-12 col-lg-4 col-xxl-2 form-group nowrap">
+
+									<label for=""><?= $this->translate($auditForm->get('userId')->getLabel())?></label>
+									<div class="input-group">
+
+
+										<div class="input-group">
+											<div class="form-control" id="selected-user"><?=$userEmail?></div>
+											<div class="input-group-append">
+												<button class="btn btn-secondary" type="button" title="<?=$this->translate('GL_CHOICE_L')?>"
+												onclick="openPreviewWithParams(
+												{
+													url: '<?=$this->url('select_user')?>',
+													urlType: 'iframe',
+													size: 'modal-lg',
+													title: '<?=$this->translate('EP_USR_ACC_L')?>',
+													buttons: {close: '<?=$this->translate('GL_CLOSE_L')?>', confirm: '<?=$this->translate('GL_CONFIRM_L')?>', confirmId: 'selectUser'}
+												}, event);"
+
+												>
+												<i class="ui-icon ui-icon-hand"></i>
+												</button>
+											</div>
+										</div>
+										<?=$this->formHidden($auditForm->get('userId'))?>
+									</div>
+
+								</div>
+
+								<div class="col-sm-12 col-lg-6 col-xxl-4 form-group nowrap">
+
+									<label for=""><?= $this->translate($auditForm->get('loginSession')->getLabel())?></label>
+									<div class="input-group">
+
+
+										<div class="input-group">
+											<div class="form-control <?= $this->FormElementErrors($auditForm->get('loginSession')) ? 'input-error' : '' ?>" id="selected-login-session"><?=$loginSession?></div>
+											<div class="input-group-append">
+												<button class="btn btn-secondary" type="button" title="<?=$this->translate('GL_CHOICE_L')?>"
+												onclick="openPreviewWithParams(
+												{
+													url: '<?=$this->url('login_session_list') ?>',
+													urlType: 'iframe',
+													size: 'modal-lg',
+													title: '<?=$this->translate('EP_USR_SEARCH_LOGIN_SES_L')?>',
+													buttons: {close: '<?=$this->translate('GL_CLOSE_L')?>', confirm: '<?=$this->translate('GL_CONFIRM_L')?>', confirmId: 'selectLoginSession'}
+												}, event);"
+
+												>
+												<i class="ui-icon ui-icon-hand"></i>
+												</button>
+											</div>
+										</div>
+										<?=$this->formHidden($auditForm->get('loginSession'))?>
+
+										<?=$this->FormElementErrors($auditForm->get('loginSession'))?>
+									</div>
+
+								</div>
+
+
+								<div class="col-sm-12 col-lg-4 col-xxl-2 form-group">
+									<?=$this->formRow($auditForm->get('ipAddress'), null, true)?>
+								</div>
+							</div>
+                        </div>
+						<div class="card-footer">
+							<div class="button-bar">
+								<div class="left-side">
+									<a href="<?=$this->url(null, ['lang' => $this->language()->getCurrentLang()])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+								</div>
+								<div class="right-side">
+									<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+								</div>
+							</div>
+						</div>
+
+						<?=$this->form()->closeTag();?>
+						</div>
+					</div>
+				</div>
+		</div>
+
+		<? if ($auditForm->isValid()) { ?>
+		<div class="section-wrapper section-wrapper--margins">
+		<div class="fixed-content-width">
+			<? if ($totalCount) { ?>
+			<nav class="button-bar" aria-label="Page navigation">
+				<div class="pagination-container">
+					<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+					<ul class="sync-pagination pagination--page"></ul>
+				</div>
+			</nav>
+
+			<div class="table-responsive">
+				<table class="table table-borderless table-striped table-hover table-collapsible">
+					<thead>
+					<tr>
+						<th><?=$this->translate('EP_ODIT_EVENT_DATE_TIME_L')?></th>
+						<th><?=$this->translate('EP_NOM_PORTAL_IS_L')?></th>
+						<th><?=$this->translate('EP_NOM_MODULE_FUNCTIONALITY_L')?></th>
+						<th><?=$this->translate('EP_ODIT_TYPE_OBJECT_L')?></th>
+						<th><?=$this->translate('EP_ODIT_OBJECT_L')?></th>
+						<th><?=$this->translate('EP_ODIT_EVENT_L')?></th>
+						<th><?=$this->translate('EP_ODIT_USER_SESSION_ID_L')?></th>
+						<th><?=$this->translate('GL_USER_L')?></th>
+						<th><?=$this->translate('GL_IP_ADDRESS_L')?></th>
+						<th><?=$this->translate('GL_LOGIN_SESSION_L')?></th>
+						<th><?=$this->translate('GL_DETAILS_L')?></th>
+					</tr>
+					</thead>
+					<tbody id="content">
+					<?=$this->partial('user/audit/audit-list-partial.phtml')?>
+					</tbody>
+				</table>
+			</div>
+
+			<nav class="button-bar" aria-label="Page navigation">
+				<div class="pagination-container">
+					<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+					<ul class="sync-pagination pagination--page"></ul>
+				</div>
+			</nav>
+
+			<?
+			$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+			$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+			?>
+			<script type="text/javascript">
+				pagination('.sync-pagination', '#content', <?=$totalPages?>);
+			</script>
+
+			<? } else { ?>
+				<div class="alert alert-warning" role="alert"><?=$this->translate('GL_NO_RESULTS_I')?></div>
+			<? } ?>
+		</div>
+	</div>
+	<? } ?>
+
+	</div>
+</div>
+
+
+
+
+<?=$this->partial('partial/modal-preview', ['title' => $this->translate('EP_ODIT_VIEW_DETAILS_L'), 'showBtnLeft' => 1])?>
+
+<?$this->headLink()->appendStylesheet($this->basePath('js/bootstrap-4-datepicker/css/tempusdominus-bootstrap-4.min.css'));?>
+<?$this->headScript()->prependFile($this->basePath('js/bootstrap-4-datepicker/js/tempusdominus-bootstrap-4.min.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/moment-with-locales.min.js'));?>
+
+<script type="text/javascript">
+
+	$(function () {
+
+		auditTypeMessage();
+
+		$('.layout-wrapper').addClass('full-screen-mode');
+
+         $('#dateFrom').datetimepicker({
+        	useCurrent: false,
+        	format: "DD.MM.YYYY",
+        	locale: moment.locale('bg')
+	    });
+
+        $('#dateTo').datetimepicker({
+            useCurrent: false,
+            format: "DD.MM.YYYY",
+            locale: moment.locale('bg')
+        });
+
+        $("#dateFrom").on("change.datetimepicker", function (e) {
+           $('#dateTo').datetimepicker('minDate', e.date);
+        });
+        $("#dateTo").on("change.datetimepicker", function (e) {
+           $('#dateFrom').datetimepicker('maxDate', e.date);
+        });
+
+		$('#timeFrom, #timeTo').datetimepicker({
+			useCurrent: false,
+			format: "HH:mm",
+			locale: moment.locale('bg')
+		});
+
+		if ($('#actionType').val() == 1)
+			$('#date-from-label, #date-to-label').addClass('required-field');
+	});
+
+
+	$(document).on('change', 'select[name="actionType"]', function(){
+		if (this.value == 1)
+			$('#date-from-label, #date-to-label').addClass('required-field');
+		else
+			$('#date-from-label, #date-to-label').removeClass('required-field');
+	});
+
+
+	$(document).on('click', "#selectUser", function() {
+
+		var result = $('#iframe_content')[0].contentWindow.getDataFromIframe();
+
+		var resultObj = jQuery.parseJSON(result);
+
+		if (resultObj) {
+			$("#selected-user").html(resultObj.email);
+			$("#userId").val(resultObj.id);
+		}
+	});
+
+	$(document).on('click', "#selectLoginSession", function() {
+
+		var result = $('#iframe_content')[0].contentWindow.getDataFromIframe();
+
+		var resultObj = jQuery.parseJSON(result);
+
+		if (resultObj) {
+			$("#selected-login-session").html(resultObj.loginSessionId);
+			$("#loginSession").val(resultObj.loginSessionId);
+		}
+	});
+
+	$(document).on('change', '#searchType', function(){
+		auditTypeMessage(this);
+	});
+
+
+	function auditTypeMessage() {
+
+		var val = $('#searchType').val();
+
+		if (!val) {
+			$('#audit-info-message').addClass('d-none');
+			$('#audit-info-message').html('');
+		}
+		else {
+			if (val == 1) {
+				$('#audit-info-message').html('<?=$this->translate('EP_ODIT_SEARCH_AFTER_L')?>');
+			} else if (val == 2) {
+				$('#audit-info-message').html('<?=$this->translate('EP_ODIT_SEARCH_ТО_L')?>');
+			}
+
+			$('#audit-info-message').removeClass('d-none');
+		}
+	}
+
+</script>

@@ -1,0 +1,370 @@
+<?php
+$this->headTitle('GL_PARAMETRS_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_PARAMETRS_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('GL_PARAMETRS_L')?></h2>
+</div>
+
+<div class="card">
+
+	<div class="card-header">
+		<h3><?=$this->translate('GL_SEARCHING_L')?>
+			<button class="system-button toggle-collapse" data-toggle="collapse" data-target="#collapsable-content">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+		</h3>
+	</div>
+
+	<div id="collapsable-content" class="collapse show">
+		<?
+		$searchForm->setAttribute('action', $this->url('param_list', ['lang' => $params->fromRoute('lang')]));
+		$searchForm->prepare();
+
+		echo $this->form()->openTag($searchForm);
+		?>
+
+		<div class="card-body">
+
+			<?=$this->partial('partial/messages.phtml')?>
+
+			<?=$this->formRow($searchForm->get('search'))?>
+
+			<div class="row">
+				<div class="form-group col-sm-6 col-lg-4">
+					<?=$this->formRow($searchForm->get('moduleId'))?>
+				</div>
+				<div class="form-group col-sm-6 col-lg-4">
+					<?=$this->formRow($searchForm->get('functionalityId'))?>
+				</div>
+				<div class="form-group col-sm-6 col-lg-4">
+					<?=$this->formRow($searchForm->get('code'))?>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-sm-6 col-lg-4">
+					<?=$this->formRow($searchForm->get('description'))?>
+				</div>
+				<div class="form-group col-sm-6 col-lg-4">
+					<?=$this->formRow($searchForm->get('isSystem'))?>
+				</div>
+			</div>
+		</div>
+
+		<div class="card-footer">
+			<div class="button-bar">
+				<a href="<?=$this->url('param_list', ['lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+				<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+			</div>
+		</div>
+
+		<?=$this->form()->closeTag();?>
+
+	</div>
+</div>
+
+<?if ($params->fromQuery('search') || !empty($paramList) && $paramList->count()) { ?>
+
+	<div class="card">
+	<div class="card-body">
+
+	<?if ($params->fromQuery('search') || $paramList->count()) { ?>
+
+		<?if ($paramList->count()) { ?>
+
+			<nav class="button-bar" aria-label="Page navigation">
+				<div class="pagination-container">
+					<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+					<ul class="sync-pagination"></ul>
+				</div>
+			</nav>
+
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped table-hover">
+					<thead>
+					<tr>
+						<th><?=$this->translate('GL_PORTAL_L')?></th>
+						<th><?=$this->translate('EP_NOM_MODULE_FUNCTIONALITY_L')?></th>
+						<th class="w-30"><?=$this->translate('GL_PARAM_L')?></th>
+						<th><?=$this->translate('EP_CMS_TYPE_LEVEL_PAGE_L')?></th>
+						<th class="w-30"><?=$this->translate('GL_VALUE_L')?></th>
+						<th><?=$this->translate('GL_SYS_PARAM_L')?></th>
+						<th><?=$this->translate('GL_ACTIONS_L')?></th>
+					</tr>
+					</thead>
+					<tbody id="content">
+						<?=$this->partial('nomenclature/nomenclature/param-list-partial.phtml')?>
+					</tbody>
+				</table>
+			</div>
+
+			<nav class="button-bar" aria-label="Page navigation">
+				<div class="pagination-container">
+					<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+					<ul class="sync-pagination"></ul>
+				</div>
+			</nav>
+
+			<?
+				$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+				$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+			?>
+
+			<script type="text/javascript">
+				pagination('.sync-pagination', '#content', <?=$totalPages?>);
+			</script>
+
+		<? } else { ?>
+			<div class="alert alert-warning" role="alert">
+				<?=$this->translate('EP_NOM_NO_PARAMETRS_E')?>
+			</div>
+		<? }
+	}?>
+	</div>
+	</div>
+<?}?>
+
+<?$this->headLink()->appendStylesheet($this->basePath('js/bootstrap-4-datepicker/css/tempusdominus-bootstrap-4.min.css'));?>
+<?$this->headScript()->prependFile($this->basePath('js/bootstrap-4-datepicker/js/tempusdominus-bootstrap-4.min.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/moment-with-locales.min.js'));?>
+
+<script>
+var oldInputDaysInterval = '';
+var oldInputHoursInterval = '';
+var oldInputMinutesInterval = '';
+var oldInputSecondsInterval = '';
+var oldInputMillisecondsInterval = '';
+
+var oldInputDate = '';
+var oldInputTime = '';
+var oldInputHourMinutes = '';
+
+var oldInputString = '';
+var oldInputInteger = '';
+
+/**
+ * Редактира параметър
+ */
+function editParam(paramId) {
+	$('.preview-'+paramId).hide();
+	$('.edit-'+paramId).removeClass('d-none');
+
+	if ($('#edit-param-value-'+paramId+' .invalid-feedback').length <= 0){
+		oldInputDaysInterval = '';
+		oldInputHoursInterval = '';
+		oldInputMinutesInterval = '';
+		oldInputSecondsInterval = '';
+		oldInputMillisecondsInterval = '';
+		oldInputDate = '';
+		oldInputTime = '';
+		oldInputHourMinutes = '';
+		oldInputString = '';
+		oldInputInteger = '';
+	}
+
+	var paramTypeCode = $('#param-type-code-'+paramId).val();
+
+	// Присвоява се старата стойност
+	switch(paramTypeCode) {
+
+		// Дата, час и минути
+		case 'GL_DATE_HOUR_MINUTE_L':
+	    	if (oldInputDate == '')
+	    		oldInputDate  = $('.edit-'+paramId+' #paramValueDateInput-'+paramId).val();
+
+	    	if (oldInputTime == '')
+	    		oldInputTime  = $('.edit-'+paramId+' #paramValueTimeInput-'+paramId).val();
+	        break;
+
+		//Час и минути
+	    case 'GL_HOUR_MINUTE_L':
+	    	if (oldInputHourMinutes == '')
+	    		oldInputHourMinutes  = $('.edit-'+paramId+' #paramValueTimeInput-'+paramId).val();
+	        break;
+
+	    // Период от време
+	    case 'GL_TIME_TERM_L':
+		    if (oldInputDaysInterval == '')
+		    	oldInputDaysInterval = $('.edit-param-value-'+paramId +' input[name="days"]').val();
+
+			if (oldInputHoursInterval == '')
+				oldInputHoursInterval = $('.edit-param-value-'+paramId +' input[name="hours"]').val();
+
+			if (oldInputMinutesInterval == '')
+				oldInputMinutesInterval = $('.edit-param-value-'+paramId +' input[name="minutes"]').val();
+
+			if (oldInputSecondsInterval == '')
+				oldInputSecondsInterval = $('.edit-param-value-'+paramId +' input[name="seconds"]').val();
+
+			if (oldInputMillisecondsInterval == '')
+				oldInputMillisecondsInterval = $('.edit-param-value-'+paramId +' input[name="milliseconds"]').val();
+		     break;
+
+	    // Стринг
+		case 'GL_STRING_L':
+			if (oldInputString == '')
+				oldInputString = $('.edit-'+paramId+' textarea[name="paramString"]').val();
+	        break;
+
+	     // Цяло число
+	     case 'GL_INTEGER_L':
+			if (oldInputInteger == '')
+				oldInputInteger = $('.edit-'+paramId+' input[name="paramValue"]').val();
+	        break;
+	}
+}
+
+/**
+ * Отказ на редакция на параметър
+ */
+function cancelEditParam(paramId) {
+	$("#edit-row-"+paramId+" .invalid-feedback").remove();
+
+	$('.edit-'+paramId).addClass('d-none');
+	$('.preview-'+paramId).show();
+
+	var paramTypeCode = $('#param-type-code-'+paramId).val();
+
+	// Връща старата стойност при отказ за редакция
+	switch(paramTypeCode) {
+		// Дата, час и минути
+		case 'GL_DATE_HOUR_MINUTE_L':
+			$('.edit-'+paramId+' #paramValueDateInput-'+paramId).val(oldInputDate);
+	    	$('.edit-'+paramId+' #paramValueTimeInput-'+paramId).val(oldInputTime);
+
+	    	var oldValueDateTime = oldInputDate+' г. '+oldInputTime+' ч.';
+	    	$('.preview-'+paramId+' .param-value').html(oldValueDateTime);
+	        break;
+
+	     // Час и минути
+	    case 'GL_HOUR_MINUTE_L':
+	    	$('.edit-'+paramId+' #paramValueTimeInput-'+paramId).val(oldInputHourMinutes);
+
+	    	var oldValueTime = oldInputHourMinutes+' ч.';
+	    	$('.preview-'+paramId+' .param-value').html(oldValueTime);
+	        break;
+
+	    // Период от време
+	    case 'GL_TIME_TERM_L':
+	    	$('.edit-param-value-'+paramId +' input[name="days"]').val(oldInputDaysInterval);
+	    	$('.edit-param-value-'+paramId +' input[name="hours"]').val(oldInputHoursInterval);
+	    	$('.edit-param-value-'+paramId +' input[name="minutes"]').val(oldInputMinutesInterval);
+	    	$('.edit-param-value-'+paramId +' input[name="seconds"]').val(oldInputSecondsInterval);
+	    	$('.edit-param-value-'+paramId +' input[name="milliseconds"]').val(oldInputMillisecondsInterval);
+
+	    	var dayLabel = oldInputDaysInterval == 1 ? "<?=mb_strtolower($this->translate('GL_DAY_L'))?>" : "<?=mb_strtolower($this->translate('GL_DAYS_L'))?>";
+	    	var oldValueInterval = (parseInt(oldInputDaysInterval) ? oldInputDaysInterval+' '+ dayLabel + ' ' : '') + pad(oldInputHoursInterval, 2)+':'+pad(oldInputMinutesInterval, 2)+':'+pad(oldInputSecondsInterval, 2)+(oldInputMillisecondsInterval == '' ? '' : '.'+oldInputMillisecondsInterval);
+
+	    	$('.preview-'+paramId+' .param-value').html(oldValueInterval);
+	        break;
+
+	    // Стринг
+		case 'GL_STRING_L':
+			$('.edit-'+paramId+' textarea[name="paramString"]').val(br2nl(oldInputString));
+			$('.preview-'+paramId+' .param-value').html(oldInputString);
+	        break;
+
+	     // Цяло число
+		case 'GL_INTEGER_L':
+			$('.edit-'+paramId+' input[name="paramValue"]').val(oldInputInteger);
+			$('.preview-'+paramId+' .param-value').html(oldInputInteger);
+	        break;
+	}
+}
+
+/**
+ * Запис на промяна на параметър
+ */
+function saveParamChanges(paramId) {
+
+	stripTags(paramId);
+
+	$("#edit-row-"+paramId+" .invalid-feedback").remove();
+
+	var paramTypeCode = $('#param-type-code-'+paramId).val();
+
+	switch(paramTypeCode) {
+		// Дата, час и минути или Час и минути
+    	case 'GL_DATE_HOUR_MINUTE_L':
+	    case 'GL_HOUR_MINUTE_L':
+	    	var paramDate = typeof $('.edit-'+paramId+' #paramValueDateInput-'+paramId).val() !== 'undefined' ? $('.edit-'+paramId+' #paramValueDateInput-'+paramId).val(): '';
+			var paramTime = $('.edit-'+paramId+' #paramValueTimeInput-'+paramId).val();
+
+			ajaxRequest('', {'updateParam': 1, 'id':paramId, 'paramDate': paramDate, 'paramTime': paramTime}, '#edit-param-value-'+paramId, '#edit-param-value-'+paramId);
+
+	        if (paramTypeCode == 'GL_DATE_HOUR_MINUTE_L' && paramDate && paramTime) {
+				$('.preview-'+paramId+' .param-value').html(paramDate+' г. '+paramTime+' ч.');
+
+				$('.edit-'+paramId+' #paramValueDateInput-'+paramId).val(paramDate.trim());
+				$('.edit-'+paramId+' #paramValueTimeInput-'+paramId).val(paramTime.trim());
+	        }
+	        else if (paramTypeCode == 'GL_HOUR_MINUTE_L' && paramTime) {
+				$('.preview-'+paramId+' .param-value').html(paramTime+' ч.');
+
+				$('.edit-'+paramId+' #paramValueTimeInput-'+paramId).val(paramTime.trim());
+	        }
+
+	        break;
+
+	    // Период от време
+	    case 'GL_TIME_TERM_L':
+	    	var days  = $('.edit-param-value-'+paramId +' input[name="days"]').val().trim();
+			var hours  = $('.edit-param-value-'+paramId +' input[name="hours"]').val().trim();
+			var minutes  = $('.edit-param-value-'+paramId +' input[name="minutes"]').val().trim();
+			var seconds  = $('.edit-param-value-'+paramId +' input[name="seconds"]').val().trim();
+			var milliseconds  = $('.edit-param-value-'+paramId +' input[name="milliseconds"]').val().trim();
+
+			ajaxRequest('', {'updateParam': 1, 'id':paramId, 'paramValueInterval': {'days':days, 'hours':hours, 'minutes':minutes, 'seconds':seconds, 'milliseconds':milliseconds}}, '#edit-param-value-'+paramId, '#edit-param-value-'+paramId);
+
+			var dayLabel = days == 1 ? "<?=mb_strtolower($this->translate('GL_DAY_L'))?>" : "<?=mb_strtolower($this->translate('GL_DAYS_L'))?>";
+			var paramValue = (parseInt(days) ? days+' '+ dayLabel + ' ' : '') + pad(hours, 2)+':'+pad(minutes, 2)+':'+pad(seconds, 2)+(milliseconds == '' ? '' : '.'+milliseconds);
+			$('.preview-'+paramId+' .param-value').html(paramValue);
+
+			$('.edit-param-value-'+paramId +' input[name="days"]').val(days);
+			$('.edit-param-value-'+paramId +' input[name="hours"]').val(hours);
+			$('.edit-param-value-'+paramId +' input[name="minutes"]').val(minutes);
+			$('.edit-param-value-'+paramId +' input[name="seconds"]').val(seconds);
+			$('.edit-param-value-'+paramId +' input[name="milliseconds"]').val(milliseconds);
+
+	        break;
+
+	    // Стринг
+		case 'GL_STRING_L':
+			var paramValue = $('.edit-'+paramId+' textarea[name="paramString"]').val();
+
+			ajaxRequest('', {'updateParam': 1, 'id':paramId, 'paramValue': paramValue}, '#edit-param-value-'+paramId, '#edit-param-value-'+paramId);
+
+	        if (typeof paramValue !== 'undefined') {
+	        	paramValue = nl2br(paramValue);
+				$('.preview-'+paramId+' .param-value').html(paramValue);
+
+				$('.edit-'+paramId+' textarea[name="paramString"]').val(paramValue.trim());
+	        }
+	        break;
+
+	    // Цяло число
+		case 'GL_INTEGER_L':
+			var paramValue = $('.edit-'+paramId+' input[name="paramValue"]').val();
+
+			ajaxRequest('', {'updateParam': 1, 'id':paramId, 'paramValue': paramValue}, '#edit-param-value-'+paramId, '#edit-param-value-'+paramId);
+
+	        if (paramValue) {
+				$('.preview-'+paramId+' .param-value').html(paramValue);
+
+				$('.edit-'+paramId+' input[name="paramValue"]').val(paramValue.trim());
+	        }
+	        break;
+	}
+
+	$('.edit-'+paramId).addClass('d-none');
+	$('.preview-'+paramId).show();
+}
+</script>

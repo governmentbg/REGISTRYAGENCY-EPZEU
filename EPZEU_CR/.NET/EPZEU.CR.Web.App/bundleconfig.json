@@ -1,0 +1,13 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/css/siteCss.css",
+    "inputFiles": [
+      "wwwroot/css/style.css",
+      "wwwroot/css/fonts.css",
+      "wwwroot/css/custom.css"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  }
+]

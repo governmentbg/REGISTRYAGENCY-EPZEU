@@ -1,0 +1,114 @@
+<?php
+$pageTitle = '';
+$addPageBtnTitle = '';
+$publicUrl = '';
+
+switch ($type) {
+
+	case \Content\Controller\NestedPageController::PAGE_SERVICE_TYPE:
+		$pageTitle = $this->translate('EP_CMS_PAGES_SERVICES_L');
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_APPLICATION_TYPE:
+		$pageTitle = $this->translate('EP_CMS_PAGES_APPLICATIONS_L');
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_DOCUMENT_TEMPLATES:
+		$pageTitle = $this->translate('EP_CMS_PAGES_TEMPLATES_L');
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_LEGISLATION_TYPE:
+		$pageTitle = $this->translate('EP_CMS_PAGES_DOCUMENTS_L');
+		break;
+}
+
+$this->headTitle($pageTitle);
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_CONTENT_L')?></li>
+		<li class="breadcrumb-item"><?=$pageTitle?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$pageTitle?> </h2>
+</div>
+
+
+<ul class="nav nav-tabs flex-column flex-sm-row">
+	<? foreach ($registerList as $registerName => $regId) {?>
+		<li class="nav-item <?=$registerId == $regId ? 'active': ''?> ">
+			<a class="tab-navigation nav-link <?=$registerId == $regId ? 'active': ''?>" data-id="<?=$regId?>" data-toggle="tab" href="#tab-<?=$regId?>"><?=$this->translate($registerName)?></a>
+		</li>
+	<? }?>
+</ul>
+
+<div class="tab-content">
+	<? foreach ($registerList as $registerName => $regId) {?>
+	<div id="tab-<?=$regId?>" class="tab-pane <?=$registerId ? ($registerId == $regId ? 'in active': '') : 'active' ?>">
+		<div class="card nav-tabs-container" id="register-id-<?=$regId?>" data-id="<?=$regId?>">
+			<div class="card-body" id="tab-content-<?=$regId?>">
+				<? if ($registerId == $regId) { ?>
+					<?=$this->partial('nested-list-partial.phtml')?>
+				<? } ?>
+			</div>
+		</div>
+	</div>
+	<? } ?>
+</div>
+
+
+
+<script>
+$(document).on("click", ".toggle-collapse-group", function() {
+
+		var group = $(this).closest(".tree-list-group").find(".tree-list")[0];
+
+	$this = this;
+
+	if (group.childNodes.length) {
+		$(this).toggleClass('collapsed');
+		$(this).closest(".tree-list-group").find(".tree-list").slideToggle();
+	}
+
+	else {
+
+		$($this).find('i').removeClass('ui-icon-chevron-up');
+		$($this).find('i').addClass('ui-icon-loading ui-icon-spin');
+
+		var groupId = $(this).closest(".tree-list-group").data("id");
+		content  = $(this).closest(".tree-list-group").find(".tree-list");
+
+		$.ajax({
+			  method: "POST",
+			  url: '',
+			  data: {groupId:groupId, getGroupItems:1},
+			  async: true
+			})
+		 .done(function(msg) {
+
+			$($this).find('i').addClass('ui-icon-chevron-up');
+			$($this).find('i').removeClass('ui-icon-loading ui-icon-spin');
+
+			$(content).html(msg);
+			$(content).slideToggle();
+			$($this).toggleClass('collapsed');
+		 });
+	}
+});
+
+$(document).on('click', '.tab-navigation', function(){
+
+	var registerId = this.dataset.id;
+
+	var element = document.getElementById('tab-content-'+registerId);
+	if (!element.childElementCount)
+		ajaxRequest('', {registerId: registerId, getTabContent: true}, '#tab-content-'+registerId, '#tab-content-'+registerId);
+
+	var queryParams = createQuery({registerId: registerId});
+	history.pushState(null, null, queryParams);
+});
+</script>

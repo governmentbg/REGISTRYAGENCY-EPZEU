@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="PropertyType.xsd"/>
+    <xsd:include schemaLocation="Place.xsd"/>
+    <xsd:include schemaLocation="RegistryOffice.xsd"/>
+    <xsd:include schemaLocation="PermanentUsage.xsd"/>
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+    <xsd:complexType name="AccountPropertyOfReport">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">
+                Данни за имотна партида обект на справка
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="AccountPropertyId" type="val:AccountPropertyId" />
+            <xsd:element name="PropertyId" type="val:PropertyId" />
+            <xsd:element name="RegistryOffice" type="RegistryOffice" />
+            <xsd:element name="Type" type="PropertyType" />
+            <xsd:element name="CountrySide" type="val:CountrySide" minOccurs="0"/>
+            <xsd:element name="Street" type="val:Street" minOccurs="0"/>
+            <xsd:element name="StreetNumber" type="val:StreetNumber" minOccurs="0"/>
+            <xsd:element name="HousingEstate" type="val:HousingEstate" minOccurs="0"/>
+            <xsd:element name="District" type="val:District" minOccurs="0"/>
+            <xsd:element name="Block" type="val:Block" minOccurs="0"/>
+            <xsd:element name="Entrance" type="val:Entrance" minOccurs="0"/>
+            <xsd:element name="Floor" type="val:Floor" minOccurs="0"/>
+            <xsd:element name="Apartment" type="val:Apartment" minOccurs="0"/>
+            <xsd:element name="Settlement" type="Place" minOccurs="0"/>
+            <xsd:element name="Municipality" type="Place" minOccurs="0"/>
+            <xsd:element name="Area" type="Place" minOccurs="0"/>
+            <xsd:element name="CadastralId" type="val:CadastralId" minOccurs="0"/>
+            <xsd:element name="CadastreNumber" type="val:CadastreNumber" minOccurs="0"/>
+            <xsd:element name="RegulatedNeighborhood" type="val:RegulatedNeighborhood" minOccurs="0"/>
+            <xsd:element name="Plot" type="val:Plot" minOccurs="0"/>
+            <xsd:element name="Remark" type="val:PropertyRemark" minOccurs="0"/>
+            <xsd:element name="AccountNumber" type="val:AccountNumber" minOccurs="0"/>
+            <xsd:element name="AreaByDocuments" type="val:AreaByDocuments" minOccurs="0"/>
+            <xsd:element name="OldAccountNumber" type="val:AccountNumber" minOccurs="0" />
+            <xsd:element name="PermanentUsage" type="PermanentUsage" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

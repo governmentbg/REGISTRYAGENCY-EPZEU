@@ -1,0 +1,231 @@
+<div class="search-box search-box--report">
+	<div class="card card--search card--collapsible">
+
+		<div class="card-header"  data-toggle="collapse" data-target="#collapsable-content" aria-expanded="true">
+			<h3><?=$this->translate('GL_SEARCHING_L')?></h3>
+			<button class="system-button toggle-collapse">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+		</div>
+
+		<div id="collapsable-content" class="collapse show">
+
+			<?php
+			$searchForm->setAttribute('action', $this->url('duty_list', ['lang' => $this->language()->getCurrentLang()]));
+
+			$searchForm->prepare();
+
+			echo $this->form()->openTag($searchForm);
+
+			?>
+
+			<div class="card-body">
+
+				<div class="row">
+
+					<div class="form-group col-sm col-md-4">
+						<?=$this->formRow($searchForm->get('search'))?>
+						<?=$this->formRow($searchForm->get('registerId'))?>
+						<?=$this->formRow($searchForm->get('applicationNumber'))?>
+					</div>
+
+					<div class="col-sm-auto">
+						<div class="row">
+							<div class="col-12">
+								<label for=""><?=$this->translate('EP_APPL_SUBMISS_PERIOD_L')?></label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-auto">
+								<div class="d-flex" id="dateFrom" data-target-input="nearest">
+									<label class="mr-2 col-form-label"><?=$this->translate('GL_START_DATE_L')?></label>
+									<div class="input-group date-control">
+										<?=$this->formRow($searchForm->get('dateFrom'), null, false, '')?>
+										<div class="input-group-append" data-target="#dateFrom" data-toggle="datetimepicker">
+											<button class="btn btn-secondary" type="button">
+												<i class="ui-icon ui-icon-calendar"></i>
+											</button>
+										</div>
+										<?=$this->FormElementErrors($searchForm->get('dateFrom'))?>
+									</div>
+								</div>
+							</div>
+							<div class="form-group col-auto">
+								<div class="d-flex" id="dateTo" data-target-input="nearest">
+									<label class="mr-2 col-form-label"><?=$this->translate('GL_END_DATE_L')?></label>
+									<div class="input-group date-control">
+										<?=$this->formRow($searchForm->get('dateTo'), null, false, '')?>
+										<div class="input-group-append" data-target="#dateTo" data-toggle="datetimepicker">
+											<button class="btn btn-secondary" type="button">
+												<i class="ui-icon ui-icon-calendar"></i>
+											</button>
+										</div>
+										<?=$this->FormElementErrors($searchForm->get('dateTo'))?>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="form-group col-sm-12">
+						<?=$this->formRow($searchForm->get('applicationTypeId'))?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-12 form-group">
+						<?=$this->formRow($searchForm->get('isUnpaidDuty'), 'append', null, 'partial/checkbox')?>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="card-footer">
+				<div class="button-bar">
+					<div class="left-side">
+						<a href="<?=$this->url('duty_list', ['lang' => $this->language()->getCurrentLang()], ['query' => !empty($params['registerId']) ? ['registerId' => $params['registerId']] : ''])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+					</div>
+					<div class="right-side">
+						<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+					</div>
+				</div>
+			</div>
+
+			<?=$this->form()->closeTag();?>
+
+		</div>
+	</div>
+</div>
+
+<div id="dutySuccessPaymentMessage"></div>
+
+<?if (!empty($dutyList) && array_key_exists('status', $dutyList)) {?>
+	<div class="alert alert-danger" role="alert"><strong><?=$this->translate('GL_ERROR_L')?></strong></div>
+<?}
+
+else if (!empty($params['search'])) {
+
+	if (!empty($dutyList)) { ?>
+
+		<br>
+
+		<nav class="pagination-container pagination-container--page-top" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination pagination pagination--page"></ul>
+			</div>
+		</nav>
+
+		<div class="table-responsive-block">
+			<table class="table table-borderless table-striped table-hover">
+				<thead>
+					<tr>
+						<th class="single-icon-td">
+							<div class="custom-control custom-checkbox check-all-div">
+								<input class="custom-control-input check-all" id="duty_check_all" type="checkbox">
+								<label class="custom-control-label" for="duty_check_all"></label>
+							</div>
+						</th>
+						<th><?=$this->translate('GL_APPLICATION_L')?></th>
+						<th width="15%" class="text-right"><?=$this->translate('EP_PAY_DUTY_AM_L')?></th>
+						<th width="15%" class="text-right"><?=$this->translate('EP_PAID_AMOUNT_L')?></th>
+						<th width="15%" class="text-right"><?=$this->translate('EP_UNPAID_AMOUNT_L')?></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody id="content">
+					<?=$this->partial('duty-list-partial.phtml')?>
+				</tbody>
+			</table>
+		</div>
+
+		<nav class="pagination-container pagination-container--page-bottom" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination pagination pagination--page"></ul>
+			</div>
+		</nav>
+
+		<script type="text/javascript">
+		pagination('.sync-pagination', '#content', <?=$totalPages?>);
+		</script>
+
+		<div class="button-bar button-bar--table-actionbar-bottom">
+			<div class="left-side">
+				<div class="result-count">
+					<p class="form-text"><?=$this->translate('EP_SELECTED_PAY_REQ_L')?>: <span id="count-selected-application-pay">0</span></p>
+				</div>
+			</div>
+			<div class="right-side">
+				<button type="button" class="btn btn-primary" id="pay-duty-list" disabled>
+					<i class="ui-icon ui-icon-pay" aria-hidden="true"></i> <?=$this->translate('EP_PAY_PAY_L')?>
+				</button>
+			</div>
+		</div>
+
+		<select name="selectedApplicationList[]" id="selectedApplicationList" multiple="multiple" class="d-none"></select>
+
+	<? }
+
+	else if (empty($searchForm->getMessages())){ ?>
+		<div class="alert alert-warning" role="alert"><?=$this->translate('GL_NO_RESULTS_I')?></div>
+	<? }
+}
+
+
+$dateFrom = !empty($searchForm->get('dateFrom')->getValue()) ? $searchForm->get('dateFrom')->getValue() : '';
+$dateTo = !empty($searchForm->get('dateTo')->getValue()) ? $searchForm->get('dateTo')->getValue() : '';
+\Application\Service\AppService::initCalendarInterval($dateFrom, $dateTo);
+
+?>
+
+<script>
+$(document).ready(function(){
+	$("#applicationTypeId").combobox();
+
+	<? if (!empty($successPaymentMessage)) { ?>
+		$("#dutySuccessPaymentMessage").html('<?=$this->translate('GL_OBLIG_SUCCESS_PAID_I')?>');
+		$("#dutySuccessPaymentMessage").addClass('alert alert-success');
+		$("#dutySuccessPaymentMessage").attr('role', 'alert');
+	<? } ?>
+})
+
+$('#pay-duty-list').on("click", function(e){
+
+	$("#dutySuccessPaymentMessage").html('');
+	$("#dutySuccessPaymentMessage").removeClass('alert alert-success');
+	$("#dutySuccessPaymentMessage").removeAttr('role', 'alert');
+
+	var selectedApplicationList = $('#selectedApplicationList').val();
+
+	var registerId = $("#registerId").val();
+
+	if (selectedApplicationList.length > 0) {
+
+		$("#modalPayment").html('');
+
+		ajaxRequest("<?=$this->url('payment_duty_list', ['lang' => $this->language()->getCurrentLang()])?>", {'registerId': registerId, 'applicationNumber': selectedApplicationList}, '#modalPayment', '#modalPayment');
+	}
+
+	$('#pay-duty-list').attr('disabled', true);
+})
+
+$(document).on('hidden.bs.modal', '#modal-payment', function (e) {
+
+	$("#modalPayment").html('');
+
+	$('.invalid-feedback').remove();
+
+	$("#selectedApplicationList").empty();
+
+	$('.select-application:checkbox').prop('checked', false);
+
+	$('#count-selected-application-pay').text(0);
+
+	$('#pay-duty-list').attr('disabled', true);
+
+	$('.check-all').prop('checked', false);
+});
+</script>

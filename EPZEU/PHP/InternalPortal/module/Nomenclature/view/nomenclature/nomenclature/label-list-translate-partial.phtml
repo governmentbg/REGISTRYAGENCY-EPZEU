@@ -1,0 +1,47 @@
+<?
+foreach ($labelList as $baseObj) {?>
+	<tr id="edit-row-<?=$baseObj->getlabelId()?>">
+		<td class="word-break"><?=$baseObj->getCode()?></td>
+		<td>
+			<span class="label-value"><?=$baseObj->getValue()?></span>
+		</td>
+
+		<?php if ($lang) { ?>
+			<td class="w-25" id="edit-value-<?=$baseObj->getlabelId()?>">
+				<div class="edit-i18n-language-<?=$baseObj->getlabelId()?>">
+					<div class="preview-i18n-<?=$baseObj->getlabelId()?>">
+						<button class="btn btn-secondary float-right edit-section-<?=$baseObj->getlabelId()?>" onclick="editLabelI18n('<?=$baseObj->getlabelId()?>')" title="<?=$this->translate('GL_EDIT_L')?>"><i class="ui-icon ui-icon-edit"></i></button>
+						<span class="label-value"><?=$baseObj->getValueI18n()?></span>
+					</div>
+
+					<div class="edit-i18n-section edit-i18n-<?=$baseObj->getlabelId()?> d-none">
+
+						<div class="row">
+							<div class="form-group col-12">
+								<textarea class="form-control ckeditor" id="exampleTextarea" name="labelValue" rows="3" maxlength="1000"><?=$baseObj->getValueI18n()?></textarea>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<div class="btn-group float-right">
+									<button class="btn btn-secondary float-right" onClick="saveLabelChangesI18n('<?=$baseObj->getlabelId()?>', '<?=$baseObj->getCode()?>')" title="<?=$this->translate('GL_SAVE_L')?>"><i class="ui-icon ui-icon-check"></i></button>
+									<button class="btn btn-secondary float-right" onClick="cancelEditLabelI18n('<?=$baseObj->getlabelId()?>')" title="<?=$this->translate('GL_REFUSE_L')?>"><i class="ui-icon ui-icon-ban"></i></button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</td>
+		<?php } ?>
+
+		<td class="label-description-wrapper"><?=$baseObj->getDescription()?></td>
+	</tr>
+<? } ?>
+
+<script>
+$(document).ready(function(){
+	$('#language-select').attr("disabled", false);
+})
+</script>

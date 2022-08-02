@@ -1,0 +1,50 @@
+#file-error {display: none;}
+.file-error {display: none;}
+#image-error {display: none;}
+.cke_button_label.cke_button__activefield_label {display: inline !important; padding-left: 6px;}
+.cke_chrome.input-error { border-color: #df3834;}
+
+.custom-image-list {
+  margin-top: 0;
+  padding-left: 0;
+  list-style: none;
+  margin-bottom: 0.625rem; }
+.custom-image-list li:not(:first-child) {
+    margin-top: 0.625rem; }
+    
+.ui-helper-hidden-accessible {display: none;}
+
+  .column {
+  }
+  .portlet {
+    margin: 0 1em 1em 0;
+    padding: 0.3em;
+    background: #eee
+  }
+  .portlet-header {
+    padding: 0.2em 0.3em;
+    margin-bottom: 0.5em;
+    position: relative;
+    background: #666;
+    color: orange
+    
+  }
+  .portlet-toggle {
+    color: white;
+  }
+  .portlet-content {
+    padding: 0.4em;
+    display: none;
+  }
+  .portlet-placeholder {
+    border: 1px dotted black;
+    margin: 0 1em 1em 0;
+    height: 50px;
+  }
+  
+  .portlet ul {list-style: none;}
+  .portlet ul li {border: 1px solid grey; margin: 10px}
+  
+  .tree-list-group-items {
+    display: none;
+  }

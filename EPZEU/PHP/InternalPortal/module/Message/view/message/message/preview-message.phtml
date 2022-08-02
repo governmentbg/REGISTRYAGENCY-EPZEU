@@ -1,0 +1,89 @@
+<div class="row">
+	<div class="col-sm-6 col-lg-3 form-group">
+		<strong><?=$this->translate('GL_CREATE_UPDATE_DATE_L')?></strong>
+		<p>
+			<?=$this->dateFormat(
+					strtotime($baseObj->getUpdatedOn()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATETIME
+				);
+			?>
+		</p>
+	</div>
+
+	<div class="col-sm-6 col-lg-3 form-group">
+		<strong><?=$this->translate('GL_CONDITION_L')?></strong>
+		<div class="form-inline">
+			<div class="custom-control-inline custom-control custom-radio">
+	    		<input class="custom-control-input" name="status" id="specialAccessUserType_1" value="1" <?=($baseObj->getStatus() == $messageStatusSent ? 'checked=""' : '')?> disabled="disabled" type="radio">
+	        	<label class="custom-control-label" for="specialAccessUserType_1"><?=$this->translate('GL_SENTED_L')?></label>
+	    	</div>
+			<div class="custom-control-inline custom-control custom-radio">
+	    		<input class="custom-control-input" name="status" id="specialAccessUserType_0" value="0" <?=($baseObj->getStatus() == $messageStatusNotSent ? 'checked=""' : '')?> disabled="disabled" type="radio">
+	        	<label class="custom-control-label" for="specialAccessUserType_0"><?=$this->translate('GL_NOSENTED_L')?></label>
+	    	</div>
+		</div>
+	</div>
+
+	<div class="col-sm-12 form-group">
+		<strong><?=$this->translate('EP_MSG_TO_L')?></strong>
+		<div class="form-inline">
+			<div class="custom-control-inline custom-control custom-radio">
+	    		<input class="custom-control-input" name="userRecipientType" id="userRecipientType_0" value="0" <?=(empty($baseObj->getUserIdList()) ? 'checked=""' : '')?> disabled="disabled" type="radio">
+	        	<label class="custom-control-label" for="userRecipientType_0"><?=$this->translate('EP_MSG_USERS_TO_L')?></label>
+	    	</div>
+			<div class="custom-control-inline custom-control custom-radio">
+	    		<input class="custom-control-input" name="userRecipientType" id="userRecipientType_1" value="1" <?=(!empty($baseObj->getUserIdList()) ? 'checked=""' : '')?> disabled="disabled" type="radio">
+	        	<label class="custom-control-label" for="userRecipientType_1"><?=$this->translate('EP_USR_USERS_L')?></label>
+	    	</div>
+		</div>
+	</div>
+
+	<div class="col-12 form-group">
+		<div class="row">
+			<div class="col-sm-12 col-lg-6">
+				<?
+				// списък с потребители
+				if (!empty($baseObj->getUserIdList())) {?>
+					<div class="multiple-select multiple-select--scrollable multiple-select--preview">
+						<?foreach ($baseObj->getUserIdList() as $recipient) {?>
+							<div class="badge badge-secondary"><?=$recipient?></div><br>
+						<?}?>
+					</div>
+				<?}
+
+				// потребители на регистри от портал
+				else {?>
+
+					<div class="custom-control custom-checkbox">
+						<input class="custom-control-input" name="isToAllCr" id="isToAllCr" value="1" type="checkbox" <?=(!empty($baseObj->getIsToAllCr()) ? 'checked=""' : '')?> disabled="disabled">
+						<label class="custom-control-label" for="isToAllCr"><?=$this->translate('GL_CR_REG_NAME_L')?></label>
+					</div>
+
+					<div class="custom-control custom-checkbox">
+						<input class="custom-control-input" name="isToAllPr" id="isToAllPr" value="1" type="checkbox" <?=(!empty($baseObj->getIsToAllPr()) ? 'checked=""' : '')?> disabled="disabled">
+						<label class="custom-control-label" for="isToAllPr"><?=$this->translate('GL_PR_REG_NAME_L')?></label>
+					</div>
+
+					<div class="custom-control custom-checkbox">
+						<input class="custom-control-input" name="isToAllEpzeu" id="isToAllEpzeu" value="1" type="checkbox" <?=(!empty($baseObj->getIsToAllEpzeu()) ? 'checked=""' : '')?> disabled="disabled">
+						<label class="custom-control-label" for="isToAllEpzeu"><?=$this->translate('GL_PORTAL_EPZEU_ABBR_NAME_L')?></label>
+					</div>
+				<?}?>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12 form-group">
+		<strong><?=$this->translate('EP_MSG_SUBJECT_L')?></strong>
+		<p><?=$baseObj->getAbout()?></p>
+	</div>
+
+	<div class="col-12 form-group">
+		<strong><?=$this->translate('GL_TEXT_L')?></strong>
+		<p><?=$baseObj->getContent()?></p>
+	</div>
+
+</div>

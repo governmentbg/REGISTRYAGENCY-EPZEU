@@ -1,0 +1,20 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer Localizer
+
+@{
+    string returnUrl = (string)ViewData["returnUrl"];
+
+    Dictionary<string, string> returnUrlRouteData = null;
+
+    if (!string.IsNullOrEmpty(returnUrl))
+    {
+        returnUrlRouteData = new Dictionary<string, string>()
+{
+            { "ReturnUrl", returnUrl }
+        };
+    }
+
+}
+<div class="fixed-content-width">
+    <div class="alert alert-warning"><p>@Html.Raw(@Localizer["EP_USR_REFUSE_ACCESS_L"] + ".")
+        @{ if (!string.IsNullOrEmpty(returnUrl)){ <a asp-controller="Account" asp-action="Login" asp-all-route-data="returnUrlRouteData" class="alert-link font-weight-bold">@Localizer["GL_BACK_I"]</a> } }</p></div>
+</div>

@@ -1,0 +1,212 @@
+<? $this->headTitle('EP_NOM_USERS_SERVICES_LIMITS_L') ?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_NOM_LIMITS_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_NOM_USERS_SERVICES_LIMITS_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_NOM_USERS_SERVICES_LIMITS_L')?></h2>
+</div>
+
+<div class="card">
+	<div class="card-header">
+		<h3><?=$this->translate('GL_SEARCHING_L')?>
+			<button class="system-button toggle-collapse" data-toggle="collapse" data-target="#collapsable-content">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+		</h3>
+	</div>
+
+	<div id="collapsable-content" class="collapse show">
+
+		<?php
+		$searchForm->prepare();
+
+		echo $this->form()->openTag($searchForm);
+		?>
+
+		<div class="card-body">
+			<div class="row">
+
+				<div class="form-group col-md-12 col-xl-4">
+
+					<label for="selected-user"><?=$this->translate('GL_USER_L')?></label>
+
+					<div class="input-group">
+
+						<div class="form-control multiple-select multiple-select--scrollable">
+							<div class="result-list <?=!empty(\User\Service\UserService::getUserInfoString($userObj)) ? '' : 'd-none'?>" id="resultList">
+								<div class="badge badge-secondary"><span class="word-break" id="selected-user"><?=\User\Service\UserService::getUserInfoString($userObj)?></span>
+									<button type="button" class="close" aria-label="Close" id="removeSelectUser">
+										<span aria-hidden="true">×</span>
+									</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="input-group-append">
+							<button class="btn btn-secondary" type="button" title="<?=$this->translate('GL_CHOICE_L')?>" onclick="openPreview(undefined, event, '<?=$this->url('select_user')?>');">
+							<i class="ui-icon ui-icon-hand"></i>
+							</button>
+						</div>
+					</div>
+					<?=$this->FormElement($searchForm->get('userId'))?>
+				</div>
+
+				<div class="form-group col-md-6 col-xl-4">
+					<?=$this->formRow($searchForm->get('serviceLimitId'))?>
+				</div>
+
+				<div class="form-group col-md-6 col-xl-4">
+					<?=$this->formRow($searchForm->get('status'))?>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="card-footer">
+			<div class="button-bar">
+				<a href="<?=$this->url(null, ['lang' => $lang])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+				<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+			</div>
+		</div>
+
+		<?=$this->form()->closeTag();?>
+	</div>
+</div>
+
+<div class="card">
+	<div class="card-body">
+
+		<div class="row">
+			<div class="col">
+			<?=$this->partial('partial/messages.phtml')?>
+			</div>
+		</div>
+
+		<?php if ($this->isAllowed('edit_limit')) { ?>
+
+
+		<div class="card-navbar">
+			<div class="button-bar">
+				<div class="left-side"></div>
+				<div class="right-side">
+					<a href="<?=$this->url('add_user_limit', ['lang' => $lang])?>" class="btn btn-primary">
+						<i class="ui-icon ui-icon-plus-white"></i>
+						<?=$this->translate('EP_NOM_ADD_USERS_SERVICES_LIMITS_L')?>
+					</a>
+				</div>
+			</div>
+		</div>
+
+
+		<?php } ?>
+
+		<? if (!empty($this->params->fromQuery()) || $limitUserList->count()) { ?>
+
+			<?php if ($limitUserList->count()) { ?>
+				<nav class="button-bar mt-1" aria-label="Page navigation">
+					<div class="pagination-container">
+					<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+					<ul class="sync-pagination"></ul>
+					</div>
+				</nav>
+
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-hover">
+						<thead>
+						<tr>
+							<th><?=$this->translate('GL_EMAIL_L')?></th>
+							<th><?=$this->translate('GL_PERSON_NAME_L')?></th>
+							<th><?=$this->translate('EP_USR_ORGANIZATION_POSITION_L')?></th>
+							<th><?=$this->translate('EP_NOM_LIMIT_DATA_SERVICE_USER_L')?></th>
+							<th><?=$this->translate('GL_PERIOD_L')?></th>
+							<th><?=$this->translate('EP_NOM_MAX_REQUESTS_L')?></th>
+							<th><?=$this->translate('GL_CONDITION_L')?></th>
+
+							<?php if ($this->isAllowed('edit_limit')) { ?>
+							<th><?=$this->translate('GL_ACTIONS_L')?></th>
+							<?php } ?>
+						</tr>
+						</thead>
+						<tbody id="content">
+							<?=$this->partial('user/limit/limit-user-list-partial.phtml')?>
+						</tbody>
+					</table>
+				</div>
+
+				<nav class="button-bar" aria-label="Page navigation">
+					<div class="pagination-container">
+					<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+					<ul class="sync-pagination"></ul>
+					</div>
+				</nav>
+
+				<?php
+				$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+				$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+				?>
+
+				<script type="text/javascript">
+				pagination('.sync-pagination', '#content', <?=$totalPages?>);
+				</script>
+
+			<?php } else { ?>
+				<div class="alert alert-warning" role="alert">
+					<?=$this->translate('EP_NOM_NO_SERVICES_LIMIT_I')?>
+				</div>
+			<?php }
+
+		} ?>
+
+	</div>
+</div>
+
+<?=$this->partial('partial/modal-confirm.phtml',['modalId' => 'changeStatus'])?>
+<?=$this->partial('partial/modal-alert.phtml',['modalId' => 'changeStatus'])?>
+<?=$this->partial('partial/modal-preview', ['title' => $this->translate('EP_USR_SEARCH_USER_L'), 'buttonRefuse' => $this->translate('GL_REFUSE_L'), 'buttonConfirm' => $this->translate('GL_CONFIRM_L')])?>
+
+<script>
+$(document).ready(function() {
+	$('#serviceLimitId').combobox()
+});
+</script>
+<?$this->headScript()->prependFile($this->basePath('js/combobox.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/jquery-ui.js'));?>
+
+<script>
+$(".btn-confirm").on('click', function() {
+
+	var result = $('#iframe_content')[0].contentWindow.getDataFromIframe();
+
+	if (result) {
+
+		var resultObj = jQuery.parseJSON(result);
+
+		switch (resultObj.module) {
+
+			case 'user':
+				$("#resultList").removeClass('d-none');
+				$("#selected-user").html(resultObj.name);
+				$("#userId").val(resultObj.id);
+				break;
+
+			case 'limit':
+				$("#selected-service-limit").html(resultObj.name);
+				$("#serviceLimitId").val(resultObj.id);
+			break;
+		}
+	}
+
+});
+
+$(document).on('click', "#removeSelectUser", function() {
+	$("#resultList").addClass('d-none');
+	$("#selected-user").html('');
+	$("#userId").val('');
+});
+</script>

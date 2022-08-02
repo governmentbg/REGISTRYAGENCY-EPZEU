@@ -1,0 +1,126 @@
+/* ----  Header  ---- */
+
+.header {
+	background-color: $gray-100;
+	border-bottom: 1px solid $gray-300;
+}
+
+.registryagency-text {
+	display: inline-block;	
+    padding-right: 1.375rem;
+    
+    @include media-breakpoint-down(md) {
+        display: none;
+    }
+}
+
+.registryagency-logo {
+	display: inline-block;
+}
+
+.header-container {
+    display: flex;
+    flex-wrap: wrap;
+
+	margin-left: 0;
+	margin-right: 0;
+	padding: $template-container-padding-vertical * 2 $template-container-padding-horizontal;		
+	align-items: center;
+
+	.divider {
+		display: inline-block;
+		vertical-align: middle;
+		border-left: 1px solid $gray-300;
+		min-height: 4.375rem;
+		margin: 0 .625rem 0 1.875rem;
+		width: 1px;
+	}
+	
+}
+
+.header-logo {	
+	flex-basis: auto;
+	flex-grow: 0;
+	flex-shrink: 0;
+
+	padding: 0 $template-container-padding-horizontal;	
+}
+
+.header-title {		
+	flex-basis: 0;
+	flex-grow: 1;
+	flex-shrink: 1;	
+
+    padding: 0 $template-container-padding-horizontal;
+	
+	h1, p {
+		margin: 0;
+	}
+
+	h1 {
+		margin-bottom: 0.1875rem;
+		font-size: 1.375rem;
+		font-style: italic;
+		font-weight: bold;
+		line-height: 0.9;
+		color: $blue;				
+	} 
+
+	p {	
+		padding-top: .16rem;
+		font-size: 1rem;
+		font-style: italic;
+		line-height: 1.15;		
+	}
+}
+
+
+.brand-line {
+	height: 6px;
+	@include brand-gradient();
+	border-bottom: 1px solid $white;
+}
+
+.brand-line--header {	
+	border-bottom: 1px solid $white;
+}
+
+
+
+.header--mobile {
+
+	@media (max-width: 770px) {
+
+		.header-container {		
+			padding-top:  $template-container-padding-vertical;
+			padding-bottom:  $template-container-padding-vertical;
+		}
+
+		.header-logo {
+			padding-left: 0;
+			padding-right: 0;
+		}
+
+		.registryagency-logo {
+			width: 3.375rem;
+			height: 3.75rem;
+		}
+	
+		.header-title
+		{
+			padding: 0 $template-container-padding-horizontal * 1.5;
+			h1 {
+				font-size: 1.125rem;
+			}	
+
+			p {	
+				font-size: 0.8125rem;
+				line-height: 1;		
+			}	
+		}
+
+	}
+
+}
+
+/* ----  /Header  ---- */

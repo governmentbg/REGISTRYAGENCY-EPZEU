@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ServerGarbageCollection>false</ServerGarbageCollection>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Connected Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.4.6" />   
+    <PackageReference Include="CNSys.Rebus.Oracle" Version="1.2.6" />
+    <PackageReference Include="RA.PropertyRegister.Integration.Core" Version="1.0.4" />
+    <PackageReference Include="Rebus.Microsoft.Extensions.Logging" Version="1.0.1" />
+    <PackageReference Include="Rebus.ServiceProvider" Version="5.0.0-b04" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\EPZEU_CR\.NET\EPZEU.CR.Core\EPZEU.CR.Core.csproj" />
+    <ProjectReference Include="..\EPZEU.Cache.Polling\EPZEU.Cache.Polling.csproj" />
+    <ProjectReference Include="..\EPZEU.Core\EPZEU.Core.csproj" />
+    <ProjectReference Include="..\EPZEU.Npgsql\EPZEU.Npgsql.csproj" />
+    <ProjectReference Include="..\EPZEU.Signing\EPZEU.Signing.csproj" />
+    <ProjectReference Include="..\EPZEU.Users.Migrations\EPZEU.Users.Migrations.csproj" />
+    <ProjectReference Include="..\EPZEU.Web.Core\EPZEU.Web.Core.csproj" />
+    <ProjectReference Include="..\EPZEU\EPZEU.csproj" />
+    <ProjectReference Include="..\EPZEU.Web.Swagger\EPZEU.Web.Swagger.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="Country.xsd"/>
+    <xsd:include schemaLocation="Identity.xsd"/>
+    <xsd:include schemaLocation="Name.xsd"/>
+    <xsd:include schemaLocation="BirthPlace.xsd"/>
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+    <xsd:complexType name="Individual">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Физическо лице</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="PersonNationality" type="Country"/>
+            <xsd:element name="Identity" type="Identity" minOccurs="0"/>
+            <xsd:element name="Name" type="Name"/>
+            <xsd:element name="BirthPlace" type="BirthPlace" minOccurs="0"/>
+            <xsd:element name="Bulstat" type="val:Bulstat" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

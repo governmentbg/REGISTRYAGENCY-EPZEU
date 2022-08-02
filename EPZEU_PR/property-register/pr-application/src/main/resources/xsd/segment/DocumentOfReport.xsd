@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="Book.xsd"/>
+    <xsd:include schemaLocation="RegistryOffice.xsd"/>
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+    <xsd:complexType name="DocumentOfReport">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Данни за документ/акт обект на справка</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="Id" type="val:DocumentId" />
+            <xsd:element name="IncomingRegisterDate" type="val:RegistrationDate"/>
+            <xsd:element name="IncomingRegisterNumber" type="val:IncomingRegisterNumber" />
+            <xsd:element name="DoubleIncomingRegisterNumber" type="val:DoubleIncomingRegisterNumber" />
+            <xsd:element name="Year" type="val:Year" />
+            <xsd:element name="Book" type="Book" />
+            <xsd:element name="Volume" type="val:Volume" />
+            <xsd:element name="ActNumber" type="val:ActNumber" />
+            <xsd:element name="RegistryOffice" type="RegistryOffice" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

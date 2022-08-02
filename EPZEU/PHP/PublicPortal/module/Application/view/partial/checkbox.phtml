@@ -1,0 +1,33 @@
+<?
+$option = $this->element->getValue();
+$id = $this->element->getAttribute('id');
+$name = $this->element->getAttribute('name');
+$checkedValue = $this->element->getCheckedValue();
+$errors = !empty($this->element->getMessages()) ? $this->element->getMessages() : [];
+
+$url = $this->element->getAttribute('url');
+
+$disabled = $this->element->getAttribute('disabled');
+
+?>
+
+
+<div class="custom-control custom-checkbox">
+	<input class="custom-control-input" name="<?=$name?>" id="<?=$id?>" value="<?=$checkedValue?>" type="checkbox" <?= $this->element->getValue() ? ' checked="checked"' : ''?> <?=(!empty($disabled) ? 'disabled="disabled"' : '')?>>
+
+	<?php if ($url) { ?>
+		<label class="custom-control-label" for="<?=$id?>"><a href="<?=$url?>" target="_blank"><?=$this->translate($this->element->getLabel())?></a></label>
+	<?php } else { ?>
+		<label class="custom-control-label" for="<?=$id?>"><?=$this->translate($this->element->getLabel())?></label>
+	<?php } ?>
+
+</div>
+
+<?if (!empty ($errors)) {?>
+	<ul class="invalid-feedback">
+		<?foreach ($errors as $error) {?>
+			<li><?=$this->translate($error)?></li>
+		<?}?>
+	</ul>
+<?}?>
+

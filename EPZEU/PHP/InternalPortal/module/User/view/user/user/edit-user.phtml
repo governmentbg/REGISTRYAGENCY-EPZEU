@@ -1,0 +1,329 @@
+<?php
+$this->headTitle('EP_USR_00005_L');
+?>
+
+<? if (!$isPreview) { ?>
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+			<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_USERS_L')?></li>
+			<li class="breadcrumb-item"><a href="<?=$this->url('user_search')?>"><?=$this->translate('EP_USR_ACCS_L')?></a></li>
+			<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_00005_L')?></li>
+		</ol>
+	</nav>
+
+
+	<div class="page-title">
+		<h2><?=$this->translate('EP_USR_00005_L')?></h2>
+	</div>
+<? } ?>
+
+<? if (!empty($userAuthTypePassword)) { ?>
+<div class="card">
+	<div class="card-header">
+			<h3><?=$this->translate('EP_USR_LIST_REQSPACC_L')?>
+
+			<button class="system-button toggle-collapse <?=!$showSpecailAccessSection ? 'collapsed': '' ?> " data-toggle="collapse" data-target="#collapsable-content">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+		</h3>
+	</div>
+
+	<div class="card-body">
+	<?if (!$isPreview) {?>
+			<div class="row">
+				<div class="form-group col-auto">
+					<? if ($this->isAllowed('add_special_access_request')) {?>
+						<a href="#" onclick="openUploadForm('<?=$this->url('add_special_access_request', ['userId' => $userId, 'lang' => $this->lang], ['query' => $params->fromQuery()])?>', event)" title="<?=$this->escapeHtmlAttr($this->translate('EP_USR_RESET_PASS_L'))?>" class="btn btn-primary">
+							<?=$this->translate('EP_USR_NEW_REQ_L')?>
+						</a>
+					<? } ?>
+				</div>
+			</div>
+		<?}?>
+	</div>
+	<? if (count($specialAccessArr)) { ?>
+	<div id="collapsable-content" class="collapse <?=$showSpecailAccessSection ? 'show' : ''?>">
+		<div class="card-body">
+
+			<div id="special-request-message" class="alert d-none">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				<p><?=$this->translate('GL_UPDATE_OK_I')?></p>
+			</div>
+
+			<table class="table table-bordered table-striped table-hover">
+				<tr>
+					<th><?=$this->translate('EP_USR_REQUEST_DATA_L')?></th>
+					<th><?=$this->translate('EP_USR_00008_L')?></th>
+					<th><?=$this->translate('EP_USR_CONF_REJ_DATA_L')?></th>
+					<th><?=$this->translate('GL_CONDITION_L')?></th>
+
+					<? if (!$isPreview) { ?>
+					<th><?=$this->translate('GL_ACTIONS_L')?></th>
+					<? } ?>
+
+				</tr>
+
+				<?php foreach ($specialAccessArr as $specialAccess) { ?>
+				<tr>
+					<td>
+
+					<?=$this->dateFormat(
+						strtotime($specialAccess->getCreatedOn()),
+					    IntlDateFormatter::MEDIUM, // date
+					    IntlDateFormatter::NONE, // time
+					    $this->plugin('translate')->getTranslator()->getLocale(),
+						\Application\View\Helper\DateFormat::DATETIME
+					)?>
+					</td>
+
+					<td id="document-container-<?=$specialAccess->getRequestId()?>">
+						<?php if (isset($documentArray[$specialAccess->getRequestId()])) { ?>
+							<?php foreach ($documentArray[$specialAccess->getRequestId()] as $file) { ?>
+								<p><a href="<?=$this->url('special_access_document_download', ['lang' => $lang, 'documentId' => $file->getDocId()])?>"><?=\Document\Service\DocumentService::getOriginalFilename($file->getName())?></a></p>
+							<?php } ?>
+						<?php } ?>
+					</td>
+
+					<td>
+					<?=$this->dateFormat(
+						strtotime($specialAccess->getProcessingDate()),
+					    IntlDateFormatter::MEDIUM, // date
+					    IntlDateFormatter::NONE, // time
+					    $this->plugin('translate')->getTranslator()->getLocale(),
+						\Application\View\Helper\DateFormat::DATETIME
+					)?>
+					</td>
+
+					<td id="status-<?=$specialAccess->getRequestId()?>" class="icons-td">
+					<?php
+						switch ($specialAccessStatusList[$specialAccess->getAccessStatus()]) {
+
+							case 'EP_USR_SP_ACCESS_WAITING_L':
+								?>
+								<i class="ui-icon ui-icon-state-waiting" aria-hidden="true"></i>
+								<?php
+								break;
+
+							case 'EP_USR_SP_ACCESS_APPROVED_L':
+								?>
+								<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i>
+								<?php
+								break;
+
+							case 'EP_USR_SP_ACCESS_DISAPPROVED_L':
+								?>
+								<i class="ui-icon ui-icon-state-canceled" aria-hidden="true"></i>
+								<?php
+								break;
+						}
+					?>
+					<?=$this->translate($specialAccessStatusList[$specialAccess->getAccessStatus()]);?>
+					</td>
+
+					<? if (!$isPreview) { ?>
+					<td id="action-<?=$specialAccess->getRequestId()?>" class="buttons-td">
+						<? if ($specialAccessStatusList[$specialAccess->getAccessStatus()] == 'EP_USR_SP_ACCESS_WAITING_L') { ?>
+						 	<a href="<?=$this->url('user_special_access_approval', ['id' => $specialAccess->getRequestId()])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('EP_USR_PROCESS_L'))?>">
+								<i class="ui-icon ui-icon-edit"></i>
+							</a>
+						<? } ?>
+					</td>
+					<? } ?>
+				</tr>
+			<?} ?>
+			</table>
+		</div>
+	</div>
+	<? } ?>
+</div>
+<? } ?>
+
+
+
+
+<div class="card">
+
+	<div class="card-header">
+		<h3><?=$this->translate('EP_USR_ACC_L') ?></h3>
+	</div>
+
+
+	<?php
+	$userForm->setAttribute('action', $this->url('edit_user', ['lang' => $params->fromRoute('lang'), 'userId' => $userId]));
+	$userForm->prepare();
+
+	$userFieldset = $userForm->get('userFieldset');
+
+	if (!$isPreview)
+		echo $this->form()->openTag($userForm);
+
+
+	?>
+	<div class="card-body">
+
+		<div class="row">
+			<div class="col-12 col-sm-12 col-lg-12 col-xl-12 form-group">
+				<?=$this->partial('partial/messages.phtml')?>
+
+				<?if (!empty($userAuthTypePassword) && !$isPreview) {?>
+					<div class="row">
+						<div class="form-group col-auto">
+							<? if ($this->isAllowed('reset_password')) {?>
+								<a href="<?=$this->url('reset_password', ['lang' => $params->fromRoute('lang'), 'userId' => $userId])?>" title="<?=$this->escapeHtmlAttr($this->translate('EP_USR_RESET_PASS_L'))?>" onclick="openModalConfirm(this, '<?=$this->escapeHtmlAttr($this->translate('EP_USR_RESET_PASS_I'))?>.', event)"  class="btn btn-primary">
+									<?=$this->translate('EP_USR_RESET_PASS_L')?>
+								</a>
+							<? } ?>
+						</div>
+					</div>
+				<?}?>
+
+				<div class="row">
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('cin'))?>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('updatedOn')->setValue(
+								$this->dateFormat(
+									strtotime($this->userForm->get('userFieldset')->get('updatedOn')->getValue()),
+									IntlDateFormatter::MEDIUM, // date
+									IntlDateFormatter::NONE, // time
+									$this->plugin('translate')->getTranslator()->getLocale(),
+									\Application\View\Helper\DateFormat::DATETIME
+								)
+						))?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('username'))?>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('email'))?>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('status'), null, null, 'partial/multiradiobox')?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-4 form-group">
+						<?=$this->formRow($userFieldset->get('firstName'), null, true, '')?>
+					</div>
+					<div class="col-sm-4 form-group">
+						<?=$this->formRow($userFieldset->get('middleName'))?>
+					</div>
+					<div class="col-sm-4 form-group">
+						<?=$this->formRow($userFieldset->get('familyName'))?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('contactData'))?>
+						<div class="help-text-inline"><?=$this->translate('EP_USR_00006_I')?></div>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('organization'))?>
+					</div>
+
+					<? if (!empty($userAuthTypePassword)) { ?>
+						<div class="col-sm-12 col-lg-4 form-group">
+	        				<?=$this->formRow($userFieldset->get('specialAccessUserType'), null, null, '')?>
+						</div>
+					<? } ?>
+
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-lg-6 form-group">
+						<label><?=$this->translate('EP_USR_00002_L')?></label>
+						<?=$this->formRow($userFieldset->get('crBulletinAcceptance'), 'append', null, 'partial/checkbox')?>
+						<?=$this->formRow($userFieldset->get('prBulletinAcceptance'), 'append', null, 'partial/checkbox')?>
+					</div>
+					<div class="col-sm-12 col-lg-6 form-group">
+						<label><?=$this->translate('EP_USR_00013_L')?></label>
+						<?=$this->formRow($userFieldset->get('crMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+						<?=$this->formRow($userFieldset->get('prMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+						<?=$this->formRow($userFieldset->get('epzeuMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+					</div>
+				</div>
+
+				 <fieldset id="user-permission-section">
+					<legend><?=$this->translate('EP_USR_USER_RIGHTS_L');?></legend>
+					<div class="row">
+						<div class="form-group col-sm-12">
+							<?=$this->formRow($userFieldset->get('permissionList'), null, null, 'partial/multicheckbox')?>
+						</div>
+					</div>
+				</fieldset>
+
+
+			<? if (!$isPreview && ($authList || $picObj)) { ?>
+			<fieldset id="user-permission-section">
+				<legend><?=$this->translate('EP_USR_REG_SERT_L') ?></legend>
+				<table class="table table-bordered table-striped table-hover">
+					<thead>
+						<tr>
+						<th><?=$this->translate('GL_TYPE_L')?></th>
+						<th><?=$this->translate('GL_DETAILS_L')?></th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<? foreach ($authList as $certObj) { ?>
+						<tr>
+							<td><?=$this->translate('EP_USR_KEP_SER_L')?></td>
+							<td><label for="cin"><?=$this->translate('EP_VALIDITY_PERIOD_TO_L')?></label>
+							<p>
+							<?=$this->dateFormat(
+							strtotime($certObj->getNotAfter()),
+							IntlDateFormatter::NONE, // date
+							IntlDateFormatter::NONE, // time
+							$this->plugin('translate')->getTranslator()->getLocale(),
+							\Application\View\Helper\DateFormat::DATETIME);
+							?>
+							</p>
+							<label><?=$this->translate('EP_ODIT_PUBLISHER_L')?></label>
+							<p><?=$certObj->getIssuer()?></p>
+							</td>
+						</tr>
+						<? } ?>
+
+						<? if ($picObj) { ?>
+							<tr>
+								<td><?=$this->translate('EP_USR_PIK_NRA_L')?></td>
+								<td><?=$this->translate('EP_USR_INST_PIK_NRA_I') ?></td>
+							</tr>
+						<? } ?>
+					</tbody>
+				</table>
+			</fieldset>
+			<? } ?>
+
+			</div>
+		</div>
+	</div>
+
+	<? if (!$isPreview) { ?>
+		<div class="card-footer">
+			<div class="button-bar">
+				<a href="<?=$this->url('user_search')?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+				<?=$this->formSubmit($userForm->get('submit'));?>
+			</div>
+		</div>
+
+		<?=$this->form()->closeTag();?>
+	<? } ?>
+
+</div>
+
+<?=$this->partial('partial/modal-upload-files.phtml', ['classModalWindow' => 'modal-dialog-centered', 'title' => $this->translate('EP_USR_00008_L')])?>
+<?=$this->partial('partial/modal-confirm.phtml')?>
+
+<script>
+$(document).on('submit', '#userform', function(){
+	showGlobalLoader();
+});
+</script>

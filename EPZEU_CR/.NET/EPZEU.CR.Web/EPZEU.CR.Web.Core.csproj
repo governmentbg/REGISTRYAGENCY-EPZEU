@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>EPZEU.CR.Web</RootNamespace>
+    <ApplicationIcon />
+    <StartupObject />
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\EPZEU\.NET\EPZEU.Core\EPZEU.Core.csproj" />
+    <ProjectReference Include="..\..\..\EPZEU\.NET\EPZEU.Web.Core\EPZEU.Web.Core.csproj" />
+    <ProjectReference Include="..\EPZEU.CR\EPZEU.CR.csproj" />
+  </ItemGroup>
+
+</Project>

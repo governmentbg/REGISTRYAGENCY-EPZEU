@@ -1,0 +1,51 @@
+<?
+foreach ($pageList as $pageObj) { ?>
+
+<li data-id="<?=$pageObj->getPageId()?>">
+	<div class="tree-list-tiem">
+		<div class="tree-list-tiem-content">
+
+			<div class="tree-list-tiem-text">
+
+				<div class="row">
+					<div class="form-group col-12">
+						<?=$pageObj->getAppCode() ? '<b>'.$pageObj->getAppCode().'</b> ': ''?> <?=$pageObj->getTitle()?>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<label><?=$this->translate('EP_CMS_HEADER_L')?></label><span class="label-description">(<?=$this->language()->getLanguagesName()?>)</span>
+						<p class="preview-i18n-<?=$pageObj->getPageId()?> title-i18n-<?=$pageObj->getPageId()?>"><?=$pageObj->getAppCode() && $pageObj->getTitleI18n() ? '<b>'.$pageObj->getAppCode().'</b> ': ''?> <?=$pageObj->getTitleI18n()?></p>
+					</div>
+				</div>
+
+				<div class="edit-i18n-section edit-i18n-<?=$pageObj->getPageId()?> d-none">
+					<div class="row">
+						<div class="form-group col-12 <?=$pageObj->getAppCode() ? 'input-group' : ''?>">
+							<? if ($pageObj->getAppCode()) { ?>
+								<span class="input-group-text" id="app-code"><?=$pageObj->getAppCode()?></span>
+							<? } ?>
+
+							<input name="titleI18n" class="form-control" maxlength="200" value="<?=$pageObj->getTitleI18n()?>" type="text">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="tree-list-tiem-actions">
+				<? if ($this->isAllowed('manage_nested_page') && $managePage != 'service_page' && $managePage != 'application_page') { ?>
+					<div class="preview-i18n-<?=$pageObj->getPageId()?>">
+						<button class="btn btn-secondary float-right edit-section-<?=$pageObj->getPageId()?>" onclick="editPageI18n('<?=$pageObj->getPageId()?>')" title="<?=$this->translate('GL_EDIT_L')?>"><i class="ui-icon ui-icon-edit"></i></button>
+					</div>
+					<div class="btn-group edit-i18n-<?=$pageObj->getPageId()?> d-none">
+						<button class="btn btn-secondary float-right" onClick="savePageChangesI18n('<?=$pageObj->getPageId()?>')" title="<?=$this->translate('GL_SAVE_L')?>"><i class="ui-icon ui-icon-check"></i></button>
+						<button class="btn btn-secondary float-right" onClick="cancelEditPageI18n('<?=$pageObj->getPageId()?>')" title="<?=$this->translate('GL_REFUSE_L')?>"><i class="ui-icon ui-icon-ban"></i></button>
+					</div>
+				<? } ?>
+			</div>
+
+
+		</div>
+	</div>
+</li>
+<? } ?>

@@ -1,0 +1,324 @@
+<!-- DOCTYPE -->
+<!DOCTYPE html>
+<html lang="bg">
+    <head>
+        <meta charset="utf-8">
+        <title>Имотен регистър - Дизайн компоненти - Заявление</title>
+
+        <!-- Viewport Meta Tag -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+        <base href="../">
+
+
+        <!-- Fonts -->
+        <link href="css/fonts.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="css/style.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="images/favicon.ico" />
+        <link rel="icon" type="image/ico" href="images/favicon.ico" />
+
+    </head>
+
+<body>
+
+<div class="layout-wrapper">
+        <div class="content-wrapper">
+            <div class="page-header-wrapper">
+                <div class="section-wrapper">
+                    <div class="fixed-content-width">
+                        <div class="page-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h1 class="page-title">Заявление за деклариране на предстояща сделка с недвижим имот</h1>
+                                </div>
+                                <div class="col-auto d-md-none">
+                                    <button id="show_menu" class="button-menu"><i class="ui-icon ui-icon-sub-menu" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-wrapper section-wrapper section-wrapper--margins fixed-content-width">
+
+            <div class="nav-wrapper">
+
+                <nav class="page-nav">
+                    <ul class="nav-section">
+                        <li>
+                            <a class="nav-item nav-link" href="ui_application_Заявление за деклариране на предстояща сделка ИР/ui_application_Заявление за деклариране на предстояща сделка_1_Данни за заявителя.html">
+                                <div class="nav-item-state">
+                                    <i class="ui-icon ui-icon-error"></i>
+                                </div>
+                                <div class="nav-item-title">Данни за заявителя</div>
+                                <div class="nav-item-action"></div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-item nav-link active" href="ui_application_Заявление за деклариране на предстояща сделка ИР/ui_application_Заявление за деклариране на предстояща сделка_2_Имоти за които се декларира сделка.html">
+                                <div class="nav-item-state">
+                                </div>
+                                <div class="nav-item-title">Предстояща сделка</div>
+                                <div class="nav-item-action"></div>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+
+            <div class="page-wrapper">
+
+                <div class="section-wrapper" >
+
+                    <h2 class="section-title section-title--form">Предстояща сделка</h2>
+
+                    <div class="help-text"><p>Изпозвайте бутон "Добави имот", за да добавите имот, предмет на сделката. Попълнете задължително вида и датата на сделката и ако желаете, часа.</p></div>
+
+                    <div class="field-container">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="field-title field-title--form" >Имоти по сделката</label>
+                            </div>
+                        </div>
+                        <fieldset id="SELECTED_ROWS" class="d-none">
+
+                            <div class="interactive-container interactive-container--form">
+                                <div class="interactive-container__content record-container">
+                                    <div class="row">
+                                        <div class="form-group col-12">
+
+                                            <div class="field-container">
+                                                <p class="form-text">
+                                                    <span class="field-title field-title--preview">Кадастрален идентификатор:</span>
+                                                    68134.4090.488.2.84
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="interactive-container__controls">
+                                    <button class="btn btn-outline-light btn-sm" title="Изтрий"><i class="ui-icon ui-icon-times" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+
+                            <hr class="hr--doted-line">
+
+                            <div class="interactive-container interactive-container--form">
+                                <div class="interactive-container__content record-container">
+
+                                    <div class="row">
+                                        <div class="form-group col-12">
+
+                                            <div class="field-container">
+                                                <p class="form-text">
+                                                    <span class="field-title field-title--preview">Кадастрален идентификатор:</span>
+                                                    68134.4090.488.2.84
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="interactive-container__controls">
+                                    <button class="btn btn-outline-light btn-sm" title="Изтрий"><i class="ui-icon ui-icon-times" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                        <div class="row">
+                            <div class="form-group col">
+                                <hr>
+                                <button id="add-f1" class="btn btn-outline-light text-dark" data-toggle="modal" data-target="#myModal_1" onclick=""><i class="ui-icon ui-icon-plus" aria-hidden="true"></i> Добави имот</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field-container">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="field-title field-title--form required-field" for="">Вид на сделката</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-12">
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field-container">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="field-title field-title--form required-field" for="">Дата на сделката</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <div class="input-group date-control">
+                                    <input class="form-control" type="text">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="button">
+                                            <i class="ui-icon ui-icon-calendar-color"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field-container">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="field-title field-title--form" for="">Час на сделката</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <div class="input-group date-control">
+                                    <input class="form-control" type="text">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="button">
+                                            <i class="ui-icon ui-icon-clock"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="button-bar button-bar--form">
+                        <div class="left-side">
+                            <button type="button" class="btn btn-secondary">Откажи</button>
+                        </div>
+                        <div class="right-side">
+                            <a class="btn btn-secondary" href="ui_application_Заявление за деклариране на предстояща сделка ИР/ui_application_Заявление за деклариране на предстояща сделка_3_Преглед.html">Прегледай</a>
+                            <a class="btn btn-primary" href="ui_application_Заявление за деклариране на предстояща сделка ИР/ui_application_Заявление за деклариране на предстояща сделка_3_Преглед.html">Продължи</a>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div id="myModal_1" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Добавяне на имот</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div id="IMOT_ALERT" class="alert alert-warning d-none"><p>За имота с въведения кадастрален идентификатор има вече регистрирани предстоящи сделки. Желаете ли да го добавите?</p></div>
+                <div id="IMOT_ID" class="field-container">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label class="field-title field-title--form">Кадастрален идентификатор</label>
+                            <input type="text" class="form-control" value="68134.4090.488.2.84">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <div class="button-bar">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Откажи</button>
+                    </div>
+                    <div class="right-side">
+                        <button id="BTN_MODAL_ADD" type="button" class="btn btn-primary" onclick="show_add();">Добави</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+	<!-- jQuery library -->
+	<script src="js/jquery-3.2.1.min.js"></script>
+
+
+	<!-- Latest compiled and minified Bootstrap JavaScript -->
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+
+	<!-- Page Scripst -->
+	<script>
+
+		$(document).ready(function () {
+
+
+            // $('#myModal_1').modal('show');
+
+            // Show Navigation
+            $('#show_menu').on('click', function () {
+                $(".nav-wrapper").toggleClass("nav-wrapper--show");
+            });
+
+
+
+            function activateFieldEditControls () {
+
+                var field = $('.interactive-container').find('.interactive-container__controls').find('.system-button, .btn');
+
+                field.on('mouseover focus', function () {
+                    $(this).closest('.interactive-container').addClass("interactive-container--focus");
+                });
+
+                field.on('mouseout focusout', function () {
+                    $(this).closest('.interactive-container').removeClass("interactive-container--focus");
+                });
+            }
+
+            // Field Edit - Actions
+            activateFieldEditControls();
+
+
+        });
+
+        function show_add() {
+            if ( !$("#IMOT_ALERT").hasClass("d-none") ) {
+                $('#myModal_1').modal('hide');
+                $("#IMOT_ALERT").addClass("d-none");
+                $("#SELECTED_ROWS").removeClass("d-none");
+                 
+            } else {
+                $("#IMOT_ALERT").removeClass("d-none");
+                $("#BTN_MODAL_ADD").html("Потвърди добавянето");
+            }
+        }
+
+
+	</script>
+
+  </body>
+</html>

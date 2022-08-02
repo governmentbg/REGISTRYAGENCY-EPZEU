@@ -1,0 +1,647 @@
+
+<!-- DOCTYPE -->
+<!DOCTYPE html>
+<html lang="bg">
+    <head>
+        <meta charset="utf-8">
+        <title>ЕПЗЕУ - Агенция по вписванията</title>
+
+        <!-- Viewport Meta Tag -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <base href="../">
+
+        <!-- Fonts -->
+        <link href="css/fonts.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="css/style.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="images/favicon.ico" />
+        <link rel="icon" type="image/ico" href="images/favicon.ico" />
+    </head>
+
+<body>
+
+<div class="layout-wrapper">
+
+    <div id="header-wrapper" class="header-wrapper">
+
+        <header class="header">
+            <div class="row header-container fixed-content-width">
+                <div class="col-auto">
+                    <img class="registryagency-text d-none d-lg-inline-block" src="images/registryagency-text.svg"><img class="registryagency-logo" src="images/registryagency-logo.svg"><div class="divider d-none d-sm-inline-block"></div>
+                </div>
+                <div class="col header-title header-title--register">
+                    <h1>Имотен регистър</h1>
+                    <p>Единен портал за заявяване на електронни административни услуги</p>                    
+                </div>
+            </div>
+
+            <div class="brand-line brand-line--header"></div>
+
+        </header>
+
+        <nav class="navbar-top">
+
+            <div class="fixed-content-width">
+
+                <div class="navbar-top-container">
+                    <ul class="navbar-top-container-left">
+
+                        <li class="navbar-top-menu d-lg-none">
+                            <a class="navbar-top-item" href="javascript:toggleNav();" title="Навигация">
+                                <div class="navbar-top-item-text navbar-top-item-icon navbar-top-item-text--last">
+                                    <i class="ui-icon ui-icon-menu" aria-hidden="true"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="d-none d-lg-block">
+                            <a class="navbar-top-item" href="javascript:toggleSubnav();">
+                                <div class="navbar-top-item-text">
+                                    Регистри
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-top-item" href="#" title="Контакти">
+                                <div class="navbar-top-item-text navbar-top-item-icon">
+                                    <i class="ui-icon ui-icon-contacts-top d-inline-block d-lg-none mr-0" aria-hidden="true"></i><span class="d-none d-lg-inline">Контакти</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-top-item" href="#" title="Помощ">
+                                <div class="navbar-top-item-text navbar-top-item-icon">
+                                    <i class="ui-icon ui-icon-help d-inline-block d-lg-none mr-0" aria-hidden="true"></i><span class="d-none d-lg-inline">Помощ</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a class="navbar-top-item" href="#" role="button" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
+                                <div class="navbar-top-item-text navbar-top-item-icon dropdown-toggle" href="#">
+                                    <i class="ui-icon ui-icon-user-top mr-0 mr-sm-2" aria-hidden="true"></i><span class="navbar-top-text-limited d-none d-sm-inline-block" title="ivan.ivanov@yahoomaildot.com">ivan.ivanov@yahoomaildot.com</span>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <span class="navbar-top-text-limited d-sm-none ml-4 mr-4" title="ivan.ivanov@yahoomaildot.com">ivan.ivanov@yahoomaildot.com</span>
+                                <div class="dropdown-divider d-sm-none"></div>
+                                <a class="dropdown-item" href="#">Моите заявления</a>
+                                <a class="dropdown-item" href="#">Задължения и плащания</a>
+                                <a class="dropdown-item" href="#">Управление на лични сметки</a>
+                                <a class="dropdown-item" href="#">Справка банкови преводи</a>
+                                <a class="dropdown-item" href="#">Форум</a>
+                                <a class="dropdown-item" href="#">Aбонамент за събития в регистри</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Потребителски профил</a>
+                                <a class="dropdown-item" href="#">Средства за автентикация</a>
+                                <a class="dropdown-item" href="#">Смяна на парола</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Изход</a>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <ul class="navbar-top-container-right">
+
+                            <li class="navbar-top-search">
+                                <div class="navbar-top-item">
+                                    <div class="navbar-top-item-text navbar-top-item-icon">
+                                        <input class="form-control" value="" type="text">
+                                        <a href="#" title="Търси"><i class="ui-icon ui-icon-search-top" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="dropdown">
+                                <a class="navbar-top-item" href="#" role="button" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" title="Език">
+                                    <div class="navbar-top-item-text navbar-top-item-icon dropdown-toggle">
+                                        <i class="ui-icon ui-icon-globe-top" aria-hidden="true"></i>bg
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="#">bg - Български</a>
+                                    <a class="dropdown-item" href="#">en - English</a>
+                                </div>
+                            </li>
+
+                            <li class="navbar-top-font-size">
+                                <div class="navbar-top-item">
+                                    <div class="navbar-top-item-text navbar-top-item-icon">
+                                        <a href="javascript:setFontSize(-1);" title="Намали шрифта"><i class="ui-icon ui-icon-font-size-minus" aria-hidden="true"></i></a><a href="javascript:setFontSize();"  title="Нормален шрифт"><i class="ui-icon ui-icon-font-size" aria-hidden="true"></i></a><a href="javascript:setFontSize(1);" title="Увеличи шрифта"><i class="ui-icon ui-icon-font-size-plus" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="navbar-top-subnav collapse">
+                <div class="fixed-content-width">
+
+                    <div class="navbar-top-subnav-container">
+                        <ul>
+                            <li><a class="navbar-top-subnav-item" href="#"><h3 class="navbar-top-subnav-title">Търговски регистър и регистър на ЮЛНЦ</h3></a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Електронни услуги</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Заявления</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Нормативна уредба</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Образци на документи</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Справки</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Видео уроци</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="navbar-top-subnav-divider"></div>
+
+                    <div class="navbar-top-subnav-container">
+                        <ul>
+                            <li><a class="navbar-top-subnav-item" href="#"><h3 class="navbar-top-subnav-title">Имотен регистър</h3></a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Електронни услуги</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Заявления</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Нормативна уредба</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Образци на документи</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Справки</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Видео уроци</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Калкулатор на държавни такси за услуги</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- <div class="navbar-top-subnav-divider d-lg-none"></div>
+
+                    <div class="navbar-top-subnav-container d-lg-none">
+                        <ul>
+                            <li><a class="navbar-top-subnav-item" href="#"><h3 class="navbar-top-subnav-title">Контакти</h3></a></li>
+                        </ul>
+                    </div> -->
+
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="content-wrapper">
+
+
+
+        <div class="page-header-wrapper">
+
+
+            <div class="breadcrumbs">
+                <div class="fixed-content-width">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Начало</a></li>
+                            <li class="breadcrumb-item"><a href="#">Имотен регистър</a></li>
+                            <li class="breadcrumb-item"><a href="#">Услуги</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Удостоверения по Закона за кадастъра и имотния регистър и Правилника за вписванията</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+
+            <div class="section-wrapper">
+                <div class="fixed-content-width">
+                    <div class="page-header">
+                        <div class="row">
+                            <div class="col">
+                                <h1 class="page-title">Удостоверения по Закона за кадастъра и имотния регистър и Правилника за вписванията</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="main-wrapper" class="main-wrapper">
+
+            <div class="page-wrapper">
+
+                <div class="section-wrapper section-wrapper--margins">
+                    <div class="fixed-content-width">
+
+                        <div class="card-page-collection">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit iste provident quaerat amet deleniti! Corrupti praesentium autem earum id nam voluptates hic, perferendis architecto, deleniti eaque consectetur nihil ipsam laboriosam!</p>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit iste provident quaerat amet deleniti! Corrupti praesentium autem earum id nam voluptates hic, perferendis architecto, deleniti eaque consectetur nihil ipsam laboriosam!</>
+                            <div class="card card-page">
+                                <div class="card-body card-page__body">
+
+                                    <p>
+                                        <b>Услуга:</b><br>
+                                        <i>527</i> - Удостоверения по Закона за кадастъра и имотния регистър и Правилника за вписванията
+                                    </p>
+                                    <p>Кратко описание на Удостоверения по Закона за кадастъра и имотния регистър и Правилника за вписванията</p>
+
+                                    <p>
+                                        <b>Услугата е вътрешноадминистративна</b><br>                                    
+                                    </p>         
+
+                                    <p>
+                                        <b>Вид режим:</b><br>
+                                        Разрешение
+                                    </p>
+
+                                    <p>
+                                        <b>На основание на:</b><br>
+                                    </p>
+                                    <ul>
+                                        <li>Закон за кадастъра и имотния регистър - чл. 93</li>
+                                        <li>Правилник за вписванията - чл. 44; чл. 45</li>
+                                    </ul>
+
+                                    <p>
+                                        <b>Орган по предоставянето на административната услуга:</b><br>
+                                        Изпълнителен директор
+                                    </p>
+                                    <p>
+                                        <b>Срок за предоставяне:</b><br>
+                                        1 до 7 работни дни
+                                    </p>
+                                    <p>
+                                        <b>Срок на действие на документа/индивидуалния административен акт:</b><br>
+                                        До вписване на нови промени
+                                    </p>
+                                    <p>
+                                        <b>Орган, осъществяващ контрол върху дейността на органа по предоставянето на услугата:</b><br>
+                                        Министър на правосъдието
+                                    </p>
+                                    <p>
+                                        <b>Орган, пред който се обжалва индивидуален административен акт:</b><br>
+                                        Съответният компетентен съд
+                                    </p>
+
+                                </div>
+                            </div>
+
+                            <section class="card card-page card--collapsible">
+
+                                <div class="card-header card-page__header collapsed" data-toggle="collapse" data-target="#collapsable-content-1" aria-expanded="false">
+                                    <h2 class="section-title section-title--page">
+                                            Административни звена, в които се подават документите и се получава информация за хода на преписката
+                                    </h2>
+                                    <button class="system-button toggle-collapse">
+                                        <i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+
+                                <div id="collapsable-content-1" class="collapse" >
+
+                                    <div class="card-body card-page__body">
+
+                                        <strong><em>Регионална дирекция - София</em></strong>
+                                        <ul>
+                                            <li><em>Адрес:</em> обл. София (столица), общ. Столична, гр. София, р-н Слатина, ул. "Елисавета Багряна" № 20, п.к. 1111</li>
+                                            <li><em>Код за междуселищно избиране:</em> 02</li>
+                                            <li><em>Телефон за връзка:</em> (02)9486112</li>
+                                            <li><em>Работно време:</em> Стандартно работно време, от 09:00 до 17:30, съгласно заповед</li>
+                                        </ul>
+                                        <br>
+
+                                        <strong><em>Регионална дирекция - Бургас</em></strong>
+                                        <ul>
+                                            <li><em>Адрес:</em> обл. Бургас, общ. Бургас, гр. Бургас, ул."Жени Патева" № 1, п.к. 8000</li>
+                                            <li><em>Код за междуселищно избиране:</em> 056</li>
+                                            <li><em>Телефон за връзка:</em> (056)87 84 80</li>
+                                            <li><em>Работно време:</em> Стандартно работно време, от 08:30 до 17:00, съгласно заповед</li>
+                                        </ul>
+                                        <br>
+
+                                        <strong><em>Регионална дирекция - Варна</em></strong>
+                                        <ul>
+                                            <li><em>Адрес:</em> обл. Варна, общ. Варна, гр. Варна, р-н Приморски, бул. "8-ми приморски полк" № 54, п.к. 9000</li>
+                                            <li><em>Код за междуселищно избиране:</em> 052</li>
+                                            <li><em>Телефон за връзка:</em> (052)786 434</li>
+                                            <li><em>Работно време:</em> Стандартно работно време, от 08:30 до 17:00, съгласно заповед</li>
+                                        </ul>
+
+                                    </div>
+                                </div>
+
+                            </section>
+
+                            <section class="card card-page card--collapsible">
+
+                                <div class="card-header card-page__header collapsed" data-toggle="collapse" data-target="#collapsable-content-2" aria-expanded="false">
+                                    <h2 class="section-title section-title--page">
+                                        Изисквания, процедури, инструкции
+                                    </h2>
+                                    <button class="system-button toggle-collapse">
+                                        <i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+
+                                <div id="collapsable-content-2" class="collapse" >
+
+                                    <div class="card-body card-page__body">
+
+                                            <p><strong>Видове удостоверения</strong></p>
+                                            <p>
+                                                <strong><em>Удостоверение за лице</em></strong><br>
+                                                Показва само вписванията, отбелязванията и заличаванията, направени на името на едно или няколко определени лица. Заявлението за издаване на удостоверение за лица трябва да съдържа:
+                                            </p>
+                                            <p>а) собственото, бащиното и фамилното име и постоянен адрес на лицето, до което се отнася справката, както и единния граждански номер, а когато няма такъв – мястото и датата на раждането.</p>
+                                            <p>б) когато лицето е едноличен търговец или юридическо лице се посочва БУЛСТАТ или ЕИК на фирмата,, съдът на регистрация, номер на фирмено дело, наименование, организационна форма и седалище. Към заявлението се прилага документ за платена държавна такса според избрания период за издаване на удостоверение.</p>
+                                            <p>
+                                            <strong><em>Удостоверение за имот</em></strong><br>
+                                            Отразява всички вписвания, отбелязвания и заличавания за тежести и права към момента на изготвянето му или пък се удостоверява, че такива няма.
+                                            Заявлението за издаване на това удостоверение трябва да съдържа:</p>
+                                            <p>а) данни за лицата, за които се отнася справката, и на техните преки праводатели;</p>
+                                            <p>б) пълно описание на недвижимия имот, местонахождението му, общината в която се намира и най-малко три от границите му.</p>
+                                            <p>
+                                            <strong><em>Удостоверение за период</em></strong><br>
+                                                Съдържа само вписванията, отбелязванията и заличаванията, които са направени за определен период от време, указан от лицето, по молба на което се издава удостоверението. Заявлението за издаване на това удостоверение трябва да съдържа данните за лицето или имота и периода, за който се иска удостоверението.
+                                            </p>
+                                            <br>
+                                            <p><strong>Заявяване на услугата</strong></p>
+                                            <p>Удостоверенията (писмените справки) се издават по писмена молба (образец) от лицето, която се подава в Службата по вписванията.</p>
+                                            <p><strong><em>Към заявлението се прилагат следните докумети:</em></strong></p>
+                                            <ul>
+                                                <li>копие от акта за собственост;</li>
+                                                <li>схема/скица от Агенция по Геодезия Картография и Кадастър с давност 6 месеца назад от датата на подаване на заявлението. Ако няма одобрена кадастрална карта за съответния район, се прилага удостоверение от същата служба;</li>
+                                                <li>при необходимост се предоставят следните документи: Удостоверение за наследници , Удостоверение за актуален административен адрес, Акт за сключен брак и други по преценка на Съдия по вписванията.</li>
+                                                <li>документ за платена държавна такса, според избрания период за издаване на удостоверението. Когато държавната такса е заплатена по електронен път, в службата по вписванията се представя заверен препис от електронния документ, възпроизведен на хартиен носител като препис, заверен от страна по акта, от нотариус или от банката, получила или извършила плащането.</>
+                                            </ul>
+                                            <br>
+                                            <p><strong>Получаване на услугата</strong></p>
+                                            <p>Получаването на услугата се извършва на гише в Службата по вписвания където е заявена услугата, лично от заявителя или от упълномощено от него лице, след представяне на платежния документ на който е вписан входящият номер на удостоверението.</p>
+                                            <p>Получаването се извършва в срок според избрания период за издаване на удостоверението.изведен на хартиен носител като препис, заверен от страна по акта, от нотариус или от банката, получила или извършила плащането.</P>
+
+                                    </div>
+                                </div>
+
+                            </section>
+
+                            <section class="card card-page card--collapsible">
+
+                                <div class="card-header card-page__header collapsed" data-toggle="collapse" data-target="#collapsable-content-3" aria-expanded="false">
+                                    <h2 class="section-title section-title--page">
+                                        Образци
+                                    </h2>
+                                    <button class="system-button toggle-collapse">
+                                        <i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+
+                                <div id="collapsable-content-3" class="collapse" >
+
+                                    <div class="card-body card-page__body">
+
+                                    <p>
+                                        <i class="ui-icon ui-icon-download-color" aria-hidden="true"></i>
+                                        <a href="#"> Удостоверение за вещни тежести/На основание чл. 47 от ПВ и във връзка с чл. 48 от ПВ/</a>
+                                    </p>
+                                    <p>
+                                        <i class="ui-icon ui-icon-download-color" aria-hidden="true"></i>
+                                        <a href="#"> Удостоверение по лице/На основание чл. 45 буква „а” и „в” от ПВ/</a>
+                                    </p>
+
+                                    </div>
+                                </div>
+
+                            </section>
+
+                            <section class="card card-page card--collapsible">
+
+                                <div class="card-header card-page__header collapsed" data-toggle="collapse" data-target="#collapsable-content-4" aria-expanded="false">
+                                    <h2 class="section-title section-title--page">
+                                        Нормативна уредба
+                                    </h2>
+                                    <button class="system-button toggle-collapse">
+                                        <i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+
+                                <div id="collapsable-content-4" class="collapse" >
+
+                                    <div class="card-body card-page__body">
+
+                                        <p>
+                                            <i class="ui-icon ui-icon-book" aria-hidden="true"></i>
+                                            Закон за кадастъра и имотния регистър
+                                        </p>
+                                        <p>
+                                            <i class="ui-icon ui-icon-book" aria-hidden="true"></i>
+                                            Правилник за вписванията
+                                        </p>
+                                        <p>
+                                            <i class="ui-icon ui-icon-book" aria-hidden="true"></i>
+                                            Тарифа за държавните такси, събирани от Агенция по вписванията
+                                        </p>
+
+                                    </div>
+                                </div>
+
+                            </section>
+
+                            <section class="card card-page card--collapsible">
+
+                                <div class="card-header card-page__header collapsed" data-toggle="collapse" data-target="#collapsable-content-5" aria-expanded="false">
+                                    <h2 class="section-title section-title--page">
+                                        Заплащане
+                                    </h2>
+                                    <button class="system-button toggle-collapse">
+                                        <i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+
+                                <div id="collapsable-content-5" class="collapse" >
+
+                                    <div class="card-body card-page__body">
+
+                                        <p><strong>За услугата се заплаща такса</strong></p>
+                                        <p><strong><em>За издаване на удостоверение по чл. 46 от Правилника за вписванията за извършени вписвания, отбелязвания и заличавания за определено лице се събират следните такси:</em></strong></p>
+                                        <ol>
+                                            <li>за издаване в срок до 7 работни дни - 5 лв.;</li>
+                                            <li>за издаване в срок до 3 работни дни - 10 лв.;</li>
+                                            <li>за издаване в срок до 8 работни часа - 25 лв.</li>
+                                        </ol>
+                                        <p><strong><em>За издаване на удостоверение по чл. 47 от Правилника за вписванията за извършенивписвания, отбелязвания и заличавания за един имот се събират следните такси:</em></strong></p>
+                                        <ol>
+                                        <li>за издаване в срок до 7 работни дни - 10 лв.;</li>
+                                        <li>за издаване в срок до 3 работни дни - 30 лв.</li>
+                                        </ol>
+                                        <p>При неспазване на сроковете по т. 1 и 2 таксата по т. 1 е в размер 5 лв., а по т. 2 - 10 лв.</p>
+                                        <p>Когато с едно заявление се иска удостоверение по чл. 46 от Правилника по вписванията за повече от едно лице, за всяко от лицата се издава отделно удостоверение и се събира съответната такса по т. 1.</p>
+                                        <p>Когато с едно заявление се иска удостоверение по чл. 47 от Правилника по вписванията за повече от един имот, за всеки имот се издава отделно удостоверение и се събира съответната такса по т. 2.</p>
+                                        <p><strong><em>Когато държавната такса е заплатена по електронен път, в службата по вписванията се представя заверен препис от електронния документ, възпроизведен на хартиен носител като препис, заверен от страна по акта, от нотариус или от банката, получила или извършила плащането.</em></strong></p>
+                                        <p><strong>Съгласно „Тарифа за държавните такси, събирани от Агенция по вписванията”.</strong></p>
+                                        <p><strong>Услугата може да бъде заплатена по един от следните начини:</strong></p>
+                                        <ul>
+                                            <li>на гише в административно звено за обслужване с банкова карта</li>
+                                            <li>по банков път</li>
+                                            <li>по електронен път</li>
+                                        </ul>
+
+                                    </div>
+                                </div>
+
+                            </section>
+
+                        </div>
+
+                        <div class="card card-page">
+                            <div class="card-body card-page__body">
+                                <div class="alert alert-warning" role="alert"><p>За да заявите услугата трябва да имате регистрация в портала и да притежавате електронен подпис.
+                                    За да сте сигурни, че вашия електронен подпис е съвместим със системата, можете да направите тестово подписване <a href="" class="alert-link"><b>тук</b></a>.</p></div>
+                            </div>
+                        </div>
+
+                        <div class="button-bar button-bar--page">
+                            <div class="left-side">
+                                <button type="button" class="btn btn-secondary">Виж всички услуги</button>
+                            </div>
+                            <div class="right-side">
+                                <button type="button" class="btn btn-primary">Заяви услугата</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer-wrapper">
+        <footer class="footer">
+            <div class="brand-line brand-line--footer"></div>
+            <div class="footer-links-container fixed-content-width">
+
+                    <ul>
+                        <li class="footer-link"><a href="#">Тестово подписване</a></li>
+                        <li class="footer-link"><a href="#">Банкови сметки</a></li>
+                        <li class="footer-link"><a href="#">Контакти</a></li>
+                    </ul>
+
+                    <ul>
+                        <li class="footer-link"><a href="#">Условия за ползване</a></li>
+                        <li class="footer-link"><a href="#">Бисквитки</a></li>
+                        <li class="footer-link"><a href="#">Помощ</a></li>
+                    </ul>
+
+                   <ul>
+                        <li class="footer-link"><a href="#">Политика за достъпност</a></li>
+                        <li class="footer-link"><a href="#">Политика за сигурност</a></li>
+                        <li class="footer-link"><a href="#">Политика за защита на личнитe данни</a></li>
+                   </ul>
+
+                    <ul>
+                        <li class="footer-link"><a href="#">Бюлетини</a></li>
+                        <li class="footer-link"><a href="#">Връзки</a></li>
+                        <li class="footer-link"><a href="#">Карта на сайта</a></li>
+                    </ul>
+
+            </div>
+
+            <div class="section-wrapper">
+                <div class="fixed-content-width">
+                    <div class="software-version">Версия: 0.5.0.1</div>
+                    <hr class="footer-divider">
+                </div>
+            </div>
+
+			<div class="row footer-containter fixed-content-width">
+
+					<div class="col-sm-8 order-sm-2">
+						<p class="footer-text">Проектът се осъществява с финансовата подкрепа на Оперативна програма „Добро управление”, съфинансирана от Европейския съюз чрез Европейския социален фонд</p>
+					</div>
+					<div class="col-6 col-sm-2 order-sm-1 text-center text-sm-left">
+						<img class="" src="images/footer-logo-eu.svg">
+					</div>
+					<div class="col-6 col-sm-2 order-sm-3 text-center text-sm-right">
+						<img class="" src="images/footer-logo-opdu.svg">
+					</div>
+
+			</div>
+		</footer>
+    </div>
+
+</div>
+
+
+	<!-- jQuery library -->
+	<script src="js/jquery-3.2.1.min.js"></script>
+
+
+	<!-- Latest compiled and minified Bootstrap JavaScript -->
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+
+	<!-- Page Scripst -->
+	<script>
+
+
+
+        // Show Navigation
+        function toggleNav() {
+
+            $(".navbar-top-container-right").toggleClass('d-flex');
+            $(".navbar-top-subnav").collapse('toggle');
+
+        };
+
+        function toggleSubnav() {
+            // $(".navbar-top-subnav").toggleClass("navbar-top-subnav--show");
+            $(".navbar-top-subnav").collapse('toggle');
+        };
+
+
+
+
+        // var scrollableConteiner = document.getElementById("header-wrapper");
+        // var afterScrollableConteiner = document.getElementById("main-wrapper");
+
+        // $(document).ready(function () {
+
+        //     scrollableConteiner.style.position = "fixed"; /* Make it stick/fixed */
+        //     scrollableConteiner.style.top = "0"; /* Stay on top */
+        //     scrollableConteiner.style.width = "100%"; /* Full width */
+        //     scrollableConteiner.style.transition = "top 0.3s"; /* Transition effect when sliding down (and up) */
+        //     scrollableConteiner.style.zIndex = "3000";
+
+        //     afterScrollableConteiner.style.marginTop = scrollableConteiner.clientHeight + "px";
+
+        // });
+
+		// $(window).resize(function () {
+        //     afterScrollableConteiner.style.marginTop = scrollableConteiner.clientHeight + "px";
+        // });
+
+        // /* When the user scrolls down, hide the navbar. When the user scrolls up, show the navbar */
+        // var prevScrollpos = window.pageYOffset;
+        // window.onscroll = function() {
+        // var currentScrollPos = window.pageYOffset;
+
+
+        // if (currentScrollPos > scrollableConteiner.clientHeight) {
+        //     if (prevScrollpos > currentScrollPos ) {
+        //         scrollableConteiner.style.top = "0";
+        //     } else {
+        //         scrollableConteiner.style.top = -scrollableConteiner.clientHeight + "px";
+        //         $(".navbar-top-subnav").collapse('hide');
+        //     }
+        //     prevScrollpos = currentScrollPos;
+        //     }
+        // }
+
+        function setFontSize(arg) {
+            var doc = document.getElementsByTagName ("HTML")[0];
+            switch(arg) {
+                case -1:
+                doc.style.fontSize = "12px";
+                break;
+                case 1:
+                doc.style.fontSize = "20px";
+                break;
+                default:
+                doc.style.fontSize = "16px";
+            }
+
+        }
+
+	</script>
+
+  </body>
+</html>

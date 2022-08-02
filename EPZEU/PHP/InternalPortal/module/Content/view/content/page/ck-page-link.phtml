@@ -1,0 +1,19 @@
+<select name="pageLink" id="pageLink" class="form-control" style="display: none;">
+	<option value="">Избери</option>
+
+	<? foreach ($pageList as $pageObj) { ?>
+		<option value="<?=$pageObj->getURL()?>"><?=$pageObj->getTitle()?></option>
+	<? } ?>
+
+</select>
+
+<script>
+$(document).ready(function() {
+	$('#pageLink').combobox()
+});
+</script>
+<?
+$this->headScript()->prependFile($this->basePath('js/jquery-ui.js'));
+$this->headScript()->appendFile($this->basePath('/js/combobox.js'), 'text/javascript');
+?>
+

@@ -1,0 +1,186 @@
+<? $this->headTitle('EP_SITE_MAPS_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_SITE_MAPS_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_SITE_MAPS_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+				<div class="card card-page">
+					<div class="card-body card-page__body">
+						<div class="site-map">
+
+								<ul>
+									<li>
+										<a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>">
+											<?=$this->translate('GL_HOME_L')?>
+										</a>
+									</li>
+									<li>
+
+										<a href="<?=$this->url('commercial_register', ['lang' => $this->language()->getCurrentLang()])?>">
+										<?=$this->translate('GL_CR_REG_NAME_L')?>
+										</a>
+										<ul>
+
+											<? $urlObj = $this->staticPage()->getPage('CR_SERVICES', $this->language()->getCurrentLang())?>
+											<li><a href="<?=$urlObj->url ?>"><?=$this->translate($urlObj->labelKey)?></a></li>
+
+											<? $urlObj = $this->staticPage()->getPage('CR_APPLICATIONS', $this->language()->getCurrentLang())?>
+											<li><a href="<?=$urlObj->url?>"><?=$this->translate($urlObj->labelKey)?></a></li>
+
+											<li><a href="<?=$this->url('legislation', ['lang' => $this->language()->getCurrentLang(), 'registerType' => 'cr'])?>"><?=$this->translate('EP_LEGISLATION_L')?></a></li>
+											<li><a href="<?=$this->url('document_template', ['lang' => $this->language()->getCurrentLang(), 'registerType' => 'cr'])?>"><?=$this->translate('EP_DOCUMENTS_L')?></a></li>
+
+											<? $urlObj = $this->staticPage()->getPage('CR_REPORTS', $this->language()->getCurrentLang())?>
+											<li><a href="<?=$urlObj->url?>"><?=$this->translate($urlObj->labelKey)?></a></li>
+
+											<li><a class="" href="<?=$this->url('video_lesson_list', ['lang' => $this->language()->getCurrentLang(), 'registerType' => 'cr'])?>"><?=$this->translate('EP_VIDEOS_L')?></a></li>
+											<li><a href="<?=$this->url('statistic', ['lang' => $this->language()->getCurrentLang(), 'registerType' => 'cr'])?>"><?=$this->translate('EP_STATISTICS_L')?></a></li>
+										</ul>
+									</li>
+
+									<li>
+										<a href="<?=$this->url('property_register', ['lang' => $this->language()->getCurrentLang()])?>">
+										<?=$this->translate('GL_PR_REG_NAME_L')?>
+										</a>
+
+										<ul>
+											<? $urlObj = $this->staticPage()->getPage('PR_SERVICES', $this->language()->getCurrentLang())?>
+											<li><a href="<?=$urlObj->url ?>"><?=$this->translate($urlObj->labelKey)?></a></li>
+
+											<? $urlObj = $this->staticPage()->getPage('PR_APPLICATIONS', $this->language()->getCurrentLang())?>
+											<li><a href="<?=$urlObj->url?>"><?=$this->translate($urlObj->labelKey)?></a></li>
+
+											<li><a href="<?=$this->url('legislation', ['lang' => $this->language()->getCurrentLang(), 'registerType' => 'pr'])?>"><?=$this->translate('EP_LEGISLATION_L')?></a></li>
+											<li><a href="<?=$this->url('document_template', ['lang' => $this->language()->getCurrentLang(), 'registerType' => 'pr'])?>"><?=$this->translate('EP_DOCUMENTS_L')?></a></li>
+
+											<? $urlObj = $this->staticPage()->getPage('PR_REPORTS', $this->language()->getCurrentLang())?>
+											<li><a href="<?=$urlObj->url?>"><?=$this->translate($urlObj->labelKey)?></a></li>
+
+											<li><a href="<?=$this->url('video_lesson_list', ['lang' => $this->language()->getCurrentLang(), 'registerType' => 'pr'])?>"><?=$this->translate('EP_VIDEOS_L')?></a></li>
+
+											<? $urlObj = $this->staticPage()->getPage('PR_STATE_FEE_CALCULATOR', $this->language()->getCurrentLang())?>
+											<li><a href="<?=$urlObj->url?>"><?=$this->translate($urlObj->labelKey)?></a></li>
+											<li><a href="<?=$this->url('statistic', ['lang' => $this->language()->getCurrentLang(), 'registerType' => 'pr'])?>"><?=$this->translate('EP_STATISTICS_L')?></a></li>
+
+										</ul>
+									</li>
+
+									<li>
+										<a href="<?=$this->url('login', ['lang' => $this->language()->getCurrentLang()])?>">
+											<?=$this->translate('GL_ENTRANCE_L')?>
+										</a>
+									</li>
+
+									<li>
+										<a href="<?=$this->url('register', ['lang' => $this->language()->getCurrentLang()])?>">
+											<?=$this->translate("GL_REGISTRATION_L")?>
+										</a>
+									</li>
+
+									<li>
+										<a href="<?=$this->url('forgot_password', ['lang' => $this->language()->getCurrentLang()])?>">
+											<?=$this->translate("EP_USR_FORG_PASS_L")?>
+										</a>
+									</li>
+
+									<li>
+										<a href="<?=$this->url('news_list', ['lang' => $this->language()->getCurrentLang()])?>">
+											<?=$this->translate('EP_CMS_NEWS_L')?>
+										</a>
+									</li>
+
+								    <li>
+								    	<? $urlObj = $this->staticPage()->getPage('EP_TEST_SIGNATURE', $this->language()->getCurrentLang())?>
+				                        <a href="<?=$urlObj->url?>">
+				                       		<?=$this->translate($urlObj->labelKey)?>
+				                        </a>
+								    </li>
+
+								    <li>
+									    <a href="<?=$this->url('bank_accounts', ['lang' => $this->language()->getCurrentLang()])?>">
+				                       		<?=$this->translate('EP_BANK_ACCOUNTS_L')?>
+				                        </a>
+								    </li>
+								    <li>
+									    <a href="<?=$this->url('redefined_page', ['lang' => $this->language()->getCurrentLang(), 'url' => 'contacts'])?>">
+											<?=$this->getTitleI18n('contacts')?>
+			                        	</a>
+		                        	</li>
+
+								    <li>
+								    	<a href="<?=$this->url('redefined_page', ['lang' => $this->language()->getCurrentLang(), 'url' => 'terms-of-use'])?>">
+											<?=$this->getTitleI18n('terms-of-use')?>
+				                        </a>
+								    </li>
+								    <li>
+									    <a href="<?=$this->url('redefined_page', ['lang' => $this->language()->getCurrentLang(), 'url' => 'cookies'])?>">
+											<?=$this->getTitleI18n('cookies')?>
+			                        	</a>
+								    </li>
+
+								    <li>
+								     	<a href="/help/">
+								    		<?=$this->translate('EP_PUBLIC_HELP_L')?>
+								    	</a>
+								    </li>
+
+								    <li>
+										<a href="<?=$this->url('redefined_page', ['lang' => $this->language()->getCurrentLang(), 'url' => 'accessibility-policy'])?>">
+											<?=$this->getTitleI18n('accessibility-policy')?>
+				                        </a>
+									</li>
+								    <li>
+									    <a href="<?=$this->url('redefined_page', ['lang' => $this->language()->getCurrentLang(), 'url' => 'security-policy'])?>">
+				                        	<?=$this->getTitleI18n('security-policy')?>
+				                        </a>
+								    </li>
+								    <li>
+								    	<a href="<?=$this->url('redefined_page', ['lang' => $this->language()->getCurrentLang(), 'url' => 'privacy-policy'])?>">
+		                        			<?=$this->getTitleI18n('privacy-policy')?>
+		                        		</a>
+		                        	</li>
+								    <li>
+									    <a href="<?=$this->url('bulletin_list', ['lang' => $this->language()->getCurrentLang()])?>">
+									    <?=$this->translate('EP_CMS_BULLETINS_L')?>
+									    </a>
+								    </li>
+								    <li>
+										<a href="<?=$this->url('redefined_page', ['lang' => $this->language()->getCurrentLang(), 'url' => 'links'])?>">
+				                        	<?=$this->getTitleI18n('links')?>
+										</a>
+									</li>
+								</ul>
+
+                            </div>
+						</div>
+ 					</div>
+				</div>
+			</div>
+		</div>
+</div>

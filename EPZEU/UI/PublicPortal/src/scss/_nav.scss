@@ -1,0 +1,46 @@
+/* ----  Nav  ---- */
+	
+.nav-tabs {	
+
+	margin-top:  $template-container-padding-vertical * 2;	
+	margin-bottom:  $template-container-padding-vertical * 3;	
+
+	
+	padding-left:  $template-container-padding-horizontal * 2;
+	padding-right:  $template-container-padding-horizontal * 2;
+	
+	@include media-breakpoint-down(sm) {
+		padding-left:  $template-container-padding-horizontal;
+		padding-right:  $template-container-padding-horizontal;
+	}
+
+	.nav-link {
+		text-decoration: none;
+		font-weight: bold;
+		font-size: 1rem;
+		line-height: 1.25;
+
+		padding: $template-container-padding-vertical $template-container-padding-horizontal * 2;
+
+		border-color: $gray-300;
+		background-color: $gray-100;
+
+		&.disabled {
+			border-color: $gray-300;
+		}
+		&:hover:not(.active) {
+			background-color: $gray-200;
+		}
+
+	}
+
+	.nav-item {
+		&.active {
+			@include media-breakpoint-down(xs) {
+				order: 100;
+			}					
+		}					
+	}
+}	
+	
+/* ----  /Nav  ---- */

@@ -1,0 +1,252 @@
+<? $this->headTitle('EP_CMS_ADD_NEWS_L'); ?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $lang])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_CONTENT_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><a href="<?=$this->url('news_list', ['lang' => $lang])?>"><?=$this->translate('EP_CMS_NEWS_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_ADD_NEWS_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_CMS_ADD_NEWS_L')?></h2>
+</div>
+
+<div class="card">
+
+	<?php
+	$newsForm->setAttribute('action', $this->url('add_news', ['lang' => $params->fromRoute('lang')]));
+	$newsForm->setAttribute('id', 'news-form');
+
+	$newsForm->prepare();
+
+	echo $this->form()->openTag($newsForm);
+	?>
+	<div class="card-body">
+
+		<?=$this->partial('partial/messages.phtml')?>
+
+
+		<div class="row">
+
+			<div class="col-sm-6 col-xl-4 form-group">
+				<?=$this->formRow($newsForm->get('registerId'))?>
+			</div>
+
+			<div class="col-sm-6 col-xl-4 form-group">
+				<label></label>
+				<?=$this->formRow($newsForm->get('isHotNews'), 'append', null, 'partial/checkbox')?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 col-lg-6 col-xxl-4 form-group">
+				<label class="required-field"><?=$this->translate('EP_CMS_DATЕ_NEWS_L')?></label>
+				<div class="row">
+
+					<div class="col-sm-6 col-md-7 col-lg-8 col-xl-8 form-group">
+				    	<div class="input-group date" id="newsDate" data-target-input="nearest">
+				            <?=$this->formRow($newsForm->get('newsDate'), null, false, "")?>
+				            <div class="input-group-append" data-target="#newsDate" data-toggle="datetimepicker">
+				           		<button class="btn btn-secondary" type="button">
+									<i class="ui-icon ui-icon-calendar"></i>
+								</button>
+				            </div>
+				        	<?=$this->FormElementErrors($newsForm->get('newsDate'))?>
+						</div>
+					</div>
+
+					<div class="col-sm-6 col-md-5 col-lg-4 col-xl-4 form-group">
+						<div class="input-group date" id="newsTime" data-target-input="nearest">
+							<?=$this->formRow($newsForm->get('newsTime'), null, false)?>
+							<div class="input-group-append" data-target="#newsTime" data-toggle="datetimepicker">
+			             		<button class="btn btn-secondary" type="button">
+			         				<i class="ui-icon ui-icon-clock"></i>
+			             		</button>
+			            	</div>
+			            	<?=$this->FormElementErrors($newsForm->get('newsTime'))?>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="col-sm-12 col-lg-6 col-xxl-4 form-group">
+				<label><?=$this->translate('EP_CMS_DATЕ_EXPIRED_L')?></label>
+				<div class="row">
+
+					<div class="col-sm-6 col-md-7 col-lg-8 col-xl-8 form-group">
+				    	<div class="input-group date" id="expirationDate" data-target-input="nearest">
+				            <?=$this->formRow($newsForm->get('expirationDate'), null, false)?>
+				            <div class="input-group-append" data-target="#expirationDate" data-toggle="datetimepicker">
+				           		<button class="btn btn-secondary" type="button">
+									<i class="ui-icon ui-icon-calendar"></i>
+								</button>
+				            </div>
+				        	<?=$this->FormElementErrors($newsForm->get('expirationDate'))?>
+						</div>
+					</div>
+
+					<div class="col-sm-6 col-md-5 col-lg-4 col-xl-4 form-group">
+						<div class="input-group date" id="expirationTime" data-target-input="nearest">
+							<?=$this->formRow($newsForm->get('expirationTime'), null, false)?>
+							<div class="input-group-append" data-target="#expirationTime" data-toggle="datetimepicker">
+			             		<button class="btn btn-secondary" type="button">
+			         				<i class="ui-icon ui-icon-clock"></i>
+			             		</button>
+			            	</div>
+			            	<?=$this->FormElementErrors($newsForm->get('expirationTime'))?>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="row">
+
+			<div class="col-sm-12 form-group">
+				<?=$this->formRow($newsForm->get('title'), null, true)?>
+			</div>
+			<div class="col-sm-12 form-group">
+				<?=$this->formRow($newsForm->get('shortDescription'))?>
+
+				<? if ($this->FormElementErrors($newsForm->get('shortDescription'))) { ?>
+					<script>
+						CKEDITOR.on('instanceReady', function() {
+							$('#cke_description').addClass('input-error');
+						});
+					</script>
+				<? } ?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<?=$this->formRow($newsForm->get('description'))?>
+
+				<? if ($this->FormElementErrors($newsForm->get('description'))) { ?>
+					<script>
+						CKEDITOR.on('instanceReady', function() {
+							$('#cke_description').addClass('input-error');
+						});
+					</script>
+				<? } ?>
+			</div>
+		</div>
+
+
+
+		<div class="row">
+
+			<!-- Изображения -->
+			<div class="col-6">
+				<label><?=$this->translate('EP_CMS_IMG_L')?></label>
+				<div class="row d-none" id="section-image">
+					<div class="col-12">
+						<ul id="image-list" class="custom-image-list float-left">
+						</ul>
+					</div>
+					<?=$this->formRow($newsForm->get('deletedImages'))?>
+				</div>
+
+				<div class="row" id="section-upload-image">
+					<div class="col-12 col-lg-6">
+					<label> </label>
+						<?=$this->partial('partial\image-uploader.phtml', [
+								'imageArr' => $imageArr,
+								'singleFile' => true,
+								'sufix' => 'newsImage',
+								'maxImageSize' => $config['EP_CMS_IMAGE_MAX_FILE_SIZE']
+						])?>
+						<?=$this->formRow($newsForm->get('images'), null, true, "")?>
+					</div>
+				</div>
+			</div>
+
+			<!-- Документи -->
+			<div class="col-12 col-lg-6">
+				<?=$this->partial('partial\uploader.phtml', [
+						'setCustomName' => true,
+						'fileArr' => $fileArr,
+						'sectionLabel' => $this->translate('GL_DOCUMENTS_ATTACHED_L'),
+						'maxFileSize'  => $config['GL_DOCUMENT_MAX_FILE_SIZE']
+				])?>
+				<?=$this->formRow($newsForm->get('files'), null, true, "")?>
+
+				<div class="help-text-inline"><?=$this->translate('EP_CMS_MANDATORY_NAME_FILE_E')?></div>
+
+			</div>
+
+
+		</div>
+
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url('news_list', ['lang' => $lang])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<?=$this->formSubmit($newsForm->get('submit'));?>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+</div>
+
+
+
+<?$this->headScript()->appendFile($this->basePath('js/ckeditor/ckeditor.js'));?>
+
+<?$this->headLink()->appendStylesheet($this->basePath('js/bootstrap-4-datepicker/css/tempusdominus-bootstrap-4.min.css'));?>
+<?$this->headScript()->prependFile($this->basePath('js/bootstrap-4-datepicker/js/tempusdominus-bootstrap-4.min.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/moment-with-locales.min.js'));?>
+
+<script type="text/javascript">
+
+	$(document).on('submit', '#news-form', function(){
+		showGlobalLoader();
+	});
+
+    $(function () {
+
+         $('#newsDate').datetimepicker({
+        	useCurrent: false,
+        	format: "DD.MM.YYYY",
+        	locale: moment.locale('bg')
+        	<?php if ($params->fromQuery('dateTo')) { ?>
+			,
+    		maxDate: '<?=\Application\Service\AppService::getSqlDate($params->fromQuery('dateTo'))?>'
+        	<?php } ?>
+	    });
+
+        $('#expirationDate').datetimepicker({
+            useCurrent: false,
+            format: "DD.MM.YYYY",
+            locale: moment.locale('bg')
+            <?php if ($newsForm->get('expirationDate')->getValue()) { ?>
+			,
+    		minDate: '<?=\Application\Service\AppService::getSqlDate($newsForm->get('expirationDate')->getValue())?>'
+        	<?php } ?>
+        });
+
+        $("#newsDate").on("change.datetimepicker", function (e) {
+           $('#expirationDate').datetimepicker('minDate', e.date);
+        });
+        $("#expirationDate").on("change.datetimepicker", function (e) {
+           $('#dateFrom').datetimepicker('maxDate', e.date);
+        });
+
+    });
+
+
+	$(function () {
+		$('#newsTime, #expirationTime').datetimepicker({
+			useCurrent: false,
+			format: "HH:mm",
+			locale: moment.locale('bg')
+		});
+	});
+</script>

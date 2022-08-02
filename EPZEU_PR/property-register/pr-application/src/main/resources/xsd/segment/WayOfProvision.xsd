@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+	xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+    xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+
+	<xsd:include schemaLocation="RegistryOffice.xsd" />
+    <xsd:include schemaLocation="ServiceType.xsd" />
+    <xsd:include schemaLocation="WayOfProvisionBaseData.xsd" />
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+	<xsd:complexType name="WayOfProvision" >
+		<xsd:annotation>
+			<xsd:documentation xml:lang="bg">Начин на предоставяне на услуга</xsd:documentation>
+		</xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="WayOfProvisionBaseData">
+                <xsd:sequence>
+                    <xsd:element name="ReceivingOffice" type="RegistryOffice" minOccurs="0"/>
+                    <xsd:element name="ServiceTypeId" type="val:ServiceTypeId" />
+                    <xsd:element name="ServiceTypeEpzeu" type="ServiceType" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+	</xsd:complexType>
+
+</xsd:schema>

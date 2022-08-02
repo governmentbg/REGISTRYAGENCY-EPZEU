@@ -1,0 +1,426 @@
+<!-- DOCTYPE -->
+<!DOCTYPE html>
+<html lang="bg">
+    <head>
+        <meta charset="utf-8">
+        <title>Регистър "Електронни административни услуги на Имотен регистър"</title>
+
+        <!-- Viewport Meta Tag -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <base href="../">
+        <!-- jquery-ui css -->
+        <link rel="stylesheet" href="css/jquery-ui.css" />
+
+        <!-- For tempusdominus-bootstrap-4 datetimepicker -->
+        <link rel="stylesheet" href="css/tempusdominus-bootstrap-4.min.css" />
+
+        <!-- Fonts -->
+        <link href="css/fonts.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="css/style.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="images/favicon.ico" />
+        <link rel="icon" type="image/ico"href="images/favicon.ico" />
+    </head>
+
+<body>
+
+
+
+<div id="react-app">
+<div id="react-layout">
+
+	<div id="header-wrapper">
+
+        <header id="header" class="header">
+            <div class="row header-container">
+                <div class="col-sm-auto">
+                    <img class="registryagency-text d-none d-lg-inline-block" src="images/registryagency-text.svg"><img class="registryagency-logo" src="images/registryagency-logo.svg"><div class="divider d-none d-sm-inline-block"></div>
+                </div>
+                <div class="col-sm header-title header-title--register">
+                    <h1>Служебни справки за електронни услуги от Имотен регистър</h1>
+                    <!-- <p>Служебни справки</p> -->
+                </div>
+            </div>
+
+            <div class="brand-line"></div>
+        </header>
+
+		<nav id="navbar-top">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-2">
+						<a class="navbar-minimalize"><i class="ui-icon ui-icon-menu" aria-hidden="true"></i></a>
+					</div>
+                    <div class="col-10"><button class="system-button float-right" title="Помощ"><i class="ui-icon ui-icon-help navbar-top-icon" aria-hidden="true"></i></button><div class="horizontal-divider float-right"></div><div class="navbar-top-font-size float-right"><a href="javascript:setFontSize(-1);" title="Намали шрифта"><i class="ui-icon ui-icon-font-size-minus navbar-top-icon" aria-hidden="true"></i></a><a href="javascript:setFontSize();" title="Нормален шрифт"><i class="ui-icon ui-icon-font-size navbar-top-icon" aria-hidden="true"></i></a><a href="javascript:setFontSize(1);" title="Увеличи шрифта"><i class="ui-icon ui-icon-font-size-plus navbar-top-icon" aria-hidden="true"></i></a></div><div class="horizontal-divider float-right"></div><div class="dropdown float-right"><button class="system-button user-profile dropdown-toggle" href="#" data-toggle="dropdown"><i class="ui-icon ui-icon-user navbar-top-icon" aria-hidden="true"></i>dragomir_petkanov@cnsys.bg</button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <!-- <a class="dropdown-item" href="#">Профил</a>
+                                <a class="dropdown-item" href="#">Конфигурация</a>
+                                <div class="dropdown-divider"></div> -->
+                                <a class="dropdown-item" href="#">Изход</a>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+
+		</nav>
+
+	</div>
+
+    <div id="main-wrapper">
+            
+		<div id="content-wrapper">
+
+			<nav id="navbar-left">
+
+				<ul>
+                    <li><a href="reports_IR/tr_ui_admin_Преглед на подадените заявления за е-услуги от имотен регистър.html" class=""><i class="nav-icon nav-icon-documents"></i><span>Подадени заявления за е-услуги</span></a></li>
+                    <li><a href="reports_IR/tr_ui_admin_Изпълнени справки чрез отдалечен достъп от имотен регистър от конкретни потребители.html" class=""><i class="nav-icon nav-icon-users"></i><span>Изпълнени справки от конкретни потребители</span></a></li>
+                    <li><a href="reports_IR/tr_ui_admin_Изпълнени справки чрез отдалечен достъп от имотен регистър за избрани обекти.html"  class=""><i class="nav-icon nav-icon-services"></i><span>Изпълнени справки за избрани обекти</span></a></li>
+                    <li><a href="javascript://" class="active"><i class="nav-icon nav-icon-statistics"></i><span>Статистически отчети за изпълнени справки</span></a>
+                        <ul>                                                
+                            <li><a href="reports_IR/tr_ui_admin_Статистически отчет за изпълнени справки по вид справка и начин на предоставяне.html"><span>По вид справка и начин на предоставяне</span></a></li>
+                            <li><a href="reports_IR/tr_ui_admin_Статистически отчет за изпълнени справки по вид справка и по потребители със специален достъп.html" class="selected"><span>По вид справка и по потребители със специален достъп</span></a></li>                                                    
+                        </ul>
+                    </li>	
+				</ul>
+
+			</nav>
+
+			<div id="page-wrapper">
+
+				<div class="container-fluid" >
+
+                    <!-- <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Начало</a></li>
+                            <li class="breadcrumb-item"><a href="#">Справки</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Преглед на подадените заявления за е-услуги от имотен регистър</li>
+                        </ol>
+                    </nav> -->
+
+                    <div class="page-title">
+                        <h2>Статистически отчет за изпълнени справки с отдалечен достъп по вид справка и по потребители със специален достъп</h2>
+                    </div>
+
+                    <div class="card">
+
+                        <div class="card-header">
+                            <h3>Търсене
+                                <button class="system-button toggle-collapse" data-toggle="collapse" data-target="#collapsable-content">
+                                    <i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+                                </button>
+                            </h3>
+                        </div>
+
+                        <div id="collapsable-content" class="collapse show">
+
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-sm-12  col-lg-6 col-xxl-3">
+                                        <label for="">Период на заявяване</label>
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <div class="d-flex">
+                                                    <label class="mr-2 col-form-label">от</label>
+                                                    <div class="input-group date-control">
+                                                        <input class="form-control" value="03.04.2019" type="text">
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-secondary" type="button">
+                                                                <i class="ui-icon ui-icon-calendar"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <div class="d-flex">
+                                                    <label class="mr-2 col-form-label">до</label>
+                                                    <div class="input-group date-control">
+                                                        <input class="form-control" value="03.04.2019" type="text">
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-secondary" type="button">
+                                                                <i class="ui-icon ui-icon-calendar"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+
+                                <div class="button-bar">
+                                        <div class="left-side">
+                                            <button type="button" class="btn btn-secondary">Изчисти</button>
+                                        </div>
+                                        <div class="right-side">
+                                            <button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search"></i> Търси</button>
+                                        </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="alert alert-dismissible alert-success fade show">
+                                        <button type="button" class="close" data-dismiss="alert">×</button>
+                                        Даннтите бяха експортирани успешно!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-navbar">
+                                <div class="button-bar">
+                                    <div class="left-side">
+                                    </div>
+                                    <div class="right-side">
+                                        <button type="button" class="btn btn-secondary">
+                                            <i class="ui-icon ui-icon-download"></i>
+                                            Експорт в Excel формат
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            <i class="ui-icon ui-icon-download"></i>
+                                            Експорт в PDF формат
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                                                   
+                            <!-- table -->
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <colgroup>
+                                        <col span="11">
+                                        <col span="2" class="table-secondary">
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" class="text-center w-10">Вид потребители със специален достъп</th>
+                                            <th colspan="10" class="text-center">Видове справки чрез отдалечен достъп</th>
+                                            <th colspan="2" rowspan="2" class="text-center">Общо справки</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-center">Имот</th>
+                                            <th colspan="2" class="text-center">Лице в избрана СВ</th>
+                                            <th colspan="2" class="text-center">Лице във всички СВ</th>
+                                            <th colspan="2" class="text-center">Документ</th>
+                                            <th colspan="2" class="text-center">Партида</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-right"></th>
+                                            <th class="text-right">брой</th>
+                                            <th class="text-right">%</th>
+                                            <th class="text-right">брой</th>
+                                            <th class="text-right">%</th>
+                                            <th class="text-right">брой</th>
+                                            <th class="text-right">%</th>
+                                            <th class="text-right">брой</th>
+                                            <th class="text-right">%</th>
+                                            <th class="text-right">брой</th>
+                                            <th class="text-right">%</th>
+                                            <th class="text-right">брой</th>
+                                            <th class="text-right">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-right">Без спец. достъп</th>
+                                            <td class="text-right">600</td>
+                                            <td class="text-right">54,55%</td>
+                                            <td class="text-right">20</td>
+                                            <td class="text-right">57,14%</td>
+                                            <td class="text-right">15</td>
+                                            <td class="text-right">65,22%</td>
+                                            <td class="text-right">80</td>
+                                            <td class="text-right">61,54%</td>
+                                            <td class="text-right">300</td>
+                                            <td class="text-right">81,08%</td>
+                                            <td class="text-right">995</td>
+                                            <td class="text-right">61,31%</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-right">Нотариуси</th>
+                                            <td class="text-right">400</td>
+                                            <td class="text-right">36,36%</td>
+                                            <td class="text-right">10</td>
+                                            <td class="text-right">28,57%</td>
+                                            <td class="text-right">5</td>
+                                            <td class="text-right">21,74%</td>
+                                            <td class="text-right">40</td>
+                                            <td class="text-right">30,77%</td>
+                                            <td class="text-right">50</td>
+                                            <td class="text-right">13,51%</td>
+                                            <td class="text-right">495</td>
+                                            <td class="text-right">30,50%</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-right">ЧСИ</th>
+                                            <td class="text-right">100</td>
+                                            <td class="text-right">9,09%</td>
+                                            <td class="text-right">5</td>
+                                            <td class="text-right">14,29%</td>
+                                            <td class="text-right">3</td>
+                                            <td class="text-right">13,04%</td>
+                                            <td class="text-right">10</td>
+                                            <td class="text-right"></td>
+                                            <td class="text-right">20</td>
+                                            <td class="text-right"></td>
+                                            <td class="text-right">133</td>
+                                            <td class="text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-right">…</th>
+                                            <td class="text-right">…</td>
+                                            <td class="text-right">…</td>
+                                            <td class="text-right">…</td>
+                                            <td class="text-right">…</td>
+                                            <td class="text-right">…</td>
+                                            <td class="text-right">…</td>
+                                            <td class="text-right">…</td>
+                                            <td class="text-right">…</td>
+                                            <td class="text-right">…</td>
+                                            <td class="text-right">…</td>
+                                            <td class="text-right">…</td>
+                                            <td class="text-right">…</td>
+                                        </tr>
+                                        <tr class="table-warning font-weight-bold">
+                                            <td class="text-right">Всичко</td>
+                                            <td class="text-right">1100</td>
+                                            <td class="text-right">100,00%</td>
+                                            <td class="text-right">35</td>
+                                            <td class="text-right">100,00%</td>
+                                            <td class="text-right">23</td>
+                                            <td class="text-right">100,00%</td>
+                                            <td class="text-right">130</td>
+                                            <td class="text-right">100,00%</td>
+                                            <td class="text-right">370</td>
+                                            <td class="text-right">100,00%</td>
+                                            <td class="text-right">1623</td>
+                                            <td class="text-right">100,00%</td>
+                                        </tr>
+                        
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- /table -->                                
+                            
+                        </div>
+                    </div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div id="footer-wrapper">
+		<footer id="footer">
+			<div class="software-version">версия: 1.4.7.9</div>
+			<div class="brand-line"></div>
+			<div class="container-fluid footer-containter">
+				<div class="row">
+					<div class="col-md-8 col-xl-10 order-md-2 text-center">
+						<p>Проектът се осъществява с финансовата подкрепа на Оперативна програма „Добро управление”, съфинансирана от Европейския съюз чрез Европейския социален фонд</p>
+					</div>
+					<div class="col-6 col-md-2 col-xl-1 order-md-1 text-center" >
+						<img class="" src="images/footer-logo-eu.svg">
+					</div>
+					<div class="col-6 col-md-2 col-xl-1 order-md-3 text-center">
+						<img class="" src="images/footer-logo-opdu.svg">
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+
+    <!-- <div class="loader-overlay freeze load" onclick="$(this).removeClass('load freeze')"></div> -->
+</div>
+</div>
+
+
+	<!-- jQuery library -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+
+	<!-- Latest compiled and minified Bootstrap JavaScript -->
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+
+	<!-- Page Scripst -->
+	<script>
+
+		$(document).ready(function () {
+
+
+			// Minimalize Left Navigation
+			$('.navbar-minimalize').on('click', function () {
+				$("#main-wrapper").toggleClass("mini-navbar-left");
+			});
+
+			// Activate Left Navigation
+
+			$("#navbar-left li ul").addClass("collapse");
+			$("#navbar-left ul").closest('li').find('>a').append("<i class='ui-icon ui-icon-chevron-right collapse-arrow' aria-hidden='true'></i>");
+
+
+			$("#navbar-left ul").on('show.bs.collapse', function (e) {
+				$(e.currentTarget).closest('li').find('>a .collapse-arrow').toggleClass('rotate-90');
+				e.stopImmediatePropagation();
+			});
+
+			$("#navbar-left ul").on('hide.bs.collapse', function (e) {
+				$(e.currentTarget).closest('li').find('>a .collapse-arrow').toggleClass('rotate-90');
+				e.stopImmediatePropagation();
+			});
+
+			$("#navbar-left a").click(function(e) {
+				$(this).closest('li').find('>ul').collapse('toggle');
+				$(this).closest('ul').find('li ul.collapse').collapse('hide');
+				$(this).closest('ul').find('li a').removeClass("selected");
+				$(this).addClass("selected");
+
+			});
+
+
+        });
+
+        function setFontSize(arg) {
+            var doc = document.getElementsByTagName ("HTML")[0];
+            switch(arg) {
+                case -1:
+                doc.style.fontSize = "12px";
+                break;
+                case 1:
+                doc.style.fontSize = "20px";
+                break;
+                default:
+                doc.style.fontSize = "16px";
+            }
+        }
+
+
+
+	</script>
+
+  </body>
+</html>
+
+
+

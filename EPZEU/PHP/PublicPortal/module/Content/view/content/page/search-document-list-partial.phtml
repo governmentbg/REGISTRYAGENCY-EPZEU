@@ -1,0 +1,10 @@
+<? foreach ($documentList as $page) {?>
+	<article class="article article--news">
+		<h3 class="article-title">
+			<a href="<?=$this->url('nested_page_file_download', ['fileId' => $page->getPageId(), 'timestamp' => strtotime($page->getUpdatedOn())])?>">
+				<?=$page->getTitle()?>
+			</a>
+		</h3>
+	</article>
+
+<? } ?>

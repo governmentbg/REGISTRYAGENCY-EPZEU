@@ -1,0 +1,186 @@
+<?php
+$this->headTitle('EP_CMS_BAAN_WORDS_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_FORUM_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_BAAN_WORDS_L')?></li>
+	</ol>
+</nav>
+
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_CMS_BAAN_WORDS_L')?></h2>
+</div>
+
+<div class="card">
+
+	<div class="card-header">
+		<h3><?=$this->translate('GL_SEARCHING_L')?>
+			<button class="system-button toggle-collapse" data-toggle="collapse" data-target="#collapsable-content">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+		</h3>
+	</div>
+
+	<div id="collapsable-content" class="collapse show">
+		<?
+		$searchForm->setAttribute('method', 'get');
+		$searchForm->setAttribute('action', $this->url('forbidden_word_list', ['lang' => $params->fromRoute('lang')]));
+		$searchForm->setAttribute('class', 'needs-validation');
+		$searchForm->prepare();
+
+		echo $this->form()->openTag($searchForm);
+		?>
+
+		<div class="card-body">
+
+			<?=$this->formRow($searchForm->get('search'))?>
+
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<?=$this->formRow($searchForm->get('word'))?>
+				</div>
+			</div>
+		</div>
+
+		<div class="card-footer">
+			<div class="button-bar">
+				<a href="<?=$this->url('forbidden_word_list', ['lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+				<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+			</div>
+		</div>
+
+		<?=$this->form()->closeTag();?>
+
+	</div>
+</div>
+
+<div class="card">
+	<div class="card-body">
+
+	<?=$this->partial('partial/messages.phtml')?>
+
+	<?if ($this->isAllowed('add_forbidden_word')) { ?>
+		<div class="card-navbar">
+			<div class="button-bar">
+				<div class="left-side"></div>
+				<div class="right-side">
+					<a href="<?=$this->url('add_forbidden_word', ['lang' => $params->fromRoute('lang')])?>" class="btn btn-primary" role="button" aria-pressed="true">
+					<i class="ui-icon ui-icon-plus-white"></i>
+					<?=$this->translate('EP_CMS_ADD_BAAN_WORD_L')?>
+					</a>
+				</div>
+			</div>
+		</div>
+	<?}?>
+
+	<?if ($params->fromQuery('search') || $forbiddenWordList->count()) { ?>
+
+		<?if ($forbiddenWordList->count()) { ?>
+
+			<nav class="button-bar" aria-label="Page navigation">
+				<div class="pagination-container">
+					<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+					<ul class="sync-pagination"></ul>
+				</div>
+			</nav>
+
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped table-hover">
+					<thead>
+					<tr>
+						<th><?=$this->translate('EP_CMS_BAAN_WORD_L')?></th>
+						<? if ($this->isAllowed('edit_forbidden_word') || $this->isAllowed('delete_forbidden_word')) { ?>
+							<th class="w-10"><?=$this->translate('GL_ACTIONS_L')?></th>
+						<? } ?>
+					</tr>
+					</thead>
+					<tbody id="content">
+						<?=$this->partial('forum/forum/forbidden-word-list-partial.phtml')?>
+					</tbody>
+				</table>
+			</div>
+
+			<nav class="button-bar" aria-label="Page navigation">
+				<div class="pagination-container">
+					<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+					<ul class="sync-pagination"></ul>
+				</div>
+			</nav>
+
+			<?
+				$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+				$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+			?>
+
+			<script type="text/javascript">
+				pagination('.sync-pagination', '#content', <?=$totalPages?>);
+			</script>
+
+		<? } else { ?>
+			<div class="alert alert-warning" role="alert">
+				<?=$this->translate('GL_NO_RESULTS_I')?>
+			</div>
+		<? }
+	}?>
+	</div>
+</div>
+
+<?=$this->partial('partial/modal-confirm.phtml')?>
+
+<script>
+
+var oldForbiddenWord = '';
+
+/**
+ * Редактира забранена дума
+ */
+function editForbiddenWord(forbiddenWordId) {
+	$('.preview-'+forbiddenWordId).hide();
+	$('.edit-'+forbiddenWordId).removeClass('d-none');
+
+	if ($('#edit-forbidden-word-'+forbiddenWordId+' .invalid-feedback').length <= 0)
+		oldForbiddenWord = '';
+
+	if (oldForbiddenWord == '') {
+		oldForbiddenWord = $('.edit-forbidden-word-'+forbiddenWordId +' input[name="forbiddenWordValue"]').val();
+		$('.edit-forbidden-word-'+forbiddenWordId +' input[name="forbiddenWordValue"]').val(oldForbiddenWord);
+	}
+}
+
+/**
+ * Отказ на редакция на забранена дума
+ */
+function cancelEditForbiddenWord(forbiddenWordId) {
+
+	$("#edit-row-"+forbiddenWordId+" .invalid-feedback").remove();
+
+	$('.edit-'+forbiddenWordId).addClass('d-none');
+	$('.preview-'+forbiddenWordId).show();
+
+	$('.edit-'+forbiddenWordId+' input[name="forbiddenWordValue"]').val(oldForbiddenWord);
+}
+
+/**
+ * Запис на промяна на забранена дума
+ */
+function saveForbiddenWordChanges(forbiddenWordId) {
+
+	stripTags(forbiddenWordId);
+
+	$("#edit-row-"+forbiddenWordId+" .invalid-feedback").remove();
+
+	var forbiddenWordValue = $('.edit-'+forbiddenWordId +' input[name="forbiddenWordValue"]').val();
+
+	ajaxRequest('', {'updateForbiddenWord': 1, 'id':forbiddenWordId, 'forbiddenWord': forbiddenWordValue}, '#edit-forbidden-word-'+forbiddenWordId, '.edit-forbidden-word-'+forbiddenWordId);
+
+	if (forbiddenWordValue)
+		$('.edit-forbidden-word-'+forbiddenWordId+' .preview-'+forbiddenWordId+' .forbidden-word-value').html(forbiddenWordValue);
+
+	$('.edit-'+forbiddenWordId).addClass('d-none');
+	$('.preview-'+forbiddenWordId).show();
+}
+</script>

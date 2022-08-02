@@ -1,0 +1,198 @@
+<?php
+$this->headTitle('EP_NOM_EDIT_LABELS_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_GL_NOMENCLATURES_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_NOM_EDIT_LABELS_L')?></li>
+	</ol>
+</nav>
+
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_NOM_EDIT_LABELS_L')?></h2>
+</div>
+
+<div class="card">
+
+	<div class="card-header">
+		<h3><?=$this->translate('EP_NOM_SEARCH_LABELS_L')?>
+			<button class="system-button toggle-collapse" data-toggle="collapse" data-target="#collapsable-content">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+		</h3>
+	</div>
+
+	<div id="collapsable-content" class="collapse show">
+
+	<?php
+	$searchForm->setAttribute('action', $this->url('label_list', ['lang' => $lang]));
+	$searchForm->prepare();
+
+	echo $this->form()->openTag($searchForm);
+	?>
+	<div class="card-body">
+		<div class="row">
+			<div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-4">
+				<?=$this->formRow($searchForm->get('code'), null, true)?>
+			</div>
+			<div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-4">
+				<?=$this->formRow($searchForm->get('value'))?>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url(null, ['lang' => $lang])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+			<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+
+	</div>
+</div>
+
+
+<div class="card">
+	<div class="card-body">
+
+	<div id="request-messages"></div>
+
+	<?php if ($labelList->count()) { ?>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+			<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+			<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<thead>
+				<tr>
+					<th><?=$this->translate('GL_CODE_L')?></th>
+					<th><?=$this->translate('GL_TEXT_L')?></th>
+					<th><?=$this->translate('GL_DESCRIPTION_L')?></th>
+					<? if ($this->isAllowed('label_edit')) { ?>
+					<th><?=$this->translate('GL_ACTIONS_L')?></th>
+					<? } ?>
+				</tr>
+				</thead>
+				<tbody id="content">
+					<?=$this->partial('nomenclature/nomenclature/label-list-partial.phtml')?>
+				</tbody>
+			</table>
+		</div>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+			<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+			<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<?php
+			$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+			$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+		?>
+
+		<script type="text/javascript">
+			pagination('.sync-pagination', '#content', <?=$totalPages?>);
+		</script>
+
+	<?php } else { ?>
+		<div class="alert alert-warning" role="alert">
+			<?=$this->translate('EP_NOM_NO_LABELS_E')?>
+		</div>
+	<?php } ?>
+	</div>
+</div>
+<?=$this->headScript()->prependFile($this->basePath('js/ckeditor/ckeditor.js'));?>
+
+<script>
+/**
+ * Редактира лейбъл
+ */
+function editLabel(labelId, labelCode) {
+
+	lblCode = typeof labelCode !== 'undefined' ? labelCode : false;
+
+	var htmlLabelArray = <?=json_encode($htmlLabelList)?>;
+
+	$('.preview-'+labelId).hide();
+	$('.edit-'+labelId).removeClass('d-none');
+
+	$('#labelValue-'+labelId).removeClass('ckeditor-basic');
+
+	if (!CKEDITOR.instances['description-'+labelId])
+		CKEDITOR.replace('description-'+labelId, {toolbar: 'LabelDescription', height: 100});
+
+	if (htmlLabelArray.length > 0 && htmlLabelArray.indexOf(lblCode) !== -1) {
+
+		if (!CKEDITOR.instances['labelValue-'+labelId])
+			CKEDITOR.replace('labelValue-'+labelId, {toolbar: 'LabelDescription', height: 100});
+
+		$('#labelValue-'+labelId).addClass('ckeditor-basic');
+	}
+}
+
+/**
+ * Отказ на редакция лейбъл
+ */
+function cancelEditLabel(labelId) {
+
+	$("#edit-row-"+labelId+" .invalid-feedback").remove();
+
+	$('.edit-'+labelId).addClass('d-none');
+	$('.preview-'+labelId).show();
+
+	var oldValue = $('.preview-'+labelId+' .label-value').html();
+	var oldValue = br2nl(oldValue);
+
+	$('.edit-'+labelId+' textarea[name="labelValue"]').val(oldValue);
+}
+
+/**
+ * Запис на промяна на лейбъл
+ */
+function saveLabelChanges(labelId, code) {
+
+	stripTags(labelId);
+
+	$("#edit-row-"+labelId+" .invalid-feedback").remove();
+
+	var htmlLabelArray = <?=json_encode($htmlLabelList)?>;
+
+	if (htmlLabelArray.length > 0 && htmlLabelArray.indexOf(code) !== -1) {
+		var labelValue = CKEDITOR.instances['labelValue-'+labelId].getData();
+	}
+	else {
+		var labelValue = $('.edit-'+labelId +' textarea[name="labelValue"]').val();
+	}
+
+	var labelDescription = CKEDITOR.instances['description-'+labelId].getData();
+
+	ajaxRequest('', {'updateLabel': 1, 'id':labelId, 'value': labelValue, 'description':labelDescription, 'code': code}, '#edit-label-'+labelId, '.edit-value-'+labelId);
+
+	if (labelValue)
+		$('.edit-value-'+labelId+' .preview-'+labelId+' .label-value').html(labelValue);
+
+	if (labelDescription)
+		$('.edit-description-'+labelId+' .preview-'+labelId+' .label-value').html(labelDescription);
+
+	$('.edit-'+labelId).addClass('d-none');
+	$('.preview-'+labelId).show();
+}
+
+$(document).on('click', '.label-description-wrapper a', function(e){
+	e.preventDefault();
+	var url = this.attributes.href.nodeValue;
+	url = url.replace(/{GL_EPZEU_PUBLIC_UI_URL}\/?/, '<?=$publicURL?>');
+	window.open(url, '_blank');
+});
+</script>

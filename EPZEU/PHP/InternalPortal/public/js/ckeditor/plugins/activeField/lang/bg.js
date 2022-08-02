@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.setLang('activeField','bg',{activeField:{dialogTitle:'Избор на активно поле',buttonName:'Активно поле',errNoData:'Моля, изберете активно поле.',fieldName:'Активно поле',selectFieldName:'Изберете активно поле'}});

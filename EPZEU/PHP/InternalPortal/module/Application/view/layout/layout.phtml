@@ -1,0 +1,146 @@
+<?= $this->doctype() ?>
+<html lang="bg">
+    <head>
+        <meta charset="utf-8">
+
+        <?= $this->headTitle('GL_PORTAL_EPZEU_ABBR_NAME_L')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?= $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no')?>
+
+        <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/images/favicon.ico'])
+			->appendStylesheet($this->basePath('css/style.css?v=2'))
+			->appendStylesheet($this->basePath('css/fonts.css'))
+			->appendStylesheet($this->basePath('css/custom.css'))
+        ?>
+
+        <?= $this->headScript()
+        	->prependFile($this->basePath('js/js.js'))
+        	->prependFile($this->basePath('js/bootstrap.bundle.min.js'))
+        	->prependFile($this->basePath('js/jquery-3.2.1.min.js'))
+
+        ?>
+    </head>
+
+    <body>
+
+    <div id="react-layout">
+		<div id="header-wrapper">
+
+
+			<header id="header" class="header">
+				<div class="row header-container">
+	                <div class="col-sm-auto">
+	                    <img class="registryagency-text d-none d-lg-inline-block" src="<?=$this->basePath('images/registryagency-text.svg')?>"><img class="registryagency-logo" src="<?=$this->basePath('images/registryagency-logo.svg')?>"><div class="divider d-none d-sm-inline-block"></div>
+	                </div>
+	                <div class="col-sm header-title header-title--register">
+	                    <h1><?=$this->translate('GL_PORTAL_EPZEU_FULL_NAME_L')?></h1>
+	                    <p><?=$this->translate('EP_GL_ADM_MODULE_NAME_L')?></p>
+	                </div>
+				</div>
+				<div class="brand-line"></div>
+			</header>
+
+			<nav id="navbar-top">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-2">
+							<a class="navbar-minimalize"><i class="ui-icon ui-icon-menu" aria-hidden="true"></i></a>
+						</div>
+						<div class="col-10">
+
+							<?php if ($user = $this->identity()) { ?>
+
+							<a target="_blank" href="<?=$this->basePath()?>/files/ЕПЗЕУ_Административен_модул_Ръководство за потребителите.pdf" class="system-button float-right" title="<?=$this->translate('EP_PUBLIC_HELP_L')?>">
+								<i class="ui-icon ui-icon-help navbar-top-icon" aria-hidden="true"></i>
+							</a>
+
+							<div class="horizontal-divider float-right"></div>
+
+							<div class="navbar-top-font-size float-right">
+								<a href="javascript:setFontSize(-1, '<?=$cookieDomain?>');" title="<?=$this->translate('GL_DECREASE_FONT_SIZE_L')?>"><i class="ui-icon ui-icon-font-size-minus navbar-top-icon" aria-hidden="true"></i></a><a href="javascript:setFontSize(0, '<?=$cookieDomain?>');"  title="<?=$this->translate('GL_NORMAL_FONT_L')?>"><i class="ui-icon ui-icon-font-size navbar-top-icon" aria-hidden="true"></i></a><a href="javascript:setFontSize(1, '<?=$cookieDomain?>');" title="<?=$this->translate('GL_INCREASE_FONT_SIZE_L')?>"><i class="ui-icon ui-icon-font-size-plus navbar-top-icon" aria-hidden="true"></i></a>
+							</div>
+
+							<div class="horizontal-divider float-right"></div>
+
+
+							<div class="dropdown float-right">
+									<button class="system-button user-profile dropdown-toggle" href="#" data-toggle="dropdown">
+									<i class="ui-icon ui-icon-user navbar-top-icon" aria-hidden="true"></i><?=$user->getEmail()?>
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+									<?php if (!$user->getIsPublicUser()) { ?>
+										<a class="dropdown-item" href="<?=$this->url('user_profile', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('EP_USR_ACC_L')?></a>
+									<?php } ?>
+
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="<?=$this->url('logout')?>"><?=$this->translate('GL_EXIT_L')?></a>
+								</div>
+							</div>
+
+							<?php } ?>
+						</div>
+					</div>
+				</div>
+			</nav>
+		</div>
+
+		<?php
+		$request = new \Zend\Http\PhpEnvironment\Request();
+		$menuStateCookie = $request->getCookie() && $request->getCookie()->offsetExists('menu-state') ? $headCookie = $request->getCookie()->offsetGet('menu-state') : '';
+		?>
+		<div id="main-wrapper" <?=$menuStateCookie == 'collapse' ? 'class="mini-navbar-left"' : '' ?>>
+			<div id="content-wrapper">
+
+				<?php if ($user) { ?>
+				<?=$this->partial('partial/left-menu.phtml')?>
+				<?php } ?>
+
+				<div id="page-wrapper">
+					<div class="container-fluid" >
+						<?= $this->content ?>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="footer-wrapper">
+			<footer id="footer">
+				<div class="software-version"><?=$this->translate('GL_VERSION_L')?>: <?=$version?></div>
+				<div class="brand-line"></div>
+				<div class="container-fluid footer-containter">
+					<div class="row">
+						<div class="col-md-8 col-xl-10 order-md-2 text-center">
+							<p><?=$this->translate('GL_EPZEU_PAGE_FOOTER_L')?></p>
+						</div>
+						<div class="col-6 col-md-2 col-xl-1 order-md-1 text-center" >
+							<img class="" src="<?=$this->basePath('images/footer-logo-eu.svg')?>">
+						</div>
+						<div class="col-6 col-md-2 col-xl-1 order-md-3 text-center">
+							<img class="" src="<?=$this->basePath('images/footer-logo-opdu.svg')?>">
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+		</div>
+		<?= $this->inlineScript() ?>
+
+		<? if ($this->identity()) { ?>
+			<?
+			$dateInterval = \Application\Service\AppService::fromPg($idle);
+			$idle = \Application\Service\AppService::dateIntervalToSeconds($dateInterval);
+			$idleLoguotUrl = $this->url('idle_logout', ['lang' => $this->language()->getCurrentLang()]);
+
+			?>
+			<script>
+			$(document).ready(function () {
+				if (typeof idleLogout !== "undefined") {
+					idleLogout('<?=$idle?>', '<?=$idleLoguotUrl?>', '<?=$cookieDomain?>');
+				}
+			});
+			</script>
+		<? } ?>
+
+    </body>
+</html>

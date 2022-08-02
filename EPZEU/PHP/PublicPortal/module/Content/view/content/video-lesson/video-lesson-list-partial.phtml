@@ -1,0 +1,15 @@
+<? foreach ($videoLessonList as $baseObj) {
+
+	$lang = $this->language()->getCurrentLang();
+	if (!empty($baseObj->getLanguageId()) && !empty($this->language()->getLangById($baseObj->getLanguageId())))
+		$lang = $this->language()->getLangById($baseObj->getLanguageId());
+?>
+
+	<article class="article article--news">
+		<h3 class="article-title">
+			<a href="<?=$this->url('video_lesson', ['lessonId' => $baseObj->getLessonId(), 'lang' => $lang])?>"><?=$baseObj->getTitle()?></a>
+		</h3>
+		<?=$baseObj->getDescription()?>
+	</article>
+<? } ?>
+

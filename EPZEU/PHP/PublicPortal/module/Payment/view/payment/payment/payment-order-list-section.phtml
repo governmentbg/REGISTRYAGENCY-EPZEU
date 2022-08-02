@@ -1,0 +1,151 @@
+<div class="search-box search-box--report">
+	<div class="card card--search card--collapsible">
+
+		<div class="card-header"  data-toggle="collapse" data-target="#collapsable-content" aria-expanded="true">
+			<h3><?=$this->translate('GL_SEARCHING_L')?></h3>
+			<button class="system-button toggle-collapse">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+		</div>
+
+		<div id="collapsable-content" class="collapse show">
+
+			<?php
+			$searchForm->setAttribute('action', $this->url('payment_order_list', ['lang' => $this->language()->getCurrentLang()]));
+
+			$searchForm->prepare();
+
+			echo $this->form()->openTag($searchForm);
+
+			?>
+
+			<div class="card-body">
+
+				<div class="row">
+
+					<div class="col-sm-auto">
+						<div class="row">
+							<div class="col-12">
+								<?=$this->formRow($searchForm->get('search'))?>
+								<?=$this->formRow($searchForm->get('registerId'))?>
+
+								<label for="" class="required-field"><?=$this->translate('EP_PAY_PAID_PERIOD_L')?></label>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="form-group col-auto">
+								<div class="d-flex" id="dateFrom" data-target-input="nearest">
+									<label class="mr-2 col-form-label"><?=$this->translate('GL_START_DATE_L')?></label>
+									<div class="input-group date-control">
+										<?=$this->formRow($searchForm->get('dateFrom'), null, false, '')?>
+										<div class="input-group-append" data-target="#dateFrom" data-toggle="datetimepicker">
+											<button class="btn btn-secondary" type="button">
+												<i class="ui-icon ui-icon-calendar"></i>
+											</button>
+										</div>
+										<?=$this->FormElementErrors($searchForm->get('dateFrom'))?>
+									</div>
+								</div>
+							</div>
+							<div class="form-group col-auto">
+								<div class="d-flex" id="dateTo" data-target-input="nearest">
+									<label class="mr-2 col-form-label"><?=$this->translate('GL_END_DATE_L')?></label>
+									<div class="input-group date-control">
+										<?=$this->formRow($searchForm->get('dateTo'), null, false, '')?>
+										<div class="input-group-append" data-target="#dateTo" data-toggle="datetimepicker">
+											<button class="btn btn-secondary" type="button">
+												<i class="ui-icon ui-icon-calendar"></i>
+											</button>
+										</div>
+										<?=$this->FormElementErrors($searchForm->get('dateTo'))?>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group col-auto col-sm-6 col-md-6 col-lg-4">
+						<?=$this->formRow($searchForm->get('isFreeAmounts'))?>
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="card-footer">
+				<div class="button-bar">
+					<div class="left-side">
+						<a href="<?=$this->url('payment_order_list', ['lang' => $this->language()->getCurrentLang()], ['query' => !empty($params['registerId']) ? ['registerId' => $params['registerId']] : ''])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+					</div>
+					<div class="right-side">
+						<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+					</div>
+				</div>
+			</div>
+
+			<?=$this->form()->closeTag();?>
+
+		</div>
+
+	</div>
+</div>
+
+<?if (!empty($paymentOrderList) && array_key_exists('status', $paymentOrderList)) {?>
+	<div class="alert alert-danger" role="alert"><strong><?=$this->translate('GL_ERROR_L')?></strong></div>
+<?}
+
+else if (!empty($params['search'])) {
+
+	if (!empty($paymentOrderList)) { ?>
+
+		<br>
+
+		<nav class="pagination-container pagination-container--page-top" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination pagination pagination--page"></ul>
+			</div>
+		</nav>
+
+		<div class="table-responsive-block">
+			<table class="table table-borderless table-striped table-hover table-collapsible">
+				<thead>
+					<tr>
+						<th class="single-icon-td"></th>
+						<th width="15%"><?=$this->translate('GL_DATE_BANK_TRANS_L')?></th>
+						<th><?=$this->translate('GL_REASON_L')?></th>
+						<th width="15%"><?=$this->translate('EP_PAY_METHOD_PAYMENT_L')?></th>
+						<th width="16%" class="text-right"><?=$this->translate('EP_ORD_AMOUNT_L')?></th>
+						<th width="16%" class="text-right"><?=$this->translate('GL_DRAWN_AM_L')?></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody id="content">
+					<?=$this->partial('payment-order-list-partial.phtml')?>
+				</tbody>
+			</table>
+		</div>
+
+		<nav class="pagination-container pagination-container--page-bottom" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination pagination pagination--page"></ul>
+			</div>
+		</nav>
+
+		<script type="text/javascript">
+		pagination('.sync-pagination', '#content', <?=$totalPages?>);
+		</script>
+
+	<? }
+
+	else if (empty($searchForm->getMessages())){ ?>
+		<div class="alert alert-warning" role="alert"><?=$this->translate('GL_NO_RESULTS_I')?></div>
+	<? }
+}
+
+$dateFrom = !empty($searchForm->get('dateFrom')->getValue()) ? $searchForm->get('dateFrom')->getValue() : '';
+$dateTo = !empty($searchForm->get('dateTo')->getValue()) ? $searchForm->get('dateTo')->getValue() : '';
+\Application\Service\AppService::initCalendarInterval($dateFrom, $dateTo);
+?>

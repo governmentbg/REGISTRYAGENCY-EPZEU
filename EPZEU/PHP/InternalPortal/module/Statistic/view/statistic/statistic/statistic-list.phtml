@@ -1,0 +1,76 @@
+<?php
+$this->headTitle('EP_STATISTICS_TYPE_ADMIN_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_STATISTICS_TYPE_ADMIN_L')?></li>
+	</ol>
+</nav>
+
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_STATISTICS_TYPE_ADMIN_L')?></h2>
+</div>
+
+<ul class="nav nav-tabs flex-column flex-sm-row">
+	<? foreach ($registerList as $registerName => $regId) {?>
+		<li class="nav-item <?=$registerId == $regId ? 'active': ''?> ">
+			<a class="tab-navigation nav-link <?=$registerId == $regId ? 'active': ''?>" data-id="<?=$regId?>" data-toggle="tab" href="#tab-<?=$regId?>"><?=$this->translate($registerName)?></a>
+		</li>
+	<? }?>
+</ul>
+
+<div class="tab-content">
+	<? foreach ($registerList as $registerName => $regId) {?>
+		<div id="tab-<?=$regId?>" class="tab-pane <?=$registerId ? ($registerId == $regId ? 'in active': '') : 'active' ?>">
+			<div class="card nav-tabs-container" id="register-id-<?=$regId?>" data-id="<?=$regId?>">
+				<div class="card-body" id="tab-content-<?=$regId?>">
+
+					<? if ($this->isAllowed('add_statistic')) { ?>
+						<div class="card-navbar">
+							<div class="button-bar">
+								<div class="left-side"></div>
+								<div class="right-side">
+									<a href="<?=$this->url(
+											'add_statistic',
+											['lang' => $this->language()->getCurrentLang()],
+											['query' => ['registerId' => $regId]]
+									)?>"
+									class="btn btn-primary" role="button" aria-pressed="true">
+									<i class="ui-icon ui-icon-plus-white"></i>
+									<?=$this->translate('EP_STATISTICS_ADD_NEW_TYPE_L')?>
+									</a>
+								</div>
+							</div>
+						</div>
+					<? }?>
+
+					<div id="list-content-<?=$regId?>">
+					<? if ($registerId == $regId) { ?>
+						<?=$this->partial('statistic-list-partial.phtml')?>
+					<? } ?>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	<? }?>
+</div>
+
+<script>
+	$(document).on('click', '.tab-navigation', function(){
+
+		var registerId = this.dataset.id;
+		var element = document.getElementById('list-content-'+registerId);
+
+		if (!element.childElementCount)
+			ajaxRequest('', {registerId: registerId, getTabContetn: true}, '#list-content-'+registerId, '#list-content-'+registerId);
+
+		var queryParams = createQuery({registerId: registerId});
+		history.pushState(null, null, queryParams);
+	});
+</script>
+
+

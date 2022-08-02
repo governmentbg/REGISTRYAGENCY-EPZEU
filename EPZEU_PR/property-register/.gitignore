@@ -1,0 +1,78 @@
+######################
+# Project Specific
+######################
+/target/www/**
+
+######################
+# Node
+######################
+node
+node_tmp/
+node_modules/
+npm-debug.log.*
+/.awcache/*
+
+######################
+# SASS
+######################
+.sass-cache/
+
+######################
+# Intellij
+######################
+.idea/
+*.iml
+*.iws
+*.ipr
+*.ids
+*.orig
+classes/
+
+######################
+# Visual Studio Code
+######################
+.vscode/
+
+######################
+# Maven
+######################
+/log/
+target
+
+######################
+# Package Files
+######################
+*.jar
+*.war
+
+######################
+# Logs
+######################
+*.log*
+
+######################
+# Others
+######################
+*.class
+*~
+.merge_file*
+
+######################
+# Maven Wrapper
+######################
+!.mvn/wrapper/maven-wrapper.jar
+
+######################
+# ESLint
+######################
+.eslintcache
+######################
+# yarn.lock
+######################
+yarn.lock
+######################
+# package-lock.json
+######################
+#package-lock.json
+#/package-lock.json
+/resources/xsd/xsdCompile/

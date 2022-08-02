@@ -1,0 +1,31 @@
+<div class="row">
+	<div class="col-sm-12 col-md-6 col-lg-3 form-group">
+		<label><?=$this->translate('GL_REGISTER_L') ?></label>
+		<div class="multiple-select multiple-select--scrollable multiple-select--preview">
+			<?=$this->translate(array_search($statisticObj->getRegisterId(), $registerList)) ?>
+		</div>
+	</div>
+
+	<div class="col-sm-12 col-md-6 col-lg-3 form-group">
+		<label><?=$this->translate('EP_STATISTICS_GENERATION_TYPE_L') ?></label>
+		<div class="multiple-select multiple-select--scrollable multiple-select--preview">
+		<?=$this->translate(\Statistic\Controller\StatisticController::STATISTIC_TYPE[$statisticObj->getTypeGenarate()])?>
+		</div>
+	</div>
+
+	<div class="col-12 col-md-6 col-lg-3 form-group">
+		<label><?=$this->translate('GL_NAME_L') ?></label>
+		<div class="multiple-select multiple-select--scrollable multiple-select--preview">
+			<?=$statisticObj->getName() ?>
+		</div>
+	</div>
+
+	<? if (\Statistic\Controller\StatisticController::STATISTIC_TYPE[$statisticObj->getTypeGenarate()] == 'EP_STATISTICS_GENERATION_AUTO_TYPE_L') { ?>
+		<div class="col-sm-12 col-md-6 col-lg-3 form-group">
+			<label><?=$this->translate('EP_STATISTICS_SERVICE_ADDRESS_L') ?></label>
+			<div class="multiple-select multiple-select--scrollable multiple-select--preview">
+                <?=$statisticObj->getUrl()?>
+			</div>
+		</div>
+	<? } ?>
+</div>

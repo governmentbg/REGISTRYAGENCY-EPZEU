@@ -1,0 +1,17 @@
+/* ----  Letter-Selector  ---- */
+
+.letter-selector {
+
+    padding-bottom: $template-container-margin-vertical;
+
+    .btn-square {
+        width: 1.4375rem;
+        height: 1.4375rem;
+        line-height: 1;
+        
+        margin-right: $template-container-margin-horizontal / 2;
+        margin-bottom: $template-container-margin-horizontal / 2;
+    }
+}
+
+/* ----  /Letter-Selector  ---- */

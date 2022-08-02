@@ -1,0 +1,85 @@
+<?php
+
+$pageLabel = $isRedefined ? $this->translate('EP_CMS_MANAGING_PAGES_PREDЕFINE_HTML_CONTENT_L') : $this->translate('EP_CMS_MANAGING_PAGES_HTML_CONTENT_CREATE_L');
+
+$this->headTitle($pageLabel);
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_CONTENT_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$pageLabel?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$pageLabel?></h2>
+</div>
+
+<div class="card">
+	<div class="card-body">
+
+	<?=$this->partial('partial/messages.phtml')?>
+
+	<?if ($this->isAllowed('add_html_page') && !$isRedefined) { ?>
+
+		<div class="card-navbar">
+			<div class="button-bar">
+				<div class="left-side"></div>
+				<div class="left-side">
+					<a href="<?=$this->url('add_html_page')?>" class="btn btn-primary" role="button" aria-pressed="true">
+					<i class="ui-icon ui-icon-plus-white"></i>
+						<?=$this->translate('EP_CMS_ADD_PAGE_HTML_L')?>
+					</a>
+				</div>
+			</div>
+		</div>
+	<?}?>
+
+	<?if ($pageList->count()) { ?>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<thead>
+				<tr>
+					<th><?=$this->translate('GL_PORTAL_L')?></th>
+					<th><?=$this->translate('EP_CMS_HEADER_L')?></th>
+					<th><?=$this->translate('GL_CONDITION_L')?></th>
+					<th class="w-10"><?=$this->translate('GL_ACTIONS_L')?></th>
+				</tr>
+				</thead>
+				<tbody id="content">
+					<?=$this->partial('page-list-partial.phtml')?>
+				</tbody>
+			</table>
+		</div>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<?
+			$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+			$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+		?>
+
+		<script type="text/javascript">
+			pagination('.sync-pagination', '#content', <?=$totalPages?>);
+		</script>
+
+	<? } ?>
+	</div>
+</div>
+
+<?=$this->partial('partial/modal-confirm.phtml')?>

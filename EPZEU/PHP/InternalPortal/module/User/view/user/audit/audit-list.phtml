@@ -1,0 +1,383 @@
+<? $this->headTitle('EP_ODIT_VIEW_L') ?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_USERS_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_ODIT_VIEW_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_ODIT_VIEW_L')?></h2>
+</div>
+
+<div class="card">
+	<div class="card-header">
+		<h3><?=$this->translate('EP_ODIT_SEARCH_L')?>
+
+			<button class="system-button toggle-collapse" data-toggle="collapse" data-target="#collapsable-content">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+
+		</h3>
+	</div>
+
+	<div id="collapsable-content" class="collapse show">
+
+		<?
+		$auditForm->setAttribute('action', $this->url('audit_list', ['lang' => $this->language()->getCurrentLang()]));
+		$auditForm->prepare();
+
+		echo $this->form()->openTag($auditForm);
+		?>
+
+		<div class="card-body">
+
+			<div class="alert alert-info alert-dismissible hide d-none" id="audit-info-message" role="alert"></div>
+
+			<div class="row">
+
+				<?=$this->formRow($auditForm->get('search'))?>
+				<div class="col-sm-12 col-md-6 col-xl-4 col-xxl-2 form-group">
+					<?=$this->formRow($auditForm->get('actionType'), null, true)?>
+				</div>
+
+				<div class="col-sm-12 col-md-6 col-xl-4 col-xxl-2 form-group">
+					<?=$this->formRow($auditForm->get('searchType'))?>
+				</div>
+
+				<div class="col-sm-12 col-md-8 col-xl-6 col-xxl-4 form-group">
+					<label id="date-from-label"><?=$this->translate('GL_PERIOD_L')?> <?=$this->translate('GL_START_DATE_L')?></label>
+					<div class="row">
+						<div class="col-sm-6 col-md-7 col-lg-8 col-xl-8 form-group">
+					    	<div class="input-group date" id="dateFrom" data-target-input="nearest">
+					            <?=$this->formRow($auditForm->get('dateFrom'), null, false, "")?>
+					            <div class="input-group-append" data-target="#dateFrom" data-toggle="datetimepicker">
+					           		<button class="btn btn-secondary" type="button">
+										<i class="ui-icon ui-icon-calendar"></i>
+									</button>
+					            </div>
+					        	<?=$this->FormElementErrors($auditForm->get('dateFrom'))?>
+							</div>
+						</div>
+
+						<div class="col-sm-6 col-md-5 col-lg-4 col-xl-4 form-group">
+							<div class="input-group date" id="timeFrom" data-target-input="nearest">
+								<?=$this->formRow($auditForm->get('timeFrom'), null, false)?>
+								<div class="input-group-append" data-target="#timeFrom" data-toggle="datetimepicker">
+				             		<button class="btn btn-secondary" type="button">
+				         				<i class="ui-icon ui-icon-clock"></i>
+				             		</button>
+				            	</div>
+				            	<?=$this->FormElementErrors($auditForm->get('timeFrom'))?>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="col-sm-12 col-md-8 col-xl-6 col-xxl-4 form-group">
+					<label id="date-to-label"><?=$this->translate('GL_PERIOD_L')?> <?=$this->translate('GL_END_DATE_L')?></label>
+					<div class="row">
+						<div class="col-sm-6 col-md-7 col-lg-8 col-xl-8 form-group">
+					    	<div class="input-group date" id="dateTo" data-target-input="nearest">
+					            <?=$this->formRow($auditForm->get('dateTo'), null, null, "")?>
+					            <div class="input-group-append" data-target="#dateTo" data-toggle="datetimepicker">
+					           		<button class="btn btn-secondary" type="button">
+										<i class="ui-icon ui-icon-calendar"></i>
+									</button>
+					            </div>
+					        	<?=$this->FormElementErrors($auditForm->get('dateTo'))?>
+							</div>
+						</div>
+
+						<div class="col-sm-6 col-md-5 col-lg-4 col-xl-4 form-group">
+							<div class="input-group date" id="timeTo" data-target-input="nearest">
+								<?=$this->formRow($auditForm->get('timeTo'), null, null)?>
+								<div class="input-group-append" data-target="#timeTo" data-toggle="datetimepicker">
+				             		<button class="btn btn-secondary" type="button">
+				         				<i class="ui-icon ui-icon-clock"></i>
+				             		</button>
+				            	</div>
+				            	<?=$this->FormElementErrors($auditForm->get('timeTo'))?>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="col-sm-12 col-md-6 col-xl-4 col-xxl-2 form-group">
+					<?=$this->formRow($auditForm->get('moduleId'))?>
+				</div>
+
+				<div class="col-sm-12 col-md-6 col-xl-4 col-xxl-2 form-group">
+					<?=$this->formRow($auditForm->get('functionality'))?>
+				</div>
+
+				<div class="col-sm-12 col-md-6 col-xl-4 col-xxl-3 form-group">
+					<?=$this->formRow($auditForm->get('objectType'))?>
+				</div>
+
+
+				<div class="col-sm-12 col-md-6 col-xl-4 col-xxl-2 form-group">
+					<?=$this->formRow($auditForm->get('key'))?>
+				</div>
+
+				<div class="col-sm-12 col-md-6 col-xl-4 col-xxl-3 form-group">
+					<?=$this->formRow($auditForm->get('event'))?>
+				</div>
+
+
+
+				<div class="col-sm-12 col-md-12 col-xl-4 col-xxl-4 form-group">
+
+					<label for=""><?= $this->translate($auditForm->get('userId')->getLabel())?></label>
+					<div class="input-group">
+
+						<div class="input-group">
+
+							<div class="form-control multiple-select multiple-select--scrollable">
+								<div class="result-list <?=!empty($userEmail) ? '' : 'd-none'?>" id="resultList">
+									<div class="badge badge-secondary"><span class="word-break" id="selected-user"><?=$userEmail?></span>
+										<button type="button" class="close" aria-label="Close" id="removeSelectUser">
+											<span aria-hidden="true">×</span>
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="input-group-append">
+								<button class="btn btn-secondary" type="button" title="<?=$this->translate('GL_CHOICE_L')?>"
+								onclick="openPreviewWithParams(
+								{
+									url: '<?=$this->url('select_user') ?>',
+									urlType: 'iframe',
+									title: '<?=$this->translate('EP_USR_ACC_L')?>',
+									size: 'modal-lg',
+									buttons: {close: '<?=$this->translate('GL_CLOSE_L')?>', confirm: '<?=$this->translate('GL_CONFIRM_L')?>', confirmId: 'selectUser'}
+								}, event);"
+
+								>
+								<i class="ui-icon ui-icon-hand"></i>
+								</button>
+							</div>
+						</div>
+						<?=$this->formHidden($auditForm->get('userId'))?>
+					</div>
+
+				</div>
+
+				<div class="col-sm-12 col-md-12 col-xl-8 col-xxl-5 form-group">
+
+					<label for=""><?= $this->translate($auditForm->get('loginSessionId')->getLabel())?></label>
+
+						<div class="input-group">
+							<?=$this->formElement($auditForm->get('loginSessionId'))?>
+							<div class="input-group-append">
+								<button class="btn btn-secondary" type="button" title="<?=$this->translate('GL_CHOICE_L')?>"
+								onclick="openPreviewWithParams(
+								{
+									url: '<?=$this->url('login_session_list') ?>',
+									urlType: 'iframe',
+									title: '<?=$this->translate('EP_USR_SEARCH_LOGIN_SES_L')?>',
+									size: 'modal-lg',
+									buttons: {close: '<?=$this->translate('GL_CLOSE_L')?>', confirm: '<?=$this->translate('GL_CONFIRM_L')?>', confirmId: 'selectLoginSession'}
+								}, event);"
+
+								>
+								<i class="ui-icon ui-icon-hand"></i>
+								</button>
+							</div>
+							<?=$this->FormElementErrors($auditForm->get('loginSessionId'))?>
+						</div>
+
+				</div>
+
+
+				<div class="col-sm-12 col-md-6 col-xl-4 col-xxl-2 form-group">
+					<?=$this->formRow($auditForm->get('ipAddress'), null, true)?>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url(null, ['lang' => $this->language()->getCurrentLang()])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+			<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+</div>
+
+<? if ($auditForm->isValid()) { ?>
+
+	<div class="card">
+		<div class="card-body">
+
+			<? if ($totalCount) { ?>
+
+			<nav class="button-bar" aria-label="Page navigation">
+				<div class="pagination-container">
+					<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+					<ul class="sync-pagination"></ul>
+				</div>
+			</nav>
+
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped table-hover">
+					<thead>
+					<tr>
+						<th><?=$this->translate('EP_ODIT_EVENT_DATE_TIME_L')?></th>
+						<th><?=$this->translate('EP_NOM_PORTAL_IS_L')?></th>
+						<th><?=$this->translate('EP_NOM_MODULE_FUNCTIONALITY_L')?></th>
+						<th><?=$this->translate('EP_ODIT_TYPE_OBJECT_L')?></th>
+						<th><?=$this->translate('EP_ODIT_OBJECT_L')?></th>
+						<th><?=$this->translate('EP_ODIT_EVENT_L')?></th>
+						<th><?=$this->translate('EP_ODIT_USER_SESSION_ID_L')?></th>
+						<th><?=$this->translate('GL_ACTION_USER_L')?></th>
+						<th><?=$this->translate('GL_IP_ADDRESS_L')?></th>
+						<th><?=$this->translate('GL_LOGIN_SESSION_L')?></th>
+						<th><?=$this->translate('GL_DETAILS_L')?></th>
+					</tr>
+					</thead>
+					<tbody id="content">
+					<?=$this->partial('user/audit/audit-list-partial.phtml')?>
+					</tbody>
+				</table>
+			</div>
+
+			<nav class="button-bar" aria-label="Page navigation">
+				<div class="pagination-container">
+					<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+					<ul class="sync-pagination"></ul>
+				</div>
+			</nav>
+
+			<?
+			$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+			$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+			?>
+			<script type="text/javascript">
+				pagination('.sync-pagination', '#content', <?=$totalPages?>);
+			</script>
+
+			<? } else { ?>
+				<div class="alert alert-warning" role="alert">
+					<?=$this->translate('GL_NO_RESULTS_I')?>
+				</div>
+			<? } ?>
+		</div>
+	</div>
+
+<? } ?>
+
+<?=$this->partial('partial/modal-preview', ['title' => $this->translate('EP_ODIT_VIEW_DETAILS_L')])?>
+
+<?$this->headLink()->appendStylesheet($this->basePath('js/bootstrap-4-datepicker/css/tempusdominus-bootstrap-4.min.css'));?>
+<?$this->headScript()->prependFile($this->basePath('js/bootstrap-4-datepicker/js/tempusdominus-bootstrap-4.min.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/moment-with-locales.min.js'));?>
+
+<script type="text/javascript">
+
+	$(function () {
+
+		auditTypeMessage();
+
+         $('#dateFrom').datetimepicker({
+        	useCurrent: false,
+        	format: "DD.MM.YYYY",
+        	locale: moment.locale('bg')
+	    });
+
+        $('#dateTo').datetimepicker({
+            useCurrent: false,
+            format: "DD.MM.YYYY",
+            locale: moment.locale('bg')
+        });
+
+        $("#dateFrom").on("change.datetimepicker", function (e) {
+           $('#dateTo').datetimepicker('minDate', e.date);
+        });
+        $("#dateTo").on("change.datetimepicker", function (e) {
+           $('#dateFrom').datetimepicker('maxDate', e.date);
+        });
+
+		$('#timeFrom, #timeTo').datetimepicker({
+			useCurrent: false,
+			format: "HH:mm",
+			locale: moment.locale('bg')
+		});
+
+		if ($('#actionType').val() == 1)
+			$('#date-from-label, #date-to-label').addClass('required-field');
+	});
+
+
+	$(document).on('change', 'select[name="actionType"]', function(){
+		if (this.value == 1)
+			$('#date-from-label, #date-to-label').addClass('required-field');
+		else
+			$('#date-from-label, #date-to-label').removeClass('required-field');
+	});
+
+
+	$(document).on('click', "#selectUser", function() {
+
+		var result = $('#iframe_content')[0].contentWindow.getDataFromIframe();
+
+		var resultObj = jQuery.parseJSON(result);
+
+		if (resultObj) {
+			$("#resultList").removeClass('d-none');
+			$("#selected-user").html(resultObj.email);
+			$("#userId").val(resultObj.id);
+		}
+	});
+
+	$(document).on('click', "#removeSelectUser", function() {
+		$("#resultList").addClass('d-none');
+		$("#selected-user").html('');
+		$("#userId").val('');
+	});
+
+	$(document).on('click', "#selectLoginSession", function() {
+
+		var result = $('#iframe_content')[0].contentWindow.getDataFromIframe();
+
+		var resultObj = jQuery.parseJSON(result);
+
+		if (resultObj) {
+			$("#loginSession").val(resultObj.loginSessionId);
+		}
+	});
+
+
+	$(document).on('change', '#searchType', function(){
+		auditTypeMessage(this);
+	});
+
+
+	function auditTypeMessage() {
+
+		var val = $('#searchType').val();
+
+		if (!val) {
+			$('#audit-info-message').addClass('d-none');
+			$('#audit-info-message').html('');
+		}
+		else {
+			if (val == 1) {
+				$('#audit-info-message').html('<?=$this->translate('EP_ODIT_SEARCH_ТО_L')?>');
+			} else if (val == 2) {
+				$('#audit-info-message').html('<?=$this->translate('EP_ODIT_SEARCH_AFTER_L')?>');
+			}
+
+			$('#audit-info-message').removeClass('d-none');
+		}
+	}
+
+
+</script>

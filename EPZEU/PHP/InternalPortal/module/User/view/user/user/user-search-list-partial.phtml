@@ -1,0 +1,114 @@
+<?
+foreach ($userList as $baseObj) {?>
+	<tr>
+
+		<? if ($type == 'selectUser' || $type == 'selectUserList') { ?>
+			<td id="user-td-<?=$baseObj->getUserId()?>">
+
+				<? if ($type == 'selectUser') { ?>
+					<div class="custom-control custom-radio">
+						<input class="custom-control-input" type="radio" id="user-radio-<?=$baseObj->getUserId()?>" name="selectUser" value="<?=$baseObj->getUserId()?>">
+						<label class="custom-control-label" for="user-radio-<?=$baseObj->getUserId()?>"></label>
+					</div>
+				<? }
+
+				else { ?>
+					<div class="custom-control custom-checkbox">
+						<input class="custom-control-input selectUserList" type="checkbox" id="user-checkbox-<?=$baseObj->getUserId()?>" name="selectUserList[]" value="<?=$baseObj->getUserId()?>">
+						<label class="custom-control-label" for="user-checkbox-<?=$baseObj->getUserId()?>"></label>
+					</div>
+				<? } ?>
+
+				<input type="hidden" name="userData" id="userData-<?=$baseObj->getUserId()?>" value='<?=\User\Service\UserService::getUserInfoString($baseObj)?>'>
+				<input type="hidden" name="userData" id="userDataEmail-<?=$baseObj->getUserId()?>" value='<?=$baseObj->getEmail()?>'>
+
+			</td>
+		<? } ?>
+
+		<td>
+			<?=$this->dateFormat(
+				strtotime($baseObj->getUpdatedOn()),
+			    IntlDateFormatter::MEDIUM, // date
+			    IntlDateFormatter::NONE, // time
+			    $this->plugin('translate')->getTranslator()->getLocale(),
+				\Application\View\Helper\DateFormat::DATETIME
+			)?>
+		</td>
+		<td><?=$baseObj->getCin()?></td>
+		<td><?=$baseObj->getUsername()?></td>
+		<td class="word-break"><?=$baseObj->getEmail()?></td>
+		<td><?=$baseObj->getFirstName()?></td>
+		<td><?=$baseObj->getMiddleName()?></td>
+		<td><?=$baseObj->getFamilyName()?></td>
+		<td><?=nl2br($baseObj->getContactData())?></td>
+		<td><?=$baseObj->getOrganization()?></td>
+		<td class="icons-td">
+			<?
+			$status = $userStatusList[$baseObj->getStatus()];
+			switch ($status) {
+				case 'GL_ACTIVE_L':
+					$iconStatus = 'active';
+					break;
+				case 'GL_INACTIVE_L':
+					$iconStatus = 'inactive';
+					break;
+				case 'EP_USR_00007_E':
+					$iconStatus = 'waiting';
+					break;
+			}
+			?><i class="ui-icon ui-icon-state-<?=$iconStatus?>" aria-hidden="true"></i><span class="text-wrap"><?=$this->translate($status)?></span>
+		</td>
+
+		<?php if ($type != 'selectUser' && $type != 'selectUserList') { ?>
+			<td class="buttons-td">
+				<?if ($this->isAllowed('edit_user')) {?>
+					<a href="<?=$this->url('edit_user', ['userId' => $baseObj->getUserId(), 'lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('EP_USR_00005_L'))?>">
+						<i class="ui-icon ui-icon-edit"></i>
+					</a>
+				<?}?>
+			</td>
+		<?}?>
+
+	</tr>
+<? } ?>
+
+<script type="text/javascript">
+
+<? if ($type == 'selectUser' || $type == 'selectUserList') { ?>
+
+	$(document).ready(function() {
+
+		<? if ($type == 'selectUser') {?>
+
+			var userId = window.parent.$("#userId").val();
+
+			if (userId) {
+				$('#user-radio-'+userId).prop('checked', true);
+			}
+
+		<? } else { ?>
+
+			var selectedValues = window.parent.$("#userIdList").val();
+
+			// добавя вече избраните потребители при първоначално отваряне
+			if (selectedValues.length > 0 && $('#userDataList').val().length == 0) {
+				$.each( selectedValues, function( key, userId ) {
+					var name = window.parent.$("#userIdList option[value="+userId+"]").text();
+					$('#userDataList').append('<option value="'+userId+'" selected="selected">'+name+'</option>');
+				})
+			}
+
+			var selectedValues = $('#userDataList').val();
+
+			// маркира избраните потребители, запазва маркирането при странициране
+			$('.selectUserList').each(function() {
+				var tempValue = $(this).val();
+				if(jQuery.inArray(tempValue, selectedValues) !== -1) {
+					$('.selectUserList:checkbox[value='+tempValue+']').prop('checked', true);
+				}
+			})
+		<? } ?>
+	})
+<? } ?>
+</script>
+

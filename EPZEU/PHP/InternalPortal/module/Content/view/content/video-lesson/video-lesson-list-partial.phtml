@@ -1,0 +1,51 @@
+<? foreach ($videoLessonList as $baseObj) {?>
+
+	<tr>
+		<td><?=(!empty($registerList[$baseObj->getRegisterId()]) ? $this->translate($registerList[$baseObj->getRegisterId()]) : '')?></td>
+		<td><?=$baseObj->getTitle()?></td>
+		<td><?=$baseObj->getDescription()?></td>
+		<td>
+			<?=$this->dateFormat(
+					strtotime($baseObj->getUpdatedOn()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale()
+				);
+			?>
+		</td>
+		<td class="icons-td">
+			<i class="ui-icon <?=($statusList['GL_F_STATE_PUBLIC_L'] == $baseObj->getStatus()) ? 'ui-icon-state-active' : 'ui-icon-state-inactive'?>" aria-hidden="true"></i><span class="text-wrap"><?=(in_array($baseObj->getStatus(), $statusList) ? $this->translate(array_search($baseObj->getStatus(), $statusList)) : '')?></span>
+		</td>
+
+		<td class="buttons-td">
+
+			<? if ($this->isAllowed('preview_video_lesson')) { ?>
+				<a href="<?=$this->publicUrl(['preview-video-lesson', $baseObj->getLessonId()])?>" target="_blank" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>">
+					<i class="ui-icon ui-icon-eye"></i>
+				</a>
+			<? } ?>
+
+			<?if ($this->isAllowed('edit_video_lesson')) {?>
+				<a href="<?=$this->url('edit_video_lesson', ['lessonId' => $baseObj->getLessonId(), 'lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_EDIT_L'))?>">
+					<i class="ui-icon ui-icon-edit"></i>
+				</a>
+			<?}
+
+			if ($this->isAllowed('manage_video_status')) {?>
+
+				<?if ($statusList['GL_F_STATE_PUBLIC_L'] == $baseObj->getStatus()) { ?>
+					<a href="<?=$this->url('manage_video_status', ['lessonId' => $baseObj->getLessonId(), 'lang' => $params->fromRoute('lang')], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" onclick="openModalConfirm(this, '<?=$this->translate('EP_CMS_CONFIRM_PUBLIC_CANCEL_OK_I')?>', event)" title="<?=$this->translate('GL_PUBLIC_CANCEL_L')?>">
+						<i class="ui-icon ui-icon-deactivate"></i>
+					</a>
+				<?}
+
+				else { ?>
+					<a href="<?=$this->url('manage_video_status', ['lessonId' => $baseObj->getLessonId(), 'lang' => $params->fromRoute('lang')], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" onclick="openModalConfirm(this, '<?=$this->translate('EP_CMS_CONFIRM_PUBLIC_OK_I')?>', event)" title="<?=$this->escapeHtmlAttr($this->translate('GL_PUBLIC_L'))?>">
+						<i class="ui-icon ui-icon-activate"></i>
+					</a>
+				<?}
+			}?>
+		</td>
+
+	</tr>
+<? } ?>

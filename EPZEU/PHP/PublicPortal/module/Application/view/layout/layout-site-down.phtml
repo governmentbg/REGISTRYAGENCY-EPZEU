@@ -1,0 +1,57 @@
+<html lang="<?=$defaultLang?>">
+    <head>
+        <meta charset="utf-8">
+        <?= $this->headTitle($this->translate('GL_PORTAL_EPZEU_ABBR_NAME_L'))->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?= $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no')?>
+
+        <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/images/favicon.ico'])
+			->appendStylesheet($this->basePath('css/style.css'))
+			->appendStylesheet($this->basePath('css/fonts.css'))
+			->appendStylesheet($this->basePath('css/custom.css'))
+        ?>
+
+        <?= $this->headScript()
+        	->prependFile($this->basePath('js/js.js?v=1'))
+        	->prependFile($this->basePath('js/bootstrap.bundle.min.js'))
+        	->prependFile($this->basePath('js/scrolltotop.js'))
+        	->prependFile($this->basePath('js/jquery-3.2.1.min.js'))
+        ?>
+    </head>
+    <body>
+
+    <div class="layout-wrapper">
+
+    	<div id="header-wrapper" class="header-wrapper">
+			<header class="header">
+	            <div class="row header-container fixed-content-width">
+	                <div class="col-auto">
+	                    <a href="#"><img class="registryagency-text d-none d-lg-inline-block" src="<?=$this->basePath($currentLang == 'en' ? 'images/registryagency-text-en.svg' : 'images/registryagency-text.svg')?>"></a><a href="<?=$this->url('home', ['lang' => $currentLang])?>"><img class="registryagency-logo" src="<?=$this->basePath('images/registryagency-logo.svg')?>"></a><div class="divider d-none d-sm-inline-block"></div>
+	                </div>
+
+
+						<div class="col header-title header-title--register">
+				        	<h1 nav_key="title"></h1>
+				        	<p><?=$this->translate('GL_PORTAL_EPZEU_FULL_NAME_L')?></p>
+				        </div>
+	            </div>
+
+	        	<div class="brand-line brand-line--header"></div>
+			</header>
+
+			<nav class="navbar-top">
+	            <div class="fixed-content-width">
+	                <div class="navbar-top-container">
+
+	                </div>
+	            </div>
+	        </nav>
+        </div>
+
+		<div class="content-wrapper" id="content-wrapper">
+			<?=$this->translate('GL_ERROR_L');?>
+		</div>
+
+	</div>
+
+    </body>
+</html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>pr-web</artifactId>
+        <groupId>bg.registryagency.epzeu</groupId>
+        <version>v.0.9.2.30</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>pr-web-common</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>bg.registryagency.epzeu</groupId>
+            <artifactId>pr-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <!--            <exclusions>-->
+            <!--                <exclusion>-->
+            <!--                    <groupId>org.springframework.boot</groupId>-->
+            <!--                    <artifactId>spring-boot-starter-tomcat</artifactId>-->
+            <!--                </exclusion>-->
+            <!--            </exclusions>-->
+        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-undertow</artifactId>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.openapitools</groupId>-->
+<!--            <artifactId>openapi-generator-maven-plugin</artifactId>-->
+<!--            <version>4.3.0</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.swagger.parser.v3</groupId>-->
+<!--            <artifactId>swagger-parser</artifactId>-->
+<!--            <version>2.0.18</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.openapitools</groupId>-->
+<!--            <artifactId>jackson-databind-nullable</artifactId>-->
+<!--            <version>0.2.1</version>-->
+<!--        </dependency>-->
+
+    </dependencies>
+
+</project>

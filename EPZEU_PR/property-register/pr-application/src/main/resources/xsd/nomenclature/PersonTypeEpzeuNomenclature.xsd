@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/nomenclatures"
+            xmlns="http://www.registryagency.bg/schemas/property-register/nomenclatures"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:simpleType name="PersonTypeEpzeuNomenclature">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="bg">
+              Вид лице:
+              INDIVIDUAL - Физическо лице
+              LEGAL_ENTITY - Юридическо лице
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="INDIVIDUAL" />
+            <xsd:enumeration value="LEGAL_ENTITY" />
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

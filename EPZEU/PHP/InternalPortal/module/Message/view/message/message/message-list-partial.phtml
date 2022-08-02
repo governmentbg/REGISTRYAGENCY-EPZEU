@@ -1,0 +1,43 @@
+<? foreach ($messageList as $baseObj) { ?>
+
+	<tr>
+		<td>
+			<?=$this->dateFormat(
+					strtotime($baseObj->getUpdatedOn()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATETIME
+				);
+			?>
+		</td>
+		<td><?=$baseObj->getAbout()?></td>
+		<td class="icons-td">
+			<?=$baseObj->getStatus() == $messageStatusSent ? '<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i> '.$this->translate('GL_SENTED_L') : '<i class="ui-icon ui-icon-state-inactive" aria-hidden="true"></i> '.$this->translate('GL_NOSENTED_L')?>
+		</td>
+
+		<td class="buttons-td">
+
+			<button class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>" onclick="openPreview('<?=$this->url('preview_message', ['messageId' => $baseObj->getMessageId()])?>', event)">
+				<i class="ui-icon ui-icon-eye"></i>
+			</button>
+
+			<?if ($baseObj->getStatus() == $messageStatusNotSent) {?>
+
+				<?if ($this->isAllowed('edit_message')) {?>
+					<a href="<?=$this->url('edit_message', ['messageId' => $baseObj->getMessageId(), 'lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_EDIT_L'))?>">
+						<i class="ui-icon ui-icon-edit"></i>
+					</a>
+				<?}?>
+
+				<? if ($this->isAllowed('delete_message')) { ?>
+					<a href="<?=$this->url('delete_message', ['messageId' => $baseObj->getMessageId(), 'lang' => $params->fromRoute('lang')], ['query' => $params->fromQuery()])?>" title="<?=$this->escapeHtmlAttr($this->translate('GL_DELETE_L'))?>" onclick="openModalConfirm(this, '<?=$this->translate('GL_DELETE_CONFIRM_I')?>', event)"  class="btn btn-secondary">
+						<i class="ui-icon ui-icon-trash"></i>
+					</a>
+				<?}?>
+
+			<? } ?>
+		</td>
+
+	</tr>
+<? } ?>

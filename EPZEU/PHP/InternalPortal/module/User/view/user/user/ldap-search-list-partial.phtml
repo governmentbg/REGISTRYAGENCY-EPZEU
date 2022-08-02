@@ -1,0 +1,18 @@
+<?
+foreach ($userActiveDirectoryList as $key=>$item) {?>
+	<tr>
+		<td class="single-icon-td">
+			<div class="custom-control custom-radio">
+				<input class="custom-control-input" name="activeDirectoryUser" id="activeDirectoryUser_<?=$key?>" value="<?=$key?>" type="radio">
+				<label class="custom-control-label" for="activeDirectoryUser_<?=$key?>"></label>
+			</div>
+		</td>
+		<td>
+			<?=$ldapDomainNameShort.'\\'.$item['samaccountname'][0]?>
+			<input type="hidden" name="userFullName_<?=$key?>" id="userFullName_<?=$key?>" value="<?=(!empty($item['name'][0])) ? $this->escapeHtmlAttr($item['name'][0]) : ''?>">
+			<input type="hidden" name="userAccountName_<?=$key?>" id="userAccountName_<?=$key?>" value="<?=(!empty($item['samaccountname'][0])) ? $this->escapeHtmlAttr($ldapDomainNameShort.'\\'.$item['samaccountname'][0]) : ''?>">
+			<input type="hidden" name="userEmail_<?=$key?>" id="userEmail_<?=$key?>" value="<?=(!empty($item['mail'][0])) ? $this->escapeHtmlAttr($item['mail'][0]) : ''?>">
+			<input type="hidden" name="userMobilePhone_<?=$key?>" id="userMobilePhone_<?=$key?>" value="<?=(!empty($item['mobile'][0])) ? $this->escapeHtmlAttr($item['mobile'][0]) : ''?>">
+		</td>
+	</tr>
+<? } ?>

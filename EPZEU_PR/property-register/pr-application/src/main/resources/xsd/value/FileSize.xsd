@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:simpleType name="FileSize">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Размер на файла</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="1" />
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

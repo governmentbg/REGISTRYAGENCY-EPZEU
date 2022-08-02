@@ -1,0 +1,121 @@
+/* ----  Button Bar  ---- */
+
+.button-bar {		
+	min-height: 0;
+	margin-bottom: 0;	
+	margin-top: -$template-container-margin-vertical;
+	margin-left: -$template-container-margin-horizontal;
+	margin-right: -$template-container-margin-horizontal;
+	
+	display: flex;
+	flex: 1 1 auto;	
+	flex-wrap: wrap;
+
+	justify-content: space-between;
+	align-items: center;
+
+
+	.btn {
+		margin-top: $template-container-margin-vertical;
+		margin-left: $template-container-margin-horizontal;
+		margin-right: $template-container-margin-horizontal;
+
+		white-space: normal;
+	}
+
+	.pagination-container {		
+		margin-top: $template-container-margin-vertical;
+
+		margin-left: $template-container-margin-horizontal;
+		margin-right: $template-container-margin-horizontal;		
+	}
+
+
+
+	.left-side,
+	.right-side {
+		display: flex;
+		flex: 0 1 auto;
+		flex-wrap: wrap;		
+	}
+
+}
+
+.button-bar--form {
+    border-top: 1px solid $gray-300;        
+    margin-top: $template-container-margin-vertical * 2;
+    margin-left: -$template-container-margin-horizontal;
+    margin-right: -$template-container-margin-horizontal;
+
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: $template-container-margin-vertical;
+	padding-bottom: $template-container-margin-vertical;		
+	
+}
+
+.button-bar--page {
+    border-top: 1px solid $gray-300;        
+    margin-top: 0;
+    // margin-bottom: $template-container-margin-vertical;
+    margin-left: 0;
+    margin-right: 0;
+ 
+	padding: $template-container-padding-vertical $template-container-padding-horizontal;
+	
+	@include media-breakpoint-down(sm) {
+		padding: $template-container-padding-vertical 0;
+	}
+}
+
+.button-bar--table-actionbar-bottom {
+    border-top: 1px solid $gray-300;
+    margin-top: $template-container-margin-vertical;
+    // margin-bottom: $template-container-margin-vertical;
+    margin-left: 0;
+    margin-right: 0;
+ 
+    padding: $template-container-padding-vertical 0;
+}
+
+.button-bar--table-actionbar-top {
+    border-bottom: 1px solid $gray-300;
+    // margin-top: $template-container-margin-vertical;
+    margin-bottom: $template-container-margin-vertical;
+    margin-left: 0;
+    margin-right: 0;
+ 
+    padding: $template-container-padding-vertical 0 $template-container-padding-vertical * 2 0;
+}
+
+
+.button-bar--responsive {
+
+	@include media-breakpoint-down(xs) {
+
+		flex-direction: column-reverse;		
+
+		.left-side,
+		.right-side {
+			width: 100%;			
+			flex-direction: column-reverse;		
+		}
+
+		.btn {
+			display: block;
+			flex: 1 1 auto;
+		}
+	}
+}
+
+.button-bar--sticky {
+    position: sticky;
+    bottom: 0;
+	z-index: $zindex-sticky-nav;
+
+	background-color: $white;
+	padding-top:  $template-container-padding-vertical *.5;
+	box-shadow: 0 -.5rem 0.5rem $white;	
+}
+
+/* ----  /Button Bar  ---- */

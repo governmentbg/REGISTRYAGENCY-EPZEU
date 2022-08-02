@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+    <xsd:complexType name="DataForRegistrationOfDocumentInDoubleIncomingRegister">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Данни за регистриране на документ в двойно входящ регистър на ИР</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="DoubleIncomingRegisterNumber" type="val:DoubleIncomingRegisterNumber" />
+            <xsd:element name="Year" type="val:Year" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,109 @@
+﻿@using IdentityServer4.Extensions
+@using EPZEU.Web.IdentityServer.Extensions
+
+@inject EPZEU.Nomenclatures.ILabels labels
+@inject EPZEU.Common.Cache.IAppParameters AppParameters
+
+@{
+    var publicUrlParam = AppParameters.GetParameter("GL_EPZEU_PUBLIC_UI_URL").ValueString;
+    var epzeuBase = new Uri(publicUrlParam);
+    var contactsUri = new Uri(epzeuBase, "contacts");
+    var helpUri = new Uri(epzeuBase, "help");
+
+    var helpLabel = @labels.GetLabel(System.Globalization.CultureInfo.CurrentCulture.Name, "EP_PUBLIC_HELP_L");
+    var contactsLabel = @labels.GetLabel(System.Globalization.CultureInfo.CurrentCulture.Name, "GL_CONTACTS_L");
+
+    string langPostfix = null;
+    if (Url.CanLocalizeImagePaths(out langPostfix))
+    {
+        langPostfix = $"-{langPostfix}";
+    }
+
+    var logoTextUri = Url.Content($"~/images/registryagency-text{langPostfix}.svg");
+    var logoEUUri = Url.Content($"~/images/footer-logo-eu{langPostfix}.svg");
+    var logoEPDUUri = Url.Content($"~/images/footer-logo-opdu{langPostfix}.svg");
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="icon" href="@Url.Content("~/images/favicon.ico")" />
+    <link rel="stylesheet" href="~/css/fonts.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+</head>
+<body>
+    <div class="layout-wrapper">
+        <div id="header-wrapper" class="header-wrapper">
+            <header class="header">
+                <div class="row header-container fixed-content-width">
+                    <div class="col-auto">
+                        <a href=@publicUrlParam><img class="registryagency-text d-none d-lg-inline-block" src=@logoTextUri><img class="registryagency-logo" src="~/images/registryagency-logo.svg"></a><div class="divider d-none d-sm-inline-block"></div>
+                    </div>
+                    <div class="col header-title">
+                        <h1>@labels.GetLabel(System.Globalization.CultureInfo.CurrentCulture.Name, "GL_PORTAL_EPZEU_FULL_NAME_L")</h1>
+                    </div>
+                </div>
+                <div class="brand-line brand-line--header"></div>
+            </header>
+            <nav class="navbar-top">
+                <div class="fixed-content-width">
+                    <div class="navbar-top-container">
+                        <ul class="navbar-top-container-left">
+                            <li>
+                                <a class="navbar-top-item" href="@contactsUri.ToString()" title="@contactsLabel">
+                                    <div class="navbar-top-item-text navbar-top-item-icon">
+                                        <i class="ui-icon ui-icon-contacts-top d-inline-block d-lg-none mr-0" aria-hidden="true"></i><span class="d-none d-lg-inline">@contactsLabel</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="navbar-top-item" href="@helpUri.ToString()" title="@helpLabel" target="_blank">
+                                    <div class="navbar-top-item-text navbar-top-item-icon">
+                                        <i class="ui-icon ui-icon-help d-inline-block d-lg-none mr-0" aria-hidden="true"></i><span class="d-none d-lg-inline">@helpLabel</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="main-wrapper" id="main-wrapper">
+                <div class="page-wrapper">
+                    <div class="section-wrapper section-wrapper--margins">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-wrapper">
+            <footer class="footer">
+                <div class="brand-line brand-line--footer"></div>
+                <div class="row footer-containter fixed-content-width">
+                    <div class="col-sm-8 order-sm-2">
+                        <p class="footer-text">@labels.GetLabel(System.Globalization.CultureInfo.CurrentCulture.Name, "GL_EPZEU_PAGE_FOOTER_L")</p>
+                    </div>
+                    <div class="col-6 col-sm-2 order-sm-1 text-center text-sm-left">
+                        <img src=@logoEUUri>
+                    </div>
+                    <div class="col-6 col-sm-2 order-sm-3 text-center text-sm-right">
+                        <img src=@logoEPDUUri />
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+
+
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

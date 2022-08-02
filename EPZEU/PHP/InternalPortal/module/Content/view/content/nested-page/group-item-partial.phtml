@@ -1,0 +1,31 @@
+<?
+foreach ($pageList as $pageObj) { ?>
+<li data-id="<?=$pageObj->getPageId()?>">
+	<div class="tree-list-tiem">
+
+		<?php if ($this->isAllowed('edit_'.$managePage)) { ?>
+		<div class="drag-handle" title="<?=$this->translate('GL_MOVE_L') ?>"></div>
+		<? } ?>
+
+		<div class="tree-list-tiem-content">
+			<div class="tree-list-tiem-text">
+				<?=$pageObj->getAppCode() ? '<b>'.$pageObj->getAppCode().'</b> ': ''?><?=$pageObj->getTitle()?>
+			</div>
+			<div class="tree-list-tiem-actions">
+
+				<? if ($this->isAllowed('edit_'.$managePage) && $managePage != 'service_page' && $managePage != 'application_page') { ?>
+					<a href="<?=$this->url('edit_'.$managePage, ['lang' => $params->fromRoute('lang'), 'registerId' => $pageObj->getRegisterId(), 'pageId' => $pageObj->getPageId(), 'groupId' => $groupId])?>" title="<?=$this->translate('GL_EDIT_L')?>">
+						<button class="btn btn-secondary" title="<?=$this->translate('GL_EDITING_L')?>"><i class="ui-icon ui-icon-edit"></i></button>
+					</a>
+				<? } ?>
+
+				<? if ($this->isAllowed('delete_nested_page')) { ?>
+					<a href="<?=$this->url('delete_nested_page', ['lang' => $params->fromRoute('lang'), 'registerId' => $pageObj->getRegisterId(), 'pageId' => $pageObj->getPageId(), 'groupId' => $groupId])?>" title="<?=$this->translate('GL_DELETE_L') ?>" onclick="openModalConfirm(this, '<?=$this->translate('GL_DELETE_CONFIRM_I')?>', event)">
+						<button class="btn btn-secondary" title="<?=$this->translate('GL_DELETE_L')?>"><i class="ui-icon ui-icon-trash"></i></button>
+					</a>
+				<? } ?>
+			</div>
+		</div>
+	</div>
+</li>
+<? } ?>

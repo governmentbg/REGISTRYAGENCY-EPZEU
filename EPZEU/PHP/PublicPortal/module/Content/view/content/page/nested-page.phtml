@@ -1,0 +1,108 @@
+<? $this->headTitle($registerObj->getTitle()) ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item"><a href="<?=$this->url(($registerType == 'CR' ? 'commercial_register' : 'property_register'), ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_'.$registerType.'_REG_NAME_L'.($registerType == 'CR'? '_SHORT_L' : ''))?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$registerObj->getTitle()?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$registerObj->getTitle()?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+
+				<? if (!empty($registerObj->getContent())) {?>
+					<div class="card card-page">
+						<div class="card-body card-page__body">
+							<?=$registerObj->getContent()?>
+						</div>
+					</div>
+				<? } ?>
+
+				<? foreach ($groupArr as $groupObj)  { ?>
+
+				<section class="card card-page card--collapsible">
+
+					<div class="card-header card-page__header collapsed <?=$groupObj->getElementCount() ? 'group-collapsed' : '' ?>" data-id="<?=$groupObj->getPageid()?>" data-toggle="collapse" data-target="#collapsable-content-<?=$groupObj->getPageid()?>" aria-expanded="false">
+						<h2 class="section-title section-title--page">
+							<?=$groupObj->getTitle()?>
+						</h2>
+						<button class="system-button toggle-collapse">
+							<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+						</button>
+					</div>
+
+					<div id="collapsable-content-<?=$groupObj->getPageid()?>" class="collapse">
+						<div class="card-body card-page__body">
+							<?=$groupObj->getContent()?>
+							<div class="group-items group-items-<?=$groupObj->getPageid()?>"></div>
+						</div>
+					</div>
+
+				</section>
+				<? } ?>
+
+				<? if ($itemArr) { ?>
+
+					<div class="pb-4"></div>
+
+						<? foreach ($itemArr as $item) { ?>
+							<div class="card card-box">
+								<div class="card-body card-box__body">
+									<nav class="box-nav">
+
+										<? if ($pageTypeId == \Content\Controller\PageController::PAGE_LEGISLATION_TYPE) { ?>
+											<i class="ui-icon ui-icon-book" aria-hidden="true"></i>
+										<? } else { ?>
+											<i class="ui-icon ui-icon-download-color" aria-hidden="true"></i>
+										<? } ?>
+
+										<a class="box-nav-itsem" href="<?=$this->url('nested_page_file_download', ['fileId' => $item->getPageId(), 'timestamp' => strtotime($item->getUpdatedOn())])?>">
+										<?=$item->getTitle()?>
+										</a>
+									</nav>
+								</div>
+							</div>
+						<? } ?>
+				<? } ?>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+$('.group-collapsed').on('click', function(){
+
+	var target = $(this).data("target");
+	var groupId = $(this).data("id")
+
+	if ($('.group-items-'+groupId).is(':empty')) {
+		ajaxRequest(null, {getGroupItesl: true, groupId:groupId}, '.group-items-'+groupId, '.group-items-'+groupId);
+	}
+});
+</script>
+
+<iframe src="" name="open-file" width="0" height="0" style="display: none;"></iframe>

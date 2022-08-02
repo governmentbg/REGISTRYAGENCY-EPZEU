@@ -1,0 +1,19 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer Localizer
+
+@{
+    string message = (string)ViewData["message"];
+    string returnUrl = (string)ViewData["returnUrl"];
+
+    Dictionary<string, string> returnUrlRouteData = null;
+
+    if (!string.IsNullOrEmpty(returnUrl))
+    {
+        returnUrlRouteData = new Dictionary<string, string>()
+{
+    { "ReturnUrl", returnUrl }
+};
+    }
+
+}
+<div class="alert alert-warning">@message@if (!string.IsNullOrEmpty(returnUrl)){@Html.Raw(" ")<a class="alert-link" asp-controller="Account" asp-action="Login" asp-all-route-data="returnUrlRouteData">
+    <b>@Localizer["GL_BACK_I"]</b></a>}</div>

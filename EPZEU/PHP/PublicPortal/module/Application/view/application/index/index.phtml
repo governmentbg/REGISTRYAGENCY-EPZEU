@@ -1,0 +1,224 @@
+<?
+$currentLang = $this->language()->getCurrentLang();
+?>
+
+<div class="main-wrapper">
+
+            <div class="page-wrapper">
+				<? if(count($hotNewsList)) {?>
+
+					<section class="section-wrapper section-wrapper--margins">
+            			<div class="fixed-content-width">
+
+            				<div class="card card--hot-news">
+            					<div class="card-body">
+				            		<? foreach ($hotNewsList as $hotNewsObj) { ?>
+										<article class="article article--news article--hot-news">
+											<h3 class="article-title">
+												<a href="<?=$this->url('preview_news', ['newsId' => $hotNewsObj->getNewsId(), 'lang' => $currentLang])?>"><?=$hotNewsObj->getTitle()?></a>
+											</h3>
+											<p><em><?=$this->dateFormat(
+														strtotime($hotNewsObj->getNewsDate()),
+														IntlDateFormatter::NONE, // date
+														IntlDateFormatter::NONE, // time
+														$this->plugin('translate')->getTranslator()->getLocale(),
+														\Application\View\Helper\DateFormat::DATE
+													);?></em> <a href="<?=$this->url(($registerList[$hotNewsObj->getRegisterId()] == 'CR' ? 'commercial_register' : 'property_register'), ['lang' => $currentLang])?>"><?=$this->translate('GL_'.$registerList[$hotNewsObj->getRegisterId()].'_REG_NAME_L'.($registerList[$hotNewsObj->getRegisterId()] == 'CR'? '_SHORT_L' : ''))?></a>
+											</p>
+											<p><?=$hotNewsObj->getShortDescription()?></p>
+											<a href="<?=$this->url('preview_news', ['newsId' => $hotNewsObj->getNewsId(), 'lang' => $currentLang])?>" class="read-more"><?=$this->translate('EP_PUBLIC_NEWS_READ_MORE_L')?></a>
+										</article>
+									<? }?>
+								</div>
+							</div>
+
+						</div>
+					</section>
+				<? } ?>
+
+                <div class="section-wrapper section-wrapper--margins">
+                    <div class="fixed-content-width">
+                            <div class="card-deck">
+
+                                    <section class="card card-box card--register">
+                                        <a href=<?=$this->url('commercial_register', ['lang' => $currentLang])?> class="flex-shrink-0"><img class="register-home-image card-img-top d-sm-block" src="<?=$this->basePath('images/tr-image.jpg')?>" alt=""></a>
+                                        <div class="card-header card-box__header">
+                                            <h2 class="section-title section-title--page"><a href="<?=$this->url('commercial_register', ['lang' => $currentLang])?>"><?=$this->translate('GL_CR_REG_NAME_L')?></a></h2>
+                                        </div>
+                                        <div class="card-body card-box__body">
+                                            <nav class="box-nav">
+                                                <ul class="box-nav-container">
+
+
+                                                    <li>
+														<? $urlObj = $this->staticPage()->getPage('CR_SERVICES', $currentLang)?>
+														<a class="box-nav-item" href="<?=$urlObj->url ?>">
+															<?=$this->translate($urlObj->labelKey)?>
+														</a>
+													</li>
+													<li>
+														<? $urlObj = $this->staticPage()->getPage('CR_APPLICATIONS', $currentLang)?>
+														<a class="box-nav-item" href="<?=$urlObj->url?>">
+															<?=$this->translate($urlObj->labelKey)?>
+														</a>
+													</li>
+
+                                                    <li><a class="box-nav-item" href="<?=$this->url('legislation', ['lang' => $currentLang, 'registerType' => 'cr'])?>"><?=$this->translate('EP_LEGISLATION_L')?></a></li>
+                                                    <li><a class="box-nav-item" href="<?=$this->url('document_template', ['lang' => $currentLang, 'registerType' => 'cr'])?>"><?=$this->translate('EP_DOCUMENTS_L')?></a></li>
+                                                    <li>
+	                                                    <? $urlObj = $this->staticPage()->getPage('CR_REPORTS', $currentLang)?>
+														<a class="box-nav-item" href="<?=$urlObj->url?>">
+															<?=$this->translate($urlObj->labelKey)?>
+														</a>
+                                                    </li>
+
+
+                                                    <li><a class="box-nav-item" href="<?=$this->url('video_lesson_list', ['lang' => $currentLang, 'registerType' => 'cr'])?>"><?=$this->translate('EP_VIDEOS_L')?></a></li>
+                                                    <li><a class="box-nav-item" href="<?=$this->url('statistic', ['lang' => $currentLang, 'registerType' => 'cr'])?>"><?=$this->translate('EP_STATISTICS_L')?></a></li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+
+                                    </section>
+
+                                    <section class="card card-box card--register">
+                                        <a href="<?=$this->url('property_register', ['lang' => $currentLang])?>" class="flex-shrink-0"><img class="register-home-image card-img-top d-sm-block" src="<?=$this->basePath('images/ir-image.jpg')?>" alt=""></a>
+                                        <div class="card-header card-box__header">
+                                            <h2 class="section-title section-title--page"><a href="<?=$this->url('property_register', ['lang' => $currentLang])?>"><?=$this->translate('GL_PR_REG_NAME_L')?></a></h2>
+                                        </div>
+                                        <div class="card-body card-box__body">
+                                            <nav class="box-nav">
+                                                <ul class="box-nav-container">
+
+                                                    <li>
+														<? $urlObj = $this->staticPage()->getPage('PR_SERVICES', $currentLang)?>
+														<a class="box-nav-item" href="<?=$urlObj->url ?>">
+															<?=$this->translate($urlObj->labelKey)?>
+														</a>
+													</li>
+													<li>
+														<? $urlObj = $this->staticPage()->getPage('PR_APPLICATIONS', $currentLang)?>
+														<a class="box-nav-item" href="<?=$urlObj->url?>">
+															<?=$this->translate($urlObj->labelKey)?>
+														</a>
+													</li>
+
+                                                    <li><a class="box-nav-item" href="<?=$this->url('legislation', ['lang' => $currentLang, 'registerType' => 'pr'])?>"><?=$this->translate('EP_LEGISLATION_L')?></a></li>
+                                                    <li><a class="box-nav-item" href="<?=$this->url('document_template', ['lang' => $currentLang, 'registerType' => 'pr'])?>"><?=$this->translate('EP_DOCUMENTS_L')?></a></li>
+                                                    <li>
+														<? $urlObj = $this->staticPage()->getPage('PR_REPORTS', $currentLang)?>
+														<a class="box-nav-item" href="<?=$urlObj->url?>">
+															<?=$this->translate($urlObj->labelKey)?>
+														</a>
+													</li>
+                                                    <li><a class="box-nav-item" href="<?=$this->url('video_lesson_list', ['lang' => $currentLang, 'registerType' => 'pr'])?>"><?=$this->translate('EP_VIDEOS_L')?></a></li>
+
+                                                    <? $urlObj = $this->staticPage()->getPage('PR_STATE_FEE_CALCULATOR', $currentLang)?>
+                                                    <li>
+	                                                    <a class="box-nav-item" href="<?=$urlObj->url?>">
+	                                                    	<?=$this->translate($urlObj->labelKey)?>
+	                                                    </a>
+                                                    </li>
+                                                    <li><a class="box-nav-item" href="<?=$this->url('statistic', ['lang' => $currentLang, 'registerType' => 'pr'])?>"><?=$this->translate('EP_STATISTICS_L')?></a></li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </section>
+
+
+                                    <div class="w-100 d-none d-sm-block d-lg-none mt-2"><!-- wrap every 2 on sm--></div>
+
+                                    <section class="card card--info">
+                                        <div class="card-body">
+                                            <div class="info-center">
+                                                <div class="info-center__title">
+                                                    <?=$this->translate('EP_INFO_CENTER_L')?>
+                                                </div>
+                                                <div class="info-center__icon">
+
+                                                </div>
+                                                <div class="info-center__phone">
+                                                    <i class="info-center__phone-icon"></i><?=$this->translate('EP_INFO_SERVICE_PHONE_I')?>
+                                                </div>
+                                                <div class="info-center__text">
+                                                    <p><?=$this->translate('EP_INFO_SERVICE_DESCRIPTION_I')?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                </div>
+                    </div>
+                </div>
+
+				<? if (count($newsList)) {?>
+	                <section class="section-wrapper section-wrapper--margins bg-section-1">
+	                    <div class="fixed-content-width">
+	                        <div class="card card-page">
+
+	                            <div class="card-header card-page__header">
+	                                <h2 class="section-title section-title--page"><?=$this->translate('EP_CMS_NEWS_L')?></h2>
+	                            </div>
+
+	                            <div class="card-body card-page__body">
+	                            	<?  foreach ($newsList as $newsObj) { ?>
+			                                <article class="article article--news">
+			                                    <h3 class="article-title">
+			                                        <a href="<?=$this->url('preview_news', ['newsId' => $newsObj->getNewsId(), 'lang' => $currentLang])?>"><?=$newsObj->getTitle()?></a>
+			                                    </h3>
+			                                    <p><em><?=$this->dateFormat(
+															strtotime($newsObj->getNewsDate()),
+															IntlDateFormatter::NONE, // date
+															IntlDateFormatter::NONE, // time
+															$this->plugin('translate')->getTranslator()->getLocale(),
+															\Application\View\Helper\DateFormat::DATE
+														);?></em> <a href="<?=$this->url(($registerList[$newsObj->getRegisterId()] == 'CR' ? 'commercial_register' : 'property_register'), ['lang' => $currentLang])?>"><?=$this->translate('GL_'.$registerList[$newsObj->getRegisterId()].'_REG_NAME_L'.($registerList[$newsObj->getRegisterId()] == 'CR'? '_SHORT_L' : ''))?></a></p>
+			                                    <p><?=$newsObj->getShortDescription()?></p>
+			                                    <a href="<?=$this->url('preview_news', ['newsId' => $newsObj->getNewsId(), 'lang' => $currentLang])?>" class="read-more"><?=$this->translate('EP_PUBLIC_NEWS_READ_MORE_L')?></a>
+			                                </article>
+	                               <? } ?>
+	                            </div>
+
+	                            <div class="card-footer card-page__footer">
+	                                <div class="button-bar">
+	                                    <div class="left-side">
+	                                    </div>
+	                                    <div class="right-side">
+	                                        <a href="<?=$this->url('news_list', ['lang' => $currentLang]) ?>" class="read-more"><?=$this->translate('EP_ALL_NEWS')?></a>
+	                                    </div>
+	                                </div>
+	                            </div>
+
+
+	                        </div>
+	                    </div>
+	                </section>
+                <? } ?>
+
+                <section class="section-wrapper section-wrapper--margins">
+                    <div class="fixed-content-width">
+                        <div class="card card-page">
+
+                            <div class="card-header card-page__header">
+                                <h2 class="section-title section-title--page"><?=$this->translate('EP_BANK_ACCOUNTS_L')?></h2>
+                            </div>
+
+                            <div class="card-body card-page__body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+										<?=$bankAccountCr->getContent()?>
+                                    </div>
+                                    <div class="col-sm-6">
+                                         <?=$bankAccountPr->getContent()?>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+        </div>

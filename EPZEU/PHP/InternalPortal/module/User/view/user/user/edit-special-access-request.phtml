@@ -1,0 +1,39 @@
+<form method="post">
+	<?=$this->partial('partial/uploader.phtml', ['maxFileSize' => $config['GL_DOCUMENT_MAX_FILE_SIZE']])?>
+	<input type="button" id="save-images" class="d-none" disabled="disabled" value="<?=$this->translate('GL_SAVE_L')?>" class="btn btn-primary">
+	<select multiple="multiple" name="files[]" id="files" class="d-none"></select>
+</form>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	if (<?=$specialAccessStatus?>) {
+		parent.closeModal();
+		window.parent.document.reload;
+		console.log(<?=$specialAccessStatus?>);
+	}
+});
+
+
+
+$('#files').on("change", function(){
+	if ($('#files').val().length)
+		$('#save-files', window.parent.document).attr('disabled', false);
+	else
+		$('#save-files', window.parent.document).attr('disabled', true);
+ });
+
+function saveIages() {
+	var files = $('#files').val();
+	$.ajax({
+		  method: "POST",
+		  data: {files:files},
+		  async: true
+		})
+	 .done(function( msg ) {
+		 var container = parent.document.getElementById('special-access-document-list')
+		 container.innerHTML = msg.result;
+		 parent.closeModal();
+	 });
+}
+</script>

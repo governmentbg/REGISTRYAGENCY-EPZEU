@@ -1,0 +1,25 @@
+/* WebHelp EPZEU Public Portal */
+/* SOURCE SASS */
+/* ----  Topic  ---- */
+html {
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Verdana", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+
+body {
+  color: #404040; }
+
+#content p {
+  color: #404040;
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Verdana", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.4285; }
+
+#content p:first-child {
+  line-height: 1; }
+
+#content span {
+  color: #404040;
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Verdana", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+
+#content a {
+  color: #3168a5; }
+
+/* ----  /Topic  ---- */

@@ -1,0 +1,60 @@
+<? foreach ($bulletinList as $baseObj) {?>
+	<tr>
+		<td>
+			<?=$this->dateFormat(
+					strtotime($baseObj->getDateFrom()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale()
+				);
+			?>
+			-
+			<?=$this->dateFormat(
+					strtotime($baseObj->getDateTo()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale()
+				);
+			?>
+		</td>
+		<td>
+			<a href="<?=$this->url('bulletin_file_download', ['bulletinId' => $baseObj->getBulletinId(), 'lang' => $params->fromRoute('lang')])?>">
+				<?=\Document\service\DocumentService::getOriginalFilename($baseObj->getFileName())?>
+			</a>
+		</td>
+		<td>
+			<?=$this->dateFormat(
+					strtotime($baseObj->getUpdatedOn()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale()
+				);
+			?>
+		</td>
+		<td class="icons-td">
+			<?=$baseObj->getStatus() ? '<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i>'.$this->translate('GL_M_STATE_PUBLIC_L') : '<i class="ui-icon ui-icon-state-inactive" aria-hidden="true"></i>'.$this->translate('GL_M_STATE_NO_PUBLIC_L')?>
+		</td>
+
+		<td class="buttons-td">
+			<? if ($this->isAllowed('edit_bulletin')) {?>
+				<a href="<?=$this->url('edit_bulletin', ['bulletinId' => $baseObj->getBulletinId(), 'lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_EDIT_L'))?>">
+					<i class="ui-icon ui-icon-edit"></i>
+				</a>
+			<?} ?>
+
+			<? if ($this->isAllowed('change_bulletin_status')) {?>
+				<a href="<?=$this->url('change_bulletin_status', ['bulletinId' => $baseObj->getBulletinId()], ['query' => $params->fromQuery()])?>"
+				class="btn btn-secondary"
+				onClick="confirmBulletinPublish(
+				'<?=$this->url('change_bulletin_status', ['bulletinId' => $baseObj->getBulletinId()], ['query' => $params->fromQuery()])?>',
+				'<?=$baseObj->getStatus() ? $this->translate('EP_CMS_CONFIRM_PUBLIC_CANCEL_OK_I') : $this->translate('EP_CMS_CONFIRM_PUBLIC_OK_I')?>'
+				,<?=$baseObj->getStatus()?>, event)"
+
+				title="<?=$baseObj->getStatus() ? $this->translate('GL_PUBLIC_CANCEL_L') : $this->translate('GL_PUBLIC_L')?>">
+					<?=$baseObj->getStatus() ? '<i class="ui-icon ui-icon-deactivate"></i>' : '<i class="ui-icon ui-icon-activate"></i>'?>
+				</a>
+			<? } ?>
+		</td>
+
+	</tr>
+<? } ?>

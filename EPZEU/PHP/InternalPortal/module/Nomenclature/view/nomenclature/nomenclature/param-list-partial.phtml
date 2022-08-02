@@ -1,0 +1,198 @@
+<? foreach ($paramList as $baseObj) {
+
+	$paramType = $paramTypeList[$baseObj->getParamType()];?>
+
+	<tr id="edit-row-<?=$baseObj->getAppParamId()?>">
+		<td><?=$baseObj->getModuleName()?></td>
+		<td><?=$baseObj->getFunctionalityName()?></td>
+		<td>
+		<span class="word-break"><b><?=$baseObj->getCode()?></b></span><br>
+		<?=$baseObj->getDescription()?></td>
+		<td>
+			<?=$this->translate($paramType)?>
+			<input type="hidden" id="param-type-code-<?=$baseObj->getAppParamId()?>" name="param-type-code-<?=$baseObj->getAppParamId()?>" value="<?=$paramType?>">
+		</td>
+
+		<td id="edit-param-value-<?=$baseObj->getAppParamId()?>">
+			<?
+			$valueDate = date('d.m.Y');
+			$valueTime = '00:00';
+			$interval = null;
+			$valueString = '';
+			$valueInt = '';
+
+			switch ($paramType) {
+
+				case 'GL_DATE_HOUR_MINUTE_L':
+					$value = $this->dateFormat(
+								strtotime($baseObj->getValueDatetime()),
+								IntlDateFormatter::NONE, // date
+								IntlDateFormatter::NONE, // time
+								$this->plugin('translate')->getTranslator()->getLocale(),
+								\Application\View\Helper\DateFormat::DATETIME
+							);
+					$valueDate = date('d.m.Y', strtotime($baseObj->getValueDatetime()));
+					$valueTime = date('H:i', strtotime($baseObj->getValueDatetime()));
+					break;
+
+				case 'GL_TIME_TERM_L':
+					$interval = \Application\Service\AppService::fromPg($baseObj->getValueInterval());
+					$value = \Application\Service\AppService::createDateIntervalString($interval, $this->plugin('translate')->getTranslator());
+					break;
+
+				case 'GL_STRING_L':
+					$value = nl2br($baseObj->getValueString());
+					$valueString = $baseObj->getValueString();
+					break;
+
+				case 'GL_INTEGER_L':
+					$value = $baseObj->getValueInt();
+					$valueInt = $baseObj->getValueInt();
+					break;
+
+				case 'GL_HOUR_MINUTE_L':
+					$value = $this->dateFormat(
+								strtotime($baseObj->getValueHour()),
+					 			IntlDateFormatter::NONE, // date
+					 			IntlDateFormatter::NONE, // time
+					 			$this->plugin('translate')->getTranslator()->getLocale(),
+					 			\Application\View\Helper\DateFormat::TIME
+							);
+					$valueTime = date('H:i', strtotime($baseObj->getValueHour()));
+					break;
+			}
+			?>
+			<div class="edit-param-value-<?=$baseObj->getAppParamId()?>">
+				<div class="preview-<?=$baseObj->getAppParamId()?>">
+					<span class="param-value"><?=$value?></span>
+				</div>
+				<div class="edit-<?=$baseObj->getAppParamId()?> d-none">
+
+					<!-- Дата, час и минути или Час и минути-->
+					<div id="param-value-date-time-<?=$baseObj->getAppParamId()?>" class="form-row<?=($paramType == 'GL_DATE_HOUR_MINUTE_L' || $paramType == 'GL_HOUR_MINUTE_L'? '' : ' d-none')?>">
+						<div class="form-group col-7 date-control<?=($paramType == 'GL_DATE_HOUR_MINUTE_L' ? '' : ' d-none')?>">
+		               		<div class="input-group date paramValueDate" id="paramValueDate-<?=$baseObj->getAppParamId()?>" data-target-input="nearest">
+							    <input name="paramValueDateInput-<?=$baseObj->getAppParamId()?>" id="paramValueDateInput-<?=$baseObj->getAppParamId()?>" class="form-control datetimepicker-input" data-target="#paramValueDate-<?=$baseObj->getAppParamId()?>" maxlength="20" value="<?=$valueDate?>" type="text">
+								<div class="input-group-append" data-target="#paramValueDate-<?=$baseObj->getAppParamId()?>" data-toggle="datetimepicker">
+									<button class="btn btn-secondary" type="button">
+										<i class="ui-icon ui-icon-calendar"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-5 time-control">
+		               		<div class="input-group date paramValueTime" id="paramValueTime-<?=$baseObj->getAppParamId()?>" data-target-input="nearest">
+								<input name="paramValueTimeInput-<?=$baseObj->getAppParamId()?>" id="paramValueTimeInput-<?=$baseObj->getAppParamId()?>" class="form-control datetimepicker-input" data-target="#paramValueTime-<?=$baseObj->getAppParamId()?>" maxlength="20" value="<?=$valueTime?>" type="text">
+								<div class="input-group-append" data-target="#paramValueTime-<?=$baseObj->getAppParamId()?>" data-toggle="datetimepicker">
+									<button class="btn btn-secondary" type="button">
+										<i class="ui-icon ui-icon-clock"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Стринг -->
+					<div id="param-value-string-<?=$baseObj->getAppParamId()?>" class="<?=($paramType == 'GL_STRING_L' ? '' : 'd-none')?>">
+						<textarea class="form-control" name="paramString" rows="3"><?=$valueString?></textarea>
+					</div>
+
+					<!-- Цяло число -->
+					<div id="param-value-inpit-<?=$baseObj->getAppParamId()?>" class="<?=($paramType == 'GL_INTEGER_L' ? '' : 'd-none')?>">
+						<input name="paramValue" class="form-control" value="<?=$valueInt?>" type="text">
+					</div>
+
+					<!-- Период от време -->
+					<div id="param-value-interval-<?=$baseObj->getAppParamId()?>" class="<?=($paramType == 'GL_TIME_TERM_L' ? '' : ' d-none')?>">
+						<div class="form-row">
+							<div class="form-group col-auto period-control">
+								<div class="form-inline">
+									<label for="t1" class="mr-1"><?=mb_strtolower($this->translate('GL_DAYS_L'))?></label>
+									<input class="form-control period-control-2" name="days" id="t1" value="<?=!empty($interval) ? $interval->d : ''?>" maxlength="3" type="text">
+								</div>
+							</div>
+							<div class="form-group col-auto period-control">
+								<div class="form-inline">
+									<label for="t2" class="mr-1"><?=mb_strtolower($this->translate('GL_HOURS_L'))?></label>
+									<input class="form-control period-control-2" name="hours" value="<?=!empty($interval) ? $interval->h : ''?>" id="t2" maxlength="2" type="text">
+								</div>
+							</div>
+							<div class="form-group col-auto period-control">
+								<div class="form-inline">
+									<label for="t3" class="mr-1"><?=mb_strtolower($this->translate('GL_MINUTES_L'))?></label>
+									<input class="form-control period-control-2" name="minutes" value="<?=!empty($interval) ? $interval->i : ''?>" id="t3" maxlength="2" type="text">
+								</div>
+							</div>
+							<div class="form-group col-auto period-control">
+								<div class="form-inline">
+									<label for="t4" class="mr-1"><?=mb_strtolower($this->translate('GL_SECONDS_L'))?></label>
+									<input class="form-control period-control-2" name="seconds" value="<?=!empty($interval) ? $interval->s : ''?>" id="t4" maxlength="2" type="text"> <span class="form-text mr-1 ml-1">.</span>
+									<input class="form-control period-control-3" name="milliseconds" value="<?=!empty($interval) ? str_replace('0.', '', $interval->f) : ''?>" id="t5" maxlength="3" type="text">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</td>
+
+		<td>
+			<div class="custom-control custom-checkbox">
+				<input class="custom-control-input" id="isSystem_<?=$baseObj->getAppParamId()?>" <?=($baseObj->getIsSystem() ? 'checked="checked"' : '')?> type="checkbox" disabled="disabled">
+				<label class="custom-control-label" for="isSystem_<?=$baseObj->getAppParamId()?>"></label>
+			</div>
+		</td>
+
+		<td class="buttons-td">
+			<? if ($this->isAllowed('manage_param') && empty($baseObj->getIsSystem())) {?>
+				<span class="preview-<?=$baseObj->getAppParamId()?>">
+					<button class="btn btn-secondary edit-section-<?=$baseObj->getAppParamId()?>" onclick="editParam('<?=$baseObj->getAppParamId()?>')" title="<?=$this->translate('GL_EDIT_L')?>"><i class="ui-icon ui-icon-edit"></i></button>
+				</span>
+
+				<span class="edit-<?=$baseObj->getAppParamId()?> d-none btn-group">
+					<button class="btn btn-secondary" onClick="saveParamChanges('<?=$baseObj->getAppParamId()?>')" title="<?=$this->translate('GL_CONFIRM_L')?>"><i class="ui-icon ui-icon-check"></i></button>
+					<button class="btn btn-secondary" onClick="cancelEditParam('<?=$baseObj->getAppParamId()?>')" title="<?=$this->translate('GL_REFUSE_L')?>"><i class="ui-icon ui-icon-ban"></i></button>
+				</span>
+			<? } ?>
+		</td>
+
+	</tr>
+<? } ?>
+
+<script>
+$(function () {
+    $('.paramValueDate').datetimepicker({
+		widgetPositioning: {
+        	horizontal: 'left',
+           	vertical: 'bottom'
+		},
+    	useCurrent: true,
+    	format: "DD.MM.YYYY",
+    	locale: moment.locale('bg')
+    });
+});
+
+$(function () {
+    $('.paramValueTime').datetimepicker({
+		widgetPositioning: {
+			horizontal: 'left',
+			vertical: 'bottom'
+		},
+		useCurrent: true,
+		format: "HH:mm"
+	});
+});
+
+//Add space for datetimepicker in .table-responsive on show.datetimepicker
+$(".paramValueDate, .paramValueTime").on("show.datetimepicker", function(event) {
+	$responsive_container = $(event.target).closest('.table-responsive');
+	$responsive_container_padding_bottom = $responsive_container.css("padding-bottom");
+	$responsive_container.css("padding-bottom", "15.625rem");
+});
+
+// Remove space added for datetimepicker in .table-responsive on hide.datetimepicker
+$(".paramValueDate, .paramValueTime").on("hide.datetimepicker", function(event) {
+	$responsive_container = $(event.target).closest('.table-responsive');
+	$responsive_container.css("padding-bottom", $responsive_container_padding_bottom );
+});
+</script>

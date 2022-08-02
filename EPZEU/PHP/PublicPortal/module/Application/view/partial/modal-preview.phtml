@@ -1,0 +1,32 @@
+<div id="modal-preview" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog <?=isset($modalDialogClass) ? $modalDialogClass : 'modal-lg'?>" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title"><?=$title?></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" title="<?=$this->translate('GL_CLOSE_L')?>" class="close-preview-modal">×</span>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <div class="button-bar">
+
+                 	<div class="left-side">
+                 		<? if (!empty($showBtnLeft)) { ?>
+                    		<button type="button" class="btn btn-secondary" data-dismiss="modal"><?=(!empty($btnLeftName) ? $this->translate($btnLeftName) : $this->translate('GL_CLOSE_L'))?></button>
+                  		<? } ?>
+                  	</div>
+
+					<div class="right-side">
+						<? if (!empty($showBtnRight)) { ?>
+							<button <?=!empty($btnRightId) ? 'id="'.$btnRightId.'"' : ''?> type="button" class="btn <?=!empty($btnRightClass) ? $btnRightClass : 'btn-primary'?>" data-dismiss="modal">
+								<? if (!empty($btnIconRight)) { ?><i class="ui-icon <?=$btnIconRight?>" aria-hidden="true"></i><? } ?> <?=(!empty($btnRightName) ? $this->translate($btnRightName) : $this->translate('GL_CLOSE_L'))?>
+							</button>
+						<? } ?>
+					</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

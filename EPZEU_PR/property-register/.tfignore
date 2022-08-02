@@ -1,0 +1,16 @@
+*/target
+*.iml
+*.idea
+*.project
+*/.settings
+*.classpath
+*/package-lock.json
+*/node_modules
+*/node
+/pr-web/node_modules/
+/pr-web/pr-web-public/node_modules/
+/pr-web/pr-web-public/node/
+!/pr-web/node_modules/
+/resources/xsd/xsdCompile/
+pr-web\node\node_modules\npm\node_modules\ajv\lib\$data.js
+pr-web\node\node_modules\npm\node_modules\ajv\lib\refs\$data.json

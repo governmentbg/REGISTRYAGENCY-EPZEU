@@ -1,0 +1,292 @@
+<?php
+$this->headTitle('EP_NOM_ADD_SERVICE_L');
+?>
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_GL_NOMENCLATURES_L')?></li>
+		<li class="breadcrumb-item"><a href="<?=$this->url('service_list')?>"><?=$this->translate('GL_SERVICES_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_NOM_ADD_SERVICE_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_NOM_ADD_SERVICE_L')?></h2>
+</div>
+
+<div class="card">
+
+	<?php
+	$serviceForm->setAttribute('action', $this->url('add_service', ['lang' => $params->fromRoute('lang')]));
+	$serviceForm->setAttribute('id', 'service-form');
+	$serviceForm->prepare();
+
+	echo $this->form()->openTag($serviceForm);
+	?>
+
+	<div class="card-body">
+
+		<?=$this->partial('partial/messages.phtml')?>
+
+		<?if (!empty($synchronizeMessage)) {?>
+			<div class="row d-none" id="synchronizeMessage">
+				<div class="col-12 form-group">
+					<div class="alert alert-warning" role="alert">
+						<?=$synchronizeMessage?>
+					</div>
+				</div>
+			</div>
+		<?}?>
+
+		<div class="row">
+			<div class="col-sm-6 form-group">
+				<?=$this->formRow($serviceForm->get('registerId'))?>
+			</div>
+			<div class="col-sm-6 form-group">
+				<?=$this->formRow($serviceForm->get('isAdm'), null, false, 'partial/multiradiobox')?>
+			</div>
+		</div>
+
+		<div id="iisdaServiceSection" class="d-none">
+			<div class="row">
+				<div class="col-sm-12 col-lg-6 form-group">
+					<?=$this->formRow($serviceForm->get('iisdaServiceId'), null, true, "")?>
+				</div>
+			</div>
+		</div>
+
+		<div id="serviceSection" class="d-none">
+			<div class="row">
+				<div class="col-sm-12 col-lg-6 form-group">
+					<?=$this->formRow($serviceForm->get('name'))?>
+				</div>
+				<div class="col-sm-12 col-lg-6 form-group">
+					<?=$this->formRow($serviceForm->get('shortDescription'))?>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 form-group">
+					<?=$this->formRow($serviceForm->get('description'))?>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 col-md-6 form-group">
+				<?=$this->formRow($serviceForm->get('appTypeId'))?>
+			</div>
+			<div class="col-sm-12 col-md-6 form-group">
+				<label class="required-field"><?=$this->translate('EP_NOM_DATE_START_SERVICE_L')?></label>
+				<div class="row">
+
+					<div class="col-sm-6 col-md-7 col-lg-6 col-xl-5 form-group">
+				    	<div class="input-group date" id="statusDate" data-target-input="nearest">
+				            <?=$this->formRow($serviceForm->get('statusDate'), null, false)?>
+				            <div class="input-group-append" data-target="#statusDate" data-toggle="datetimepicker">
+				           		<button class="btn btn-secondary" type="button">
+									<i class="ui-icon ui-icon-calendar"></i>
+								</button>
+				            </div>
+				        	<?=$this->FormElementErrors($serviceForm->get('statusDate'))?>
+				    	</div>
+					</div>
+
+					<div class="col-sm-6 col-md-5 col-lg-4 col-xl-3 form-group">
+				    	<div class="input-group date" id="statusTime" data-target-input="nearest">
+            				 <?=$this->formRow($serviceForm->get('statusTime'), null, false)?>
+			                <div class="input-group-append" data-target="#statusTime" data-toggle="datetimepicker">
+			             		<button class="btn btn-secondary" type="button">
+			         				<i class="ui-icon ui-icon-clock"></i>
+			             		</button>
+			            	</div>
+			            	<?=$this->FormElementErrors($serviceForm->get('statusTime'))?>
+            			</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6 form-group">
+				<?=$this->formRow($serviceForm->get('serviceTypeIds'), null, null, 'partial/multicheckbox')?>
+			</div>
+			<div id="paymentSection" class="col-sm-6 form-group">
+				<?=$this->formRow($serviceForm->get('paymentTypeIds'), null, null, 'partial/multicheckbox')?>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url('service_list', ['lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<?=$this->formSubmit($serviceForm->get('submit'));?>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+
+</div>
+
+<div class="d-none">
+	<select name="serviceEpayment" id="serviceEpayment">
+		<?foreach ($iisdaServiceArr as $item) {?>
+			<option value="<?=$item->getIisdaServiceId()?>"><?=(!empty($item->getHasEpayment()) ? $item->getHasEpayment() : 0)?></option>
+		<?}?>
+	</select>
+</div>
+
+
+<?$this->headScript()->appendFile($this->basePath('js/ckeditor/ckeditor.js'));?>
+
+<?$this->headLink()->appendStylesheet($this->basePath('js/bootstrap-4-datepicker/css/tempusdominus-bootstrap-4.min.css'));?>
+<?$this->headScript()->prependFile($this->basePath('js/bootstrap-4-datepicker/js/tempusdominus-bootstrap-4.min.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/moment-with-locales.min.js'));?>
+
+<?$this->headScript()->prependFile($this->basePath('js/combobox.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/jquery-ui.js'));?>
+
+
+<script type="text/javascript">
+
+$(document).on('submit', '#service-form', function(){
+	showGlobalLoader();
+});
+
+$(function () {
+	$('#statusDate').datetimepicker({
+		useCurrent: false,
+		format: "DD.MM.YYYY",
+		locale: moment.locale('bg')
+	});
+});
+
+$(function () {
+	$('#statusTime').datetimepicker({
+		useCurrent: false,
+		format: "HH",
+		locale: moment.locale('bg')
+	});
+});
+
+function setEpayment(iisdaServiceId) {
+	var iisdaServiceEpayment = 0;
+
+	var isAdm = $("input[name='isAdm']:checked").val();
+
+	if (typeof iisdaServiceId !== 'undefined' && iisdaServiceId != '') {
+		var iisdaServiceEpayment = $('#serviceEpayment option[value='+iisdaServiceId+']').text();
+
+		if (iisdaServiceEpayment == 1) {
+			$('#paymentTypeLabel').addClass('required-field');
+			$('#paymentSection').removeClass('d-none');
+		}
+		else {
+			$('#paymentTypeLabel').removeClass('required-field');
+			$('#paymentSection').addClass('d-none');
+			$("input[name='paymentTypeIds[]']:checkbox").prop('checked',false);
+		}
+	}
+
+	else {
+
+		$('#paymentSection').removeClass('d-none');
+
+		if (isAdm == 0){
+			$('#paymentTypeLabel').removeClass('required-field');
+		}
+		else {
+			$('#paymentTypeLabel').removeClass('required-field');
+			$("input[name='paymentTypeIds[]']:checkbox").prop('checked',false);
+		}
+	}
+}
+
+$("input[name='isAdm']").on('click', function() {
+
+	$('.invalid-feedback').remove();
+	$('.input-error').removeClass('input-error');
+
+	if($("#isAdm_1").is(':checked')) {
+		$("#iisdaServiceSection").removeClass('d-none');
+		$("#serviceSection").addClass('d-none');
+		$("#synchronizeMessage").removeClass('d-none');
+		setEpayment($('#iisdaServiceId').val());
+	}
+
+	else if ($("#isAdm_0").is(':checked')) {
+		$("#iisdaServiceSection").addClass('d-none');
+		$("#serviceSection").removeClass('d-none');
+		$("#synchronizeMessage").addClass('d-none');
+
+		$('#paymentSection').removeClass('d-none');
+		$('#paymentTypeLabel').removeClass('required-field');
+		$('#paymentSection ul.invalid-feedback').remove();
+
+		setEpayment(0);
+	}
+});
+
+$(document).ready(function(){
+
+	// Combobox with autocomplete
+	$("#appTypeId").combobox();
+
+	$("#iisdaServiceId").combobox({
+		select: function (event, ui) {
+			setEpayment($('#iisdaServiceId').val());
+    	}
+    });
+
+	var admService = document.getElementById("isAdm_1").checked;
+	var notAdmService = document.getElementById("isAdm_0").checked;
+
+	$("#iisdaServiceSection").addClass('d-none');
+	$("#serviceSection").addClass('d-none');
+
+	if (admService) {
+		$("#iisdaServiceSection").removeClass('d-none');
+		$("#serviceSection").addClass('d-none');
+		$("#synchronizeMessage").removeClass('d-none');
+		setEpayment($('#iisdaServiceId').val());
+	}
+	else if (notAdmService) {
+
+		<? if ($this->FormElementErrors($serviceForm->get('description'))) { ?>
+	      CKEDITOR.on('instanceReady', function() {
+	       $('#cke_description').addClass('input-error');
+	      });
+	    <? } ?>
+
+		$("#iisdaServiceSection").addClass('d-none');
+		$("#serviceSection").removeClass('d-none');
+		$("#synchronizeMessage").addClass('d-none');
+		$('#paymentTypeLabel').removeClass('required-field');
+
+		setEpayment(0);
+	}
+});
+
+$('#registerId').on("change", function(){
+
+	var obj = jQuery.parseJSON(JSON.stringify(<?=$applicationTypeArr?>));
+
+	var selectedRegisterId = $(this).val();
+
+	$('#appTypeId option:not(:first)').remove();
+
+	// Списък със заявления спрямо избрания регистър
+	if (selectedRegisterId != '') {
+		$.each(obj, function(registerId, appTypeList){
+			if (selectedRegisterId == registerId) {
+				$.each(appTypeList, function(key, value){
+					$('#appTypeId').append('<option value="'+value.id+'">'+value.value+'</option>');
+				})
+			}
+		});
+	}
+
+	$("#appTypeId").combobox('destroy');
+	$("#appTypeId").combobox();
+})
+</script>

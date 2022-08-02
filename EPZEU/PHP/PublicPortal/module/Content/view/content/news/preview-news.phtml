@@ -1,0 +1,92 @@
+<? $this->headTitle('EP_CMS_NEWS_VIEW_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item"><a href="<?=$this->url('news_list', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('EP_CMS_NEWS_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_NEWS_VIEW_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$baseObj->getTitle()?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+				<div class="card card-page">
+					<div class="card-body card-page__body">
+
+						<article class="article">
+							<p>
+								<em>
+									<?=$this->dateFormat(
+										strtotime($baseObj->getNewsDate()),
+										IntlDateFormatter::NONE, // date
+										IntlDateFormatter::NONE, // time
+										$this->plugin('translate')->getTranslator()->getLocale(),
+										\Application\View\Helper\DateFormat::DATE
+										);
+									?>
+								</em>
+								&nbsp;
+								<a href="<?=$this->url(($registerList[$baseObj->getRegisterId()] == 'CR' ? 'commercial_register' : 'property_register'), ['lang' => $this->language()->getCurrentLang()])?>">
+									<?=$this->translate('GL_'.$registerList[$baseObj->getRegisterId()].'_REG_NAME_L'.($registerList[$baseObj->getRegisterId()] == 'CR'? '_SHORT_L' : ''))?>
+								</a>
+							</p>
+							<? if (!empty($baseObj->getFileName())) {?>
+								<img class="rounded article-image" src="<?=$this->url('load_image', ['newsId' => $baseObj->getNewsId(), 'timestamp' => strtotime($baseObj->getUpdatedOn()), 'imageName' => $baseObj->getFileName()])?>">
+							<? } ?>
+
+							<?=$baseObj->getDescription()?>
+
+							<? $uploadedFileList = $baseObj->getFiles();
+							if (isset($uploadedFileList) && $uploadedFileList->count()) {?>
+
+								<br>
+
+								<?foreach ($uploadedFileList as $fileObj) {?>
+									<p>
+										<i class="ui-icon ui-icon-download-color"></i>&nbsp;
+										<a href="<?=$this->url('load_news_document', ['fileId' => $fileObj->getDocId()])?>">
+											<?=\Document\service\DocumentService::getOriginalFilename($fileObj->getFileName())?>
+										</a>
+									</p>
+								<? }
+							} ?>
+
+						</article>
+
+					</div>
+
+					<div class="card-footer card-page__footer">
+						<div class="button-bar">
+							<div class="left-side"></div>
+							<div class="right-side">
+								<a href="<?=$this->url('news_list', ['lang' => $this->language()->getCurrentLang()])?>" class="read-more"><?=$this->translate('EP_ALL_NEWS')?></a>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

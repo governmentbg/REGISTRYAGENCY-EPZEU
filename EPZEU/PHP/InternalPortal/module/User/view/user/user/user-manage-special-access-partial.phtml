@@ -1,0 +1,73 @@
+<?
+foreach ($specialAccessList as $baseObj) { ?>
+	<tr>
+		<td>
+			<?=$this->dateFormat(
+				strtotime($baseObj->getCreatedOn()),
+			    IntlDateFormatter::MEDIUM, // date
+			    IntlDateFormatter::NONE, // time
+			    $this->plugin('translate')->getTranslator()->getLocale(),
+				\Application\View\Helper\DateFormat::DATETIME
+			)?>
+		</td>
+
+		<td class="word-break"><?=$baseObj->getEmail()?></td>
+		<td><?=$baseObj->getFirstName()?></td>
+		<td><?=$baseObj->getMiddleName()?></td>
+		<td><?=$baseObj->getFamilyName()?></td>
+
+		<td>
+			<?=$this->dateFormat(
+				strtotime($baseObj->getProcessingDate()),
+			    IntlDateFormatter::MEDIUM, // date
+			    IntlDateFormatter::NONE, // time
+			    $this->plugin('translate')->getTranslator()->getLocale(),
+				\Application\View\Helper\DateFormat::DATETIME
+			)?>
+		</td>
+
+		<td class="icons-td">
+		<?php
+		switch ($specialAccessStatusList[$baseObj->getAccessStatus()]) {
+
+			case 'EP_USR_SP_ACCESS_WAITING_L':
+				?><i class="ui-icon ui-icon-state-waiting" aria-hidden="true"></i><?php
+				break;
+
+			case 'EP_USR_SP_ACCESS_APPROVED_L':
+				?><i class="ui-icon ui-icon-state-active" aria-hidden="true"></i><?php
+				break;
+
+			case 'EP_USR_SP_ACCESS_DISAPPROVED_L':
+				?><i class="ui-icon ui-icon-state-canceled" aria-hidden="true"></i><?php
+				break;
+		}?><?=$this->translate($specialAccessStatusList[$baseObj->getAccessStatus()])?>
+		</td>
+
+		<? // статус неодобрен
+		if ($params->fromQuery('status') == 2) {?>
+			<td><?=nl2br($baseObj->getStatusReason())?></td>
+		<? } ?>
+
+		<td class="buttons-td">
+
+			<?php if ($this->isAllowed('edit_user')) { ?>
+
+				<? if ($specialAccessStatusList[$baseObj->getAccessStatus()] == 'EP_USR_SP_ACCESS_WAITING_L') { ?>
+					<a href="<?=$this->url('user_special_access_approval', ['id' => $baseObj->getRequestId(), 'lang' => $params->fromRoute('lang')], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('EP_USR_PROCESS_L'))?>">
+						<i class="ui-icon ui-icon-edit"></i>
+				</a>
+				<?php } else { ?>
+					<a href="<?=$this->url('user_special_access_approval', ['id' => $baseObj->getRequestId(), 'lang' => $params->fromRoute('lang')], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>">
+						<i class="ui-icon ui-icon-eye"></i>
+					</a>
+				<?php } ?>
+
+
+			<?php } ?>
+
+
+		</td>
+	</tr>
+<? } ?>
+

@@ -1,0 +1,94 @@
+<?php
+$this->headTitle($this->translate('EP_CMS_ADD_SERVICE_L'));
+
+$registerList = \Application\Service\CacheService::getRegisterAbbreviationList();
+
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_CONTENT_L')?></li>
+		<li class="breadcrumb-item">
+			<a href="<?=$this->url('service_page_list', ['lang' => $lang], ['query' => ['registerId' => $registerId, 'sGroupId' => $groupId]])?>"><?=$this->translate('EP_CMS_PAGES_SERVICES_L')?></a>
+		</li>
+
+		<li class="breadcrumb-item">
+			<a href="<?=$this->url('service_page_list', ['lang' => $lang], ['query' => ['registerId' => $registerId, 'sGroupId' => $groupId]])?>">
+				<?=$registerList['GL_CR_REG_ABBREVATION_L'] == $registerId ? $this->translate('GL_CR_REG_NAME_L_SHORT_L') : $this->translate('GL_PR_REG_NAME_L')?>
+			</a>
+		</li>
+
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_ADD_SERVICE_L')?></li>
+	</ol>
+</nav>
+
+
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_CMS_ADD_SERVICE_L')?></h2>
+</div>
+
+<div class="card">
+
+	<?php
+
+	$pageForm->setAttribute('action', $this->url('add_service_page', ['type' => $pageTypeId, 'registerId' => $registerId, 'groupId' => $groupId, 'lang' => $params->fromRoute('lang')]));
+
+	$pageForm->setAttribute('id', 'page-form');
+	$pageForm->prepare();
+
+	echo $this->form()->openTag($pageForm);
+	?>
+
+	<div class="card-body">
+		<?=$this->partial('partial/messages.phtml')?>
+
+		<? if ($groupId) { ?>
+		<div class="row">
+			<div class="col-sm-12 col-lg-8 form-group">
+				<label for="register"><?=$this->translate('EP_CMS_GROUP_L')?></label>
+				<input name="register" value="<?=$parentObj->getTitle() ?>" disabled="disabled" class="form-control" maxlength="100" type="text">
+			</div>
+		</div>
+		<? } ?>
+
+
+		<div class="row">
+			<div class="col-sm-12 col-lg-8 form-group">
+				<?=$this->formRow($pageForm->get('serviceId'))?>
+			</div>
+
+			<div class="col-sm-12 col-lg-4 form-group">
+				<label for="register"><?=$this->translate('GL_REGISTER_L')?></label>
+				<input name="register" id="register" value="<?=$this->translate(array_search($registerId, $registerList))?>" disabled="disabled" class="form-control" maxlength="100" value="" type="text">
+			</div>
+		</div>
+
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url('service_page_list', ['lang' => $lang], ['query' => ['registerId' => $registerId, 'sGroupId' => $groupId]])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<?=$this->formSubmit($pageForm->get('submit'));?>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+
+</div>
+
+
+
+<?$this->headScript()->appendFile($this->basePath('js/ckeditor/ckeditor.js'));?>
+
+<?$this->headScript()->prependFile($this->basePath('js/combobox.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/jquery-ui.js'));?>
+
+<script>
+$(document).on('submit', '#page-form', function(){
+	showGlobalLoader();
+});
+
+$("#serviceId").combobox();
+</script>

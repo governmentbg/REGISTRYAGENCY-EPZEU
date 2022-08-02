@@ -1,0 +1,1 @@
+DELETE FROM public.app_parameters t WHERE t.code = 'GL_PIK_IS_ALLOWED';

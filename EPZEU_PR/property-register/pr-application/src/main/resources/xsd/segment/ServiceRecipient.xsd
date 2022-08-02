@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="Person.xsd"/>
+    <xsd:include schemaLocation="ApplicantCategory.xsd"/>
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+    <xsd:complexType name="ServiceRecipient">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Данни за заявителя</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="Person" type="Person" />
+            <xsd:element name="ApplicantCategory" type="ApplicantCategory" />
+            <xsd:element name="DataForAnOfficial" type="val:DataForAnOfficial" minOccurs="0" />
+            <xsd:element name="SpecialAccessType" type="val:SpecialAccessType" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src/main/webapp/app",
+    "jsx": "react",
+    "target": "es5",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "outDir": "target/www/app",
+    "lib": [ "dom", "es5", "es2015.iterable", "scripthost" ],
+    "types": [ "webpack-env" ],
+    "skipDefaultLibCheck": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "allowJs": true,
+    "checkJs": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "./src/main/webapp/app/**/*"
+  ]
+}

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+    <xsd:complexType name="IndividualNameOfReport">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Имена на физическо лице обект на справка</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="FirstName" type="val:FirstName" minOccurs="0" />
+            <xsd:element name="SurName" type="val:SurName" minOccurs="0" />
+            <xsd:element name="FamilyName" type="val:FamilyName" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

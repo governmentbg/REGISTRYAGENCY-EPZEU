@@ -1,0 +1,279 @@
+<?php
+$this->headTitle('EP_USR_REQUEST_SPEC_ACCESS_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_USERS_L')?></li>
+		<li class="breadcrumb-item"><a href="<?=$this->url('user_manage_special_access')?>"><?=$this->translate('EP_USR_MNG_REQSPACC_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_REQUEST_SPEC_ACCESS_L')?></li>
+	</ol>
+</nav>
+
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_USR_REQUEST_SPEC_ACCESS_L')?></h2>
+</div>
+
+<div class="card">
+
+	<?php
+
+	$userForm->setAttribute('action', $this->url(null, ['id' => $specialAccessRequest->getRequestId(), 'lang' => $params->fromRoute('lang'), 'userId' => $userId]));
+	$userForm->prepare();
+
+	$userFieldset = $userForm->get('userFieldset');
+
+	if (!$specialAccessRequest->getAccessStatus())
+		echo $this->form()->openTag($userForm);
+
+	?>
+	<div class="card-body">
+		<? if ($specialAccessRequest->getAccessStatus()) {?>
+
+			<?
+			if ($specialAccessStatusList[$specialAccessRequest->getAccessStatus()] == 'EP_USR_SP_ACCESS_APPROVED_L') {
+				$alertClass = 'success';
+				$alertMessage = 'EP_USR__REQ_APPROVED_I';
+			} else {
+				$alertClass = 'danger';
+				$alertMessage = 'EP_USR__REQ_DECL_I';
+				$alertDisapprovalStatusReason = $this->translate('EP_USR_RESON_DENIED_ACCESS_L').': '.nl2br($specialAccessRequest->getStatusReason());
+			}
+
+			$alertClass = $specialAccessStatusList[$specialAccessRequest->getAccessStatus()] == 'EP_USR_SP_ACCESS_APPROVED_L' ? 'success' : 'danger' ?>
+
+			<div class="alert alert-<?=$alertClass?> alert-dismissible fade show" role="alert">
+                <?=$this->translate($alertMessage)?><br>
+                <?=isset($alertDisapprovalStatusReason) ? $alertDisapprovalStatusReason : ''?>
+			</div>
+		<? } ?>
+
+		<div class="row">
+
+			<div class="col-sm-6 col-lg-4 form-group">
+
+			<label><?=$this->translate('EP_USR_REQUEST_DATA_L') ?></label>
+			<input type="text" class="form-control" disabled="disabled" value="<?=$this->dateFormat(
+						strtotime($specialAccessRequest->getCreatedOn()),
+						IntlDateFormatter::MEDIUM, // date
+						IntlDateFormatter::NONE, // time
+						$this->plugin('translate')->getTranslator()->getLocale(),
+						\Application\View\Helper\DateFormat::DATETIME
+				)
+				?>
+				">
+			</div>
+
+
+			<div class="col-sm-6 col-lg-4 form-group">
+				<label><?=$this->translate('EP_USR_00008_L');?></label>
+				<div id="special-access-document-list">
+				<?php if (isset($documentArray[$specialAccessRequest->getRequestId()])) { ?>
+					<?php foreach ($documentArray[$specialAccessRequest->getRequestId()] as $file) { ?>
+						<p><a href="<?=$this->url('special_access_document_download', ['lang' => $this->language()->getCurrentLang(), 'documentId' => $file->getDocId()])?>"><?=\Document\Service\DocumentService::getOriginalFilename($file->getName())?></a></p>
+					<?php } ?>
+				<?php } ?>
+				</div>
+
+				<? if (!$specialAccessRequest->getAccessStatus()) { ?>
+
+				<div class="row mt-2">
+
+					<div class="col form-group">
+					<button onclick="openUploadForm('<?=$this->url('edit_special_access_request', ['requestId' => $specialAccessRequest->getRequestId(), 'userId' => $specialAccessRequest->getUserId(), 'lang' => $this->lang])?>', event)" class="btn btn-secondary" title="<?=$this->translate('EP_USR_00008_L')?>">
+						<i class="ui-icon ui-icon-upload"></i> <?=$this->translate('EP_USR_UPLOAD_FILE_L')?>
+					</button>
+					<?=$this->formRow($userFieldset->get('files'), null, true, "")?>
+					</div>
+				</div>
+
+
+				<? } ?>
+
+			</div>
+
+
+		</div>
+
+		<div class="row">
+			<div class="col-12 col-sm-12 col-lg-12 col-xl-12 form-group">
+				<?=$this->partial('partial/messages.phtml')?>
+
+				<div class="row">
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('cin'))?>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('updatedOn')->setValue(
+								$this->dateFormat(
+									strtotime($this->userForm->get('userFieldset')->get('updatedOn')->getValue()),
+									IntlDateFormatter::MEDIUM, // date
+									IntlDateFormatter::NONE, // time
+									$this->plugin('translate')->getTranslator()->getLocale(),
+									\Application\View\Helper\DateFormat::DATETIME
+								)
+						))?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('username'))?>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('email'))?>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('status'), null, null, 'partial/multiradiobox')?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-4 form-group">
+						<?=$this->formRow($userFieldset->get('firstName'), null, true, '')?>
+					</div>
+					<div class="col-sm-4 form-group">
+						<?=$this->formRow($userFieldset->get('middleName'))?>
+					</div>
+					<div class="col-sm-4 form-group">
+						<?=$this->formRow($userFieldset->get('familyName'))?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('contactData'))?>
+						<div class="help-text-inline"><?=$this->translate('EP_USR_00006_I')?></div>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('organization'))?>
+					</div>
+					<div class="col-sm-12 col-lg-4 form-group">
+        				<?=$this->formRow($userFieldset->get('specialAccessUserType'), null, null, '')?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-lg-6 form-group">
+						<label><?=$this->translate('EP_USR_00002_L')?></label>
+						<?=$this->formRow($userFieldset->get('crBulletinAcceptance'), 'append', null, 'partial/checkbox')?>
+						<?=$this->formRow($userFieldset->get('prBulletinAcceptance'), 'append', null, 'partial/checkbox')?>
+					</div>
+					<div class="col-sm-12 col-lg-6 form-group">
+						<label><?=$this->translate('EP_USR_00013_L')?></label>
+						<?=$this->formRow($userFieldset->get('crMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+						<?=$this->formRow($userFieldset->get('prMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+						<?=$this->formRow($userFieldset->get('epzeuMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+					</div>
+				</div>
+
+				 <fieldset id="user-permission-section">
+					<legend><?=$this->translate('EP_USR_USER_RIGHTS_L');?></legend>
+					<div class="row">
+						<div class="form-group col-sm-12">
+							<?=$this->formRow($userFieldset->get('permissionList'), null, null, 'partial/multicheckbox')?>
+						</div>
+					</div>
+				</fieldset>
+
+			</div>
+		</div>
+	</div>
+
+		<? if (!$specialAccessRequest->getAccessStatus()) { ?>
+
+			<div class="card-footer">
+				<div class="button-bar">
+					<div class="left-side">
+						<a href="<?=$this->url('user_manage_special_access', ['lang' => $lang])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+					</div>
+					<div class="right-side">
+						<a href="javascript://" onclick="openPreview('<?=$this->url('add_special_access_disapproval_reason', ['id' => $specialAccessRequest->getRequestId()])?>', event)" class="btn btn-secondary"><?=$this->translate('EP_USR_DECLINE_REQUEST_L')?></a>
+						<a href="javascript://" onclick="submitForm('approve')" class="btn btn-primary"><?=$this->translate('EP_USR_APPROVE_REQUEST_L')?></a>
+					</div>
+				</div>
+			</div>
+			<input id="actionType" name="actionType" type="hidden" />
+
+			<?=$this->formRow($userFieldset->get('statusReason'), null, null, '')?>
+
+			<?=$this->form()->closeTag();?>
+
+		<? } else { ?>
+
+			<div class="card-footer">
+				<div class="button-bar">
+					<a href="<?=$this->url('user_manage_special_access')?>" class="btn btn-secondary"><?=$this->translate('CR_GL_BACK_L')?></a>
+				</div>
+			</div>
+
+		<? } ?>
+
+</div>
+
+<?=$this->partial('partial/modal-confirm.phtml')?>
+<?=$this->partial('partial/modal-upload-files.phtml', ['classModalWindow' => 'modal-dialog-centered', 'title' => $this->translate('EP_USR_00008_L')])?>
+<?=$this->partial('partial/modal-preview.phtml', ['title' => $this->translate('EP_USR_REJECT_SP_ACCESS_REQ_L'), 'buttonRefuse' => $this->translate('GL_BACK_TO_REQUEST_L'), 'buttonConfirm' => $this->translate('EP_USR_DECLINE_REQUEST_L'), 'onClick' => "submitForm('disapprove')"])?>
+
+<script>
+$(document).on('submit', '#userform', function(){
+	showGlobalLoader();
+});
+
+function submitForm(type) {
+
+	var statusReason = $("#specialAccessStatusReason").val();
+	$("#statusReason").val(statusReason);
+
+	$("#actionType").val(type);
+	$("#userform").submit();
+}
+
+$('#modal-confirm').on('hidden.bs.modal', function (e) {
+	$("#confirm-bnt").off('click');
+})
+
+function confirmSpecialRequest(action, url) {
+
+	var message = action == 'approve' ? "<?=$this->translate('EP_USR_SP_REQ_APPROVE_I')?>" : "<?=$this->translate('EP_USR_SP_REQ_DISAPPROVE_I')?>";
+
+	$('#modal-confirm .modal-body div').html(message);
+
+	$('#modal-confirm').modal('show');
+
+	$('#confirm-bnt').on('click', function(e) {
+
+		showGlobalLoader();
+
+		$.ajax({
+		  method: "POST",
+		  url: url,
+		  data: {action:action},
+		  success: function(result) {
+
+				var obj = jQuery.parseJSON(JSON.stringify(result))
+
+				if (obj.status == true) {
+					$('#status-'+obj.requestId).html(obj.message);
+					$('#action-'+obj.requestId).html('');
+					$("#special-request-message").removeClass('d-none');
+					$("#special-request-message").addClass('alert-success');
+				}
+
+				else {
+					$("#special-request-message").removeClass('d-none');
+					$("#special-request-message").addClass('alert-danger');
+					$("#special-request-message .alert-message").html('<?=$this->translate('GL_ERROR_L')?>');
+				}
+
+				closeGlobalLoader();
+			 }
+		});
+
+		$('#modal-confirm').modal('hide');
+	});
+
+}
+</script>

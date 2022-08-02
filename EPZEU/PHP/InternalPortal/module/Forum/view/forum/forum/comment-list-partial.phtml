@@ -1,0 +1,76 @@
+<?
+foreach ($commentList as $baseObj) {?>
+	<tr>
+		<td>
+			<?=$this->dateFormat(
+				strtotime($baseObj->getCreatedOn()),
+			    IntlDateFormatter::MEDIUM, // date
+			    IntlDateFormatter::NONE, // time
+			    $this->plugin('translate')->getTranslator()->getLocale(),
+				\Application\View\Helper\DateFormat::DATETIME
+			)?>
+		</td>
+
+		<td class="single-icon-td">
+		<?=$baseObj->getIsFirst() ? '<i class="ui-icon ui-icon-comments" aria-hidden="true" title="'.$this->translate('EP_TOPIC_L').'"></i>':'<i class="ui-icon ui-icon-comment" aria-hidden="true" title="'.$this->translate('EP_CMS_COMMENT_L').'"></i>' ?>
+		</td>
+
+		<td><?=$baseObj->getTitle()?></td>
+
+		<td>
+			<div id="comment-<?=$baseObj->getThemeCommentId() ?>" class="comment-wrapper show-more">
+				<?=nl2br($baseObj->getComment())?>
+			</div>
+		</td>
+
+		<td>
+
+
+		<a href="javascript://" title="<?=$this->translate('GL_VIEW_L')?>"
+			onclick=" openPreviewWithParams(
+						{
+							url: '<?=$this->url('preview_user_profile', ['userId' => $baseObj->getCreatedBy()]) ?>',
+							urlType: 'iframe',
+							size: 'modal-lg',
+							title: '<?=$this->translate('EP_USR_ACC_L')?>',
+							buttons: {close: '<?=$this->translate('GL_CLOSE_L')?>'}
+						}, event);"
+
+			>
+			<?=$baseObj->getFirstname()?>
+		</a>
+
+		</td>
+
+		<td class="icons-td">
+			<?=$baseObj->getStatus() ? '<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i> '.$this->translate('GL_M_STATE_PUBLIC_L') : '<i class="ui-icon ui-icon-state-canceled" aria-hidden="true"></i> '.$this->translate('EP_CMS_INAPPROPRIATE_L')?>
+		</td>
+
+		<td>
+
+			<? if ($baseObj->getThemeStatus() || $baseObj->getIsFirst()) { ?>
+			<a href="<?=$this->url('change_comment_status', ['lang' => $lang, 'commentId' => $baseObj->getThemeCommentId()], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" onClick="openModalConfirm(this, '<?=$baseObj->getStatus() ? $this->translate('EP_CMS_FORUM_MARKED_INAPPROPRIATE_L') : $this->translate('GL_PUBLIC_L')?>', event)" title="<?=$baseObj->getStatus() ? $this->translate('EP_CMS_FORUM_MARKED_INAPPROPRIATE_L') : $this->translate('GL_PUBLIC_L')?>">
+				<?=$baseObj->getStatus() ? '<i class="ui-icon ui-icon-deactivate"></i>' : '<i class="ui-icon ui-icon-activate"></i>'?>
+			</a>
+			<? } ?>
+		</td>
+	</tr>
+<? } ?>
+
+
+<script>
+$(function(){
+	$('.comment-wrapper').each(function( index ) {
+
+		if ($(this).height() < 160) {
+			$(this).removeClass('show-more');
+		}
+		else {
+			var button = '<button type="button" style="display:block" class="btn btn-sm btn-secondary show-more--button" title="<?=$this->translate('GL_READ_MORE_I')?>" onclick="$(\'#'+this.id+'\').toggleClass(\'short\');">· · · <i class="ui-icon ui-icon-chevron-down-alt" aria-hidden="true"></i></button>';
+			$(button).insertAfter("#"+this.id);
+			$(this).addClass('short');
+		}
+
+	});
+});
+</script>

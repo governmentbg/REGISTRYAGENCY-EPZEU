@@ -1,0 +1,136 @@
+<? foreach ($limitList as $baseObj) {?>
+	<tr id="edit-row-<?=$baseObj->getServiceLimitId()?>">
+
+		<? if ($type == 'selectLimitService') { ?>
+			<td id="limit-td-<?=$baseObj->getServiceLimitId()?>">
+
+				<div class="custom-control custom-radio">
+					<input class="custom-control-input" type="radio" id="limit-radio-<?=$baseObj->getServiceLimitId()?>" name="selectLimit" value="<?=$baseObj->getServiceLimitId()?>">
+					<label class="custom-control-label" for="limit-radio-<?=$baseObj->getServiceLimitId()?>"></label>
+				</div>
+
+				<input type="hidden" name="limitData" id="limitData-<?=$baseObj->getServiceLimitId()?>" value='<?=$baseObj->getServiceCode().' '.$baseObj->getServiceName()?>'>
+			</td>
+		<? } ?>
+
+		<td><?=$moduleList[$baseObj->getModuleId()]?></td>
+		<td>
+			<span class="word-break"><?=$baseObj->getServiceCode()?></span><br>
+			<?=$baseObj->getServiceName()?>
+		</td>
+		<td id="edit-request-interval-<?=$baseObj->getServiceLimitId()?>">
+			<div class="edit-request-interval-<?=$baseObj->getServiceLimitId()?>">
+
+			<?php
+			$interval = \Application\Service\AppService::fromPg($baseObj->getRequestsInterval());
+			?>
+
+				<div class="preview-<?=$baseObj->getServiceLimitId()?>">
+					<span class="request-interval">
+					<?=\Application\Service\AppService::createDateIntervalString($interval, $this->plugin('translate')->getTranslator())?>
+					</span>
+				</div>
+
+				<div class="edit-<?=$baseObj->getServiceLimitId()?> d-none">
+					<div class="form-row">
+						<div class="form-group col-auto period-control">
+							<div class="form-inline">
+								<label for="t1" class="mr-1"><?=mb_strtolower($this->translate('GL_DAYS_L'))?></label>
+								<input class="form-control period-control-2" name="days" id="t1" value="<?=$interval->d?>" maxlength="2" type="text">
+							</div>
+						</div>
+						<div class="form-group col-auto period-control">
+							<div class="form-inline">
+								<label for="t2" class="mr-1"><?=mb_strtolower($this->translate('GL_HOURS_L'))?></label>
+								<input class="form-control period-control-2" name="hours" value="<?=$interval->h?>" id="t2" maxlength="2" type="text">
+							</div>
+						</div>
+						<div class="form-group col-auto period-control">
+							<div class="form-inline">
+								<label for="t3" class="mr-1"><?=mb_strtolower($this->translate('GL_MINUTES_L'))?></label>
+								<input class="form-control period-control-2" name="minutes" value="<?=$interval->i?>" id="t3" maxlength="2" type="text">
+							</div>
+						</div>
+						<div class="form-group col-auto period-control">
+							<div class="form-inline">
+								<label for="t4" class="mr-1"><?=mb_strtolower($this->translate('GL_SECONDS_L'))?></label>
+								<input class="form-control period-control-2" name="seconds" value="<?=$interval->s?>" id="t4" maxlength="2" type="text"> <span class="form-text mr-1 ml-1">.</span>
+								<input class="form-control period-control-3" name="milliseconds" value="<?=str_replace('0.', '', $interval->f)?>" id="t5" maxlength="3" type="text">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</td>
+		<td id="edit-request-number-<?=$baseObj->getServiceLimitId()?>">
+			<div class="edit-request-number-<?=$baseObj->getServiceLimitId()?>">
+
+				<div class="preview-<?=$baseObj->getServiceLimitId()?>">
+					<span class="request-number"><?=$baseObj->getRequestsNumber()?></span>
+				</div>
+
+				<div class="edit-<?=$baseObj->getServiceLimitId()?> d-none">
+					<input class="form-control" id="request-number-<?=$baseObj->getServiceLimitId()?>" value="<?=$baseObj->getRequestsNumber()?>" name="requestNumber">
+				</div>
+			</div>
+		</td>
+		<td class="icons-td">
+			<?=$baseObj->getStatus() ? '<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i>'.$this->translate('GL_ACTIVE_L') : '<i class="ui-icon ui-icon-state-inactive" aria-hidden="true"></i>'.$this->translate('GL_INACTIVE_L')?>
+		</td>
+
+		<? if ($type != 'selectLimitService' && $this->isAllowed('edit_limit')) { ?>
+			<td class="buttons-td edit-section-<?=$baseObj->getServiceLimitId()?>">
+
+				<? if ($this->isAllowed('edit_limit')) {?>
+					<span class="preview-<?=$baseObj->getServiceLimitId()?>">
+						<button class="btn btn-secondary edit-section-<?=$baseObj->getServiceLimitId()?>" onclick="editLimit('<?=$baseObj->getServiceLimitId()?>')" title="<?=$this->translate('GL_EDIT_L')?>"><i class="ui-icon ui-icon-edit"></i></button>
+					</span>
+
+					<span class="edit-<?=$baseObj->getServiceLimitId()?> d-none btn-group">
+						<button class="btn btn-secondary" onClick="saveLimitChanges('<?=$baseObj->getServiceLimitId()?>', '<?=$baseObj->getServiceLimitId()?>')" title="<?=$this->translate('GL_SAVE_L')?>"><i class="ui-icon ui-icon-check"></i></button>
+						<button class="btn btn-secondary" onClick="cancelEditLimit('<?=$baseObj->getServiceLimitId()?>')" title="<?=$this->translate('GL_REFUSE_L')?>"><i class="ui-icon ui-icon-ban"></i></button>
+					</span>
+				<? }  ?>
+
+				<? if ($this->isAllowed('change_limit_status')) {?>
+					<a href="<?=$this->url('change_limit_status', ['limitId' => $baseObj->getServiceLimitId()], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" onClick="openModalConfirm(this, '<?=$baseObj->getStatus() ? $this->translate('GL_DEACTIVE_CONFIRM_I') : $this->translate('GL_ACTIVE_CONFIRM_I')?>', event)" title="<?=$baseObj->getStatus() ? $this->translate('GL_DEACTIVATION_L') : $this->translate('GL_ACTIVATION_L')?>">
+						<?=$baseObj->getStatus() ? '<i class="ui-icon ui-icon-deactivate"></i>' : '<i class="ui-icon ui-icon-activate"></i>'?>
+					</a>
+				<? } ?>
+			</td>
+		<? }  ?>
+
+	</tr>
+<? } ?>
+
+<script>
+
+<? if ($type == 'selectLimitService') { ?>
+
+	$(document).ready(function() {
+
+		var limitId = window.parent.$("#serviceLimitId").val();
+		if (limitId) {
+			$('#limit-radio-'+limitId).prop('checked', true);
+		}
+	});
+<? } ?>
+
+
+/**
+ * Взима данни при извикване през модален прозорец
+ */
+function getDataFromIframe() {
+
+	var limitId = $('input[name=selectLimit]:checked').val();
+
+	if (typeof limitId !== 'undefined') {
+		var name = $("#limitData-"+limitId).val();
+		var data = {id:limitId, name:name, module:'limit'};
+		return JSON.stringify(data);
+	}
+
+	return false;
+}
+</script>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="RegistryOffice.xsd"/>
+    <xsd:include schemaLocation="DeliveryMethodType.xsd"/>
+
+    <xsd:complexType name="WayOfProvisionBaseData">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Базова информация за начин на предоставяне на услугата</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="IssuingAuthority" type="RegistryOffice"/>
+            <xsd:element name="DeliveryMethod" type="DeliveryMethodType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

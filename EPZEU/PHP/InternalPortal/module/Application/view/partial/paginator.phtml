@@ -1,0 +1,65 @@
+<?php
+
+$queryString = '';
+
+if (!empty($queryParams)) {
+
+	unset($queryParams['page']);
+
+	if (!empty($queryParams))
+		$queryString = '&amp;'.http_build_query($queryParams, '', '&amp;');
+}
+
+$routeParams = empty($routeParams) ? [] : $routeParams;
+?>
+
+<?php if ($this->pageCount && $this->pageCount > 1): ?>
+     <div>
+         <ul class="pagination">
+             <!-- Previous page link -->
+             <?php if (isset($this->previous)): ?>
+                 <li>
+                     <a data-page="<?php echo $this->previous;?>" class="page-link" href="<?php echo $this->url($this->route, $routeParams); ?>?page=<?php echo $this->previous.$queryString;?>">
+                         <<
+                     </a>
+                 </li>
+             <?php else: ?>
+                 <li class="disabled">
+                     <a href="#">
+                         <<
+                     </a>
+                 </li>
+             <?php endif; ?>
+
+             <!-- Numbered page links -->
+             <?php foreach ($this->pagesInRange as $page): ?>
+                 <?php if ($page != $this->current): ?>
+                     <li>
+                         <a class="page-link" data-page="<?php echo $page;?>" href="<?php echo $this->url($this->route, $routeParams);?>?page=<?php echo $page.$queryString; ?>">
+                             <?php echo $page; ?>
+                         </a>
+                     </li>
+                 <?php else: ?>
+                     <li class="active">
+                         <a href="#"><?php echo $page; ?></a>
+                     </li>
+                 <?php endif; ?>
+             <?php endforeach; ?>
+
+             <!-- Next page link -->
+             <?php if (isset($this->next)): ?>
+                 <li>
+                     <a class="page-link" data-page="<?php echo $this->next;?>" href="<?php echo $this->url($this->route, $routeParams); ?>?page=<?php echo $this->next.$queryString; ?>">
+                         >>
+                     </a>
+                 </li>
+             <?php else: ?>
+                 <li class="disabled">
+                     <a href="#">
+                         >>
+                     </a>
+                 </li>
+             <?php endif; ?>
+         </ul>
+     </div>
+ <?php endif; ?>

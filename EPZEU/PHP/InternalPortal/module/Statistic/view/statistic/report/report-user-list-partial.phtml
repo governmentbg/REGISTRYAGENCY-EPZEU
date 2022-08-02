@@ -1,0 +1,29 @@
+<? foreach ($reportUserList as $item) { ?>
+	<tr>
+		<td><?=($typeUserReport == 'admin' ? $item->getUsername() : $item->getEmail())?></td>
+		<td><?=$this->translate($userStatusList[$item->getStatus()])?></td>
+		<td><?=$item->getCin()?></td>
+		<? if ($typeUserReport == 'public') {?>
+			<td><?=!empty($item->getSpecialAccessUserType()) ? $specialAccessUserTypes[$item->getSpecialAccessUserType()] : $this->translate('EP_STATISTICS_REP_SPEC_ACCESS_USRS_14_L')?></td>
+		<? } ?>
+
+		<?
+		$userPermissionList = [];
+		$userPermissionList = explode(',', str_replace(['{', '}'], ['', ''], $item->getPermissions()));
+
+		foreach($permissionList as $permissionId => $permission) { ?>
+			<td><?=in_array($permissionId, $userPermissionList) ? $this->translate('GL_OK_L') : $this->translate('GL_NO_L')?></td>
+		<? }?>
+
+		<td>
+			<?=$this->dateFormat(
+					strtotime($item->getUpdatedOn()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATETIME
+				);
+			?>
+		</td>
+	</tr>
+<? } ?>

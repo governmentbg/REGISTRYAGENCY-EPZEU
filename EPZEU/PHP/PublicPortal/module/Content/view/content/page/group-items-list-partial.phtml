@@ -1,0 +1,50 @@
+<div class="card-deck">
+
+	<? if ($itemsPerColumn) { ?>
+	<div class="card card-box">
+		<div class="card-body card-box__body">
+				<?
+				$ii = 0;
+					foreach ($pageList as $page) { ?>
+					<p>
+						<? if ($pageTypeId == \Content\Controller\PageController::PAGE_LEGISLATION_TYPE) { ?>
+							<i class="ui-icon ui-icon-book" aria-hidden="true"></i>
+						<? } else { ?>
+							<i class="ui-icon ui-icon-download-color" aria-hidden="true"></i>
+						<? } ?>
+						<a href="<?=$this->url('nested_page_file_download', ['fileId' => $page->getPageId(), 'timestamp' => strtotime($page->getUpdatedOn())])?>"><?=$page->getTitle()?></a>
+					</p>
+					<?
+
+					unset($pageList[$ii]);
+
+					if ($itemsPerColumn == $ii+1)
+						break;
+
+					$ii++;
+				} ?>
+		</div>
+	</div>
+	<? } ?>
+
+
+<? ?>
+	<div class="w-100 d-none d-sm-block d-lg-none mt-2"></div>
+
+	<? if ($itemsPerColumn && count($pageList)) { ?>
+	<div class="card card-box">
+		<div class="card-body card-box__body">
+			<? foreach ($pageList as $page) { ?>
+			<p>
+				<? if ($pageTypeId == \Content\Controller\PageController::PAGE_LEGISLATION_TYPE) { ?>
+					<i class="ui-icon ui-icon-book" aria-hidden="true"></i>
+				<? } else { ?>
+					<i class="ui-icon ui-icon-download-color" aria-hidden="true"></i>
+				<? } ?>
+				<a href="<?=$this->url('nested_page_file_download', ['fileId' => $page->getPageId(), 'timestamp' => strtotime($page->getUpdatedOn())])?>"><?=$page->getTitle()?></a>
+			</p>
+			<? } ?>
+		</div>
+	</div>
+	<? } ?>
+</div>

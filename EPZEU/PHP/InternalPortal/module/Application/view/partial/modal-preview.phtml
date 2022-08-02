@@ -1,0 +1,21 @@
+<div id="modal-preview" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog <?=(!empty($classModalWindow) ? $classModalWindow : 'modal-lg')?>" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title"><?=$title?></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" title="<?=$this->translate('GL_CLOSE_L')?>" class="close-preview-modal">×</span>
+                </button>
+            </div>
+            <div class="modal-body<?=(!empty($modalBodyClass) ? ' '.$modalBodyClass : '')?>"></div>
+            <div class="modal-footer">
+                <div class="button-bar">
+                    <button type="button" class="btn btn-secondary close-preview-modal" data-dismiss="modal"><?=(!empty($buttonRefuse) ? $buttonRefuse : $this->translate('GL_CLOSE_L'))?></button>
+                    <?if (!empty($buttonConfirm)) {?>
+                    	<button type="button" <?=(!empty($onClick) ? "onclick=$onClick" : '')?> class="btn btn-primary close-preview-modal btn-confirm" data-dismiss="modal"><?=$buttonConfirm?></button>
+                    <?}?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

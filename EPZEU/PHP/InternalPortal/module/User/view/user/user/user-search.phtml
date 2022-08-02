@@ -1,0 +1,296 @@
+<? $this->headTitle('EP_USR_ACCS_L') ?>
+
+<? if ($type != 'selectUser' && $type != 'selectUserList') { ?>
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_USERS_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_ACCS_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_USR_ACCS_L')?></h2>
+</div>
+
+<? } ?>
+
+
+<div class="card">
+	<div class="card-header">
+		<h3><?=$this->translate('EP_USR_SEARCH_USER_L')?>
+
+			<button class="system-button toggle-collapse" data-toggle="collapse" data-target="#collapsable-content">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+
+		</h3>
+	</div>
+
+	<div id="collapsable-content" class="collapse show">
+
+		<?php
+		$searchForm->setAttribute('action', $this->url(null, ['lang' => $lang]));
+		$searchForm->prepare();
+
+		echo $this->form()->openTag($searchForm);
+		?>
+
+		<div class="card-body">
+
+			<?=$this->partial('partial/messages.phtml')?>
+
+			<?=$this->formRow($searchForm->get('search'))?>
+
+			<div class="row">
+
+				<div class="col-sm-12 col-xl-8 col-xxl-9">
+					<div class="row">
+
+						<div class="col-sm-12 col-lg-6 col-xl-8">
+							<label><?=$this->translate('EP_USR_00004_L')?></label>
+							<div class="row">
+								<div class="form-group col-sm-6">
+						           <div class="input-group date" id="dateFrom" data-target-input="nearest">
+						                <label class="mr-2 col-form-label"><?=$this->translate('GL_START_DATE_L')?></label>
+						                <?=$this->formRow($searchForm->get('dateFrom'), null, false)?>
+						                <div class="input-group-append" data-target="#dateFrom" data-toggle="datetimepicker">
+						                    <button class="btn btn-secondary" type="button">
+												<i class="ui-icon ui-icon-calendar"></i>
+											</button>
+						                </div>
+						                <?=$this->FormElementErrors($searchForm->get('dateFrom'))?>
+						            </div>
+								</div>
+								<div class="form-group col-sm-6">
+									<div class="input-group date" id="dateTo" data-target-input="nearest">
+						                <label class="mr-2 col-form-label"><?=$this->translate('GL_END_DATE_L')?></label>
+						                <?=$this->formRow($searchForm->get('dateTo'), null, false)?>
+						                <div class="input-group-append" data-target="#dateTo" data-toggle="datetimepicker">
+						                    <button class="btn btn-secondary" type="button">
+												<i class="ui-icon ui-icon-calendar"></i>
+											</button>
+						                </div>
+						                 <?=$this->FormElementErrors($searchForm->get('dateTo'))?>
+						            </div>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group col-sm-6 col-xl-4">
+							<?=$this->formRow($searchForm->get('status'))?>
+						</div>
+						<div class="form-group col-sm-6 col-lg-4">
+							<?=$this->formRow($searchForm->get('cin'))?>
+						</div>
+						<div class="form-group col-sm-6 col-lg-4">
+							<?=$this->formRow($searchForm->get('username'))?>
+						</div>
+						<div class="form-group col-sm-6 col-lg-4">
+							<?=$this->formRow($searchForm->get('email'), null, true, null)?>
+						</div>
+						<div class="form-group col-sm-4 col-lg-4">
+							<?=$this->formRow($searchForm->get('firstName'))?>
+						</div>
+						<div class="form-group col-sm-4 col-lg-4">
+							<?=$this->formRow($searchForm->get('middleName'))?>
+						</div>
+						<div class="form-group col-sm-4 col-lg-4">
+							<?=$this->formRow($searchForm->get('familyName'))?>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-12 col-xl-4 col-xxl-3">
+
+					<div class="row">
+						<div class="form-group col-12">
+							<?=$this->formRow($searchForm->get('organization'), null, null, false)?>
+						</div>
+						<div class="form-group col-12">
+							<?=$this->formRow($searchForm->get('specialAccessUserType'), null, null, 'partial/multiselect')?>
+						</div>
+
+						<div class="form-group col-12">
+							<?=$this->formRow($searchForm->get('authenticationType'), null, null, false)?>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+		<div class="card-footer">
+			<div class="button-bar">
+				<a href="<?=$this->url(null, ['lang' => $lang])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+				<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+			</div>
+		</div>
+
+		<?=$this->form()->closeTag();?>
+	</div>
+</div>
+
+<?if (($params->fromQuery('search') || !empty($userList)) && empty($searchForm->getMessages())) { ?>
+
+	<div class="card">
+	<div class="card-body">
+
+		<?if (!empty($userList) && $userList->count()) {?>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<thead>
+				<tr>
+
+					<? if ($type == 'selectUser' || $type == 'selectUserList') { ?>
+						<td></td>
+					<? } ?>
+
+					<th><?=$this->translate('GL_CREATE_UPDATE_DATE_L')?></th>
+					<th><?=$this->translate('EP_USR_CUSTOMER_ID_L')?></th>
+					<th><?=$this->translate('GL_USER_NAME_L')?></th>
+					<th><?=$this->translate('GL_EMAIL_L')?></th>
+					<th><?=$this->translate('GL_PERSON_FIRSTNAME_L')?></th>
+					<th><?=$this->translate('GL_PERSON_SURNAME_L')?></th>
+					<th><?=$this->translate('GL_PERSON_FAMILYNAME_L')?></th>
+					<th><?=$this->translate('EP_USR_CONTACT_DATA_L')?></th>
+					<th><?=$this->translate('EP_USR_ORGANIZATION_POSITION_L')?></th>
+					<th><?=$this->translate('GL_CONDITION_L')?></th>
+
+					<?php if ($type != 'selectUser' && $type != 'selectUserList') { ?>
+					<th><?=$this->translate('GL_ACTIONS_L')?></th>
+					<?php } ?>
+
+				</tr>
+				</thead>
+				<tbody id="content">
+				<?=$this->partial('user/user/user-search-list-partial.phtml')?>
+				</tbody>
+			</table>
+
+			<? if ($type == 'selectUserList') { ?>
+				<select name="userDataList[]" id="userDataList" multiple="multiple" class="d-none"></select>
+			<? } ?>
+		</div>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<?
+		$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+		$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+		?>
+
+		<script type="text/javascript">
+			pagination('.sync-pagination', '#content', <?=$totalPages?>);
+		</script>
+
+	<? } else if ($params->fromQuery('search') && empty($searchForm->getMessages())) { ?>
+		<div class="alert alert-warning" role="alert">
+			<?=$this->translate('GL_SEARCH_NO_RESULT_I')?>
+		</div>
+	<? } ?>
+
+	</div>
+	</div>
+<? } ?>
+
+<?$this->headLink()->appendStylesheet($this->basePath('js/bootstrap-4-datepicker/css/tempusdominus-bootstrap-4.min.css'));?>
+<?$this->headScript()->prependFile($this->basePath('js/bootstrap-4-datepicker/js/tempusdominus-bootstrap-4.min.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/moment-with-locales.min.js'));?>
+<script>
+
+$(function () {
+
+	$('#dateFrom').datetimepicker({
+		useCurrent: false,
+		format: "DD.MM.YYYY",
+		locale: moment.locale('bg')
+		<?php if ($params->fromQuery('dateTo')) { ?>
+		,
+		maxDate: '<?=\Application\Service\AppService::getSqlDate($params->fromQuery('dateTo'))?>'
+		<?php } ?>
+	});
+
+	$('#dateTo').datetimepicker({
+		useCurrent: false,
+		format: "DD.MM.YYYY",
+		locale: moment.locale('bg')
+		<?php if ($params->fromQuery('dateFrom')) { ?>
+		,
+		minDate: '<?=\Application\Service\AppService::getSqlDate($params->fromQuery('dateFrom'))?>'
+		<?php } ?>
+	});
+
+	$("#dateFrom").on("change.datetimepicker", function (e) {
+		$('#dateTo').datetimepicker('minDate', e.date);
+	});
+	$("#dateTo").on("change.datetimepicker", function (e) {
+		$('#dateFrom').datetimepicker('maxDate', e.date);
+	});
+});
+
+/**
+ * Взима данни при извикване през модален прозорец
+ */
+function getDataFromIframe(isUserList) {
+
+	var userArr = {};
+
+	// списък с потребители
+	if (typeof isUserList !== 'undefined') {
+
+		var selectedValues = $('#userDataList').val();
+
+		$.each(selectedValues, function( key, userId ) {
+			var name = $("#userDataList option[value="+userId+"]").text()
+			userArr[userId] = {id:userId, name: name};
+		})
+
+		var data = {userArr:userArr};
+		return JSON.stringify(data);
+	}
+
+	// един потребител
+	else {
+		var userId = $('input[name=selectUser]:checked').val();
+
+		if (typeof userId !== 'undefined') {
+			var name = $("#userData-"+userId).val();
+			var email = $("#userDataEmail-"+userId).val();
+
+
+			var data = {id:userId, name:name, module:'user', email:email};
+			return JSON.stringify(data);
+		}
+	}
+
+	return false;
+}
+
+<? if ($type == 'selectUserList') { ?>
+
+	$(document).on( 'click', '.selectUserList:checkbox', function() {
+
+		var id = $(this).val();
+
+		if($(this).is(':checked'))
+			$('#userDataList').append('<option value="'+id+'" selected="selected">'+$("#userData-"+id).val()+'</option>');
+		else
+			$('#userDataList option[value="'+id+'"]').remove();
+	});
+<? } ?>
+</script>

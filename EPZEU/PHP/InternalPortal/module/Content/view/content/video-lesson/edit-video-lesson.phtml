@@ -1,0 +1,119 @@
+<?php
+$this->headTitle('EP_CMS_PAGE_VIDEO_EDIT_L');
+?>
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_CONTENT_L')?></li>
+		<li class="breadcrumb-item"><a href="<?=$this->url('video_lesson_list')?>"><?=$this->translate('EP_CMS_PAGES_VIDEO_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_PAGE_VIDEO_EDIT_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_CMS_PAGE_VIDEO_EDIT_L')?></h2>
+</div>
+
+<div class="card">
+
+	<?php
+	$videoLessonForm->setAttribute('action', $this->url('edit_video_lesson', ['lang' => $params->fromRoute('lang'), 'lessonId' => $lessonId]));
+	$videoLessonForm->setAttribute('id', 'video-lesson-form');
+	$videoLessonForm->prepare();
+
+	echo $this->form()->openTag($videoLessonForm);
+	?>
+
+	<div class="card-body">
+
+		<?=$this->partial('partial/messages.phtml')?>
+
+		<div class="row">
+			<div class="col-sm-6 col-lg-4 col-xxl-3 form-group">
+				<?=$this->formRow($videoLessonForm->get('updatedOn')->setValue(
+						$this->dateFormat(
+							strtotime($videoLessonForm->get('updatedOn')->getValue()),
+							IntlDateFormatter::MEDIUM, // date
+							IntlDateFormatter::NONE, // time
+							$this->plugin('translate')->getTranslator()->getLocale()
+						)
+				))?>
+			</div>
+			<div class="col-sm-6 col-lg-8 col-xxl-9 form-group">
+				<?=$this->formRow($videoLessonForm->get('status'), null, null, 'partial/multiradiobox')?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6 col-lg-4 col-xxl-3 form-group">
+				<?=$this->formRow($videoLessonForm->get('registerId'), null, null, '')?>
+			</div>
+			<div class="col-sm-6 col-lg-8 col-xxl-9 form-group">
+				<?=$this->formRow($videoLessonForm->get('title'))?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<?=$this->formRow($videoLessonForm->get('description'))?>
+
+				<? if ($this->FormElementErrors($videoLessonForm->get('description'))) { ?>
+					<script>
+						CKEDITOR.on('instanceReady', function() {
+							$('#cke_description').addClass('input-error');
+						});
+					</script>
+				<? } ?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 col-xl-6 form-group">
+			<?=$this->formLabel($videoLessonForm->get('files'))?>
+
+			<?=$this->partial('partial/uploader.phtml', [
+					'uploadUrl' 				=> 'upload_video_file',
+					'singleFile' 				=> 1,
+					'maxFileSize' 				=> $videoFileSize,
+					'videoLessonObj' 			=> $baseObj,
+					'isDeletedOriginalFile' 	=> $isDeletedOriginalFile,
+					'fileArr' 					=> $fileArr
+			])?>
+
+			<?=$this->formElement($videoLessonForm->get('files'))?>
+
+			<?=$this->FormElementErrors($videoLessonForm->get('files'))?>
+
+			<div id="emailHelp" class="help-text-inline"><?
+
+			$videoFileConfig = \Document\Controller\DocumentController::getFileConfigParams($videoFileFormat);
+			$videoFileList = array_keys($videoFileConfig);
+
+			str_replace('{EP_CMS_VIDEO_ALLOWED_FORMATS}', implode(', ', $videoFileList), $this->translate('EP_CMS_VIDEO_ALLOWED_FORMATS_I'))
+
+			?></div>
+			<div id="emailHelp" class="help-text-inline"><?=str_replace('{EP_CMS_VIDEO_MAX_FILE_SIZE}', $videoFileSize, $this->translate('EP_CMS_VIDEO_MAX_FILE_SIZE_I'))?></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url('video_lesson_list',['lang' => $params->fromRoute('lang')], ['query' => $params->fromQuery()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<?=$this->formSubmit($videoLessonForm->get('submit'));?>
+		</div>
+	</div>
+
+	<?=$this->formRow($videoLessonForm->get('deletedFiles'))?>
+
+	<?=$this->form()->closeTag();?>
+
+</div>
+
+<?$this->headScript()->appendFile($this->basePath('js/ckeditor/ckeditor.js'));?>
+
+<script>
+$(document).on('submit', '#video-lesson-form', function(){
+	showGlobalLoader();
+});
+</script>

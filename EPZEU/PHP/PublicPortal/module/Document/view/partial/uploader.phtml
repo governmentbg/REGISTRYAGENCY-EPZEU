@@ -1,0 +1,168 @@
+<ul id="file-list" class="custom-file-list col-6">
+	<?php
+	if (!empty($fileArr)) {
+		foreach ($fileArr as $file) {
+			$fileData = json_decode($file['value']);
+			?>
+
+		<li class="input-group" data-uuid="<?=$fileData->uuid?>">
+			<div class="form-control">
+				<i class=" mr-2 ui-icon ui-icon-processed" aria-hidden="true"></i><?=$this->escapeHtml($fileData->originName)?>
+			</div>
+			<div class="input-group-append">
+				<button class="btn btn-secondary delete-file" onClick="deleteFile('<?=$this->escapeHtml($fileData->uuid)?>')" title="<?=$this->translate('GL_DELETE_L')?>" type="button">
+					<i class="ui-icon ui-icon-times" aria-hidden="true"></i>
+				</button>
+			</div>
+		</li>
+	<?php
+		}
+	}
+	?>
+</ul>
+
+<div id="file-error" class="alert alert-danger" role="alert"><ul class="custom-file-list"><li><p class="text-danger"><?=$this->translate('GL_FILE_UPLOAD_ERROR_I')?>:</p></li></ul></div>
+
+
+<div class="custom-file-button btn btn-secondary">
+	<i class="ui-icon ui-icon-upload" aria-hidden="true"></i>&nbsp;<?=$this->translate('EP_USR_UPLOAD_FILE_L')?>
+	<input class="custom-file-input" id="fileInput" multiple="multiple" type="file" title="<?=$this->escapeHtmlAttr($this->translate('EP_USR_UPLOAD_FILE_L'))?>" />
+</div>
+
+<script type="text/javascript">
+ii = 1;
+$('#fileInput').on('change', function () {
+
+	var files = $('#fileInput')[0].files;
+
+	for (var i = 0; file = files[i]; i++) {
+
+		$('#file-error .custom-file-list li:not(:first-child)').remove();
+		$('#file-error').hide();
+
+		<? if (isset($maxFileSize)) { ?>
+
+			var fileSize = file.size;
+			var fileName = file.name;
+			var fileId = ii;
+
+			var maxFileSize = <?=$maxFileSize?>*1000;
+
+			if (fileSize > maxFileSize) {
+				var message = '<?=$this->translate('GL_DOCUMENT_MAX_FILE_SIZE_EXCEEDED_E')?>';
+				var message = message.replace("{FILE_SIZE_IN_KB}", Math.ceil(fileSize/1024) +' kB');
+				var message = message.replace("{MAX_FILE_SIZE}", <?=$maxFileSize?> +' kB');
+				$('#file-error ul').append('<li>'+file.name+'<br /><span class="text-danger">' + message +'</li></li>');
+				$('#file-error').show();
+
+
+				continue;
+			}
+
+		<? } ?>
+
+		var formData = new FormData();
+
+		formData.append('file', file);
+
+		$('#file-list').append('<li class="input-group" id="file-id-'+ii+'" data-file-name="'+file.name+'">'
+ 		       + '<div class="form-control">'
+ 			       + '<i class="file-name-wrap mr-2 ui-icon ui-icon-loading ui-icon-spin" aria-hidden="true"></i>'
+ 		       + '</div>'
+ 		       + '<div class="input-group-append">'
+ 			       + '<button class="btn btn-secondary delete-file" type="button">'
+ 			       	+ '<i class="ui-icon ui-icon-times" aria-hidden="true"></i>'
+ 			       + '</button>'
+ 		       + '</div>'
+ 		     + '</li>'
+ 	     );
+
+		$.ajax({
+		       url : '<?=$this->url('upload_file', ['lang' => $this->language()->getCurrentLang()])?>?file='+ii,
+		       type : 'POST',
+		       data : formData,
+		       processData: false,  // tell jQuery not to process the data
+		       contentType: false,  // tell jQuery not to set contentType
+		       success : function(data) {
+
+					var obj = jQuery.parseJSON(JSON.stringify(data));
+
+			        switch(obj.response) {
+
+						case 'error':
+
+							if (obj.hasOwnProperty('errors')) {
+								$('#file-error').show();
+								$('#file-id-' + obj.fileId).remove();
+
+								var errors = '';
+
+								Object.keys(obj.errors).forEach(function(key) {
+									var message = obj.errors[key];
+									errors += '<span class="text-danger">'+message+"</span>";
+								});
+
+								$('#file-error ul').append('<li>' + obj.originName+'</br>' + errors +'</li>');
+							}
+
+						break;
+
+						case 'success':
+
+							$("[data-file-name='" + obj.originName + "']").replaceWith('<li class="input-group" data-uuid="'+obj.uuid+'">'
+					    		       + '<div class="form-control">'
+				    			       + '<i class="file-name-wrap mr-2 ui-icon ui-icon-processed" aria-hidden="true"></i><span class="word-break">'+obj.originName
+				    		       + '</span></div>'
+				    		       + '<div class="input-group-append">'
+				    			       + '<button class="btn btn-secondary delete-file" title="изтрий" onClick="deleteFile(\''+obj.uuid+'\')" type="button">'
+				    			       	+ '<i class="ui-icon ui-icon-times" aria-hidden="true"></i>'
+				    			       + '</button>'
+				    		       + '</div>'
+				    		     + '</li>')
+
+
+							$('#files').append($('<option>', {
+							    value: JSON.stringify(obj),
+							    selected: true,
+							    text: JSON.stringify(obj),
+							    "data-uuid": obj.uuid
+							}));
+
+							$("[data-file-name='" + obj.originName + "']" + ' i.file-name-wrap').toggleClass('ui-icon-loading ui-icon-processed').removeClass('ui-icon-spin');
+							$("#files").trigger("change");
+						break;
+		    	   }
+		       },
+		       error: function(error){
+
+					if (error.status === 413) {
+
+						var message = '<?=$this->translate('GL_DOCUMENT_MAX_FILE_SIZE_EXCEEDED_E')?>';
+						var message = message.replace("{FILE_SIZE_IN_KB}", Math.ceil(fileSize/1024) +' kB');
+						var message = message.replace("{MAX_FILE_SIZE}", 30000 +' kB');
+
+						$('#file-error, .file-error').show();
+						$('#file-id-' + fileId).remove();
+						$('#file-error ul').append('<li>'+fileName+'<br /><span class="text-danger">' + message +'</li></li>');
+						$('#fileInput').val('');
+					}
+			   }
+		});
+
+		ii++;
+	}
+
+	$('#fileInput').val('');
+});
+
+function deleteFile(uuid) {
+	$('#files option[data-uuid="' + uuid + '"]').remove();
+	$("[data-uuid='" + uuid + "']").remove();
+	$( "#files" ).trigger("change");
+	ajaxRequest("<?=$this->url('delete_tmp_file')?>?fileName="+uuid, false, false);
+
+	if (ii > 1)
+		ii--;
+}
+
+</script>

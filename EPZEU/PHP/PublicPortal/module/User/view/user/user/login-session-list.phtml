@@ -1,0 +1,232 @@
+<div class="search-box search-box--report">
+	<div class="card card--search card--collapsible">
+
+		<div class="card-header" data-toggle="collapse" data-target="#collapsable-content" aria-expanded="true">
+			<h3><?=$this->translate('GL_SEARCHING_L')?></h3>
+			<button class="system-button toggle-collapse">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+		</div>
+
+		<div id="collapsable-content" class="collapse show">
+			<div id="collapsable-content" class="collapse show">
+			<?php
+			$loginSessionForm->setAttribute('action', $this->url('login_session_list', ['lang' => $this->language()->getCurrentLang()]));
+			$loginSessionForm->prepare();
+
+			echo $this->form()->openTag($loginSessionForm);
+
+			echo $this->formRow($loginSessionForm->get('search'));
+			?>
+			<div class="card-body card-page__body">
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="row">
+
+							<div class="col-sm-12 col-lg-4 col-xxl-3 col-xxl-4 form-group">
+								<label id="date-from-label" class="required-field"><?=$this->translate('GL_PERIOD_L')?> <?=$this->translate('GL_START_DATE_L')?></label>
+								<div class="row">
+									<div class="col-sm-6 col-md-7 col-lg-8 col-xl-8 form-group">
+								    	<div class="input-group date" id="dateFrom" data-target-input="nearest">
+								            <?=$this->formRow($loginSessionForm->get('dateFrom'), null, false, "")?>
+								            <div class="input-group-append" data-target="#dateFrom" data-toggle="datetimepicker">
+								           		<button class="btn btn-secondary" type="button">
+													<i class="ui-icon ui-icon-calendar"></i>
+												</button>
+								            </div>
+								        	<?=$this->FormElementErrors($loginSessionForm->get('dateFrom'))?>
+										</div>
+									</div>
+									<div class="col-sm-6 col-md-5 col-lg-4 col-xl-4 form-group">
+										<div class="input-group date" id="timeFrom" data-target-input="nearest">
+											<?=$this->formRow($loginSessionForm->get('timeFrom'), null, false)?>
+											<div class="input-group-append" data-target="#timeFrom" data-toggle="datetimepicker">
+							             		<button class="btn btn-secondary" type="button">
+							         				<i class="ui-icon ui-icon-clock"></i>
+							             		</button>
+							            	</div>
+							            	<?=$this->FormElementErrors($loginSessionForm->get('timeFrom'))?>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="col-sm-12 col-lg-4 col-xxl-3 col-xxl-4 form-group">
+								<label id="date-to-label" class="required-field"><?=$this->translate('GL_PERIOD_L')?> <?=$this->translate('GL_END_DATE_L')?></label>
+								<div class="row">
+									<div class="col-sm-6 col-md-7 col-lg-8 col-xl-8 form-group">
+								    	<div class="input-group date" id="dateTo" data-target-input="nearest">
+								            <?=$this->formRow($loginSessionForm->get('dateTo'), null, null, "")?>
+								            <div class="input-group-append" data-target="#dateTo" data-toggle="datetimepicker">
+								           		<button class="btn btn-secondary" type="button">
+													<i class="ui-icon ui-icon-calendar"></i>
+												</button>
+								            </div>
+								        	<?=$this->FormElementErrors($loginSessionForm->get('dateTo'))?>
+										</div>
+									</div>
+
+									<div class="col-sm-6 col-md-5 col-lg-4 col-xl-4 form-group">
+										<div class="input-group date" id="timeTo" data-target-input="nearest">
+											<?=$this->formRow($loginSessionForm->get('timeTo'), null, null)?>
+											<div class="input-group-append" data-target="#timeTo" data-toggle="datetimepicker">
+							             		<button class="btn btn-secondary" type="button">
+							         				<i class="ui-icon ui-icon-clock"></i>
+							             		</button>
+							            	</div>
+							            	<?=$this->FormElementErrors($loginSessionForm->get('timeTo'))?>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-sm-12 col-lg-4 col-xl-2">
+								<?=$this->formRow($loginSessionForm->get('ipAddress'), null, true)?>
+							</div>
+
+							<div class="col-sm-12 col-lg-4 col-xl-2">
+								<?=$this->formRow($loginSessionForm->get('authType'), null, true)?>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="card-footer">
+				<div class="button-bar">
+					<a href="<?=$this->url(null, ['lang' => $this->language()->getCurrentLang()])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+					<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+				</div>
+			</div>
+
+		</div>
+		</div>
+
+	</div>
+</div>
+
+
+
+<? if ($loginSessionForm->isValid()) { ?>
+<div class="card card-page">
+	<div class="card-page__body">
+			<?if (!empty($loginSessionList) && $loginSessionList->count()) { ?>
+				<nav class="button-bar" aria-label="Page navigation">
+					<div class="pagination-container">
+						<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+						<ul class="sync-pagination pagination--page"></ul>
+					</div>
+				</nav>
+
+				<div class="table-responsive">
+					<table class="table table-borderless table-striped table-hover table-collapsible">
+						<thead>
+							<tr>
+								<th></th>
+								<th><?=$this->translate('EP_USR_START_LOG_SES_L')?></th>
+								<th><?=$this->translate('EP_USR_END_LOG_SES_L')?></th>
+								<th><?=$this->translate('GL_USER_NAME_L')?></th>
+								<th><?=$this->translate('GL_EMAIL_L')?></th>
+								<th><?=$this->translate('GL_IP_ADDRESS_L')?></th>
+								<th><?=$this->translate('EP_USR_AUTHENTICATION_KIND_L')?></th>
+								<th><?=$this->translate('EP_USR_AUTHENTICATION_ID_L')?></th>
+							</tr>
+						</thead>
+						<tbody id="content">
+							<?=$this->partial('user/user/login-session-list-partial.phtml')?>
+						</tbody>
+					</table>
+				</div>
+
+				<nav class="button-bar" aria-label="Page navigation">
+					<div class="pagination-container">
+						<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+						<ul class="sync-pagination pagination--page"></ul>
+					</div>
+				</nav>
+
+				<?
+				$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+				$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+				?>
+				<script type="text/javascript">
+					pagination('.sync-pagination', '#content', <?=$totalPages?>);
+				</script>
+
+			<? } else { ?>
+				<div class="alert alert-warning" role="alert"><?=$this->translate('GL_SEARCH_NO_RESULT_I')?></div>
+			<? } ?>
+	</div>
+</div>
+<? } else { ?>
+	<div class="row">
+		<div class="col-12">
+			<div class="alert alert-warning" role="alert"><?=$this->translate('GL_SELECT_SEARCH_CRITERION_E')?></div>
+		</div>
+	</div>
+<? } ?>
+
+
+
+
+<?$this->headLink()->appendStylesheet($this->basePath('js/bootstrap-4-datepicker/css/tempusdominus-bootstrap-4.min.css'));?>
+<?$this->headScript()->prependFile($this->basePath('js/bootstrap-4-datepicker/js/tempusdominus-bootstrap-4.min.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/moment-with-locales.min.js'));?>
+
+<script type="text/javascript">
+
+	$(function () {
+
+		var loginSessionId = window.parent.$("#loginSession").val();
+
+		if (loginSessionId) {
+			$('#login-session-'+loginSessionId).prop('checked', true);
+		}
+
+
+         $('#dateFrom').datetimepicker({
+        	useCurrent: false,
+        	format: "DD.MM.YYYY",
+        	locale: moment.locale('bg')
+	    });
+
+        $('#dateTo').datetimepicker({
+            useCurrent: false,
+            format: "DD.MM.YYYY",
+            locale: moment.locale('bg')
+        });
+
+        $("#dateFrom").on("change.datetimepicker", function (e) {
+           $('#dateTo').datetimepicker('minDate', e.date);
+           resizeIframe('iframe_content')
+        });
+        $("#dateTo").on("change.datetimepicker", function (e) {
+           $('#dateFrom').datetimepicker('maxDate', e.date);
+        });
+
+        $('#timeFrom, #timeTo').datetimepicker({
+			useCurrent: false,
+			format: "HH:mm",
+			locale: moment.locale('bg')
+		});
+    });
+
+	/**
+	 * Взима данни при извикване през модален прозорец
+	 */
+	function getDataFromIframe() {
+
+			var loginSessionId = $('input[name=selectLoginSession]:checked').val();
+
+			if (typeof loginSessionId !== 'undefined') {
+				var data = {loginSessionId:loginSessionId};
+				return JSON.stringify(data);
+			}
+
+		return false;
+	}
+
+</script>

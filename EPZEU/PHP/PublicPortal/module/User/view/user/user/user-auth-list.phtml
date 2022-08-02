@@ -1,0 +1,182 @@
+<? $this->headTitle('EP_USR_MNG_AUTH_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_MNG_AUTH_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col-12">
+						<h1 class="page-title"><?=$this->translate('EP_USR_MNG_AUTH_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="main-wrapper section-wrapper section-wrapper--margins fixed-content-width">
+	<div class="page-wrapper">
+<? if (!$isCertAuthenticationEnabled && !$isNraAuthenticationEnabled) { ?>
+
+			<? } else { ?>
+
+			<ul class="nav nav-tabs flex-column flex-sm-row">
+
+				<? if ($isCertAuthenticationEnabled) { ?>
+				<li class="nav-item active">
+					<a class="tab-navigation nav-link <?=$selectedAuthType == 'cert' ? 'active show' : '' ?>" onClick="setAuthTypeUrl('cert')" data-toggle="tab" href="#tab-1"><?=$this->translate('EP_USR_CERTIFICATES_E')?></a>
+				</li>
+				<? } ?>
+
+				<? if ($isNraAuthenticationEnabled) { ?>
+					<li class="nav-item">
+						<a class="tab-navigation nav-link <?=($selectedAuthType == 'pic' || !$isCertAuthenticationEnabled) ? 'active show' : '' ?>" onClick="setAuthTypeUrl('pic')" data-toggle="tab" href="#tab-2"><?=$this->translate('EP_USR_PIK_NRA_L')?></a>
+					</li>
+				<? } ?>
+			</ul>
+
+			<div class="section-wrapper section-wrapper--margins">
+				<div class="fixed-content-width">
+
+					<div class="tab-content">
+
+						<? if ($isCertAuthenticationEnabled) { ?>
+						<div id="tab-1" class="tab-pane <?=$selectedAuthType == 'cert' ? 'in active' : '' ?>">
+							<div class="page-wrapper">
+
+								<?=$this->partial('partial/messages.phtml')?>
+
+								<div class="help-text"><?=$this->translate('EP_USR_INST_SERT_I')?></div>
+
+								<br>
+
+								<div class="button-bar button-bar--table-actionbar-top">
+									<div class="left-side">
+										<a class="btn btn-outline-light text-dark"  href="<?=$this->url('add_user_auth', ['lang' => $this->language()->getCurrentLang()])?>">
+										<i class="ui-icon ui-icon-plus" aria-hidden="true"></i> <?=$this->translate('GL_ADD_SERT_L') ?>
+											</a>
+										</div>
+			                            <div class="right-side"></div>
+									</div>
+
+
+							<? if ($authList && $authList->count()) { ?>
+								<div class="table-responsive-block">
+									<table class="table table-borderless table-striped table-hover">
+										<thead>
+											<tr>
+												<th width="20%"><?=$this->translate('EP_ODIT_PUBLISHER_L')?></th>
+												<th width="30%"><?=$this->translate('EP_ODIT_NUMBER_SERTIFICATE_KEP_PIC_L')?></th>
+												<th><?=$this->translate('EP_VALIDITY_PERIOD_TO_L')?></th>
+												<th width="30%"><?=$this->translate('EP_OTHER_INFORMATION_L')?></th>
+												<th class="buttons-td"></th>
+											</tr>
+										</thead>
+
+										<? foreach ($authList as $auth) { ?>
+										<tr>
+											<td>
+												<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_ODIT_PUBLISHER_L')?></span>
+												<p class="field-text">
+													<?=$auth->getIssuer()?>
+												</p>
+											</td>
+											<td class="word-break">
+												<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_ODIT_NUMBER_SERTIFICATE_KEP_PIC_L')?></span>
+												<p class="field-text">
+													<?=$auth->getSerialNumber()?>
+												</p>
+											</td>
+											<td>
+												<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_VALIDITY_PERIOD_TO_L')?></span>
+												<p class="field-text">
+												<?=$this->dateFormat(
+																strtotime($auth->getNotAfter()),
+															    IntlDateFormatter::MEDIUM, // date
+															    IntlDateFormatter::NONE, // time
+															    $this->plugin('translate')->getTranslator()->getLocale(),
+																\Application\View\Helper\DateFormat::DATETIME
+												)?>
+												</p>
+
+											</td>
+											<td>
+												<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_OTHER_INFORMATION_L')?></span>
+												<p class="field-text">
+												<?=$auth->getSubject()?>
+												</p>
+											</td>
+											<td class="buttons-td">
+												<a class="btn btn-secondary" title="<?=$this->translate('GL_DELETE_L')?>" onclick="onDelete(this, '<?=$this->translate('EP_USR_00017_I') ?>', event)" href="<?=$this->url('delete_user_auth', ['authId' => $auth->getAuthenticationId()]) ?>">
+													<i class="ui-icon ui-icon-times" aria-hidden="true"></i>
+												</a>
+											</td>
+										</tr>
+
+										<? } ?>
+									</table>
+								</div>
+								<? } ?>
+							</div>
+						</div>
+						<? } ?>
+
+						<? if (!empty($isNraAuthenticationEnabled)) { ?>
+							<div id="tab-2" class="tab-pane <?=($selectedAuthType == 'pic'  || !$isCertAuthenticationEnabled) ? 'in active' : '' ?>">
+								<div class="page-wrapper">
+									<div class="button-bar button-bar--table-actionbar-top">
+				                        <div class="left-side">
+											<? if ($picObj) { ?>
+				                            	<a class="btn btn-secondary" title="<?=$this->translate('GL_DELETE_L')?>" onclick="onDelete(this, '<?=$this->translate('EP_USR_00017_I') ?>', event)" href="<?=$this->url('delete_user_auth', ['authId' => $picObj->getAuthenticationId()], ['query' => ['authType' => 'pic']]) ?>">
+				                            		<i class="ui-icon ui-icon-times" aria-hidden="true"></i> <?=$this->translate('EP_USR_DEL_PIK_NRA_L') ?>
+				                            	</a>
+											<? } else { ?>
+				                            	 <a class="btn btn-outline-light text-dark" href="<?=$picRegisterUrl?>"><i class="ui-icon ui-icon-plus" aria-hidden="true"></i> <?=$this->translate('EP_USR_ADD_PIK_NRA_L') ?></a>
+											<? } ?>
+				                        </div>
+				                        <div class="right-side"></div>
+					                </div>
+
+					                <?=$this->partial('partial/messages.phtml')?>
+
+				                    <? if ($picObj) { ?>
+				                    <div class="alert alert-info" role="alert"><p><?=$this->translate('EP_USR_INST_PIK_NRA_I')?></p></div>
+									<? } ?>
+
+								</div>
+							</div>
+						<? } ?>
+					</div>
+				</div>
+			</div>
+
+		<? } ?>
+
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<?=$this->partial('partial/modal-confirm.phtml')?>
+
+<script>
+function setAuthTypeUrl(authType) {
+	history.pushState(null, null, createQuery({authType:authType}, false));
+	$('.alert-danger, .alert-success').addClass('d-none');
+}
+</script>

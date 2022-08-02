@@ -1,0 +1,109 @@
+<? foreach ($statisticReportList as $baseObj) { ?>
+
+	<tr>
+		<td>
+			<?=$this->dateFormat(
+				strtotime($baseObj->getDateFrom()),
+			    IntlDateFormatter::MEDIUM, // date
+			    IntlDateFormatter::NONE, // time
+			    $this->plugin('translate')->getTranslator()->getLocale(),
+				\Application\View\Helper\DateFormat::DATE
+			)?>
+		</td>
+		<td>
+			<?=$this->dateFormat(
+				strtotime($baseObj->getDateTo()),
+			    IntlDateFormatter::MEDIUM, // date
+			    IntlDateFormatter::NONE, // time
+			    $this->plugin('translate')->getTranslator()->getLocale(),
+				\Application\View\Helper\DateFormat::DATE
+			)?>
+		</td>
+
+		<td>
+			<?=$this->dateFormat(
+				strtotime($baseObj->getDateUpload()),
+			    IntlDateFormatter::MEDIUM, // date
+			    IntlDateFormatter::NONE, // time
+			    $this->plugin('translate')->getTranslator()->getLocale(),
+				\Application\View\Helper\DateFormat::DATETIME
+			)?>
+		</td>
+
+		<td>
+			<?=$this->dateFormat(
+				strtotime($baseObj->getDateChangeStatus()),
+			    IntlDateFormatter::MEDIUM, // date
+			    IntlDateFormatter::NONE, // time
+			    $this->plugin('translate')->getTranslator()->getLocale(),
+				\Application\View\Helper\DateFormat::DATETIME
+			)?>
+
+		</td>
+
+		<td class="icons-td">
+			<?php
+				switch (\Statistic\Controller\StatisticController::STATISTIC_REPORT_STATUS[$baseObj->getStatus()]) {
+
+					case 'EP_STATISTICS_REPORT_STATE_LOADED_L':
+						?>
+						<i class="ui-icon ui-icon-state-waiting" aria-hidden="true"></i>
+						<?php
+						break;
+
+					case 'EP_STATISTICS_REPORT_STATE_PUBLIC_L':
+						?>
+						<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i>
+						<?php
+						break;
+
+					case 'EP_STATISTICS_REPORT_STATE_UNPUBLIC_L':
+						?>
+						<i class="ui-icon ui-icon-state-canceled" aria-hidden="true"></i>
+						<?php
+						break;
+				}
+			?>
+			<?=$this->translate(\Statistic\Controller\StatisticController::STATISTIC_REPORT_STATUS[$baseObj->getStatus()])?>
+		</td>
+
+		<td class="buttons-td">
+				<? if ($this->isAllowed('edit_statistic_report') && \Statistic\Controller\StatisticController::STATISTIC_REPORT_STATUS[$baseObj->getStatus()] != 'EP_STATISTICS_REPORT_STATE_PUBLIC_L') { ?>
+					<a href="<?=$this->url('edit_statistic_report', ['statisticReportId' => $baseObj->getStatisticReportId(), 'lang' => $this->language()->getCurrentLang()])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_EDIT_L'))?>">
+						<i class="ui-icon ui-icon-edit"></i>
+					</a>
+				<? } ?>
+
+				<a href="<?=$this->url('statistic_report_file_download', ['statisticReportId' => $baseObj->getStatisticReportId()]) ?>" class="btn btn-secondary" title="<?=$this->translate('GL_FILE_L')?>"><i class="ui-icon ui-icon-download"></i></a>
+
+
+				<!-- Смяна на статус на публикуван отчет -->
+				<? if (\Statistic\Controller\StatisticController::STATISTIC_REPORT_STATUS[$baseObj->getStatus()] == 'EP_STATISTICS_REPORT_STATE_PUBLIC_L' && $this->isAllowed('change_statistic_report_status')) {?>
+					<a href="<?=$this->url('change_statistic_report_status', ['statisticReportId' => $baseObj->getStatisticReportId()], ['query' => $params->fromQuery()])?>"
+					class="btn btn-secondary"
+					onClick="openModalConfirm(this, '<?= \Statistic\Controller\StatisticController::STATISTIC_REPORT_STATUS[$baseObj->getStatus()] != 'EP_STATISTICS_REPORT_STATE_PUBLIC_L' ? $this->translate('EP_CMS_CONFIRM_PUBLIC_OK_I') : $this->translate('EP_CMS_CONFIRM_PUBLIC_CANCEL_OK_I')?>', event)"
+					title="<?=\Statistic\Controller\StatisticController::STATISTIC_REPORT_STATUS[$baseObj->getStatus()] != 'EP_STATISTICS_REPORT_STATE_PUBLIC_L' ? $this->translate('GL_PUBLIC_L') : $this->translate('GL_PUBLIC_CANCEL_L')?>">
+						<?=\Statistic\Controller\StatisticController::STATISTIC_REPORT_STATUS[$baseObj->getStatus()] != 'EP_STATISTICS_REPORT_STATE_PUBLIC_L' ? '<i class="ui-icon ui-icon-activate"></i>' : '<i class="ui-icon ui-icon-deactivate"></i>'?>
+					</a>
+				<? } elseif ($this->isAllowed('change_statistic_report_status')) { ?>
+
+					<a href="<?=$this->url('change_statistic_report_status', ['statisticReportId' => $baseObj->getStatisticReportId()], ['query' => $params->fromQuery()])?>"
+					class="btn btn-secondary"
+					onClick="openModalActivateReport('<?=$this->url('change_statistic_report_status', ['statisticReportId' => $baseObj->getStatisticReportId()], ['query' => $params->fromQuery()])?>', event)"
+					title="<?=$this->translate('GL_PUBLIC_L')?>">
+						<i class="ui-icon ui-icon-activate"></i>
+					</a>
+
+				<? } ?>
+
+				<? if (\Statistic\Controller\StatisticController::STATISTIC_REPORT_STATUS[$baseObj->getStatus()] == 'EP_STATISTICS_REPORT_STATE_LOADED_L' && $this->isAllowed('delete_statistic_report')) { ?>
+					<a href="<?=$this->url('delete_statistic_report', ['statisticReportId' => $baseObj->getStatisticReportId(), 'lang' => $this->language()->getCurrentLang()], ['query' => $params->fromQuery()])?>" title="<?=$this->escapeHtmlAttr($this->translate('GL_DELETE_L'))?>" onclick="openModalConfirm(this, '<?=str_replace('{DEL_ITEM_NAME}', '', $this->translate('GL_DELETE_CONFIRM_I'))?>', event)"  class="btn btn-secondary">
+						<i class="ui-icon ui-icon-trash"></i>
+					</a>
+				<? } ?>
+
+
+		</td>
+
+	</tr>
+<? } ?>

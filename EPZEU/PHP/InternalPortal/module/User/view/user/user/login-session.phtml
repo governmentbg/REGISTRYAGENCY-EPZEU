@@ -1,0 +1,73 @@
+<div class="row">
+	<div class="col-12 form-group">
+		<label><?=$this->translate('EP_USR_START_LOG_SES_L')?></label> <br/>
+		<?=$this->dateFormat(
+				strtotime($loginSessionObj->getLoginDate()),
+				IntlDateFormatter::NONE, // date
+				IntlDateFormatter::NONE, // time
+				$this->plugin('translate')->getTranslator()->getLocale(),
+				\Application\View\Helper\DateFormat::DATETIME
+			);
+		?>
+	</div>
+
+	<div class="col-12 form-group">
+
+		<label><?=$this->translate('EP_USR_END_LOG_SES_L')?></label> <br/>
+
+		<? if ($loginSessionObj->getLogoutDate()) { ?>
+			<?=$this->dateFormat(
+					strtotime($loginSessionObj->getLogoutDate()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATETIME
+				);
+			?>
+		<? } ?>
+	</div>
+
+
+	<div class="col-12 form-group">
+		<label><?=$this->translate('GL_USER_NAME_L')?></label> <br/> <?=$loginSessionObj->getUsername()?>
+	</div>
+
+	<div class="col-12 form-group">
+		<label><?=$this->translate('GL_EMAIL_L')?></label> <br/> <?=$loginSessionObj->getEmail()?>
+	</div>
+
+	<div class="col-12 form-group">
+		<label><?=$this->translate('GL_IP_ADDRESS_L')?></label> <br/> <?=$loginSessionObj->getIpAddress()?>
+	</div>
+
+	<div class="col-12 form-group">
+		<label><?=$this->translate('EP_USR_AUTHENTICATION_KIND_L')?></label> <br/> <?=$this->translate(\User\Controller\UserController::AUTH_TYPE_LIST[$loginSessionObj->getAuthenticationType()])?>
+
+
+		<? if ($certObj) { ?>
+			<ul class="tree-list-graph">
+				<li><b><?=$this->translate('EP_VALIDITY_PERIOD_FROM_L')?></b>: <?=$certObj->getNotBefore()?></li>
+				<li><b><?=$this->translate('EP_VALIDITY_PERIOD_TO_L')?></b>: <?=$certObj->getNotAfter()?></li>
+				<li><b><?=$this->translate('EP_ODIT_PUBLISHER_L')?></b>: <?=$certObj->getIssuer()?></li>
+				<li><b><?=$this->translate('EP_ODIT_NUMBER_SERTIFICATE_KEP_PIC_L')?></b>: <?=$certObj->getSerialNumber()?></li>
+				<li><b><?=$this->translate('EP_OTHER_INFORMATION_L')?></b>: <?=$certObj->getSubject()?></li>
+			</ul>
+		<? } ?>
+
+		<? if ($picObj) { ?>
+			<ul class="tree-list-graph">
+				<li><b><?=$this->translate('EP_USR_PIK_NRA_L')?></b>: <?=$picObj->getUsername()?></li>
+				<li><b><?=$this->translate('EP_ODIT_SYSTEM_IDENTIFICATION_USER_L')?></b>: <?=$params['EP_INTGR_NRA_API']?></li>
+			</ul>
+		<? } ?>
+
+
+	</div>
+
+
+
+	<div class="col-12 form-group">
+		<label><?=$this->translate('EP_USR_AUTHENTICATION_ID_L')?></label> <br/> <?=$loginSessionObj->getLoginSessionId()?>
+	</div>
+
+</div>

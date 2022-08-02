@@ -1,0 +1,35 @@
+<? foreach ($limitUserList as $baseObj) { ?>
+	<?php $interval = \Application\Service\AppService::fromPg($baseObj->getRequestsInterval());?>
+
+	<tr>
+		<td class="word-break"><?=$baseObj->getEmail()?></td>
+		<td><?=$baseObj->getFirstName()?> <?=$baseObj->getMiddleName()?> <?=$baseObj->getFamilyName()?></td>
+		<td><?=$baseObj->getOrganization()?></td>
+		<td>
+			<span class="word-break"><?=$baseObj->getServiceCode()?></span><br>
+			<?=$baseObj->getServiceName()?>
+		</td>
+		<td><?=\Application\Service\AppService::createDateIntervalString($interval, $this->plugin('translate')->getTranslator())?></td>
+		<td><?=$baseObj->getRequestsNumber()?></td>
+		<td class="icons-td"><?=$baseObj->getStatus() ? '<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i>'.$this->translate('GL_ACTIVE_L') : '<i class="ui-icon ui-icon-state-inactive" aria-hidden="true"></i>'.$this->translate('GL_INACTIVE_L')?></td>
+
+		<? if ($this->isAllowed('edit_limit') && $type != 'changeLimitStatus') {?>
+		<td class="buttons-td">
+
+			<a href="<?=$this->url('edit_user_limit', ['userLimitId' => $baseObj->getUserLimitId(), 'lang' => $params->fromRoute('lang')], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('EP_NOM_EDIT_USERS_SERVICES_LIMITS_L'))?>">
+				<i class="ui-icon ui-icon-edit"></i>
+			</a>
+
+			<?php if ($baseObj->getUserStatus() != 1) { ?>
+				<a href="<?=$this->url('change_user_limit_status', ['userLimitId' => $baseObj->getUserLimitId()], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" onClick="openModalAlert('<?=$this->translate('GL_USER_PROFILE_NOACTIVE_E')?>', event)" title="<?=$baseObj->getStatus() ? $this->translate('GL_DEACTIVATION_L') : $this->translate('GL_ACTIVATION_L')?>">
+					<?=$baseObj->getStatus() ? '<i class="ui-icon ui-icon-deactivate"></i>' : '<i class="ui-icon ui-icon-activate"></i>'?>
+				</a>
+			<?php } else { ?>
+				<a href="<?=$this->url('change_user_limit_status', ['userLimitId' => $baseObj->getUserLimitId()], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" onClick="openModalConfirm(this, '<?=$baseObj->getStatus() ? $this->translate('GL_DEACTIVE_CONFIRM_I') : $this->translate('GL_ACTIVE_CONFIRM_I')?>', event)" title="<?=$baseObj->getStatus() ? $this->translate('GL_DEACTIVATION_L') : $this->translate('GL_ACTIVATION_L')?>">
+					<?=$baseObj->getStatus() ? '<i class="ui-icon ui-icon-deactivate"></i>' : '<i class="ui-icon ui-icon-activate"></i>'?>
+				</a>
+			<?php } ?>
+		</td>
+		<? } ?>
+	</tr>
+<? } ?>

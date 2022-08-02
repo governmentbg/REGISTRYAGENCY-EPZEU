@@ -1,0 +1,31 @@
+<?
+foreach ($newsList as $baseObj) {?>
+	<tr>
+		<td>
+			<?=$this->dateFormat(
+					strtotime($baseObj->getNewsDate()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATETIME
+				);
+			?>
+		</td>
+		<td><?=(!empty($registerList[$baseObj->getRegisterId()]) ? $this->translate($registerList[$baseObj->getRegisterId()]) : '')?></td>
+		<td><?=$baseObj->getTitle()?></td>
+		<td><?=$baseObj->getTitleI18n()?></td>
+		<td class="buttons-td">
+
+			<a href="<?=$this->publicUrl([$this->language()->getCurrentLang(), 'preview-news', $baseObj->getNewsId()])?>" target="_blank" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>">
+				<i class="ui-icon ui-icon-eye"></i>
+			</a>
+
+			<? if ($this->isAllowed('news_translate')) { ?>
+				<a href="<?=$this->url('news_translate', ['newsId' => $baseObj->getNewsId(), 'lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_EDIT_L'))?>">
+					<i class="ui-icon ui-icon-edit"></i>
+				</a>
+			<? } ?>
+
+		</td>
+	</tr>
+<? } ?>

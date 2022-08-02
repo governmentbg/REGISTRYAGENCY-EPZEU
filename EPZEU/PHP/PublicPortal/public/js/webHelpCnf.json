@@ -1,0 +1,30 @@
+[
+	{
+		"pattern": "(cr-sign-how-to)",
+		"key": "$1"
+	},
+	{
+		"pattern": "/(payment-order-list|personal-account-list|duty-list|application-list|user-auth-list|cr-sign-how-to|register|forgot-password|change-password)",
+		"key": "$1"
+	},
+	{
+		"pattern": "/(cr|pr)/(?:.*/)ApplicationProcesses/([^/]+)",
+		"key": "$1_applicationprocesses_$2"
+	},
+	{
+		"pattern": "/pr/Reports/([^/]+)",
+		"key": "pr_reports_$1"
+	},
+	{
+		"pattern": "/cr/Reports/([^/]+)",
+		"key": "cr_reports"
+	},
+	{
+		"pattern": "/pr/StatusHistory/([^/]+)",
+		"key": "application_list"
+	},
+	{
+		"pattern": "/(cr|pr)/",
+		"key": "home"
+	}
+]  

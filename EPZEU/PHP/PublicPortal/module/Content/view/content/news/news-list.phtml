@@ -1,0 +1,110 @@
+<? $this->headTitle('EP_CMS_NEWS_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_NEWS_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_CMS_NEWS_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+
+				<!-- Горещи новини -->
+				<? if (count($hotNewsList)) { ?>
+					<div class="card card--hot-news">
+						<div class="card-body">
+
+							<? foreach ($hotNewsList as $hotNewsObj) {?>
+								<article class="article article--news article--hot-news">
+									<? if (!empty($hotNewsObj->getFileName())) {?>
+										<a href="<?=$this->url('preview_news', ['newsId' => $hotNewsObj->getNewsId(), 'lang' => $this->language()->getCurrentLang()])?>">
+											<img class="rounded article-thumbnail" src="<?=$this->url('load_image', ['newsId' => $hotNewsObj->getNewsId(), 'timestamp' => strtotime($hotNewsObj->getUpdatedOn()), 'imageName' => $hotNewsObj->getFileName()])?>">
+										</a>
+									<? } ?>
+									<h3 class="article-title">
+										<a href="<?=$this->url('preview_news', ['newsId' => $hotNewsObj->getNewsId(), 'lang' => $this->language()->getCurrentLang()])?>"><?=$hotNewsObj->getTitle()?></a>
+									</h3>
+									<p>
+										<em><?=$this->dateFormat(
+												strtotime($hotNewsObj->getNewsDate()),
+												IntlDateFormatter::NONE, // date
+												IntlDateFormatter::NONE, // time
+												$this->plugin('translate')->getTranslator()->getLocale(),
+												\Application\View\Helper\DateFormat::DATE
+											);?>
+										</em>&nbsp;
+										<a href="<?=$this->url(($registerList[$hotNewsObj->getRegisterId()] == 'CR' ? 'commercial_register' : 'property_register'), ['lang' => $this->language()->getCurrentLang()])?>">
+											<?=$this->translate('GL_'.$registerList[$hotNewsObj->getRegisterId()].'_REG_NAME_L'.($registerList[$hotNewsObj->getRegisterId()] == 'CR'? '_SHORT_L' : ''))?>
+										</a>
+									</p>
+									<p><?=$hotNewsObj->getShortDescription()?></p>
+									<a href="<?=$this->url('preview_news', ['newsId' => $hotNewsObj->getNewsId(), 'lang' => $this->language()->getCurrentLang()])?>" class="read-more"><?=$this->translate('EP_PUBLIC_NEWS_READ_MORE_L')?></a>
+								</article>
+							<? } ?>
+
+						</div>
+					</div>
+				<? } ?>
+
+				<!-- Новини -->
+				<? if ($newsList) { ?>
+
+					<div class="card card-page">
+						<div class="card-body card-page__body">
+
+							<nav class="pagination-container pagination-container--page-top" aria-label="Page navigation">
+								<div class="result-count">
+									<?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?>
+								</div>
+								<ul class="pagination pagination--page"></ul>
+							</nav>
+
+							<section id="content">
+								<?=$this->partial('news-list-partial.phtml');?>
+							</section>
+
+							<nav class="pagination-container pagination-container--page-bottom" aria-label="Page navigation">
+								<div class="result-count">
+									<?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?>
+								</div>
+								<ul class="pagination pagination--page"></ul>
+							</nav>
+
+							<?php
+							$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+							$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+							?>
+
+							<script type="text/javascript">
+							pagination('.pagination', '#content', <?=$totalPages?>);
+							</script>
+
+						</div>
+					</div>
+				<? } ?>
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,9 @@
+<?=$this->language()->renderSelect()?>
+
+<script>
+	$('#language-select').on('change', function(){
+		url = $(this).val();
+		window.location = url;
+	});
+</script>
+

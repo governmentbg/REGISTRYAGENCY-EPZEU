@@ -1,0 +1,283 @@
+
+
+body {
+    width: initial;
+    height: initial;
+
+}
+
+.layout-wrapper {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+
+	// background-color: green;
+    height: 100vh;
+}
+
+.fixed-content-width {
+    width: 100%;
+    max-width: $template-page-max-width;
+    margin: 0 auto;
+}
+
+.full-screen-mode {
+    .fixed-content-width,
+    .main-wrapper.fixed-content-width {
+        max-width: 100%;
+    }
+}
+
+
+.main-wrapper.fixed-content-width { // fix
+    max-width: calc(#{$template-page-max-width} + #{$template-container-padding-horizontal*4});
+}
+
+
+.header-wrapper,
+.footer-wrapper {
+    flex: 0 0 auto;
+    // background-color: mediumvioletred;
+}
+
+
+// .header-wrapper {
+//     max-height: 100vh;
+// 	overflow-y: auto;
+// }
+
+
+.content-wrapper {
+    position: relative;
+    width: 100%;
+    flex: 1 0 auto;
+	display: flex;
+    flex-direction: column;
+}
+
+
+.page-header-wrapper {
+    width: 100%;
+    flex: 0 1 auto;
+}
+
+.main-wrapper  {
+
+    width: 100%;
+    flex: 1 0 auto;
+
+	display: flex;
+    flex-direction: row;
+    // flex-wrap: wrap;
+    flex-wrap: nowrap;
+    // align-content: flex-start;
+
+    position: relative;
+    // background-color: $white;
+    // background-color:olive;
+
+    @include media-breakpoint-down(sm) {
+        flex-direction: column;
+    }
+}
+
+
+.nav-wrapper {
+    flex: 0 0 auto;
+    // background-color: wheat;    
+
+    width: 14.375rem;
+    // padding-right: $template-container-padding-horizontal;
+    padding-bottom: $template-container-padding-vertical;
+
+    border-right: 1px solid $gray-300;
+    background-color: $white;
+
+    @include media-breakpoint-down(sm) {
+        width: auto;
+        flex: 0 0 auto;
+        position: relative;
+        display: none;
+
+        border-right: none;
+        padding: 0 $template-container-padding-horizontal $template-container-padding-vertical $template-container-padding-horizontal;
+        margin-left: -$template-container-padding-horizontal;
+        margin-right: -$template-container-padding-horizontal;
+        margin-bottom: $template-container-padding-vertical;
+
+        @include box-shadow($navigation-box-shadow);
+
+
+        &.collapse:not(.show) {
+            display: none;
+        }
+
+    }
+
+    &.collapse {
+        display: block;
+    }
+
+    &.nav-wrapper--show {    // само за да работят старите прототипи
+        display: block;
+    }
+
+}
+
+
+.additional-nav-warapper + .main-wrapper {  // само когато има секция "Списък със заявления към пререгистрация"
+
+    .button-menu-container {
+        position: relative;
+        text-align: right;
+        padding: 0 0 $template-container-padding-vertical /2 0;
+        margin-bottom: $template-container-margin-vertical *2;
+        border-bottom: 2px solid $gray-400;
+    }
+
+    .button-menu {   //  бутона се позиционира на нов ред, защото между него и заглавието се появява допълнителна навигация // "Списък със заявления към пререгистрация"
+        position: relative;
+        top: -$template-container-padding-vertical;
+        right: $template-container-padding-horizontal;
+
+        align-self: flex-end;
+    }
+ 
+}
+
+.button-menu {
+    position: absolute;
+    z-index: 1;
+
+    top: -$template-container-padding-vertical * 6.5;
+    right: $template-container-padding-horizontal * 2;
+
+    border: none;
+    background: transparent;
+    cursor: pointer;
+
+    padding: 0 $template-container-padding-horizontal /2;
+    padding: 0;
+
+    border-radius: $border-radius;
+
+    .ui-icon {
+        width: 1.375rem;
+        height: 1.375rem;
+
+        transform: rotate(0deg);
+        // transition: transform ease-in-out 0.3s;
+    }
+
+    &.collapsed {
+        .ui-icon {
+            transform: rotate(180deg);        
+            // transition: transform ease-in-out 0.3s;
+        }
+    }
+
+    &:focus,
+    &.focus {
+        outline: 0;
+        box-shadow: 0 0 0 $btn-focus-width rgba($gray-200, .5);
+        border-radius: $border-radius;
+    }
+}
+
+.page-header-wrapper {      // само за да работят старите прототипи
+    .button-menu {
+        position: static;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+
+        padding: 0 $horizontal-padding /2;
+        padding: 0;
+
+        border-radius: $border-radius;
+
+        // &:focus,
+        // &.focus {
+        //   outline: 0;
+        //   box-shadow: $btn-focus-box-shadow;
+        // }
+
+        .ui-icon {
+            width: 1.375rem;
+            height: 1.375rem;
+        }
+    }
+}
+
+
+.page-wrapper {
+    // overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
+
+    flex: 1 0 0;
+
+    // background-color: purple;
+
+    @include media-breakpoint-down(sm) {
+        flex: 1 1 auto;
+    }
+}
+
+.section-wrapper {
+
+    width: 100%;
+    padding: 0 $horizontal-padding * 2;
+    margin: 0 auto;
+
+    @include media-breakpoint-down(sm) {
+        padding: 0 $horizontal-padding;
+
+        // .row {
+        //     margin-right: 0;
+        //     margin-left: 0;
+
+        //     > .col,
+        //     > [class*="col-"] {
+        //       padding-right: 0;
+        //       padding-left: 0;
+        //     }
+        // }
+
+    }
+}
+
+.section-wrapper--margins {
+    margin: $horizontal-padding * 2 auto $horizontal-padding * 2 auto;
+    // margin-left: auto;
+    // margin-right: auto;
+
+    // background-color: $white;
+    // background-color: aquamarine;
+
+    // & + & {
+    //     margin-top: $horizontal-padding * 2;
+    //     margin-bottom: $horizontal-padding * 2;
+    // }
+}
+
+
+
+.general-message-wrapper {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 100%;
+
+    // background-color: $white;
+}
+
+
+.scroll-to-top {
+    z-index: $zindex-scroll-to-top;
+    cursor: pointer;
+
+    .ui-icon {
+        width: 3rem;
+        height: 3rem;
+    }
+}

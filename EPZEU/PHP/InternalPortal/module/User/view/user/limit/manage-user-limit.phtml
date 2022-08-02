@@ -1,0 +1,192 @@
+<?php
+$pageLabel = $userLimitId ? 'EP_NOM_EDIT_USERS_SERVICES_LIMITS_L' : 'EP_NOM_ADD_USERS_SERVICES_LIMITS_L';
+?>
+
+<? $this->headTitle($pageLabel) ?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_NOM_LIMITS_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><a href="<?=$this->url('limit_user_list', ['lang' => $this->language()->getCurrentLang()], ['query' => $params()->fromQuery()])?>"><?=$this->translate('EP_NOM_USERS_SERVICES_LIMITS_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate($pageLabel)?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate($pageLabel)?></h2>
+</div>
+
+
+<div class="card">
+	<?php
+
+	if ($userLimitId)
+		$limitUserForm->setAttribute('action', $this->url('edit_user_limit', ['userLimitId' => $userLimitId, 'lang' => $params->fromRoute('lang')], ['query' => $params()->fromQuery()]));
+	else
+		$limitUserForm->setAttribute('action', $this->url('add_user_limit', ['lang' => $params->fromRoute('lang'), 'userId' => $userId], ['query' => $params()->fromQuery()]));
+
+	$limitUserForm->prepare();
+
+	echo $this->form()->openTag($limitUserForm);
+	?>
+
+	<div class="card-body">
+			<div class="row">
+
+				<div class="col-12">
+					<?=$this->partial('partial/messages.phtml')?>
+				</div>
+
+				<div class="form-group col-md-12 col-lg-12 col-xl-6">
+
+					<label for="selected-user" class="required-field"><?=$this->translate('GL_USER_L')?></label>
+
+					<div class="input-group">
+
+						<div class="form-control <?=!$this->FormElementErrors($limitUserForm->get('userId')) ?:'input-error'?> multiple-select multiple-select--scrollable">
+							<div class="result-list <?=!empty(\User\Service\UserService::getUserInfoString($userObj)) ? '' : 'd-none'?>" id="resultList">
+								<div class="badge badge-secondary"><span class="word-break" id="selected-user"><?=\User\Service\UserService::getUserInfoString($userObj)?></span>
+									<button type="button" class="close" aria-label="Close" id="removeSelectUser">
+										<span aria-hidden="true">×</span>
+									</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="input-group-append">
+							<button class="btn btn-secondary" type="button" title="<?=$this->translate('GL_CHOICE_L')?>" onclick="openPreview(undefined, event, '<?=$this->url('select_user')?>');">
+							<i class="ui-icon ui-icon-hand"></i>
+							</button>
+						</div>
+					</div>
+					<?=$this->FormElementErrors($limitUserForm->get('userId'))?>
+				</div>
+
+				<div class="form-group col-md-12 col-lg-12 col-xl-6">
+					<label for="selected-service-limit" class="required-field"><?=$this->translate('EP_NOM_LIMIT_DATA_SERVICE_USER_L')?></label>
+
+					<div class="input-group">
+						<!-- <div class="form-control <?=!$this->FormElementErrors($limitUserForm->get('serviceLimitId')) ?:'input-error'?>" id="selected-service-limit"><?=$limitServiceObj->getServiceCode() ? $limitServiceObj->getServiceCode().' '.$limitServiceObj->getServiceName() : ''?></div>-->
+
+						<div class="form-control <?=!$this->FormElementErrors($limitUserForm->get('serviceLimitId')) ?:'input-error'?> multiple-select multiple-select--scrollable">
+							<div class="result-list <?=!empty($limitServiceObj->getServiceCode()) ? '' : 'd-none'?>" id="resultServiceLimit">
+								<div class="badge badge-secondary"><span class="word-break" id="selected-service-limit"><?=$limitServiceObj->getServiceCode() ? $limitServiceObj->getServiceCode().' '.$limitServiceObj->getServiceName() : ''?></span>
+									<button type="button" class="close" aria-label="Close" id="removeSelectedServiceLimit">
+										<span aria-hidden="true">×</span>
+									</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="input-group-append">
+							<button class="btn btn-secondary" type="button" title="<?=$this->translate('GL_CHOICE_L')?>" onclick="openPreview(undefined, event, '<?=$this->url('select_limit_service')?>');">
+								<i class="ui-icon ui-icon-hand"></i>
+							</button>
+						</div>
+					</div>
+					<?=$this->FormElementErrors($limitUserForm->get('serviceLimitId'))?>
+				</div>
+			</div>
+
+			<div class="row">
+					<?=$this->formHidden($limitUserForm->get('userId'))?>
+					<?=$this->formHidden($limitUserForm->get('serviceLimitId'))?>
+
+				<div class="col-sm-12 col-lg-8 col-xxl-6 form-group">
+						<div class="form-row">
+
+							<div class="col-12"><label for="" class="required-field"><?=$this->translate('GL_PERIOD_L')?></label></div>
+
+							<div class="col-auto period-control form-group">
+								<div class="form-inline">
+									<label for="t1" class="mr-1"><?=mb_strtolower($this->translate('GL_DAYS_L'))?></label>
+									<?=$this->formElement($limitUserForm->get('days'))?>
+								</div>
+							</div>
+
+							<div class="col-auto period-control form-group">
+								<div class="form-inline">
+									<label for="t2" class="mr-1"><?=mb_strtolower($this->translate('GL_HOURS_L'))?></label>
+									<?=$this->formElement($limitUserForm->get('hours'))?>
+								</div>
+							</div>
+
+							<div class="col-auto period-control form-group">
+								<div class="form-inline">
+									<label for="t3" class="mr-1"><?=mb_strtolower($this->translate('GL_MINUTES_L'))?></label>
+									<?=$this->formElement($limitUserForm->get('minutes'))?>
+								</div>
+							</div>
+							<div class="col-auto period-control form-group">
+								<div class="form-inline">
+									<label for="t4" class="mr-1"><?=mb_strtolower($this->translate('GL_SECONDS_L'))?></label>
+									<?=$this->formElement($limitUserForm->get('seconds'))?><span class="form-text mr-1 ml-1">.</span><?=str_replace('0.', '', $this->formElement($limitUserForm->get('milliseconds')))?>
+								</div>
+							</div>
+
+							<?=$this->FormElementErrors($limitUserForm->get('interval'))?>
+						</div>
+				</div>
+
+				<div class="col-sm-6 col-lg-4 col-xl-3 col-xxl-3 form-group">
+					<div class="d-block">
+						<?=$this->formRow($limitUserForm->get('requestsNumber'))?>
+					</div>
+				</div>
+			</div>
+
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url('limit_user_list', ['lang' => $this->language()->getCurrentLang()], ['query' => $params()->fromQuery()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<?=$this->formSubmit($limitUserForm->get('submit'));?>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+</div>
+
+<?=$this->partial('partial/modal-preview', ['title' => $this->translate('GL_SEARCHING_L'), 'buttonRefuse' => $this->translate('GL_REFUSE_L'), 'buttonConfirm' => $this->translate('GL_CONFIRM_L')])?>
+
+<script>
+$(".btn-confirm").on('click', function() {
+
+	var result = $('#iframe_content')[0].contentWindow.getDataFromIframe();
+
+	if (result) {
+
+		var resultObj = jQuery.parseJSON(result);
+
+		switch (resultObj.module) {
+
+			case 'user':
+				$("#resultList").removeClass('d-none');
+				$("#selected-user").html(resultObj.name);
+				$("#userId").val(resultObj.id);
+				break;
+
+			case 'limit':
+				$("#resultServiceLimit").removeClass('d-none');
+				$("#selected-service-limit").html(resultObj.name);
+				$("#serviceLimitId").val(resultObj.id);
+			break;
+		}
+	}
+
+});
+
+
+$(document).on('click', "#removeSelectUser", function() {
+	$("#resultList").addClass('d-none');
+	$("#selected-user").html('');
+	$("#userId").val('');
+});
+
+$(document).on('click', "#removeSelectedServiceLimit", function() {
+	$("#resultServiceLimit").addClass('d-none');
+	$("#selected-service-limit").html('');
+	$("#serviceLimitId").val('');
+});
+</script>

@@ -1,0 +1,55 @@
+<? if (!empty($synchronizeMessage) && !empty($isAdmService)) { ?>
+	<div class="row">
+		<div class="col-12 form-group">
+			<div class="alert alert-warning" role="alert">
+				<?=$synchronizeMessage?>
+			</div>
+		</div>
+	</div>
+<? } ?>
+
+<? if (empty($shortDescriptionTranslation)) {
+
+	if (empty($isAdmService)) { ?>
+
+		<div class="row">
+			<div class="col-12 form-group">
+				<b><?=$this->translate('GL_SERVICE_L')?>:</b><br/>
+				<?=$title?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12 form-group">
+				<b><?=$this->translate('GL_SHORT_DESCRIPTION_L')?>:</b><br/>
+				<?=$shortDescription?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12 form-group">
+				<b><?=$this->translate('GL_DESCRIPTION_L')?>:</b><br/>
+				<?=$description?>
+			</div>
+		</div>
+
+	<? }
+
+	else { ?>
+
+		<div class="row">
+			<div class="col-12 form-group">
+				<?=$description?>
+			</div>
+		</div>
+	<? }
+}
+
+else { ?>
+
+	<div class="row">
+		<div class="col-12 form-group">
+			<?=$shortDescription?>
+		</div>
+	</div>
+<? } ?>

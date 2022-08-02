@@ -1,0 +1,26 @@
+# ZF modules
+vendor/
+
+# ZF local and development config
+config/autoload/development-php.local.php
+config/development.config.php
+
+# ZF data
+data/cache/*
+data/language/*
+data/log/*
+data/tmp/*
+
+# ZF include .gitkeep files
+!.gitkeep
+
+# Eclipse settings
+.settings/
+.buildpath
+.project
+.user.ini
+
+# TFS 2012 Local Workspace
+$tf/
+
+public/web.config

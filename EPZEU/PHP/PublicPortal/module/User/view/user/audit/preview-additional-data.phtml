@@ -1,0 +1,24 @@
+<div class="row">
+
+	<div class="col-12 form-group">
+		<label class="field-title field-title--form"><?=$this->translate('EP_ODIT_TYPE_OBJECT_L')?></label>
+		<br/><?=$objectTypeList[$auditObj->getObjectTypeId()]?>
+	</div>
+
+	<div class="col-12 form-group">
+		<label class="field-title field-title--form"><?=$this->translate('EP_ODIT_OBJECT_L')?></label>
+		<br/><?=$auditObj->getKey()?>
+	</div>
+
+
+	<? $jsonList = \Application\Service\AppService::jsonToList($additionalData); ?>
+
+
+		<div class="col-12 form-group">
+			<?=$jsonList?>
+		</div>
+</div>
+
+
+
+

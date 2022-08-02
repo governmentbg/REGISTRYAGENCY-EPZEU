@@ -1,0 +1,35 @@
+<? foreach ($bulletinList as $baseObj) {?>
+
+	<article class="article article--news">
+
+		<h3 class="article-title">
+			<a href="<?=$this->url('bulletin_file_download', ['bulletinId' => $baseObj->getBulletinId(), 'timestamp' => strtotime($baseObj->getUpdatedOn())])?>">
+			<?=\Document\Service\DocumentService::getOriginalFilename($baseObj->getFileName())?>
+			</a>
+		</h3>
+
+		<p>
+			<em>
+				<?=$this->dateFormat(
+					strtotime($baseObj->getDateFrom()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATE
+				)
+				?>
+				&nbsp;-&nbsp;
+				<?=$this->dateFormat(
+					strtotime($baseObj->getDateTo()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATE
+				)
+				?>
+			</em>
+		</p>
+
+	</article>
+
+<? } ?>

@@ -1,0 +1,175 @@
+<?php
+$this->headTitle('EP_USR_00005_L');
+?>
+
+<div class="card card-page">
+	<?php
+	$userForm->prepare();
+	$userFieldset = $userForm->get('userFieldset');
+	?>
+	<div class="card-page__body">
+		<div class="row">
+			<div class="col-12 col-sm-12 col-lg-12 col-xl-12 form-group">
+				<div class="row">
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('cin'))?>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('updatedOn')->setValue(
+								$this->dateFormat(
+									strtotime($this->userForm->get('userFieldset')->get('updatedOn')->getValue()),
+									IntlDateFormatter::MEDIUM, // date
+									IntlDateFormatter::NONE, // time
+									$this->plugin('translate')->getTranslator()->getLocale(),
+									\Application\View\Helper\DateFormat::DATETIME
+								)
+						))?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('username'))?>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('email'))?>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('status'), null, null, 'partial/multiradiobox')?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-4 form-group">
+						<?=$this->formRow($userFieldset->get('firstName'), null, true, '')?>
+					</div>
+					<div class="col-sm-4 form-group">
+						<?=$this->formRow($userFieldset->get('middleName'))?>
+					</div>
+					<div class="col-sm-4 form-group">
+						<?=$this->formRow($userFieldset->get('familyName'))?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('contactData'))?>
+						<div class="help-text-inline"><?=$this->translate('EP_USR_00006_I')?></div>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('organization'))?>
+					</div>
+					<div class="col-sm-12 col-lg-4 form-group">
+        				<?=$this->formRow($userFieldset->get('specialAccessUserType'), null, null, '')?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 col-lg-6 form-group">
+						<label><?=$this->translate('EP_USR_00002_L')?></label>
+						<?=$this->formRow($userFieldset->get('crBulletinAcceptance'), 'append', null, 'partial/checkbox')?>
+						<?=$this->formRow($userFieldset->get('prBulletinAcceptance'), 'append', null, 'partial/checkbox')?>
+					</div>
+					<div class="col-sm-12 col-lg-6 form-group">
+						<label><?=$this->translate('EP_USR_00013_L')?></label>
+						<?=$this->formRow($userFieldset->get('crMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+						<?=$this->formRow($userFieldset->get('prMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+						<?=$this->formRow($userFieldset->get('epzeuMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+					</div>
+				</div>
+
+				 <fieldset id="user-permission-section">
+					<legend><?=$this->translate('EP_USR_USER_RIGHTS_L');?></legend>
+					<div class="row">
+						<div class="form-group col-sm-12">
+							<?=$this->formRow($userFieldset->get('permissionList'), null, null, 'partial/multicheckbox-group')?>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+</div>
+
+<? if (count($specialAccessArr)) { ?>
+<div class="card card-page">
+
+	<div class="card-header card-page__header">
+		<h3><?=$this->translate('EP_USR_LIST_REQSPACC_L')?></h3>
+	</div>
+
+	<div class="card-page__body">
+
+		<div id="special-request-message" class="alert d-none"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><p><?=$this->translate('GL_UPDATE_OK_I')?></p></div>
+
+		<table class="table table-bordered table-striped table-hover">
+				<tr>
+					<th><?=$this->translate('EP_USR_REQUEST_DATA_L')?></th>
+					<th><?=$this->translate('EP_USR_00008_L')?></th>
+					<th><?=$this->translate('EP_USR_CONF_REJ_DATA_L')?></th>
+					<th><?=$this->translate('GL_CONDITION_L')?></th>
+				</tr>
+
+			<?php foreach ($specialAccessArr as $specialAccess) { ?>
+				<tr>
+					<td>
+
+					<?=$this->dateFormat(
+						strtotime($specialAccess->getCreatedOn()),
+					    IntlDateFormatter::MEDIUM, // date
+					    IntlDateFormatter::NONE, // time
+					    $this->plugin('translate')->getTranslator()->getLocale(),
+						\Application\View\Helper\DateFormat::DATETIME
+					)?>
+					</td>
+
+					<td id="document-container-<?=$specialAccess->getRequestId()?>">
+						<?php if (isset($documentArray[$specialAccess->getRequestId()])) { ?>
+							<?php foreach ($documentArray[$specialAccess->getRequestId()] as $file) { ?>
+								<p><a href="<?=$this->url('special_access_document_download', ['lang' => $lang, 'documentId' => $file->getDocId()])?>"><?=$file->getName()?></a></p>
+							<?php } ?>
+						<?php } ?>
+					</td>
+
+					<td>
+					<?=$this->dateFormat(
+						strtotime($specialAccess->getProcessingDate()),
+					    IntlDateFormatter::MEDIUM, // date
+					    IntlDateFormatter::NONE, // time
+					    $this->plugin('translate')->getTranslator()->getLocale(),
+						\Application\View\Helper\DateFormat::DATETIME
+					)?>
+					</td>
+
+					<td id="status-<?=$specialAccess->getRequestId()?>" class="icons-td">
+					<?php
+						switch ($specialAccessStatusList[$specialAccess->getAccessStatus()]) {
+
+							case 'EP_USR_SP_ACCESS_WAITING_L':
+								?>
+								<i class="ui-icon ui-icon-state-waiting" aria-hidden="true"></i>
+								<?php
+								break;
+
+							case 'EP_USR_SP_ACCESS_APPROVED_L':
+								?>
+								<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i>
+								<?php
+								break;
+
+							case 'EP_USR_SP_ACCESS_DISAPPROVED_L':
+								?>
+								<i class="ui-icon ui-icon-state-canceled" aria-hidden="true"></i>
+								<?php
+								break;
+						}
+					?>
+					<?=$this->translate($specialAccessStatusList[$specialAccess->getAccessStatus()]);?>
+					</td>
+
+				</tr>
+			<?} ?>
+		</table>
+	</div>
+</div>
+<?} ?>

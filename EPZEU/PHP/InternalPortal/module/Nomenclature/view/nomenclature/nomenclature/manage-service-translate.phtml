@@ -1,0 +1,116 @@
+<?php
+$this->headTitle('EP_TRANSLATION_SERVICE_L');
+?>
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_TRANSLATION_TRANSLATIONS_L')?></li>
+		<li class="breadcrumb-item"><a href="<?=$this->url('service_list_translate')?>"><?=$this->translate('GL_SERVICES_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_TRANSLATION_SERVICE_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_TRANSLATION_SERVICE_L')?></h2>
+</div>
+
+<?=$this->partial('partial\language-drop-down.phtml')?>
+
+<div class="card">
+
+	<?php
+	$serviceForm->setAttribute('action', $this->url('manage_service_translate', ['lang' => $params->fromRoute('lang'), 'serviceId' => $serviceId]));
+	$serviceForm->setAttribute('id', 'service-form');
+	$serviceForm->prepare();
+
+	echo $this->form()->openTag($serviceForm);
+	?>
+
+	<div class="card-body">
+
+		<?=$this->partial('partial/messages.phtml')?>
+
+		<?if (!empty($synchronizeMessage) && !empty($isAdmService)) {?>
+			<div class="row" id="synchronizeMessage">
+				<div class="col-12 form-group">
+					<div class="alert alert-warning" role="alert">
+						<?=$synchronizeMessage?>
+					</div>
+				</div>
+			</div>
+		<?}?>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<label for=""><?=$this->translate('GL_SERVICE_L')?></label>
+				<div>
+					<?=$serviceName?>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 col-md-6 form-group">
+				<?=$this->formLabel($serviceForm->get('nameI18n'))?><span class="label-description"> (<?=$this->language()->getLanguagesName()?>)</span>
+				<?=$this->formElement($serviceForm->get('nameI18n'))?>
+				<?=$this->formElementErrors($serviceForm->get('nameI18n'))?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<label for=""><?=$this->translate('GL_SHORT_DESCRIPTION_L')?></label>
+				<div>
+					<?=$serviceShortDescription?>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<?=$this->formLabel($serviceForm->get('shortDescriptionI18n'))?><span class="label-description"> (<?=$this->language()->getLanguagesName()?>)</span>
+				<?=$this->formElement($serviceForm->get('shortDescriptionI18n'))?>
+				<?=$this->formElementErrors($serviceForm->get('shortDescriptionI18n'))?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<label for=""><?=$this->translate('GL_DESCRIPTION_L')?></label>
+				<div class="form-text-scrollable-large public-portal-css">
+					<?=$serviceDescription?>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12 form-group">
+				<?=$this->formLabel($serviceForm->get('descriptionI18n'))?><span class="label-description"> (<?=$this->language()->getLanguagesName()?>)</span>
+				<?=$this->formElement($serviceForm->get('descriptionI18n'))?>
+				<?=$this->formElementErrors($serviceForm->get('descriptionI18n'))?>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url('service_list_translate',['lang' => $params->fromRoute('lang')], ['query' => $params->fromQuery()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<?=$this->formSubmit($serviceForm->get('submit'));?>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+
+</div>
+
+<?$this->headScript()->appendFile($this->basePath('js/ckeditor/ckeditor.js'));?>
+
+<script>
+$(document).on('submit', '#service-form', function(){
+	showGlobalLoader();
+});
+
+$(document).ready(function(){
+	$('#language-select').attr("disabled", true);
+})
+</script>

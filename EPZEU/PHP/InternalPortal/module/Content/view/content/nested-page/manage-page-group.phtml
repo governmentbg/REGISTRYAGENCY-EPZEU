@@ -1,0 +1,97 @@
+<?php
+$this->headTitle($groupId ? 'EP_CMS_EDIT_GROUP_L' : 'EP_CMS_ADD_GROUP_L');
+
+switch ($pageTypeId) {
+
+	case \Content\Controller\NestedPageController::PAGE_SERVICE_TYPE:
+		$pageTitle = $this->translate('EP_CMS_PAGES_SERVICES_L');
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_APPLICATION_TYPE:
+		$pageTitle = $this->translate('EP_CMS_PAGES_APPLICATIONS_L');
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_DOCUMENT_TEMPLATES:
+		$pageTitle = $this->translate('EP_CMS_PAGES_TEMPLATES_L');
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_LEGISLATION_TYPE:
+		$pageTitle = $this->translate('EP_CMS_PAGES_DOCUMENTS_L');
+		break;
+
+	$registerList = \Application\Service\CacheService::getRegisterAbbreviationList();
+}
+
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_CONTENT_L')?></li>
+		<li class="breadcrumb-item"><a href="<?=$this->url($prevPageRoute, ['lang' => $lang], ['query' => ['registerId' => $registerId]])?>"><?=$pageTitle?></a></li>
+		<li class="breadcrumb-item">
+			<a href="<?=$this->url($prevPageRoute, ['lang' => $lang], ['query' => ['registerId' => $registerId]])?>">
+				<?=$registerList['GL_CR_REG_ABBREVATION_L'] == $registerId ? $this->translate('GL_CR_REG_NAME_L_SHORT_L') : $this->translate('GL_PR_REG_NAME_L')?>
+			</a>
+		</li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate($groupId ? 'EP_CMS_EDIT_GROUP_L' : 'EP_CMS_ADD_GROUP_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate($groupId ? 'EP_CMS_EDIT_GROUP_L' : 'EP_CMS_ADD_GROUP_L')?></h2>
+</div>
+
+<div class="card">
+
+	<?php
+
+	if ($groupId)
+		$groupForm->setAttribute('action', $this->url('edit_'.$managePage.'_group', ['groupId' => $groupId, 'registerId' => $registerId, 'lang' => $params->fromRoute('lang')]));
+	else
+		$groupForm->setAttribute('action', $this->url('add_'.$managePage.'_group', ['registerId' => $registerId, 'lang' => $params->fromRoute('lang')]));
+
+	$groupForm->setAttribute('id', 'group-form');
+
+	$groupForm->prepare();
+
+	echo $this->form()->openTag($groupForm);
+	?>
+
+	<div class="card-body">
+		<?=$this->partial('partial/messages.phtml')?>
+
+		<div class="row">
+			<div class="col-sm-12 col-lg-8 form-group">
+				<?=$this->formRow($groupForm->get('title'))?>
+			</div>
+
+			<div class="col-sm-12 col-lg-4 form-group">
+				<label for="register"><?=$this->translate('GL_REGISTER_L')?></label>
+				<input name="register" id="register" value="<?=$this->translate(array_search($registerId, $registerList))?>" disabled="disabled" class="form-control" maxlength="100" value="" type="text">
+			</div>
+
+			<div class="col-sm-12 form-group">
+				<?=$this->formRow($groupForm->get('content'))?>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url($prevPageRoute, ['lang' => $lang], ['query' => ['registerId' => $registerId]])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<?=$this->formSubmit($groupForm->get('submit'));?>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+
+</div>
+
+<?$this->headScript()->appendFile($this->basePath('js/ckeditor/ckeditor.js'));?>
+
+<script>
+$(document).on('submit', '#group-form', function(){
+	showGlobalLoader();
+});
+</script>

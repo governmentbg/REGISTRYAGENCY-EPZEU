@@ -1,0 +1,282 @@
+<? $this->headTitle('EP_SUBSCRIPTION_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_SUBSCRIPTION_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_SUBSCRIPTION_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="main-wrapper section-wrapper section-wrapper--margins fixed-content-width">
+	<div class="page-wrapper">
+		<div class="section-wrapper">
+
+				<div class="row">
+					<div class="col-12">
+						<?=$this->partial('partial/messages.phtml')?>
+					</div>
+				</div>
+
+				<div class="button-bar button-bar--table-actionbar-top">
+					<div class="left-side">
+						<button onclick="showForm()" class="btn btn-outline-light text-dark"><i class="ui-icon ui-icon-plus" aria-hidden="true"></i> <?=$this->translate('GL_ADD_L')?></button>
+						<button onclick="deleteSubscriptionListConfirm()" id="deleteSubscriptionBtn" disabled="disabled" class="btn btn-outline-light text-dark"><i class="ui-icon ui-icon-times" aria-hidden="true"></i> <?=$this->translate('GL_DELETE_L')?></button>
+					</div>
+				</div>
+
+
+				<? if (count($subscriptionList)) { ?>
+				<nav class="pagination-container pagination-container--page-top" aria-label="Page navigation">
+					<div class="result-count">
+						<?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?>
+					</div>
+					<ul class="sync-pagination pagination--page"></ul>
+				</nav>
+
+
+				<div class="table-responsive-block">
+					<table class="table table-borderless table-striped table-hover">
+						<thead>
+							<tr>
+								<th class="single-icon-td"></th>
+								<th class="w-50"><?=$this->translate('GL_REGISTER_L') ?></th>
+								<th><?=$this->translate('EP_ID_PERS_COMP_L')?></th>
+								<th class="buttons-td"></th>
+							</tr>
+						</thead>
+						<tbody id="content">
+						<?=$this->partial('email-subscription-partial.phtml')?>
+						</tbody>
+					</table>
+				</div>
+
+
+				<nav class="pagination-container pagination-container--page-bottom" aria-label="Page navigation">
+					<div class="pagination-container">
+						<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+						<ul class="sync-pagination pagination--page"></ul>
+					</div>
+				</nav>
+
+				<?php
+					$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+					$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+				?>
+
+				<script type="text/javascript">
+					pagination('.sync-pagination', '#content', <?=$totalPages?>);
+				</script>
+				<? } ?>
+
+		</div>
+	</div>
+</div>
+
+<form id="deleteSubscriptionForm" method="post" action="<?=$this->url('delete_email_subscription_bulk') ?>">
+	<select name="deleteSubscribe[]" id="deleteSubscribe" class="d-none" multiple="multiple"></select>
+</form>
+
+
+<div id="modal-subscribe" class="modal <?=empty($emailSubscriptionForm->getMessages()) ? 'fade': '' ?>" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+
+			<div class="modal-header">
+                <h3 class="modal-title"><?=$this->translate('EP_ADD_SUBSCRIPTION_OBJECT_L')?></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <?
+			$emailSubscriptionForm->setAttribute('action', $this->url('email_subscription', ['lang' => $this->language()->getCurrentLang()]));
+			$emailSubscriptionForm->setAttribute('id', 'subscription-form');
+
+			$emailSubscriptionForm->prepare();
+			echo $this->form()->openTag($emailSubscriptionForm);
+			?>
+
+            <div class="modal-body">
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<?=$this->formRow($emailSubscriptionForm->get('register'))?>
+					</div>
+					<div class="form-group col-sm-6">
+						<?=$this->formRow($emailSubscriptionForm->get('type')) ?>
+					</div>
+				</div>
+
+				<div class="row">
+
+					<div class="col alert alert-danger missing-name d-none" role="alert"><?=$this->translate('EP_SUBSCRIPTION_PR_NOT_NAME_E')?>
+					</div>
+
+					<div class="col hide-panel">
+					<?=$this->formRow($emailSubscriptionForm->get('value')) ?>
+					<div class="help-text-inline"><?=$this->translate('EP_МАNY_ID_PERS_COMP_I')?></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer hide-panel">
+				<div class="button-bar">
+					<button type="button" class="btn btn-secondary close-preview-modal" data-dismiss="modal"><?=$this->translate('GL_REFUSE_L')?></button>
+					<?=$this->formSubmit($emailSubscriptionForm->get('submit'));?>
+				</div>
+			</div>
+			<?=$this->form()->closeTag();?>
+		</div>
+	</div>
+</div>
+
+
+<div id="modal-confirm-list" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+				<div class="alert alert-warning"><?=$this->translate('EP_DELETE_OBJECT_SUBSCRIPTION_CONFIRM_I') ?><div class="subscribe-list-delete"></div></div>
+
+            </div>
+
+            <div class="modal-footer">
+				<div class="button-bar">
+					<button type="button" class="btn btn-secondary close-preview-modal" data-dismiss="modal"><?=(!empty($buttonRefuse) ? $buttonRefuse : $this->translate('GL_CLOSE_L'))?></button>
+					<button type="button" onclick='submitDeleteSubscriptionForm()' id="modal-confirm-list-btn" class="btn btn-primary close-preview-modal" data-confirm="modal"><?=$this->translate('GL_CONFIRM_L')?></button>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
+
+<?
+$emailSubscriptionForm->getMessages();
+?>
+
+<script>
+
+$('#modal-subscribe').on('hidden.bs.modal', function () {
+    $('#modal-subscribe .invalid-feedback').remove();
+    $(".input-error").removeClass("input-error");
+    $('#modal-subscribe').addClass('fade');
+});
+
+<? if (!empty($emailSubscriptionForm->getMessages())) { ?>
+	$('#modal-subscribe').modal('show');
+	$('#modal-subscribe').addClass('fade');
+<? } ?>
+
+function showForm() {
+	$('#modal-subscribe').modal('show');
+}
+
+$(document).on('click', '.subscribe', function(){
+	var id = this.dataset.id;
+	var value = this.dataset.value;
+
+	if (this.checked) {
+		$('#deleteSubscribe').append(
+			'<option value="'+id+'" selected="selected">'+value+'</option>'
+		);
+	}
+	else {
+		$("#deleteSubscribe option[value='"+id+"']").remove();
+	}
+
+	$.isEmptyObject($('#deleteSubscribe').val()) ? $('#deleteSubscriptionBtn').prop('disabled', true) : $('#deleteSubscriptionBtn').prop('disabled', false);
+});
+
+
+function deleteSubscriptionListConfirm() {
+	$('.subscribe-list-delete').html('');
+
+	$("#deleteSubscribe > option").each(function(i, obj) {
+		$('.subscribe-list-delete').append('<div>'+obj.innerText+'</div>');
+	});
+
+	$('#modal-confirm-list').modal('show');
+}
+
+
+function submitDeleteSubscriptionForm() {
+	$("#deleteSubscriptionForm").submit();
+}
+
+
+$('#register').on('change', function(){
+
+	var val = $(this).val();
+
+	if (val) {
+		if (val == 1) {
+			$('#type').empty().append(
+				<? foreach ($typeArr['CR'] as $id => $type) { ?>
+				'<option value="<?=$id?>"><?=$this->translate($type)?></option>'+
+				<? } ?>
+				''
+			);
+
+			<? if (!$isSetFirstAndLastName) { ?>
+				$('.hide-panel').removeClass('d-none');
+				$('.missing-name').addClass('d-none');
+			<? } ?>
+		}
+		else if(val == 2) {
+			$('#type').empty().append(
+				<? foreach ($typeArr['PR'] as $id => $type) { ?>
+				'<option value="<?=$id?>"><?=$this->translate($type)?></option>'+
+				<? } ?>
+				''
+			);
+
+
+			<? if (!$isSetFirstAndLastName) { ?>
+				$('.hide-panel').addClass('d-none');
+				$('.missing-name').removeClass('d-none');
+			<? } ?>
+		}
+
+		else {
+
+		}
+	}
+	else {
+		$('#type').empty().append('<option value=""><?=$this->translate('GL_CHOICE_L') ?></option>');
+		<? if (!$isSetFirstAndLastName) { ?>
+			$('.hide-panel').removeClass('d-none');
+			$('.missing-name').addClass('d-none');
+		<? } ?>
+	}
+
+});
+
+$(document).on('submit','#subscription-form',function(){
+	showGlobalLoader();
+});
+
+
+$('#modal-confirm-list-btn').on('click', function(e) {
+	showGlobalLoader();
+});
+</script>
+
+
+<?=$this->partial('partial/modal-confirm.phtml')?>

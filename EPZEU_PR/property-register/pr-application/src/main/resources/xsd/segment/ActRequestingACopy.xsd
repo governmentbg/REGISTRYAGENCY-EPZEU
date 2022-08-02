@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="RegistryOffice.xsd"/>
+    <xsd:include schemaLocation="ActData.xsd"/>
+    <xsd:include schemaLocation="ActOldData.xsd"/>
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+    <xsd:complexType name="ActRequestingACopy">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Акт, от който се иска препис</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="CopyReason" type="val:CopyReason" />
+            <xsd:element name="RegistryOffice" type="RegistryOffice" />
+            <xsd:choice>
+                <xsd:element name="ActData" type="ActData" />
+                <xsd:element name="ActOldData" type="ActOldData" />
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

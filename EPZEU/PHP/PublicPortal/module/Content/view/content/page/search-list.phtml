@@ -1,0 +1,230 @@
+<? $this->headTitle('GL_SEARCHING_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_SEARCHING_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('GL_SEARCHING_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+
+				<br>
+
+				<div class="card card-page">
+					<div class="card-body card-page__body">
+
+					<? if ($isRateLimitReached) { ?>
+						<div class="alert alert-warning" role="alert"><?=$this->translate('GL_TOO_MANY_REQUESTS_E')?></div>
+					<?} else { ?>
+
+						<?php
+						$searchForm->setAttribute('action', $this->url('search', ['lang' => $this->language()->getCurrentLang()]));
+						$searchForm->setAttribute('id', 'searchSectionForm');
+						$searchForm->setAttribute('method', 'get');
+
+						$searchForm->prepare();
+
+						echo $this->form()->openTag($searchForm);
+
+						?>
+
+						<div class="row">
+							<div class="form-group col">
+								<div class="input-group input-group-lg">
+									<?=$this->formElement($searchForm->get('sKey')->setAttributes(['class' => 'form-control form-control-lg '.($this->FormElementErrors($searchForm->get('sKey')) ? 'input-error' : '').'']))?>
+									<div class="input-group-append">
+										<button type="submit" class="btn btn-primary btn-lg" id="searchBtn"><i class="ui-icon ui-icon-search"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+									</div>
+								</div>
+								<? if ($this->FormElementErrors($searchForm->get('sKey'))) { ?>
+									<?=str_replace('{EP_CMS_MIN_SEARCH_LETTERS_COUNT}', $minSearchLettersCount, $this->FormElementErrors($searchForm->get('sKey')));?>
+								<? } ?>
+							</div>
+						</div>
+
+						<?=$this->form()->closeTag();?>
+
+
+						<?if (!empty($searchCountArr)) {?>
+
+							<div class="alert alert-info" role="alert"><?=str_replace(['{items_count}', '{category_count}'], ['<b>'.array_sum($searchCountArr).'</b>', '<b>'.count(array_keys(array_filter($searchCountArr))).'</b>'], $this->translate('EP_PUBLIC_SEARCH_RESULT_I'))?></div>
+
+							<br>
+
+							<nav class="nav nav-pills nav-pills--search flex-column flex-sm-row">
+
+								<? foreach (\Content\Controller\PageController::SEARCH_CONTENT_TYPE as $key => $value) {
+
+									if ($searchCountArr[$value] > 0) {
+										$startSection = '<a class="nav-link '.($activeContentType == $value ? 'active' : '').' d-flex justify-content-between" id="nav_'.$value.'" href="javascript://" onclick="changeSearchSection('.$value.')">';
+										$endSection = '</a>';
+									}
+									else {
+										$startSection = '<div class="nav-link '.($activeContentType == $value ? 'active' : '').' d-flex justify-content-between disabled" id="nav_'.$value.'">';
+										$endSection = '</div>';
+									}
+
+									switch ($key) {
+
+										// Новини
+										case 'news':
+											$title = $this->translate('EP_CMS_NEWS_L');
+											break;
+										// Видео уроци
+										case 'videoLesson':
+											$title = $this->translate('EP_VIDEOS_L');
+											break;
+										// Страници
+										case 'page':
+											$title = $this->translate('EP_PUBLIC_PAGES_L');
+											break;
+										//Нормативна уредба
+										case 'legislation':
+											$title = $this->translate('EP_LEGISLATION_L');
+											break;
+										//Образци на документи
+										case 'documentTemplate':
+											$title = $this->translate('EP_DOCUMENTS_L');
+											break;
+									} ?>
+
+									<?=$startSection?>
+									<div><?=$title?></div>
+									<div>
+										<span class="badge badge-info"><?=$searchCountArr[$value]?></span>
+										<input id="totalCount_<?=$value?>" type="hidden" value="<?=$searchCountArr[$value]?>">
+									</div>
+									<?=$endSection?>
+
+								 <? } ?>
+
+							</nav>
+
+							<br>
+
+							<? if (array_sum($searchCountArr) > 0) { ?>
+
+								<nav class="pagination-container pagination-container--page-top" aria-label="Page navigation">
+									<div class="result-count">
+										<?=$this->translate('GL_TOTAL_L')?>: <span class="result-count-content-type"><?=$totalCount?></span>
+									</div>
+									<ul class="pagination pagination--page"></ul>
+								</nav>
+
+								<section id="content">
+
+									<?
+									switch ($activeContentType) {
+
+										// Новини
+										case \Content\Controller\PageController::SEARCH_CONTENT_TYPE['news']:
+											echo $this->partial('/content/news/news-list-partial.phtml');
+											break;
+
+										// Видео уроци
+										case \Content\Controller\PageController::SEARCH_CONTENT_TYPE['videoLesson']:
+											echo $this->partial('/content/video-lesson/video-lesson-list-partial.phtml');
+											break;
+
+										// Страници
+										case \Content\Controller\PageController::SEARCH_CONTENT_TYPE['page']:
+											echo $this->partial('/content/page/search-page-list-partial.phtml');
+											break;
+
+										// Нормативна уредба
+										// Образци на документи
+										case \Content\Controller\PageController::SEARCH_CONTENT_TYPE['legislation']:
+										case \Content\Controller\PageController::SEARCH_CONTENT_TYPE['documentTemplate']:
+											echo $this->partial('/content/page/search-document-list-partial.phtml');
+											break;
+									}
+									?>
+
+								</section>
+
+								<nav class="pagination-container pagination-container--page-bottom" aria-label="Page navigation">
+									<div class="result-count">
+										<?=$this->translate('GL_TOTAL_L')?>: <span class="result-count-content-type"><?=$totalCount?></span>
+									</div>
+									<ul class="pagination pagination--page"></ul>
+								</nav>
+
+								<?php
+								$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+								$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+								?>
+
+								<script type="text/javascript">
+								pagination('.pagination', '#content', <?=$totalPages?>);
+								</script>
+
+							<? }
+							} ?>
+
+							<script>
+							$(document).ready(function() {
+								<?if (empty($params->fromQuery('contentType')) && !empty($activeContentType)) { ?>
+									history.pushState(null, null, createQuery({contentType:'<?=$activeContentType?>'}, false));
+								<? } ?>
+							});
+
+							function changeSearchSection(contentType) {
+
+								$('.pagination').empty();
+								$('.pagination').removeData("twbs-pagination");
+								$('.pagination').unbind("page");
+
+								$('.nav-link').removeClass('active');
+								$('#nav_'+contentType).addClass('active');
+
+								history.pushState(null, null, createQuery({contentType:contentType}, false));
+
+								var totalContentTypeCount = $('#totalCount_'+contentType).val();
+
+								totalContentTypePages = Math.ceil(totalContentTypeCount/<?=$rowCount?>);
+
+								$('.result-count-content-type').text(totalContentTypeCount);
+
+								if (totalContentTypePages > 1) {
+
+									pagination('.pagination', '#content', totalContentTypePages);
+									$('.pagination').twbsPagination('show', 1);
+								}
+
+								else {
+									ajaxRequest('', {'changeSearchSection':1}, '#content', '#content');
+								}
+							}
+							</script>
+
+
+						<?} ?>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

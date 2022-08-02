@@ -1,0 +1,98 @@
+<div class="card-deck">
+	<? if ($itemsPerColumn) { ?>
+	<div class="card card-box">
+		<div class="card-body card-box__body">
+				<?
+				$ii = 0;
+					foreach ($statisticReportList as $report) { ?>
+					<p>
+						<i class="ui-icon ui-icon-download-color" aria-hidden="true"></i>
+						<a href="<?=$this->url('load_report_document', ['statisticReportId' => $report->getStatisticReportId(), 'timestamp' => strtotime($report->getUpdatedOn())])?>">
+
+							<?=$this->dateFormat(
+								strtotime($report->getDateFrom()),
+								IntlDateFormatter::NONE, // date
+								IntlDateFormatter::NONE, // time
+								$this->plugin('translate')->getTranslator()->getLocale(),
+								\Application\View\Helper\DateFormat::DATE
+							);?>
+							-
+							<?=$this->dateFormat(
+								strtotime($report->getDateTo()),
+								IntlDateFormatter::NONE, // date
+								IntlDateFormatter::NONE, // time
+								$this->plugin('translate')->getTranslator()->getLocale(),
+								\Application\View\Helper\DateFormat::DATE
+							);?>
+						</a>
+
+						<br />
+						<small><?=number_format(($report->getFileSize()/1024), 2, '.', '')?>&nbsp;KB,
+
+
+							<?=$this->dateFormat(
+								strtotime($report->getDateChangeStatus()),
+								IntlDateFormatter::NONE, // date
+								IntlDateFormatter::NONE, // time
+								$this->plugin('translate')->getTranslator()->getLocale(),
+								\Application\View\Helper\DateFormat::DATE
+							);?>
+						</small>
+					</p>
+					<?
+
+					unset($statisticReportList[$ii]);
+
+					if ($itemsPerColumn == $ii+1)
+						break;
+
+					$ii++;
+				} ?>
+		</div>
+	</div>
+	<? } ?>
+
+
+<? ?>
+	<div class="w-100 d-none d-sm-block d-lg-none mt-2"></div>
+
+	<? if ($itemsPerColumn && count($statisticReportList)) { ?>
+	<div class="card card-box">
+		<div class="card-body card-box__body">
+			<? foreach ($statisticReportList as $report) { ?>
+				<p>
+					<i class="ui-icon ui-icon-download-color" aria-hidden="true"></i>
+					<a href="<?=$this->url('load_report_document', ['statisticReportId' => $report->getStatisticReportId(), 'timestamp' => strtotime($report->getUpdatedOn())])?>">
+						<?=$this->dateFormat(
+							strtotime($report->getDateFrom()),
+							IntlDateFormatter::NONE, // date
+							IntlDateFormatter::NONE, // time
+							$this->plugin('translate')->getTranslator()->getLocale(),
+							\Application\View\Helper\DateFormat::DATE
+						);?>
+						-
+						<?=$this->dateFormat(
+							strtotime($report->getDateTo()),
+							IntlDateFormatter::NONE, // date
+							IntlDateFormatter::NONE, // time
+							$this->plugin('translate')->getTranslator()->getLocale(),
+							\Application\View\Helper\DateFormat::DATE
+						);?>
+					</a>
+
+					<br />
+						<small><?=number_format(($report->getFileSize()/1024), 2, '.', '')?>&nbsp;KB,
+							<?=$this->dateFormat(
+								strtotime($report->getDateChangeStatus()),
+								IntlDateFormatter::NONE, // date
+								IntlDateFormatter::NONE, // time
+								$this->plugin('translate')->getTranslator()->getLocale(),
+								\Application\View\Helper\DateFormat::DATE
+							);?>
+						</small>
+				</p>
+			<? } ?>
+		</div>
+	</div>
+	<? } ?>
+</div>

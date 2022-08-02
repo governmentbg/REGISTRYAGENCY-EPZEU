@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+	targetNamespace="http://www.registryagency.bg/schemas/property-register/applications"
+	xmlns="http://www.registryagency.bg/schemas/property-register/applications"
+    xmlns:seg="http://www.registryagency.bg/schemas/property-register/segments"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/segments" schemaLocation="../segment/Segments.xsd" />
+
+    <xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="../SystemSchemas_xmlsig.xsd" />
+
+	<xsd:element
+		name="ApplicationForIssuingOfNotCertifiedCopyFromPropertyRegister"
+		type="ApplicationForIssuingOfNotCertifiedCopyFromPropertyRegister" />
+
+	<xsd:complexType
+		name="ApplicationForIssuingOfNotCertifiedCopyFromPropertyRegister">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="bg">Заявление за издаване на незаверен препис</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ApplicantData" type="seg:Individual" />
+            <xsd:element name="ActRequestingACopy" type="seg:ActRequestingACopy" />
+            <xsd:element name="WayOfProvision" type="seg:WayOfProvisionBaseData" />
+			<xsd:element name="ContactData" type="seg:ContactData" />
+            <xsd:element name="GDPRAgreement" type="seg:GDPRAgreement" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

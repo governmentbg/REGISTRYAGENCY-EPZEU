@@ -1,0 +1,220 @@
+<?
+switch ($type) {
+
+	case \Content\Controller\NestedPageController::PAGE_SERVICE_TYPE:
+
+		$addPageBtnTitle = $this->translate('EP_CMS_ADD_SERVICE_L');
+
+		$publicUrl = '';
+
+		if ($registerCode == 'cr') {
+			$publicUrl = $this->publicUrl([
+						$config['GL_CR_PUBLIC_UI_URL'],
+						$this->language()->getCurrentLang(),
+						$staticPageList['CR_SERVICES']->url,
+					]);
+
+		}
+		elseif ($registerCode == 'pr') {
+			$publicUrl = $this->publicUrl([
+					$config['GL_PR_PUBLIC_UI_URL'],
+					$this->language()->getCurrentLang(),
+					$staticPageList['PR_SERVICES']->url,
+			]);
+		}
+
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_APPLICATION_TYPE:
+
+		$addPageBtnTitle = $this->translate('EP_CMS_ADD_APLICATION_L');
+
+		$publicUrl = '';
+
+		if ($registerCode == 'cr') {
+
+			$publicUrl = $this->publicUrl([
+					$config['GL_CR_PUBLIC_UI_URL'],
+					$this->language()->getCurrentLang(),
+					$staticPageList['CR_APPLICATIONS']->url,
+			]);
+		}
+		elseif ($registerCode == 'pr') {
+			$publicUrl = $config['GL_PR_PUBLIC_UI_URL'].$staticPageList['PR_APPLICATIONS']->url;
+
+			$publicUrl = $this->publicUrl([
+					$config['GL_PR_PUBLIC_UI_URL'],
+					$this->language()->getCurrentLang(),
+					$staticPageList['PR_APPLICATIONS']->url,
+			]);
+		}
+
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_DOCUMENT_TEMPLATES:
+		$addPageBtnTitle = $this->translate('EP_CMS_ADD_TEMPLATE_L');
+		$publicUrl = $this->publicUrl([$this->language()->getCurrentLang(), 'document-template-'.$registerCode]);
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_LEGISLATION_TYPE:
+		$addPageBtnTitle = $this->translate('EP_CMS_ADD_DOCUMENT_L');
+		$publicUrl = $this->publicUrl([$this->language()->getCurrentLang(), 'legislation-'.$registerCode]);
+		break;
+}
+?>
+
+
+
+<!-- Root Elemen -->
+<ul class="tree-list parent" data-id="<?=$parentObj->getPageId()?>">
+	<li>
+		<div class="tree-list-tiem">
+			<div class="tree-list-tiem-content">
+				<div class="tree-list-tiem-text">
+					<b><?=$parentObj->getTitle()?></b>
+				</div>
+				<div class="tree-list-tiem-actions">
+
+					<? if ($this->isAllowed('add_'.$managePage)) { ?>
+
+						<? if ($this->isAllowed('add_'.$managePage)) { ?>
+
+							<a href="<?=$this->url('edit_'.$managePage.'_group', ['groupId' => $parentObj->getPageId(), 'registerId' => $registerId])?>" class="btn btn-secondary" title="<?=$this->translate('GL_EDITING_L')?>">
+								<i class="ui-icon ui-icon-edit"></i>
+							</a>
+						<? } ?>
+
+						<? if ($this->isAllowed('add_'.$managePage.'_group')) { ?>
+							<a href="<?=$this->url('add_'.$managePage.'_group', ['type' => $type, 'registerId' => $registerId])?>" class="btn btn-secondary" title="<?=$this->translate('EP_CMS_ADD_GROUP_L')?>">
+								<i class="ui-icon ui-icon-folder-plus"></i>
+							</a>
+						<? } ?>
+
+						<? if ($this->isAllowed('add_'.$managePage)) { ?>
+							<a href="<?=$this->url('add_'.$managePage, ['registerId' => $registerId])?>" class="btn btn-secondary" title="<?=$addPageBtnTitle?>">
+								<i class="ui-icon ui-icon-plus"></i>
+							</a>
+						<? } ?>
+					<? } ?>
+
+					<a href="<?=$publicUrl?>" target="_blank" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>">
+						<i class="ui-icon ui-icon-eye"></i>
+					</a>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Start Groups -->
+		<div class="tree-list-collapsible">
+			<ul class="tree-list">
+
+				<?php foreach ($groupArr as $group) { ?>
+				<li class="tree-list-group" id="group-<?=$group->getPageId()?>" data-id="<?=$group->getPageId()?>">
+					<div class="tree-list-tiem">
+
+						<?php if ($this->isAllowed('edit_'.$managePage)) { ?>
+						<div class="drag-handle" title="<?=$this->translate('GL_MOVE_L')?>"></div>
+						<? } ?>
+
+						<?php if ($group->getElementCount()) { ?>
+						<button id="group-btn-<?=$group->getPageId()?>" class="system-button toggle-collapse-group toggle-collapse collapsed" >
+							<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+						</button>
+						<? } ?>
+
+						<div class="tree-list-tiem-content">
+							<div class="tree-list-tiem-text">
+								<b><?=$group->getTitle() ?> </b>
+							</div>
+							<div class="tree-list-tiem-actions">
+
+								<?php if ($this->isAllowed('edit_'.$managePage)) { ?>
+									<a href="<?=$this->url('edit_'.$managePage.'_group', ['registerId' => $registerId, 'groupId' => $group->getPageId()])?>" title="<?=$this->translate('GL_EDITING_L')?>" class="btn btn-secondary">
+							    		<i class="ui-icon ui-icon-edit"></i>
+							    	</a>
+								<?php } ?>
+
+								<?php if ($this->isAllowed('add_'.$managePage)) { ?>
+									<a href="<?=$this->url('add_'.$managePage, ['registerId' => $registerId, 'groupId' => $group->getPageId()])?>" class="btn btn-secondary" title="<?=$this->translate('GL_ADD_L')?>">
+										<i class="ui-icon ui-icon-plus"></i>
+							    	</a>
+						    	<?php } ?>
+
+								<?php if (!$group->getElementCount() && $this->isAllowed('delete_nested_page')) { ?>
+						    		<a href="<?=$this->url('delete_nested_page', ['pageId' => $group->getPageId(), 'registerId' => $registerId, 'groupId' => $group->getPageId()])?>" onclick="openModalConfirm(this, '<?=$this->translate('GL_DELETE_CONFIRM_I')?>', event)" class="btn btn-secondary" title="<?=$this->translate('GL_DELETE_L')?>">
+						    			<i class="ui-icon ui-icon-trash"></i>
+						    		</a>
+								<?php } ?>
+							</div>
+						</div>
+					</div>
+
+
+
+					<div id="tree-list-collapsable-content-<?=$group->getPageId()?>" class="nav-tabs-container parent" data-id="<?=$group->getPageId()?>">
+						<ul class="tree-list tree-list-group-items"></ul>
+					</div>
+				</li>
+				<? } ?>
+
+			</ul>
+		</div>
+
+		<!-- End Groups -->
+
+		<!-- Item list -->
+		<? if ($pageArr) { ?>
+			<ul class="tree-list tree-list-group">
+				<?=$this->partial('content/nested-page/group-item-partial.phtml', [
+					'pageList'			=> $pageArr,
+					'managePage'		=> $managePage,
+					'params' 			=> $params,
+					'groupId'			=> $groupId
+				])?>
+			</ul>
+		<? } ?>
+		<!-- End Item List -->
+	</li>
+<!-- End Root Elemen -->
+</ul>
+
+
+ <script>
+  <?php if ($this->isAllowed('edit_'.$managePage)) { ?>
+
+  $( function() {
+
+		<? if ($selectedGroup) { ?>
+			$('#group-btn-<?=$selectedGroup?>').click();
+		<? } ?>
+
+		$(".tree-list").sortable({
+	      handle: ".drag-handle",
+	      start: function(e, ui) {
+				ui.placeholder.css('visibility', 'visible');
+			},
+
+	      update: function( ) {
+
+	    	var parentId = $(this).closest('.parent')[0].dataset.id;
+
+	  		var groupList = $(this).closest('.tree-list').find('li');
+
+			var pageIdArr = [];
+
+		    for (var i = 0; i < groupList.length; i++)
+		    	pageIdArr.push(groupList[i].dataset.id);
+
+		    ajaxRequest('', {pageIdArr:pageIdArr, reorderItem:true, parentId:parentId});
+
+	       }
+		});
+
+    });
+	<? } ?>
+
+</script>
+<?$this->headScript()->appendFile($this->basePath('js/jquery-ui-sortable.min.js'));?>
+<?$this->headScript()->appendFile($this->basePath('js/ckeditor/ckeditor.js'));?>
+<?=$this->partial('partial/modal-confirm.phtml')?>

@@ -1,0 +1,41 @@
+<? foreach ($subscriptionList as $subscription) { ?>
+
+	<tr>
+		<td>
+			<div class="custom-control custom-checkbox">
+				<input class="custom-control-input subscribe" data-id="<?=$subscription->getUserSubscriptionID()?>" data-value="<?=$this->translate($typeArr[$registerCodeList[$subscription->getRegister()]][$subscription->getType()]).' '.$subscription->getValue()?>" id="subscr-<?=$subscription->getUserSubscriptionID()?>" value="" type="checkbox">
+				<label class="custom-control-label" for="subscr-<?=$subscription->getUserSubscriptionID()?>"></label>
+			</div>
+		</td>
+		<td>
+			<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_REGISTER_L')?></span>
+			<p class="field-text"><?=$this->translate($registerArr[$subscription->getRegister()])?></p>
+		</td>
+		<td>
+			<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_ID_PERS_COMP_L')?></span>
+			<p class="field-text"><?=$this->translate($typeArr[$registerCodeList[$subscription->getRegister()]][$subscription->getType()])?>: <?=$subscription->getValue()?></p>
+		</td>
+		<td class="buttons-td">
+			<a class="btn btn-secondary" title="<?=$this->translate('GL_DELETE_L')?>" onclick="onDelete(this, '<?=$this->translate('EP_DELETE_OBJECT_SUBSCRIPTION_CONFIRM_I').'<br /> '.$this->translate($typeArr[$registerCodeList[$subscription->getRegister()]][$subscription->getType()]).' '.$subscription->getValue()?>', event)" href="<?=$this->url('delete_email_subscription', ['id' => $subscription->getUserSubscriptionID()]) ?>">
+				<i class="ui-icon ui-icon-times" aria-hidden="true"></i>
+			</a>
+		</td>
+	</tr>
+
+<? } ?>
+
+<script>
+$(document).ready(function(){
+
+	var selectedValues = $("#deleteSubscribe" ).val();
+
+	$('.subscribe').each(function(i, obj) {
+
+	    if (jQuery.inArray(obj.dataset.id, selectedValues) != '-1')
+		    $(obj).prop('checked', true);
+
+
+	});
+});
+</script>
+

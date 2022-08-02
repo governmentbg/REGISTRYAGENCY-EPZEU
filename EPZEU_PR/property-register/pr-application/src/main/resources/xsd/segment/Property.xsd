@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="PropertyType.xsd"/>
+    <xsd:include schemaLocation="Place.xsd"/>
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+    <xsd:complexType name="Property">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">
+                Данни за имот
+
+                Settlement - населено място
+                Municipality - Община
+                Area - Област
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="Type" type="PropertyType" />
+            <xsd:element name="Settlement" type="Place" />
+            <xsd:element name="Municipality" type="Place" />
+            <xsd:element name="Area" type="Place" />
+            <xsd:element name="CountrySide" type="val:CountrySide" minOccurs="0" />
+            <xsd:element name="CadastralId" type="val:CadastralId" minOccurs="0" />
+            <xsd:element name="AccountNumber" type="val:AccountNumber" minOccurs="0" />
+            <xsd:element name="OldAccountNumber" type="val:AccountNumber" minOccurs="0" />
+            <xsd:element name="AreaByDocuments" type="val:AreaByDocuments" />
+            <xsd:element name="PropertyLimits" type="val:PropertyLimits" minOccurs="0" />
+            <xsd:element name="PropertyRemark" type="val:PropertyRemark" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

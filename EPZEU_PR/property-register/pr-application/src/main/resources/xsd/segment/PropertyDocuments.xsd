@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="PropertyDocument.xsd"/>
+
+    <xsd:complexType name="PropertyDocuments">
+        <xsd:sequence>
+            <xsd:element name="PropertyDocument" type="PropertyDocument" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

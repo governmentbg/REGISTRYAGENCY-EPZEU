@@ -1,0 +1,152 @@
+﻿@model LoginViewModel
+@inject Microsoft.Extensions.Localization.IStringLocalizer Localizer
+@inject IStaticPages StaticPagess
+@inject EPZEU.Common.Cache.IAppParameters AppParameters
+
+<div class="fixed-content-width">
+    @await Html.PartialAsync("_ValidationSummary")
+
+    @if(ViewData["showNotFoundKepInformation"] != null && (bool)ViewData["showNotFoundKepInformation"] == true)
+    {
+        @await Html.PartialAsync("Information")
+    }
+
+    @{
+        var userRegStaticData = StaticPagess.GetStaticPage("EP_USR_REGISTRATION");
+        var forgotttenPasswordStaticData = StaticPagess.GetStaticPage("EP_USR_FORGOT_PASSWORD");
+        var publicUrlParam = AppParameters.GetParameter("GL_EPZEU_PUBLIC_UI_URL").ValueString;
+    }
+
+    @if (Model.AllowResendProfileRegistrationMail)
+    {
+        <form method="post" asp-controller="Account">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <input type="hidden" asp-for="Username" />
+            <div class="alert alert-warning" role="alert">@Localizer["EP_USR_00007_I"]<button asp-action="ResendRegMail" class="btn btn-link alert-link"><b>@Localizer["EP_USR_SEND_REG_L"]</b></button></div>
+        </form>
+    }
+    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+    {
+        <div class="alert alert-success" role="alert"><p>@Model.SuccessMessage</p></div>
+    }
+
+    <div class="row">
+        <div class="offset-sm-2 col-sm-8 offset-md-3 col-md-6 offset-lg-4 col-lg-4">
+            <form method="post" asp-controller="Account">
+                <input type="hidden" asp-for="ReturnUrl" />
+
+                @if (Model.EnableUsrNamePwdAuth)
+                {
+                    <section class="card card-box card--login">
+
+                        <div class="card-header card-box__header">
+
+                            <div class="row">
+                                <div class="col-auto align-self-center">
+                                    <i class="ui-icon ui-icon-user card-box__big-icon" aria-hidden="true"></i>
+                                </div>
+                                <div class="col align-self-center">
+                                    <h2 class="section-title section-title--page">@Localizer["GL_ENTRANCE_L"]</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body card-box__body">
+                            <div class="row field-container">
+                                <div class="form-group col-12">
+                                    <label class="field-title field-title--form" asp-for="Username">@Localizer["GL_EMAIL_L"]</label>
+                                    <input class="form-control" asp-for="Username" autofocus>
+                                </div>
+                                <div class="form-group col-12">
+                                    <label class="field-title field-title--form " asp-for="Password">@Localizer["GL_PASSWORD_L"]</label>
+                                    <input type="password" class="form-control" asp-for="Password" autocomplete="off">
+                                </div>
+                                <div class="form-group col-sm-5">
+                                    <button class="w-100 btn btn-primary" asp-action="Login">@Localizer["GL_ENTRANCE_L"]</button>
+                                </div>
+                                <div class="col"></div>
+                                <div class="form-group col-sm-5">
+                                    <button class="w-100 btn btn-secondary" asp-action="CancelLogin">@Localizer["GL_REFUSE_L"]</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer card-box__footer">
+                            <div class="button-bar">
+                                <div class="left-side">
+                                    <a href=@(userRegStaticData != null ? new System.Uri(new System.Uri(publicUrlParam), userRegStaticData.Url) : new System.Uri(publicUrlParam))>
+                                        @(userRegStaticData != null ? Localizer[userRegStaticData.LabelKey] : "")
+                                    </a>
+                                </div>
+                                <div class="right-side">
+                                    <a href=@(userRegStaticData != null ? new System.Uri(new System.Uri(publicUrlParam), forgotttenPasswordStaticData.Url) : new System.Uri(publicUrlParam))>
+                                        @(userRegStaticData != null ? @Localizer[forgotttenPasswordStaticData.LabelKey] : "")
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                }
+
+                @if (Model.EnableKEPAuth)
+                {
+                    <section class="card card-box mt-4">
+                        <a class="remove-underline" asp-action="loginKEP" asp-route-returnUrl="@Model.ReturnUrl">
+                            <div class="card-body card-box__body">
+                                <div class="row">
+                                    <div class="col-auto align-self-center">
+                                        <i class="ui-icon ui-icon-id-card card-box__big-icon" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="col align-self-center">
+                                        <h3 class="section-title section-title--card-box">
+                                            @Localizer["GL_ENTRANCE_EL_IDENT_L"]
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </section>
+                }
+
+                @if (Model.EnableNRAAuth && Model.NRAProvider != null)
+                {
+                    <section class="card card-box">
+                        <a class="remove-underline" asp-controller="External" asp-action="Challenge"
+                           asp-route-provider="@Model.NRAProvider.AuthenticationScheme" asp-route-returnUrl="@Model.ReturnUrl">
+                            <div class="card-body card-box__body">
+                                <div class="row">
+                                    <div class="col-auto align-self-center">
+                                        <i class="ui-icon ui-icon-num-card card-box__big-icon" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="col align-self-center">
+                                        <h3 class="section-title section-title--card-box">@Localizer["GL_ENTRANCE_PIK_L"]</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </section>
+                }
+
+                @if (Model.EnableWindowsAuth && Model.WindowsProvider != null)
+                {
+                    <section class="card card-box">
+                        <a class="remove-underline" 
+                           asp-controller="External"
+                           asp-action="Challenge"
+                           asp-route-provider="@Model.WindowsProvider.AuthenticationScheme"
+                           asp-route-returnUrl="@Model.ReturnUrl">
+                            <div class="card-body card-box__body">
+                                <div class="row">
+                                    <div class="col-auto align-self-center">
+                                        <i class="ui-icon ui-icon-users card-box__big-icon" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="col align-self-center">
+                                        <h3 class="section-title section-title--card-box">@Localizer["GL_ENTRANCE_RA_STAFF_L"]</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </section>
+                }
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+<section>
+<? foreach ($topicList as $baseObj) { ?>
+	<article class="article article--news">
+		<div class="row">
+			<div class="col-auto d-none d-sm-block">
+				<i class="ui-icon ui-icon-comments article-icon" aria-hidden="true" title="Тема"></i>
+			</div>
+				<div class="col">
+					<h3 class="article-title">
+						<a href="<?=$this->url('topic_comment_list', ['lang' => $this->language()->getCurrentLang(), 'topicId' => $baseObj->getThemeId()])?>"><?=$baseObj->getTitle()?></a>
+					</h3>
+					<p>
+						<i class="mr-3">
+							<?=$this->dateFormat(
+								strtotime($baseObj->getCreatedOn()),
+							    IntlDateFormatter::MEDIUM, // date
+							    IntlDateFormatter::NONE, // time
+							    $this->plugin('translate')->getTranslator()->getLocale(),
+								\Application\View\Helper\DateFormat::DATETIME
+							)?>
+						</i><?=$this->translate('EP_AUTOR_L')?>: <i><span class="text-info"><?=$baseObj->getFirstname()?></span></i>
+					</p>
+
+
+					<div id="topic-<?=$baseObj->getThemeId() ?>" class="topic-wrapper show-more">
+						<p><?=nl2br($baseObj->getComment())?></p>
+					</div>
+
+
+					<p>
+						<a href="<?=$this->url('topic_comment_list', ['lang' => $this->language()->getCurrentLang(), 'topicId' => $baseObj->getThemeId()])?>"><?=$this->translate('EP_CMS_FORUM_COMMENTS_L')?></a>
+
+						<span class="badge badge-info mr-3"><?=$baseObj->getCommentsNum()-1?></span>
+
+						<? if ($baseObj->getCommentsNum() > 1) { ?>
+							<?=$this->translate('EP_CMS_DATЕ_PUBLIC_LAST_COMMENT_L')?>:<i>
+							<span class="text-info">
+								<?=$this->dateFormat(
+									strtotime($baseObj->getLastCommentDate()),
+								    IntlDateFormatter::MEDIUM, // date
+								    IntlDateFormatter::NONE, // time
+								    $this->plugin('translate')->getTranslator()->getLocale(),
+									\Application\View\Helper\DateFormat::DATETIME
+								)?>
+							</span>
+						<? } ?>
+
+						</i>
+					</p>
+			</div>
+		</div>
+	</article>
+<? } ?>
+</section>
+
+<script>
+$(function(){
+	$('.topic-wrapper').each(function( index ) {
+		if ($(this).height() < 160) {
+			$(this).removeClass('show-more');
+		}
+		else {
+			var button = '<button type="button" class="btn btn-sm btn-outline-light text-info show-more--button" onclick="$(\'#'+this.id+'\').removeClass(\'short\');">' +
+            '<i class="ui-icon ui-icon-chevron-down" aria-hidden="true"></i> <?=$this->translate('GL_READ_MORE_I')?>'+
+            '</button>';
+			$(button).insertAfter("#"+this.id);
+			$(this).addClass('short');
+		}
+
+	});
+});
+</script>

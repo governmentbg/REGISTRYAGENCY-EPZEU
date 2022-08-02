@@ -1,0 +1,32 @@
+<?
+foreach ($declarationTemplateList as $baseObj) { ?>
+	<tr>
+		<td><?=$baseObj->getName()?></td>
+		<td>
+			<?=$this->dateFormat(
+				strtotime($baseObj->getUpdatedOn()),
+			    IntlDateFormatter::MEDIUM, // date
+			    IntlDateFormatter::NONE, // time
+			    $this->plugin('translate')->getTranslator()->getLocale()
+			)?>
+		</td>
+		<td class="buttons-td">
+
+			<button class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>" onclick="openPreview('<?=$this->url('preview_declaration_template', ['templateId' => $baseObj->getDocTemplateId()])?>', event)">
+				<i class="ui-icon ui-icon-eye"></i>
+			</button>
+
+			<?php if ($this->isAllowed('edit_declaration_template')) { ?>
+			<a href="<?=$this->url('edit_declaration_template', ['templateId' => $baseObj->getDocTemplateId(), 'lang' => $params->fromRoute('lang')], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_EDIT_L'))?>">
+				<i class="ui-icon ui-icon-edit"></i>
+			</a>
+			<?php } ?>
+
+			<?php if ($this->isAllowed('delete_declaration_template')) { ?>
+			<a href="<?=$this->url('delete_declaration_template', ['templateId' => $baseObj->getDocTemplateId(), 'lang' => $params->fromRoute('lang')], ['query' => $params->fromQuery()])?>" title="<?=$this->escapeHtmlAttr($this->translate('GL_DELETE_L'))?>" onclick="openModalConfirm(this, '<?=str_replace('{DEL_ITEM_NAME}', $baseObj->getName(), $this->translate('GL_DEL_CONFIRM_L'))?>', event)"  class="btn btn-secondary">
+				<i class="ui-icon ui-icon-trash"></i>
+			</a>
+			<?php } ?>
+		</td>
+	</tr>
+<? } ?>

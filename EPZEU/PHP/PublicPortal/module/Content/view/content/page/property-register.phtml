@@ -1,0 +1,301 @@
+<? $this->headTitle('GL_PR_REG_NAME_L') ?>
+
+ <div id="main-wrapper" class="main-wrapper">
+
+            <div class="page-wrapper">
+
+                <? if (count($hotNewsList)) {?>
+	                <section class="section-wrapper section-wrapper--margins">
+	                    <div class="fixed-content-width">
+
+	                        <div class="card card--hot-news">
+	                            <div class="card-body">
+	                            	<? foreach ($hotNewsList as $hotNewsObj) { ?>
+		                                <article class="article article--news article--hot-news">
+		                                    <h3 class="article-title">
+		                                        <a href="<?=$this->url('preview_news', ['newsId' => $hotNewsObj->getNewsId(), 'lang' => $this->language()->getCurrentLang()])?>"><?=$hotNewsObj->getTitle()?></a>
+		                                    </h3>
+		                                    <p>
+		                                    	<em>
+		                                    	<?=$this->dateFormat(
+													strtotime($hotNewsObj->getNewsDate()),
+													IntlDateFormatter::NONE, // date
+													IntlDateFormatter::NONE, // time
+													$this->plugin('translate')->getTranslator()->getLocale(),
+													\Application\View\Helper\DateFormat::DATE
+												);?>
+		                                    	</em>
+		                                    <p><?=$hotNewsObj->getShortDescription()?></p>
+		                                    <a href="<?=$this->url('preview_news', ['newsId' => $hotNewsObj->getNewsId(), 'lang' => $this->language()->getCurrentLang()])?>" class="read-more"><?=$this->translate('EP_PUBLIC_NEWS_READ_MORE_L')?></a>
+		                                </article>
+	                                 <? } ?>
+	                            </div>
+	                        </div>
+
+	                    </div>
+	                </section>
+                <? } ?>
+
+                <div class="section-wrapper section-wrapper--margins">
+                    <div class="fixed-content-width">
+                        <div class="card-deck">
+
+                            <? if ($serviceList) { ?>
+	                            <section class="card card-box">
+	                                <div class="card-header card-box__header">
+	                                	<? $urlObj = $this->staticPage()->getPage('PR_SERVICES', $this->language()->getCurrentLang())?>
+	                                    <h2 class="section-title section-title--page"><a href="<?=$urlObj->url?>"><?=$this->translate($urlObj->labelKey)?></a></h2>
+	                                </div>
+	                                <div class="card-body card-box__body">
+	                                    <nav class="box-nav">
+	                                        <ul class="box-nav-container">
+
+	                                        	<?
+	                                        	$ii = 1;
+	                                        	foreach ($serviceList as $serviceObj) { ?>
+
+													<? $urlObj = $this->staticPage()->getPage(
+														'PR_SERVICE',
+														$this->language()->getCurrentLang(),
+														['{EP_SERVICE_ID}' => $serviceObj->getServiceId()]
+													)?>
+
+		                                        	<li>
+		                                        		<a class="box-nav-item" href="<?=$urlObj->url?>"><?=$serviceObj->getTitle()?></a>
+		                                        	</li>
+		                                        	<?
+		                                        	if ($ii++ >= 3)
+		                                        		break;
+	                                        	} ?>
+
+	                                        </ul>
+	                                    </nav>
+	                                </div>
+	                                <div class="card-footer card-box__footer">
+	                                    <div class="button-bar">
+	                                        <div class="left-side">
+	                                        </div>
+	                                        <div class="right-side">
+	                                        <? $urlObj = $this->staticPage()->getPage('PR_SERVICES', $this->language()->getCurrentLang())?>
+	                                            <a href="<?=$this->translate($urlObj->url)?>" class="read-more"><?=$this->translate('EP_GL_PUBLIC_ALL_SERVICES_L')?></a>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </section>
+                            <? } ?>
+
+                            <? if ($appTypesList) { ?>
+                            <section class="card card-box">
+                                <div class="card-header card-box__header">
+                                	<? $urlObj = $this->staticPage()->getPage('PR_APPLICATIONS', $this->language()->getCurrentLang())?>
+                                    <h2 class="section-title section-title--page"><a href="<?=$urlObj->url?>"><?=$this->translate($urlObj->labelKey)?></a></h2>
+                                </div>
+                                <div class="card-body card-box__body">
+                                    <nav class="box-nav">
+                                        <ul class="box-nav-container">
+											<? foreach ($appTypesList as $appObj) { ?>
+
+												<?
+													$url = $this->staticPage()->getUrlFromString(
+														$appObj->getUrl(),
+														$this->language()->getCurrentLang(),
+														'GL_PR_PUBLIC_UI_URL'
+												)?>
+												<li><a class="box-nav-item" href="<?=$url?>"><?=$appObj->getAppCode() ? '<span class="box-nav-code">'.$appObj->getAppCode().'</span> ' : '' ?><?=$appObj->getTitle()?></a></li>
+											<? } ?>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="card-footer card-box__footer">
+                                    <div class="button-bar">
+                                        <div class="left-side">
+                                        </div>
+                                        <div class="right-side">
+                                        	<? $urlObj = $this->staticPage()->getPage('PR_APPLICATIONS', $this->language()->getCurrentLang())?>
+                                            <a href="<?=$this->translate($urlObj->url)?>" class="read-more"><?=$this->translate('EP_PUBLIC_ALL_APLICATIONS_L')?></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                             <? } ?>
+
+                            <div class="w-100 d-none d-sm-block d-lg-none mt-1"><!-- wrap every 2 on sm--></div>
+
+                            <section class="card card-box">
+                                <div class="card-header card-box__header">
+                                	<? $urlObj = $this->staticPage()->getPage('PR_REPORTS', $this->language()->getCurrentLang())?>
+                                    <h2 class="section-title section-title--page"><a href="<?=$urlObj->url?>"><?=$this->translate($urlObj->labelKey)?></a></h2>
+                                </div>
+                                <div class="card-body card-box__body">
+                                    <nav class="box-nav">
+                                        <ul class="box-nav-container">
+
+                                        	<? foreach ($reportPageList as $reportPage) {
+                                            	$urlObj = $this->staticPage()->getPage($reportPage, $this->language()->getCurrentLang()); ?>
+												<li><a class="box-nav-item" href="<?=$urlObj->url?>"><?=$this->translate($urlObj->labelKey)?></a></li>
+                                            <? } ?>
+
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </section>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <section class="section-wrapper section-wrapper--margins bg-section-2">
+                    <div class="fixed-content-width">
+
+                        <div class="card card--info">
+                            <div class="card-body">
+                                <div class="info-center info-center--wide">
+                                    <div class="info-center__title">
+                                        <?=$this->translate('EP_INFO_CENTER_L')?>
+                                    </div>
+                                    <div class="info-center__icon">
+
+                                    </div>
+                                    <div class="info-center__phone">
+                                        <i class="info-center__phone-icon"></i><?=$this->translate('EP_INFO_SERVICE_PHONE_I')?>
+                                    </div>
+                                    <div class="info-center__text">
+                                        <p><?=$this->translate('EP_INFO_SERVICE_DESCRIPTION_I')?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+				<section class="section-wrapper section-wrapper--margins">
+					<div class="fixed-content-width">
+
+						<div class="row">
+							<div class="col-lg-6 col-xl-4">
+								<a href="<?=$this->url('legislation', ['lang' => $this->language()->getCurrentLang(), 'registerType' => 'pr'])?>" class="remove-underline">
+									<div class="card card-box">
+										<div class="card-body card-box__body">
+											<div class="row">
+												<div class="col-auto d-flex align-items-center">
+													<i class="ui-icon ui-icon-book-box card-box__big-icon" aria-hidden="true"></i>
+												</div>
+												<div class="col d-flex align-items-center">
+													<h3 class="section-title section-title--card-box"><?=$this->translate('EP_LEGISLATION_L')?></h3>
+												</div>
+												<div class="col-auto d-flex align-items-center">
+													<i class="ui-icon ui-icon-angle-double-right card-box__action-icon" aria-hidden="true"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+							<div class="col-lg-6 col-xl-4">
+								<a href="<?=$this->url('document_template', ['lang' => $this->language()->getCurrentLang(), 'registerType' => 'pr'])?>" class="remove-underline">
+									<div class="card card-box">
+										<div class="card-body card-box__body">
+											<div class="row">
+												<div class="col-auto d-flex align-items-center">
+													<i class="ui-icon ui-icon-document-box card-box__big-icon" aria-hidden="true"></i>
+												</div>
+												<div class="col d-flex align-items-center">
+													<h3 class="section-title section-title--card-box"><?=$this->translate('EP_DOCUMENTS_L')?></h3>
+												</div>
+												<div class="col-auto d-flex align-items-center">
+													<i class="ui-icon ui-icon-angle-double-right card-box__action-icon" aria-hidden="true"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+							<div class="col-lg-6 col-xl-4">
+								<a href="<?=$this->url('video_lesson_list', ['lang' => $this->language()->getCurrentLang(), 'registerType' => 'pr'])?>" class="remove-underline">
+									<div class="card card-box">
+										<div class="card-body card-box__body">
+											<div class="row">
+												<div class="col-auto d-flex align-items-center">
+													<i class="ui-icon ui-icon-video-box card-box__big-icon" aria-hidden="true"></i>
+												</div>
+												<div class="col d-flex align-items-center">
+													<h3 class="section-title section-title--card-box"><?=$this->translate('EP_VIDEOS_L')?></h3>
+												</div>
+												<div class="col-auto d-flex align-items-center">
+													<i class="ui-icon ui-icon-angle-double-right card-box__action-icon" aria-hidden="true"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+							<div class="col-lg-6 col-xl-4">
+								<a href="<?=$this->url('statistic', ['lang' => $this->language()->getCurrentLang(), 'registerType' => 'pr'])?>" class="remove-underline">
+									<div class="card card-box">
+										<div class="card-body card-box__body">
+											<div class="row">
+												<div class="col-auto d-flex align-items-center">
+													<i class="ui-icon ui-icon-statistics-box card-box__big-icon" aria-hidden="true"></i>
+												</div>
+												<div class="col d-flex align-items-center">
+													<h3 class="section-title section-title--card-box"><?=$this->translate('EP_STATISTICS_L')?></h3>
+												</div>
+												<div class="col-auto d-flex align-items-center">
+													<i class="ui-icon ui-icon-angle-double-right card-box__action-icon" aria-hidden="true"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+							<?
+							$staticPageList = $this->staticPage()->getPageList($this->language()->getCurrentLang());
+
+							if ($urlObj = $staticPageList['PR_STATE_FEE_CALCULATOR']) {?>
+								<div class="col-lg-6 col-xl-8">
+									<a href="<?=$this->translate($urlObj->url)?>" class="remove-underline">
+										<div class="card card-box">
+											<div class="card-body card-box__body">
+												<div class="row">
+													<div class="col-auto d-flex align-items-center">
+														<i class="ui-icon ui-icon-calculator-box card-box__big-icon" aria-hidden="true"></i>
+													</div>
+													<div class="col d-flex align-items-center">
+														<h3 class="section-title section-title--card-box"><?=$this->translate($urlObj->labelKey)?></h3>
+													</div>
+													<div class="col-auto d-flex align-items-center">
+														<i class="ui-icon ui-icon-angle-double-right card-box__action-icon" aria-hidden="true"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+							<? } ?>
+						</div>
+					</div>
+				</section>
+
+                <section class="section-wrapper section-wrapper--margins">
+                    <div class="fixed-content-width">
+                        <div class="card card-page">
+
+                            <div class="card-header card-page__header">
+                                <h2 class="section-title section-title--page"><?=$this->translate('EP_BANK_ACCOUNTS_L')?></h2>
+                            </div>
+
+                            <div class="card-body card-page__body">
+                                <?=$bankAccountPr->getContent()?>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+
+            </div>
+
+        </div>

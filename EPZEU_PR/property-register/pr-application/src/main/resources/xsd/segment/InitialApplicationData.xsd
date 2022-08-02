@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+    <xsd:include schemaLocation="RegisterType.xsd"/>
+    <xsd:include schemaLocation="RegistryOffice.xsd"/>
+
+    <xsd:complexType name="InitialApplicationData">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Данни на иницииращо/първоначално заявление</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="IncomingReauNumber" type="val:IncomingReauNumber" />
+            <xsd:element name="RegisterNumber" type="val:IncomingRegisterNumber" />
+            <xsd:element name="RegisterDate" type="val:RegistrationDate" />
+            <xsd:element name="RegisterType" type="RegisterType" />
+            <xsd:element name="RegistryOffice" type="RegistryOffice" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

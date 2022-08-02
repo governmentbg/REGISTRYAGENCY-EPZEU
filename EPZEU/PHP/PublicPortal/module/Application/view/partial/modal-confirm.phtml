@@ -1,0 +1,19 @@
+<div id="modal-confirm" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+
+				<div class="alert alert-warning"></div>
+
+            </div>
+
+            <div class="modal-footer">
+				<div class="button-bar">
+					<button type="button" class="btn btn-secondary close-preview-modal" data-dismiss="modal"><?=(!empty($buttonRefuse) ? $buttonRefuse : $this->translate('GL_CLOSE_L'))?></button>
+					<button type="button" id="confirm-bnt" class="btn btn-primary close-preview-modal" data-confirm="modal"><?=$this->translate('GL_CONFIRM_L')?></button>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>

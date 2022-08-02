@@ -1,0 +1,73 @@
+<?php
+$this->headTitle('EP_NOM_LANGUAGES_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_GL_NOMENCLATURES_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_NOM_LANGUAGES_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_NOM_LANGUAGES_L')?></h2>
+</div>
+
+<div class="card edit-language">
+	<div class="card-body">
+
+	<?=$this->partial('partial/messages.phtml')?>
+
+	<?php if ($languageList->count()) { ?>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<thead>
+				<tr>
+					<th><?=$this->translate('GL_ABBREVATION_L')?></th>
+					<th><?=$this->translate('GL_NAME_L')?></th>
+					<th><?=$this->translate('GL_CONDITION_L')?></th>
+					<? if ($this->isAllowed('manage_language')) { ?>
+					<th><?=$this->translate('GL_ACTIONS_L')?></th>
+					<? } ?>
+				</tr>
+				</thead>
+				<tbody id="content">
+					<?=$this->partial('nomenclature/nomenclature/language-list-partial.phtml')?>
+				</tbody>
+			</table>
+		</div>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<?php
+			$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+			$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+		?>
+
+		<script type="text/javascript">
+			pagination('.sync-pagination', '#content', <?=$totalPages?>);
+		</script>
+
+	<?php } else { ?>
+		<div class="alert alert-warning" role="alert">
+			<?=$this->translate('EP_NOM_NO_LABELS_E')?>
+		</div>
+	<?php } ?>
+	</div>
+</div>
+
+<?=$this->partial('partial/modal-confirm.phtml',['modalId' => 'changeStatus'])?>

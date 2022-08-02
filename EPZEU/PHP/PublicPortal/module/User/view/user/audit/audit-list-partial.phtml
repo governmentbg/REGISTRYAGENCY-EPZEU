@@ -1,0 +1,77 @@
+<? foreach ($auditList as $auditObj) { ?>
+	<tr>
+		<td>
+		<?=$this->dateFormat(
+				strtotime($auditObj->getLogActionDate()),
+				IntlDateFormatter::NONE, // date
+				IntlDateFormatter::NONE, // time
+				$this->plugin('translate')->getTranslator()->getLocale(),
+				\Application\View\Helper\DateFormat::DATETIMESECONDS
+			);
+		?>
+		</td>
+		<td><?=$moduleList[$auditObj->getModuleId()]?></td>
+		<td><?=$functionalityList[$auditObj->getFunctionalityId()]?></td>
+		<td><?=$objectTypeList[$auditObj->getObjectTypeId()]?></td>
+		<td><?=$auditObj->getKey()?></td>
+		<td><?=$actionTypeList[$auditObj->getActionTypeId()]?></td>
+		<td class="word-break"><?=$auditObj->getUserSessionId()?></td>
+		<td class="nowrap">
+
+		<? if (!$auditObj->getIsSystem()) { ?>
+			<a href="javascript://"
+				onclick=" openPreviewWithParams(
+					{
+						url: '<?=$this->url('preview_user_profile', ['userId' => $auditObj->getUserId()]) ?>',
+						urlType: 'iframe',
+						size: 'modal-lg',
+						title: '<?=$this->translate('EP_USR_ACC_L')?>',
+						buttons: {close: '<?=$this->translate('GL_CLOSE_L')?>'}
+					}, event);"
+				>
+				<?=$auditObj->getEmail()?>
+			</a>
+		<? } else { ?>
+			<?=$auditObj->getEmail()?>
+		<? } ?>
+
+
+		</td>
+		<td><?=$auditObj->getIpAddress()?></td>
+		<td class="word-break">
+
+			<? if ($auditObj->getLoginSessionId()) { ?>
+				<a href="javascript://"
+					onclick="openPreviewWithParams(
+						{
+							url: '<?=$this->url('login_session', ['loginSession' => $auditObj->getLoginSessionId()]) ?>',
+							urlType: 'iframe',
+							size: 'modal-md',
+							title: '<?=$this->translate('GL_LOGIN_SESSION_L')?>',
+							buttons: {close: '<?=$this->translate('GL_CLOSE_L')?>'}
+						}, event);"
+
+					>
+					<?=$auditObj->getLoginSessionId()?>
+				</a>
+			<? } ?>
+
+		</td>
+		<td class="buttons-td">
+			<button class="btn btn-secondary" title="<?=$this->translate('GL_VIEW_L')?>"
+			onclick=" openPreviewWithParams(
+				{
+					url: '<?=$this->url('preview_audit_data', ['auditId' => $auditObj->getLogActionId()]) ?>',
+					urlType: 'iframe',
+					size: 'modal-md',
+					title: '<?=$this->translate('EP_ODIT_VIEW_DETAILS_L')?>',
+					buttons: {close: '<?=$this->translate('GL_CLOSE_L')?>'}
+				}, event);"
+			>
+
+			<i class="ui-icon ui-icon-eye"></i>
+			</button>
+		</td>
+	</tr>
+
+<? } ?>

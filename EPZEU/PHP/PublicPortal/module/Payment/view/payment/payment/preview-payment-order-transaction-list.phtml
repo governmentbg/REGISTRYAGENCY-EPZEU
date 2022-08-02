@@ -1,0 +1,207 @@
+<div class="field-container">
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<label class="field-title field-title--form"><?=$this->translate('EP_PAY_PAYMENT_ORDER_L')?></label>
+			<p class="field-text">
+				<?=$paymentObj->getBaeReference()?>
+				<?=(
+					!empty($paymentObj->getBaeRefDate()) ? '/'.
+						$this->dateFormat(
+							strtotime($paymentObj->getBaeRefDate()),
+							IntlDateFormatter::NONE, // date
+							IntlDateFormatter::NONE, // time
+							$this->plugin('translate')->getTranslator()->getLocale(),
+							\Application\View\Helper\DateFormat::DATE
+						) : ''
+				)?>
+				<?=(!empty($paymentObj->getBaeRefNumber()) ? '/'.$paymentObj->getBaeRefNumber() : '')?>
+			</p>
+		</div>
+		<div class="form-group col-sm-6">
+			<label class="field-title field-title--form"><?=$this->translate('EP_PAY_VALUE_DATE_L')?></label>
+			<p class="field-text">
+				<?=$this->dateFormat(
+					strtotime($paymentObj->getPaymentDate()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATETIME
+				);
+				?>
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<label class="field-title field-title--form"><?=$this->translate('EP_PAY_METHOD_PAYMENT_L')?></label>
+			<p class="field-text"><?=$this->translate($paymentMethodArr[$paymentObj->getProviderKind()])?></p>
+		</div>
+		<div class="form-group col-sm-6">
+			<label class="field-title field-title--form"><?=$this->translate('EP_PURPOSE_PAYMENT_L')?></label>
+			<p class="field-text"><?=$type?></p>
+		</div>
+	</div>
+</div>
+
+<div class="field-container">
+
+	<div class="row">
+		<div class="col">
+
+			<div class="table-responsive-block">
+ 				<table class="table table-borderless table-striped table-hover table-collapsible">
+
+					<thead>
+						<tr>
+							<th class="single-icon-td"></th>
+
+							<?// задължение
+							if (!empty($toObligationID)) { ?>
+								<th><?=$this->translate('GL_APPLICATION_L')?></th>
+							<? } ?>
+
+							<th><?=$this->translate('GL_REGISTER_L')?></th>
+							<th width="15%" class="text-right"><?=(!empty($toObligationID) ? $this->translate('EP_PAY_DUTY_AM_L') : $this->translate('EP_ORD_AMOUNT_L'))?></th>
+							<th width="15%" class="text-right"><?=$this->translate('GL_DRAWN_AM_L')?></th>
+						</tr>
+					</thead>
+
+					<tbody>
+
+						<? if (empty($paymentOrderTransactionList)) { ?>
+
+							<tr class="odd-color">
+								<td class="toggle-collapse">
+									<button class="system-button collapsed" data-toggle="collapse" data-target="#collapsable-content-detailed-info-<?=$paymentObj->getId()?>" aria-expanded="false">
+										<i class="ui-icon ui-icon-chevron-right" aria-hidden="true"></i>
+									</button>
+								</td>
+								<td>
+									<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_REGISTER_L')?></span>
+									<p class="field-text"><?=$this->translate('GL_'.$registerList[$registerId].'_REG_NAME_L'.($registerList[$registerId] == 'CR' ? '_SHORT_L' : ''))?></p>
+								</td>
+								<td class="text-right">
+									<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_ORD_AMOUNT_L')?></span>
+									<p class="field-text"><?=number_format($paymentObj->getAmount(), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+								</td>
+								<td class="text-right">
+									<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_DRAWN_AM_L')?></span>
+									<p class="field-text"><?=number_format(($paymentObj->getAmount()-$paymentObj->getBalance()), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+								</td>
+							</tr>
+							<tr class="collapsible-row">
+								<td colspan="4">
+									<div id="collapsable-content-detailed-info-<?=$paymentObj->getId()?>" class="collapse">
+										<div class="collapsible-row-content">
+
+											<hr class="hr--report">
+
+											<div class="row no-gutters">
+												<? if (!empty($paymentObj->getInvoiceNumber())) { ?>
+													<div class="col-12 col-sm-6 col-md-4 form-group">
+														<div class="field-container">
+															<span class="field-title field-title--preview"><?=$this->translate('EP_INVOICE_NOM_L')?></span>
+															<p class="field-text"><?=$paymentObj->getInvoiceNumber()?></p>
+														</div>
+													</div>
+												<? } ?>
+											</div>
+
+										</div>
+									</div>
+								</td>
+							</tr>
+						<? }
+
+						else {
+
+							foreach ($paymentOrderTransactionList as $key => $obj) {
+
+								$obligationObj = null;
+
+								if (!empty($applicationDutyList) && array_key_exists($obj->getToObligationNumber(), $applicationDutyList))
+									$obligationObj = $applicationDutyList[$obj->getToObligationNumber()][0];?>
+
+								<tr class="<?=($key%2==0 ? 'odd-color' : 'even-color')?>">
+									<td class="toggle-collapse">
+										<button class="system-button collapsed" data-toggle="collapse" data-target="#collapsable-content-<?=$key?>" aria-expanded="false">
+											<i class="ui-icon ui-icon-chevron-right" aria-hidden="true"></i>
+										</button>
+									</td>
+									<?
+									// задължение
+									if (!empty($obj->getToObligationId())) { ?>
+										<td>
+											<? if (!empty($obligationObj)) { ?>
+												<p class="field-text"><b><?=$obligationObj->getApplicationNumber()?></b></p>
+												<p class="field-text">
+													<a href="javascript://" onclick="previewApplication('<?=$this->url('preview_application', ['lang' => $this->language()->getCurrentLang()])?>', '<?=$obligationObj->getApplicationNumber()?>', '<?=$registerId?>')"><b><?=!empty($applicationTypeList[$obligationObj->getApplicationType()]) ? $applicationTypeList[$obligationObj->getApplicationType()] : ''?></b></a>
+												</p>
+											<? } ?>
+										</td>
+									<? } ?>
+
+									<td>
+										<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_REGISTER_L')?></span>
+										<p class="field-text"><?=$this->translate('GL_'.$registerList[$registerId].'_REG_NAME_L'.($registerList[$registerId] == 'CR' ? '_SHORT_L' : ''))?></p>
+									</td>
+									<td class="text-right">
+										<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_PAY_DUTY_AM_L')?></span>
+										<p class="field-text"><?=(!empty($obligationObj) ? number_format($obligationObj->getObligationAmount(), 2) : number_format($obj->getAmount(), 2)).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+									</td>
+									<td class="text-right">
+										<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_DRAWN_AM_L')?></span>
+										<p class="field-text"><?=number_format($obj->getAmount(), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+									</td>
+								</tr>
+								<tr class="collapsible-row">
+									<td colspan="<?=!empty($toObligationID) ? '5' : '4'?>">
+										<div id="collapsable-content-<?=$key?>" class="collapse">
+											<div class="collapsible-row-content">
+
+												<hr class="hr--report">
+
+												<div class="row no-gutters">
+
+													<? if (!empty($paymentObj->getInvoiceNumber())) { ?>
+														<div class="col-12 col-sm-6 col-md-4 form-group">
+															<div class="field-container">
+																<span class="field-title field-title--preview"><?=$this->translate('EP_INVOICE_NOM_L')?></span>
+																<p class="field-text"><?=$paymentObj->getInvoiceNumber()?></p>
+															</div>
+														</div>
+													<? } ?>
+
+													<? if (!empty($obj->getCreatedOn())) {?>
+														<div class="col-12 col-sm-6 col-md-4 form-group">
+															<div class="field-container">
+																<span class="field-title field-title--preview"><?=$this->translate('EP_TIME_PAYMENT_L')?></span>
+																<p class="field-text">
+																<?=$this->dateFormat(
+																	strtotime($obj->getCreatedOn()),
+																	IntlDateFormatter::NONE, // date
+																	IntlDateFormatter::NONE, // time
+																	$this->plugin('translate')->getTranslator()->getLocale(),
+																	\Application\View\Helper\DateFormat::DATETIME
+																	);
+																?>
+																</p>
+															</div>
+														</div>
+													<? } ?>
+												</div>
+
+											</div>
+										</div>
+									</td>
+								</tr>
+							<? }
+						}?>
+					</tbody>
+
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,25 @@
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+				<div class="card card-page">
+					<div class="card-body card-page__body">
+						<div class="row">
+							<div class="col-12">
+
+								<? if ($this->identity()) { ?>
+									<div class="alert alert-danger" role="alert"><?=$this->translate('GL_EP_USR_NOT_PERMISSION_E')?> </div>
+								<? } else { ?>
+									<div class="alert alert-danger" role="alert"><?=$this->translate('GL_EP_USR_NOT_LOGIN_E')?> </div>
+								<? } ?>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+

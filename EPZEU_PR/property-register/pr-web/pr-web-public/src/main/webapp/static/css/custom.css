@@ -1,0 +1,14 @@
+.fade.in {
+    opacity: 1;
+}
+
+.documents-ui-validation-error > :nth-child(2) {
+    border-color: #df3834;
+}
+
+/*��������*/
+.search-box {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 auto;
+    flex: none;
+}

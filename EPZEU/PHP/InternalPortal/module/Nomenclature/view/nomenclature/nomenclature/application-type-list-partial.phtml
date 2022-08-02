@@ -1,0 +1,83 @@
+<?
+foreach ($applicationTypeList as $baseObj) {?>
+
+
+	<tr id="edit-row-<?=$baseObj->getId()?>">
+		<td>
+			<? if ($baseObj->getRegisterId()) { ?>
+
+				<?=$this->translate(array_search($baseObj->getRegisterId(), $registerList))?>
+
+			<? } ?>
+		</td>
+		<td class="w-40">
+			<span class="name-value"><?=(!empty($baseObj->getAppCode()) ? $baseObj->getAppCode().' ' : '').nl2br($baseObj->getName())?></span>
+		</td>
+
+			<td class="w-50" id="edit-value-<?=$baseObj->getId()?>">
+				<div class="edit-i18n-language-<?=$baseObj->getId()?>">
+					<div class="preview-i18n-<?=$baseObj->getId()?>">
+						<? if ($this->isAllowed('manage_application_type_list')) { ?>
+						<button class="btn btn-secondary float-right edit-section-<?=$baseObj->getId()?>" onclick="editNameI18n('<?=$baseObj->getId()?>')" title="<?=$this->translate('GL_EDIT_L')?>"><i class="ui-icon ui-icon-edit"></i></button>
+						<? } ?>
+						<span class="name-value"><?=(!empty($baseObj->getAppCode()) && !empty($baseObj->getNameI18n()) ? $baseObj->getAppCode().' ' : '').nl2br($baseObj->getNameI18n())?></span>
+					</div>
+
+
+					<? if ($this->isAllowed('manage_application_type_list')) { ?>
+					<div class="edit-i18n-section edit-i18n-<?=$baseObj->getId()?> d-none">
+						<div class="row">
+
+							<div class="form-group col-12 code-value">
+							<?if (!empty($baseObj->getAppCode())) {?>
+								<?=$baseObj->getAppCode()?>
+							<? } ?>
+							</div>
+
+
+							<div class="form-group col-12">
+								<textarea class="form-control" name="nameValue" rows="3"><?=$baseObj->getNameI18n()?></textarea>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<div class="btn-group float-right">
+									<button class="btn btn-secondary" onClick="saveNameChangesI18n('<?=$baseObj->getId()?>')" title="<?=$this->translate('GL_SAVE_L')?>"><i class="ui-icon ui-icon-check"></i></button>
+									<button class="btn btn-secondary" onClick="cancelEditNameI18n('<?=$baseObj->getId()?>')" title="<?=$this->translate('GL_REFUSE_L')?>"><i class="ui-icon ui-icon-ban"></i></button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<? } ?>
+
+
+				</div>
+			</td>
+		<td>
+
+			<?
+			if (array_search($baseObj->getRegisterId(), $registerList) == 'GL_CR_REG_ABBREVATION_L')
+				$registerPrefix = $config['GL_CR_PUBLIC_UI_URL'];
+			else
+				$registerPrefix = $config['GL_PR_PUBLIC_UI_URL'];
+
+			$url = $this->publicUrl(
+				[$registerPrefix, $this->language()->getCurrentLang(), $baseObj->getUrl()]
+			);
+
+			?>
+
+
+			<a href="<?=$url?>" target="_blank" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>">
+				<i class="ui-icon ui-icon-eye"></i>
+			</a>
+		</td>
+	</tr>
+<? } ?>
+
+<script>
+$(document).ready(function(){
+	$('#language-select').attr("disabled", false);
+})
+</script>

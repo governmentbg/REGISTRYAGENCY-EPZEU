@@ -1,0 +1,21 @@
+﻿{
+  "ProviderId": "Microsoft.VisualStudio.ConnectedService.Wcf",
+  "Version": "15.0.30730.948",
+  "GettingStartedDocument": {
+    "Uri": "https://go.microsoft.com/fwlink/?linkid=858517"
+  },
+  "ExtendedData": {
+    "inputs": [
+      "https://vm-iisda-app1.dev.local:19001/AdmServices.IntegrationServices/AdmServicesService.svc?wsdl"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, IISDA.AdministrativeServices"
+    ],
+    "targetFramework": "net472",
+    "typeReuseMode": "None"
+  }
+}

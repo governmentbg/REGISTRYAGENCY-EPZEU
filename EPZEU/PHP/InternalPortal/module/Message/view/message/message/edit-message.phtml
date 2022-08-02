@@ -1,0 +1,229 @@
+<?php
+$this->headTitle('EP_MSG_EDIT_L');
+?>
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item"><a href="<?=$this->url('message_list')?>"><?=$this->translate('EP_MSG_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_MSG_EDIT_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_MSG_EDIT_L')?></h2>
+</div>
+
+<div class="card">
+
+	<?php
+	$messageForm->setAttribute('method', 'post');
+	$messageForm->setAttribute('id', 'messageForm');
+	$messageForm->setAttribute('action', $this->url('edit_message', ['lang' => $params->fromRoute('lang'), 'messageId' => $messageId, 'type' => $params->fromRoute('type')]));
+	$messageForm->prepare();
+
+	echo $this->form()->openTag($messageForm);
+	?>
+
+	<div class="card-body">
+
+		<?=$this->partial('partial/messages.phtml')?>
+
+		<div class="row">
+			<div class="col-sm-6 col-lg-3 form-group">
+				<?=$this->formRow($messageForm->get('updatedOn')->setValue(
+						$this->dateFormat(
+							strtotime($messageForm->get('updatedOn')->getValue()),
+							IntlDateFormatter::MEDIUM, // date
+							IntlDateFormatter::NONE, // time
+							$this->plugin('translate')->getTranslator()->getLocale(),
+							\Application\View\Helper\DateFormat::DATETIME
+						)
+				))?>
+			</div>
+			<div class="col-sm-6 col-lg-3 form-group">
+				<?=$this->formRow($messageForm->get('status'), null, null, 'partial/multiradiobox')?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<?=$this->formRow($messageForm->get('userRecipientType'), null, false, 'partial/multiradiobox')?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div id="toRegisterListUsers" class="col-sm-12 form-group d-none">
+				<?=$this->formRow($messageForm->get('isToAllCr'), 'append', null, 'partial/checkbox')?>
+				<?=$this->formRow($messageForm->get('isToAllPr'), 'append', null, 'partial/checkbox')?>
+				<?=$this->formRow($messageForm->get('isToAllEpzeu'), 'append', null, 'partial/checkbox')?>
+				<?=$this->formRow($messageForm->get('userRegisterList'), null, true, '')?>
+			</div>
+			<div id="toUserList" class="col-sm-12 form-group d-none">
+				<div class="row">
+					<div class="form-group col-sm-12 col-xl-6">
+						<div class="form-control multiple-select multiple-select--scrollable" id="selected-user-list">
+						</div>
+					</div>
+					<div class="form-group col-sm-12">
+						<button class="btn btn-secondary" type="button" title="<?=$this->translate('EP_MSG_SELECT_USERS_L')?>" onclick="openPreview(undefined, event, '<?=$this->url('select_user_list')?>');">
+							<i class="ui-icon ui-icon-hand"></i> <?=$this->translate('EP_MSG_SELECT_USERS_L')?>
+						</button>
+						<?=$this->formRow($messageForm->get('userIdList'))?>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<?=$this->formRow($messageForm->get('about'), null, true, '')?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<?=$this->formRow($messageForm->get('content'))?>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<div class="left-side">
+				<a href="<?=$this->url('message_list',['lang' => $params->fromRoute('lang')], ['query' => $params->fromQuery()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			</div>
+			<div class="right-side">
+				<input name="save" id="save-btn" class="btn btn-primary" value="<?=$this->translate('GL_SAVE_L')?>" type="button">
+				<input class="btn btn-primary" value="<?=$this->translate('GL_SEND_L')?>" type="button" onclick="openModalConfirm(this, '<?=$this->translate('GL_SEND_CONFIRM_I')?>', event)">
+			</div>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+
+</div>
+
+<?$this->headScript()->appendFile($this->basePath('js/ckeditor/ckeditor.js'));?>
+
+<?=$this->partial('partial/modal-preview', ['title' => $this->translate('EP_USR_SEARCH_USER_L'), 'buttonRefuse' => $this->translate('GL_REFUSE_L'), 'buttonConfirm' => $this->translate('GL_CONFIRM_L')])?>
+<?=$this->partial('partial/modal-confirm.phtml')?>
+
+<script>
+$(document).on('submit', '#messageForm', function(){
+	showGlobalLoader();
+});
+
+var registerListUsers = 0;
+var userList = 1;
+
+$("input[name='userRecipientType']").on('click', function() {
+
+	$('#selected-user-list').removeClass('input-error');
+	$('#toUserList > ul.invalid-feedback').remove();
+	$('#toRegisterListUsers > ul.invalid-feedback').remove();
+
+	// потребители на регистри
+	if($("#userRecipientType_"+registerListUsers).is(':checked')) {
+		$("#toRegisterListUsers").removeClass('d-none');
+		$("#toUserList").addClass('d-none');
+	}
+
+	// списък с потребители
+	else if ($("#userRecipientType_"+userList).is(':checked')) {
+		$("#toRegisterListUsers").addClass('d-none');
+		$("#toUserList").removeClass('d-none');
+	}
+});
+
+$(document).ready(function(){
+
+	$("#toRegisterListUsers").addClass('d-none');
+	$("#toUserList").addClass('d-none');
+
+	// потребители на регистри
+	if ($("#userRecipientType_"+registerListUsers).is(':checked')) {
+		$("#toRegisterListUsers").removeClass('d-none');
+		$("#toUserList").addClass('d-none');
+	}
+
+	// списък с потребители
+	else if ($("#userRecipientType_"+userList).is(':checked')) {
+		$("#toRegisterListUsers").addClass('d-none');
+		$("#toUserList").removeClass('d-none');
+	}
+
+	// показва вече избраните потребители
+	$("#selected-user-list").html('');
+	$("#userIdList option").prop("selected", "selected");
+	var selectedValues = $("#userIdList").val();
+	$.each(selectedValues, function(key, userId) {
+		selectedUserListSection(userId , $("#userIdList option[value="+userId+"]").text());
+	})
+
+	<? if ($this->FormElementErrors($messageForm->get('content'))) { ?>
+		CKEDITOR.on('instanceReady', function() {
+     		$('#cke_content').addClass('input-error');
+    	});
+	<? } ?>
+
+	<? if ($this->FormElementErrors($messageForm->get('userIdList'))) { ?>
+	 	$('#selected-user-list').addClass('input-error');
+	<? } ?>
+});
+
+$(".btn-confirm").on('click', function() {
+
+	var result = $('#iframe_content')[0].contentWindow.getDataFromIframe(1);
+
+	if (result) {
+
+		$('#userIdList').html('');
+		$("#selected-user-list").html('');
+
+		var resultObj = jQuery.parseJSON(result);
+
+		$.each( resultObj.userArr, function( userId, value ) {
+
+			if((jQuery.inArray(userId, $('#userIdList').val()) === -1) || ($('#userIdList').val().length == 0)) {
+
+				selectedUserListSection(userId , value.name);
+
+				$('#userIdList').append('<option value="'+userId+'" selected="selected">'+value.name+'</option>');
+			}
+		});
+	}
+});
+
+function selectedUserListSection(userId , userInfo) {
+	// име и email, премахва информацията за организация и длъжност
+	if (userInfo.indexOf('; ') !== -1) {
+		var userInfo = userInfo.substr(0, userInfo.lastIndexOf('; '));
+	}
+
+	var html = '<div class="badge badge-secondary" id="selectedUser_'+userId+'">'+userInfo+
+					'<button type="button" class="close" aria-label="Close" onClick="deleteUser('+userId+')" title="<?=$this->escapeHtmlAttr($this->translate('GL_DELETE_L'))?>">'+
+						'<span aria-hidden="true">×</span>'+
+					'</button>'+
+				'</div>'+
+				'<br>';
+
+	$("#selected-user-list").append(html);
+}
+
+function deleteUser(userId) {
+	$("#selectedUser_"+userId).next("br").remove();
+	$("#selectedUser_"+userId).remove();
+	$('#userIdList option[value="'+userId+'"]').remove();
+}
+
+$('#confirm-bnt').on('click',function(){
+	$('#messageForm').attr('action', '<?=$this->url('edit_message', ['lang' => $params->fromRoute('lang'), 'messageId' => $messageId, 'type' => 'send'])?>');
+    $('#messageForm').submit();
+});
+
+$('#save-btn').on('click',function(){
+	$('#messageForm').attr('action', '<?=$this->url('edit_message', ['lang' => $params->fromRoute('lang'), 'messageId' => $messageId])?>');
+    $('#messageForm').submit();
+});
+</script>

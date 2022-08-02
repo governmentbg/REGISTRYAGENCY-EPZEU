@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+	targetNamespace="http://www.registryagency.bg/schemas/property-register/applications"
+    xmlns="http://www.registryagency.bg/schemas/property-register/applications"
+    xmlns:seg="http://www.registryagency.bg/schemas/property-register/segments"
+    xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+    xmlns:ereg="http://ereg.egov.bg/value/0008-000144"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/segments" schemaLocation="../segment/Segments.xsd" />
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+    <xsd:import namespace="http://ereg.egov.bg/value/0008-000144" schemaLocation="../value/ApplicationType.xsd" />
+    <xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="../SystemSchemas_xmlsig.xsd" />
+
+	<xsd:element
+		name="ApplicationForIssuingOfCertificateForPeriodFromPropertyRegister"
+		type="ApplicationForIssuingOfCertificateForPeriodFromPropertyRegister" />
+
+	<xsd:complexType
+		name="ApplicationForIssuingOfCertificateForPeriodFromPropertyRegister">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="bg">Заявление за издаване на удостоверение за период</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+            <xsd:element name="ApplicationType" type="ereg:ApplicationType" />
+            <xsd:element name="CertificateDataType" type="val:CertificateDataType" />
+            <xsd:element name="InitialApplicationData" type="seg:InitialApplicationData" minOccurs="0" />
+			<xsd:element name="ApplicantData" type="seg:Individual" />
+            <xsd:element name="PeriodForCertificate" type="seg:PeriodForCertificate" />
+            <xsd:choice>
+                <xsd:element name="RequestedPerson" type="seg:Person" />
+                <xsd:element name="PropertyData" type="seg:PropertyData" />
+            </xsd:choice>
+			<xsd:element name="WayOfProvision" type="seg:WayOfProvision" />
+			<xsd:element name="ContactData" type="seg:ContactData" />
+			<xsd:element name="AttachedDocuments" type="seg:AttachedDocuments" minOccurs="0" />
+            <xsd:element name="GDPRAgreement" type="seg:GDPRAgreement" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

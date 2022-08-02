@@ -1,0 +1,30 @@
+<? foreach ($pageList as $baseObj) {?>
+
+	<tr>
+		<td>
+
+		<?=(!empty($moduleList[$baseObj->getModuleId()]) ? $this->translate($moduleList[$baseObj->getModuleId()]) : '')?></td>
+		<td>
+
+
+		<?=$baseObj->getTitle()?></td>
+
+		<td><?=$baseObj->getTitleI18n()?></td>
+
+		<td class="buttons-td">
+
+			<? if ($this->isAllowed('preview_html_page')) { ?>
+				<a href="<?=$this->publicUrl([$this->language()->getCurrentLang(), $baseObj->getURL()])?>" target="_blank" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>">
+					<i class="ui-icon ui-icon-eye"></i>
+				</a>
+			<? } ?>
+
+			<? if ($this->isAllowed('edit_html_page')) { ?>
+				<a href="<?=$this->url('html_page_translate', ['pageId' => $baseObj->getPageId(), 'lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_EDIT_L'))?>">
+					<i class="ui-icon ui-icon-edit"></i>
+				</a>
+			<? } ?>
+		</td>
+
+	</tr>
+<? } ?>

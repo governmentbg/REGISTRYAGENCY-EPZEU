@@ -1,0 +1,191 @@
+<? if ($selectedTab != 'draft') {?>
+	<div class="search-box search-box--report">
+		<div class="card card--search card--collapsible">
+
+			<div class="card-header"  data-toggle="collapse" data-target="#collapsable-content" aria-expanded="true">
+				<h3><?=$this->translate('GL_SEARCHING_L')?></h3>
+				<button class="system-button toggle-collapse">
+					<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+				</button>
+			</div>
+
+			<div id="collapsable-content" class="collapse show">
+
+				<?php
+				$searchForm->setAttribute('action', $this->url('application_list', ['lang' => $this->language()->getCurrentLang()]));
+
+				$searchForm->prepare();
+
+				echo $this->form()->openTag($searchForm);
+
+				?>
+
+				<div class="card-body">
+
+					<div class="row">
+
+						<div class="form-group col-sm col-md-4">
+							<?=$this->formRow($searchForm->get('search'))?>
+							<?=$this->formRow($searchForm->get('section'))?>
+							<?=$this->formRow($searchForm->get('applicationNumber'))?>
+						</div>
+
+						<div class="col-sm-auto">
+							<div class="row">
+								<div class="col-12">
+									<label for=""><?=$this->translate('EP_DATE_APPLICATION_RECEPTION_L')?></label>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="form-group col-auto">
+									<div class="d-flex" id="dateFrom" data-target-input="nearest">
+										<label class="mr-2 col-form-label"><?=$this->translate('GL_START_DATE_L')?></label>
+										<div class="input-group date-control">
+											<?=$this->formRow($searchForm->get('dateFrom'), null, false, '')?>
+											<div class="input-group-append" data-target="#dateFrom" data-toggle="datetimepicker">
+												<button class="btn btn-secondary" type="button">
+													<i class="ui-icon ui-icon-calendar"></i>
+												</button>
+											</div>
+											<?=$this->FormElementErrors($searchForm->get('dateFrom'))?>
+										</div>
+									</div>
+								</div>
+								<div class="form-group col-auto">
+									<div class="d-flex" id="dateTo" data-target-input="nearest">
+										<label class="mr-2 col-form-label"><?=$this->translate('GL_END_DATE_L')?></label>
+										<div class="input-group date-control">
+											<?=$this->formRow($searchForm->get('dateTo'), null, false, '')?>
+											<div class="input-group-append" data-target="#dateTo" data-toggle="datetimepicker">
+												<button class="btn btn-secondary" type="button">
+													<i class="ui-icon ui-icon-calendar"></i>
+												</button>
+											</div>
+											<?=$this->FormElementErrors($searchForm->get('dateTo'))?>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-12">
+							<?=$this->formRow($searchForm->get('applicationTypeId'))?>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="card-footer">
+					<div class="button-bar">
+						<div class="left-side">
+							<a href="<?=$this->url('application_list', ['lang' => $this->language()->getCurrentLang()], ['query' => !empty($params['section']) ? ['section' => $params['section']] : ''])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+						</div>
+						<div class="right-side">
+							<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+						</div>
+					</div>
+				</div>
+
+				<?=$this->form()->closeTag();?>
+
+			</div>
+
+		</div>
+	</div>
+<? } ?>
+
+
+
+<?if (!empty($applicationList) && array_key_exists('status', $applicationList)) {?>
+	<div class="alert alert-danger" role="alert"><strong><?=$this->translate('GL_ERROR_L')?></strong></div>
+<?}
+
+else if((!empty($params['search']) && $selectedTab != 'draft') || !empty($applicationList) || $selectedTab == 'draft') {
+
+	if (!empty($applicationList)) { ?>
+
+		<br>
+
+		<nav class="pagination-container pagination-container--page-top" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination pagination pagination--page"></ul>
+			</div>
+		</nav>
+
+		<div class="table-responsive-block">
+			<table class="table table-borderless table-striped table-hover">
+				<thead>
+
+					<?
+					// таб регистър
+					if ($selectedTab != 'draft') { ?>
+
+						<tr>
+							<th width="50%"><?=$this->translate('GL_APPLICATION_L')?></th>
+							<th width="20%"><?=$this->translate('EP_DATE_APPLICATION_RECEPTION_L')?></th>
+							<th><?=$this->translate('GL_RESULT_L')?></th>
+						</tr>
+					<? }
+
+					// таб чернова
+					else { ?>
+
+						<tr>
+							<th width="50%"><?=$this->translate('GL_APPLICATION_L')?></th>
+							<th width="30%"><?=$this->translate('GL_REGISTER_L')?></th>
+							<th><?=$this->translate('GL_CREATE_UPDATE_DATE_L')?></th>
+						</tr>
+					<? } ?>
+				</thead>
+				<tbody id="content">
+					<?=$this->partial('application-list-partial.phtml')?>
+				</tbody>
+			</table>
+		</div>
+
+		<nav class="pagination-container pagination-container--page-bottom" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination pagination pagination--page"></ul>
+			</div>
+		</nav>
+
+		<script type="text/javascript">
+		pagination('.sync-pagination', '#content', <?=$totalPages?>);
+		</script>
+
+ <? }
+
+ 	else if ($selectedTab != 'draft') {
+
+ 		if (empty($searchForm->getMessages())) { ?>
+			<div class="alert alert-warning" role="alert"><?=$this->translate('GL_NO_RESULTS_I')?></div>
+		<? }
+ 	}
+
+ 	else { ?>
+ 		<div class="alert alert-info"><p><?=$this->translate('EP_USR_NO_NOTSUBM_APPL_I')?></p></div>
+ 	<? }
+} ?>
+
+
+<? if ($selectedTab != 'draft') { ?>
+
+	<script>
+		$(document).ready(function(){
+			$("#applicationTypeId").combobox();
+		})
+	</script>
+
+	<?
+
+		$dateFrom = !empty($searchForm->get('dateFrom')->getValue()) ? $searchForm->get('dateFrom')->getValue() : '';
+		$dateTo = !empty($searchForm->get('dateTo')->getValue()) ? $searchForm->get('dateTo')->getValue() : '';
+		\Application\Service\AppService::initCalendarInterval($dateFrom, $dateTo);
+
+} ?>

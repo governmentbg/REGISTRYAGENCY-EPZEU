@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/nomenclatures"
+            xmlns="http://www.registryagency.bg/schemas/property-register/nomenclatures"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="ApplicantTypeNomenclature.xsd"/>
+    <xsd:include schemaLocation="CertificateDataTypeNomenclature.xsd"/>
+    <xsd:include schemaLocation="PersonTypeNomenclature.xsd"/>
+    <xsd:include schemaLocation="PropertyDocumentTypeNomenclature.xsd"/>
+    <xsd:include schemaLocation="PersonTypeEpzeuNomenclature.xsd"/>
+</xsd:schema>

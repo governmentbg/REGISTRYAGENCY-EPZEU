@@ -1,0 +1,24 @@
+<?php foreach ($languageList as $language) { ?>
+	<tr>
+		<td>
+		<?=$language->getCode()?></td>
+		<td><?=$language->getName()?></td>
+		<td class="icons-td">
+			<span id="status-<?=$language->getLanguageId()?>">
+				<?=$language->getIsActive() ? '<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i> '.$this->translate('GL_ACTIVE_L') : '<i class="ui-icon ui-icon-state-inactive" aria-hidden="true"></i> '.$this->translate('GL_INACTIVE_L')?>
+			</span>
+		</td>
+
+
+		<? if ($this->isAllowed('manage_language')) { ?>
+		<td class="buttons-td">
+
+		<?php if (!$language->getIsDefault()) { ?>
+			<a href="<?=$this->url('change_language_status', ['languageId' => $language->getLanguageId()], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" onClick="openModalConfirm(this, '<?=$language->getIsActive() ? $this->translate('GL_DEACTIVE_CONFIRM_I') : $this->translate('GL_ACTIVE_CONFIRM_I')?>', event)" title="<?=$language->getIsActive() ? $this->translate('GL_DEACTIVATION_L') : $this->translate('GL_ACTIVATION_L')?>">
+				<?=$language->getIsActive() ? '<i class="ui-icon ui-icon-deactivate"></i>' : '<i class="ui-icon ui-icon-activate"></i>'?>
+			</a>
+		<?php } ?>
+		</td>
+		<?php } ?>
+	</tr>
+<?php } ?>

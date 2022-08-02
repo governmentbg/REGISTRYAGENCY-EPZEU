@@ -1,0 +1,28 @@
+.breadcrumbs {
+
+  background-color: $gray-100;
+  border-bottom: 1px solid $gray-200;
+  line-height: 1.25;
+}
+
+.breadcrumb {
+  margin: 0;
+  :not(:last-of-type) {
+    padding-right: $breadcrumb-item-padding;
+  }
+}
+
+
+.breadcrumb-item {
+  font-size: .8125rem;
+
+  + .breadcrumb-item {
+    padding-left: 0;
+  }
+
+  + .breadcrumb-item::before {    
+    font-size: 1.2rem;
+    line-height: .5;
+    vertical-align: -10%;
+  }
+}

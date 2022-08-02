@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="bg">
+    <head>
+        <meta charset="utf-8">
+        <title>Имотен регистър</title>
+        <!-- Viewport Meta Tag -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <base href="/pr/">
+
+        <!-- Fonts -->
+        <link href="static/css/fonts.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="static/css/style.css" rel="stylesheet">
+        <link href="static/css/custom.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="static/images/favicon.ico" />
+        <link rel="icon" type="image/ico" href="static/images/favicon.ico" />
+        <!--TODO set this src dynamically for example with mvn filters -->
+        <script rel = "script" src="http://localhost:8080/api/ApplicationConfig/"></script>
+    </head>
+
+    <body>
+        <div id="content-wrapper"></div>
+        <!-- uncomment this for adding service worker
+            <script>
+                if ('serviceWorker' in navigator) {
+                     navigator.serviceWorker
+                        .register('./service-worker.js')
+                        .then(function() { console.log('Service Worker Registered'); });
+                }
+            </script>
+        -->
+    </body>
+</html>

@@ -1,0 +1,56 @@
+<? foreach ($paymentOrderTransactionList as $transaction) { ?>
+
+	<div class="collapsible-row-content">
+
+		<hr class="hr--report">
+
+		<div class="row no-gutters">
+			<div class="col-12 col-sm-6 col-md-4 form-group">
+				<div class="field-container">
+					<span class="field-title field-title--preview"><?=$this->translate('EP_PAY_KIND_TRANS_L')?></span>
+					<p class="field-text"><?=$this->translate($transactionTypeArr[$transaction->getType()])?></p>
+				</div>
+			</div>
+			<div class="col-12 col-sm-6 col-md-4 form-group">
+				<div class="field-container">
+					<span class="field-title field-title--preview"><?=$this->translate('GL_REASON_L')?></span>
+					<p class="field-text"><?=$reason?></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row no-gutters">
+			<div class="col-12 col-sm-6 col-md-4 form-group">
+				<div class="field-container">
+					<span class="field-title field-title--preview"><?=$this->translate('EP_PAY_TIME_REG_DUTY_L')?></span>
+					<p class="field-text">
+						<?=$this->dateFormat(
+							strtotime($transaction->getCreatedOn()),
+							IntlDateFormatter::NONE, // date
+							IntlDateFormatter::NONE, // time
+							$this->plugin('translate')->getTranslator()->getLocale(),
+							\Application\View\Helper\DateFormat::DATETIME
+						);
+						?>
+					</p>
+				</div>
+			</div>
+			<div class="col-12 col-sm-6 col-md-4 form-group">
+				<div class="field-container">
+					<span class="field-title field-title--preview"><?=$this->translate('GL_DATE_BANK_TRANS_L')?></span>
+					<p class="field-text">
+						<?=$this->dateFormat(
+							strtotime($paymentDate),
+							IntlDateFormatter::NONE, // date
+							IntlDateFormatter::NONE, // time
+							$this->plugin('translate')->getTranslator()->getLocale(),
+							\Application\View\Helper\DateFormat::DATETIME
+						);
+						?>
+					</p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+<? } ?>

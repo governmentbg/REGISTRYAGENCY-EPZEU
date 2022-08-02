@@ -1,0 +1,115 @@
+<?
+$optionList = $this->element->getValueOptions();
+$id = $this->element->getAttribute('id');
+$name = $this->element->getAttribute('name');
+$checkedValues = $this->element->getValue();
+$disabled = $this->element->getAttribute('disabled');
+
+$label = $this->element->getLabel();
+$labelClass = !empty($this->element->getLabelAttributes()['class']) ? $this->element->getLabelAttributes()['class'] : '';
+$labelId = !empty($this->element->getLabelAttributes()['id']) ? $this->element->getLabelAttributes()['id'] : '';
+
+$checkboxListByGroup = !empty($this->element->getAttribute('checkboxListByGroup')) ? $this->element->getAttribute('checkboxListByGroup') : [];
+$groupNameList = !empty($this->element->getAttribute('group_name_list')) ? $this->element->getAttribute('group_name_list') : [];
+
+if (!empty($label))?>
+	<label class="control-label <?=(!empty($labelClass) ? $labelClass : '')?>"  <?=(!empty($labelId) ? 'id="'.$labelId.'"' : '')?>><?=$this->translate($label)?></label>
+
+<?// списък с чекбокс
+if (empty($checkboxListByGroup)) {
+
+	if(!empty($this->element->getAttribute('class')) && $this->element->getAttribute('class') == 'form-inline')
+		echo '<div class="form-inline">';
+
+	foreach($optionList as $option => $value){ ?>
+		<div class="<?=(!empty($classInline) ? 'custom-control-inline' : '')?> custom-control custom-checkbox">
+	    	<input class="custom-control-input" name="<?=$name?>[]" id="<?=$id.'_'.$option?>" value="<?=$option?>" type="checkbox" <?php if(!empty($checkedValues) && in_array($option, $checkedValues)){ echo ' checked'; }?> <?=(!empty($disabled) ? 'disabled="disabled"' : '')?>>
+	        <label class="custom-control-label" for="<?=$id.'_'.$option?>"><?=$this->translate($value)?></label>
+	    </div>
+	<?}
+
+	if(!empty($this->element->getAttribute('class')) && $this->element->getAttribute('class') == 'form-inline')
+		echo '</div>';
+}
+
+// списък с чекбокс, разделен по групи
+else {
+
+	echo '<div class="row">';
+
+	foreach ($optionList as $group => $optionArr) {?>
+		<div class="form-group col-sm-6 col-md-6 col-lg-4">
+			<div class="custom-control custom-checkbox">
+				<input class="custom-control-input check-all" data-group="<?=$group?>" name="group_<?=$group?>"  id="group_<?=$group?>" value="<?=$group?>" type="checkbox" <?=(!empty($disabled) ? 'disabled="disabled"' : '')?>>
+				<label class="custom-control-label font-weight-bold" for="group_<?=$group?>"><?=$this->translate($groupNameList[$group])?></label>
+			</div>
+
+			<?foreach($optionArr as $option => $value){ ?>
+				<div class="custom-control custom-checkbox">
+					<input class="custom-control-input check-single" data-group="<?=$group?>" name="<?=$name?>[]" id="<?=$id.'_'.$option?>" value="<?=$option?>" type="checkbox" <?php if(!empty($checkedValues) && in_array($option, $checkedValues)){ echo ' checked'; }?> <?=(!empty($disabled) ? 'disabled="disabled"' : '')?>>
+					<label class="custom-control-label" for="<?=$id.'_'.$option?>"><?=$value?></label>
+				</div>
+			<?}?>
+		</div>
+	<?}
+
+	echo '</div>';
+}?>
+
+<?=$this->FormElementErrors($this->element);?>
+
+<?if (!empty($checkboxListByGroup) && !empty($groupNameList)) {?>
+
+	<script>
+	$(".check-all").change(function(){
+		var dataAttributeValue = $(this).attr('data-group');
+		if($(this).is(':checked')){
+			$( "input[data-group='"+dataAttributeValue+"']" ).each(function(){
+				$(this).prop('checked', true);
+			});
+		}
+		else {
+			$( "input[data-group='"+dataAttributeValue+"']" ).each(function(){
+				$(this).prop('checked', false);
+			});
+		}
+	})
+
+	$(".check-single").change(function(){
+		var dataAttributeValue = $(this).attr('data-group');
+		var countInputs = $("input[data-group='"+dataAttributeValue+"']").length;
+		var countChecked = $("input.check-single[data-group='"+dataAttributeValue+"']:checked").length;
+		if ((countChecked+1) == countInputs) {
+			$("input.check-all[data-group='"+dataAttributeValue+"']").prop('checked', true);
+		}
+		else {
+			$("input.check-all[data-group='"+dataAttributeValue+"']").prop('checked', false);
+		}
+	})
+
+	$( document ).ready(function() {
+
+		var arr = [];
+		var dataAttributeValuePrev = '';
+
+		$('input:checkbox:checked').each(function () {
+
+			var dataAttributeValue = $(this).attr('data-group');
+
+			if (dataAttributeValuePrev == '' || dataAttributeValuePrev != dataAttributeValue) {
+				arr.push($(this).val());
+			}
+			var dataAttributeValuePrev = dataAttributeValue;
+
+			var countInputs = $("input[data-group='"+dataAttributeValue+"']").length;
+			var countChecked = arr.length + 1;
+
+			if (countInputs == countChecked) {
+				arr = [];
+				$("input.check-all[data-group='"+dataAttributeValue+"']").prop('checked', true);
+			}
+		});
+	});
+	</script>
+
+<?}?>

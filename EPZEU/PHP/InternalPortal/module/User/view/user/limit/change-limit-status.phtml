@@ -1,0 +1,85 @@
+<? $this->headTitle('EP_NOM_SERVICES_LIMITS_L') ?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_PARAMETRS_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page">
+			<a href="<?=$this->url('limit_list', ['lang' => $lang, 'total_count' => false])?>">
+			<?=$this->translate('EP_NOM_SERVICES_LIMITS_L')?>
+			</a>
+		</li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_NOM_EDIT_USERS_SERVICES_LIMITS_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_NOM_EDIT_USERS_SERVICES_LIMITS_L')?></h2>
+</div>
+
+
+<div class="card">
+	<div class="card-body">
+		<h2><?=$limitObj->getServiceCode()?> <?=$limitObj->getServiceName()?></h2>
+
+		<div class="alert alert-warning" role="alert">
+			<?=$this->translate('EP_NOM_EXIST_ACTIVE_USER_LIMIT_I')?>
+		</div>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+			<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+			<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<thead>
+				<tr>
+					<th><?=$this->translate('GL_EMAIL_L')?></th>
+					<th><?=$this->translate('GL_PERSON_NAME_L')?></th>
+					<th><?=$this->translate('EP_USR_ORGANIZATION_POSITION_L')?></th>
+					<th><?=$this->translate('EP_NOM_LIMIT_DATA_SERVICE_USER_L')?></th>
+					<th><?=$this->translate('GL_PERIOD_L')?></th>
+					<th><?=$this->translate('EP_NOM_MAX_REQUESTS_L')?></th>
+					<th><?=$this->translate('GL_CONDITION_L')?></th>
+				</tr>
+				</thead>
+				<tbody id="content">
+					<?=$this->partial('user/limit/limit-user-list-partial.phtml')?>
+				</tbody>
+			</table>
+		</div>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+			<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+			<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<?php
+		$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+		$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+		?>
+
+		<script type="text/javascript">
+		pagination('.sync-pagination', '#content', <?=$totalPages?>);
+		</script>
+
+
+
+	</div>
+
+	<div class="card-footer">
+		<form method="post"  action="<?=$this->url('change_limit_status', ['limitId' => $limitObj->getServiceLimitId()], ['query' => $params->fromQuery()])?>">
+			<input type="hidden" name="deactivateUserLimits" value="1">
+			<div class="button-bar">
+				<a href="<?=$this->url('limit_list', ['limitId' => $limitObj->getServiceLimitId()], ['query' => $params->fromQuery()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+				<button type="submit" class="btn btn-primary"><?=$this->translate('GL_DEACTIVATION_L')?></button>
+			</div>
+		</form>
+
+	</div>
+</div>

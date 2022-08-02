@@ -1,0 +1,189 @@
+<? $this->headTitle($this->translate('EP_CMS_FORUM_L').' - '.$topicObj->getTitle()) ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item"><a href="<?=$this->url('topic_list', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('EP_CMS_FORUM_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$topicObj->getTitle()?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$topicObj->getTitle()?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+				<div class="card card-page">
+					<div class="card-body card-page__body">
+
+						<article class="article">
+							<p>
+							<i class="mr-3">
+							<?=$this->dateFormat(
+								strtotime($topicObj->getCreatedOn()),
+							    IntlDateFormatter::MEDIUM, // date
+							    IntlDateFormatter::NONE, // time
+							    $this->plugin('translate')->getTranslator()->getLocale(),
+								\Application\View\Helper\DateFormat::DATETIME
+							)?>
+							</i>
+
+							<?=$this->translate('EP_AUTOR_L') ?>: <i><span class="text-info"><?=$topicObj->getFirstName() ?></span></i></p>
+							<div id="main-comment" class="show-more">
+								<p><?=nl2br($topicObj->getComment())?></p>
+							</div>
+						</article>
+
+						<? if ($totalCount) { ?>
+							<br />
+
+							<a href="#comment-form" class="btn btn-outline-light text-dark mb-2">
+								<i class="ui-icon ui-icon-plus" aria-hidden="true"></i>
+								<?=$this->translate('EP_CMS_FORUM_ADD_COMMENTS_L') ?>
+							</a>
+
+							<nav class="pagination-container pagination-container--page-top" aria-label="Page navigation">
+								<div class="result-count">
+									<?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?>
+								</div>
+								<ul class="sync-pagination pagination pagination--page"></ul>
+							</nav>
+
+							<div id="content">
+							<?=$this->partial('forum/forum/topic-comment-list-partial.phtml')?>
+							</div>
+
+							<nav class="pagination-container pagination-container--page-bottom" aria-label="Page navigation">
+								<div class="result-count">
+									<?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?>
+								</div>
+								<ul class="sync-pagination pagination pagination--page"></ul>
+							</nav>
+
+							<?php
+								$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+								$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+							?>
+
+							<script type="text/javascript">
+								pagination('.sync-pagination', '#content', <?=$totalPages?>);
+							</script>
+
+						<? } ?>
+
+					</div>
+				</div>
+
+				<? if ($forumForm->getMessages() || $this->flashMessenger()->getPluginFlashMessenger()->hasMessages()) { ?>
+					<script>
+					$(document).ready(function(){
+						$(window).scrollTop($('#comment-form').offset().top);
+					});
+					</script>
+				<? } ?>
+
+				<br />
+				<section class="card card-page card--collapsible" id="comment-form">
+
+                        <div class="card-header card-page__header" data-toggle="collapse" data-target="#collapsable-content-1" aria-expanded="true">
+                            <h2 class="section-title section-title--page" >
+								<?=$this->translate('EP_CMS_FORUM_ADD_COMMENTS_L') ?>
+                            </h2>
+                            <button class="system-button toggle-collapse">
+                                <i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+						<?  if ($userObj->getFirstName()) { ?>
+
+	                        <div id="collapsable-content-1" class="collapse show" style="">
+
+	                           <?php
+
+								$forumForm->setAttribute('action', $this->url('topic_comment_list', ['lang' => $this->language()->getCurrentLang(), 'topicId' => $topicId]));
+								$forumForm->setAttribute('id', 'comment-form');
+
+								$forumForm->prepare();
+
+								echo $this->form()->openTag($forumForm);
+
+								?>
+
+								<div class="card-body card-page__body">
+										<div class="row">
+											<div class="col-12">
+												<?=$this->partial('partial/messages.phtml')?>
+											</div>
+										</div>
+
+										<div class="row">
+
+											<div class="col-sm-4 form-group">
+												<?=$this->formRow($forumForm->get('username'))?>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-12 form-group">
+												<?=$this->formRow($forumForm->get('comment'))?>
+											</div>
+										</div>
+									</div>
+
+										<div class="card-footer card-page__footer">
+											<div class="button-bar">
+												<a href="<?=$this->url('topic_list', ['lang' => $this->language()->getCurrentLang()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+												<?=$this->formSubmit($forumForm->get('submit'));?>
+											</div>
+										</div>
+
+								<?=$this->form()->closeTag();?>
+	                        </div>
+
+                        <? } else { ?>
+								<div class="alert alert-danger" role="alert"><?=$this->translate('EP_FORUM_USER_NAME_E')?></div>
+		                   <? }  ?>
+
+                   </section>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).on('submit','#comment-form',function(){
+	showGlobalLoader();
+});
+
+$(function(){
+
+	if ($('#main-comment').height() < 160) {
+		$('#main-comment').removeClass('show-more');
+	}
+	else {
+		var button = 	'<button type="button" class="btn btn-sm btn-outline-light text-info show-more--button" onclick="$(\'#main-comment\').removeClass(\'short\');">' +
+						'<i class="ui-icon ui-icon-chevron-down" aria-hidden="true"></i> <?=$this->translate('GL_READ_MORE_I')?>'+
+						'</button>';
+		$(button).insertAfter('#main-comment');
+		$('#main-comment').addClass('short');
+	}
+});
+</script>

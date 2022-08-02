@@ -1,0 +1,110 @@
+<?php
+$pagelabel = $this->translate('EP_CMS_TRANSLATE_HTML_PAGE_L');
+
+$this->headTitle($pagelabel);
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_TRANSLATION_TRANSLATIONS_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><a href="<?=$this->url('html_page_list_translate', ['lang' => $params->fromRoute('lang')])?>"><?=$this->translate('EP_CMS_TRANSLATE_HTML_PAGES_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_TRANSLATE_HTML_PAGE_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$pagelabel?></h2>
+</div>
+
+<?=$this->partial('partial\language-drop-down.phtml')?>
+
+<div class="card">
+
+	<?php
+	$pageForm->setAttribute('action', $this->url('html_page_translate', ['lang' => $params->fromRoute('lang'), 'pageId' => $pageObj->getPageId()]));
+	$pageForm->setAttribute('id', 'html-page-form');
+	$pageForm->prepare();
+
+	echo $this->form()->openTag($pageForm);
+	?>
+
+	<div class="card-body">
+
+		<?=$this->partial('partial/messages.phtml')?>
+
+
+		<div class="row">
+			<div class="col-sm-4 col-xl-3 form-group">
+
+				<? $pageForm->get('moduleId')->setLabelAttributes(['class' => '' ]);?>
+				<?=$this->formRow($pageForm->get('moduleId'))?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<label for=""><?=$this->translate($pageForm->get('title')->getLabel())?></label>
+				<div>
+					<?=$pageForm->get('title')->getValue() ?>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-8 col-xl-9 form-group">
+				<?=$this->formLabel($pageForm->get('titleI18n'))?><span class="label-description"> (<?=$this->language()->getLanguagesName()?>)</span>
+				<?=$this->formElement($pageForm->get('titleI18n'))?>
+				<?=$this->formElementErrors($pageForm->get('titleI18n'))?>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-sm-12 form-group disabled">
+				<label for=""><?=$this->translate($pageForm->get('content')->getLabel())?></label>
+				<div class="form-text-srollable-large">
+					<?=$pageForm->get('content')->getValue() ?>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<?=$this->formLabel($pageForm->get('contentI18n'))?><span class="label-description"> (<?=$this->language()->getLanguagesName()?>)</span>
+				<?=$this->formElement($pageForm->get('contentI18n'))?>
+				<?=$this->formElementErrors($pageForm->get('contentI18n'))?>
+
+				<? if ($this->FormElementErrors($pageForm->get('contentI18n'))) { ?>
+					<script>
+						CKEDITOR.on('instanceReady', function() {
+							$('#cke_content').addClass('input-error');
+						});
+					</script>
+				<? } ?>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url('html_page_list_translate', ['lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<?=$this->formSubmit($pageForm->get('submit'));?>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+
+</div>
+
+<?$this->headScript()->appendFile($this->basePath('js/ckeditor/ckeditor.js'));?>
+<script>
+$(document).on('submit', '#html-page-form', function(){
+	showGlobalLoader();
+});
+
+$(document).ready(function(){
+	$('#language-select').attr("disabled", true);
+})
+</script>

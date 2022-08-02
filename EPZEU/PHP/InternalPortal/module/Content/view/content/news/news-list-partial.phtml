@@ -1,0 +1,81 @@
+<? foreach ($newsList as $baseObj) {?>
+	<tr>
+		<td>
+			<?=$this->dateFormat(
+					strtotime($baseObj->getNewsDate()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATETIME
+				);
+			?>
+		</td>
+
+		<td>
+			<?=(!empty($registerList[$baseObj->getRegisterId()]) ? $this->translate($registerList[$baseObj->getRegisterId()]) : '')?>
+		</td>
+
+		<td>
+			<?=$baseObj->getTitle()?>
+		</td>
+
+		<td>
+			<div class="custom-control-inline custom-control custom-checkbox">
+			<input class="custom-control-input" id="isHot_<?=$baseObj->getNewsId()?>" <?=($baseObj->getIsHotNews() ? 'checked="checked"' : '')?> type="checkbox" disabled="disabled">
+			<label class="custom-control-label" for="isHot_<?=$baseObj->getNewsId()?>">&nbsp;</label>
+			</div>
+		</td>
+
+		<td>
+			<? if ($baseObj->getStatus()) { ?>
+				<?=$this->dateFormat(
+						strtotime($baseObj->getPublicationDate()),
+						IntlDateFormatter::NONE, // date
+						IntlDateFormatter::NONE, // time
+						$this->plugin('translate')->getTranslator()->getLocale(),
+						\Application\View\Helper\DateFormat::DATETIME
+					);
+				?>
+			<? } ?>
+		</td>
+
+		<td>
+			<?=$this->dateFormat(
+					strtotime($baseObj->getExpirationDate()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATETIME
+				);
+			?>
+		</td>
+
+		<td class="icons-td">
+			<?=$baseObj->getStatus() ? '<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i>'.$this->translate('GL_F_STATE_PUBLIC_L') : '<i class="ui-icon ui-icon-state-inactive" aria-hidden="true"></i>'.$this->translate('GL_F_STATE_NO_PUBLIC_L')?>
+		</td>
+
+
+		<td class="buttons-td">
+
+			<? if ($this->isAllowed('preview_news')) { ?>
+				<a href="<?=$this->publicUrl(['preview-news', $baseObj->getNewsId()])?>" target="_blank" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>">
+					<i class="ui-icon ui-icon-eye"></i>
+				</a>
+			<? } ?>
+
+			<? if ($this->isAllowed('edit_news')) {?>
+				<a href="<?=$this->url('edit_news', ['newsId' => $baseObj->getNewsId(), 'lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_EDIT_L'))?>">
+					<i class="ui-icon ui-icon-edit"></i>
+				</a>
+			<?} ?>
+
+			<? if ($this->isAllowed('change_news_status')) {?>
+				<a href="<?=$this->url('change_news_status', ['newsId' => $baseObj->getNewsId()], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" onClick="openModalConfirm(this, '<?=$baseObj->getStatus() ? $this->translate('EP_CMS_CONFIRM_PUBLIC_CANCEL_OK_I') : $this->translate('EP_CMS_CONFIRM_PUBLIC_OK_I')?>', event)" title="<?=$baseObj->getStatus() ? $this->translate('GL_PUBLIC_CANCEL_L') : $this->translate('GL_PUBLIC_L')?>">
+					<?=$baseObj->getStatus() ? '<i class="ui-icon ui-icon-deactivate"></i>' : '<i class="ui-icon ui-icon-activate"></i>'?>
+				</a>
+			<? } ?>
+
+		</td>
+
+	</tr>
+<? } ?>

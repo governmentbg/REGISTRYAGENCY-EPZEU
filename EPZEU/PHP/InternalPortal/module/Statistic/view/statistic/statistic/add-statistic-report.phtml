@@ -1,0 +1,156 @@
+<?php
+$this->headTitle('EP_STATISTICS_NEW_REPORT_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item"><a href="<?=$this->url('statistic_list', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('EP_STATISTICS_TYPE_ADMIN_L')?></a></li>
+		<li class="breadcrumb-item"><a href="<?=$this->url('statistic_report_list', ['statisticId' => $statisticObj->getStatisticId(), 'lang' => $this->language()->getCurrentLang()])?>"><?=$statisticObj->getName()?></a></li>
+
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_STATISTICS_NEW_REPORT_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_STATISTICS_NEW_REPORT_L')?></h2>
+</div>
+
+<div class="card">
+
+	<?php
+	$statisticReportForm->setAttribute('action', $this->url('add_statistic_report', ['statisticId' => $statisticObj->getStatisticId(), 'lang' => $this->language()->getCurrentLang()]));
+	$statisticReportForm->prepare();
+
+	$statisticReportForm->setAttribute('id', 'statistic-form');
+
+	echo $this->form()->openTag($statisticReportForm);
+	?>
+
+	<div class="card-body">
+
+		<?=$this->partial('partial/messages.phtml')?>
+
+		<?=$this->partial('statistic-info-partial.phtml')?>
+
+		<div class="row">
+			<div class="form-group col-sm-12 col-lg-6">
+				<label class="required-field"><?=$this->translate('GL_PERIOD_L')?></label>
+				<div class="row">
+					<div class="form-group col-sm-6">
+			           <div class="input-group date" id="dateFrom" data-target-input="nearest">
+			                <label class="mr-2 col-form-label"><?=$this->translate('GL_START_DATE_L')?></label>
+			                <?=$this->formRow($statisticReportForm->get('dateFrom'), null, false, '')?>
+			                <div class="input-group-append" data-target="#dateFrom" data-toggle="datetimepicker">
+			                    <button class="btn btn-secondary" type="button">
+									<i class="ui-icon ui-icon-calendar"></i>
+								</button>
+			                </div>
+			                <?=$this->FormElementErrors($statisticReportForm->get('dateFrom'))?>
+			            </div>
+				   </div>
+					<div class="form-group col-sm-6">
+						<div class="input-group date" id="dateTo" data-target-input="nearest">
+			                <label class="mr-2 col-form-label"><?=$this->translate('GL_END_DATE_L')?></label>
+			                <?=$this->formRow($statisticReportForm->get('dateTo'))?>
+			                <div class="input-group-append" data-target="#dateTo" data-toggle="datetimepicker">
+			                    <button class="btn btn-secondary" type="button">
+									<i class="ui-icon ui-icon-calendar"></i>
+								</button>
+			                </div>
+			                <?=$this->FormElementErrors($statisticReportForm->get('dateTo'))?>
+			            </div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<? if (\Statistic\Controller\StatisticController::STATISTIC_TYPE[$statisticObj->getTypeGenarate()] == 'EP_STATISTICS_GENERATION_MANUAL_TYPE_L') {  ?>
+		<div class="row">
+			<div class="col-sm-12 col-xl-6 form-group">
+			<?=$this->formLabel($statisticReportForm->get('files'))?>
+			<?=$this->partial('partial/uploader.phtml', ['uploadUrl' => 'upload_statistic_file', 'singleFile' => 1, 'fileArr' => $fileArr])?>
+			<?=$this->formElement($statisticReportForm->get('files'))?>
+			<?=$this->FormElementErrors($statisticReportForm->get('files'))?>
+			</div>
+		</div>
+		<? } ?>
+
+
+
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url('statistic_report_list', ['statisticId' => $statisticObj->getStatisticId(), 'lang' => $this->language()->getCurrentLang()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<button class="btn btn-primary" type="submit"><?=$this->translate('GL_SAVE_L')?></button>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+</div>
+
+
+<?$this->headLink()->appendStylesheet($this->basePath('js/bootstrap-4-datepicker/css/tempusdominus-bootstrap-4.min.css'));?>
+<?$this->headScript()->prependFile($this->basePath('js/bootstrap-4-datepicker/js/tempusdominus-bootstrap-4.min.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/moment-with-locales.min.js'));?>
+
+<script type="text/javascript">
+
+	$(document).on('submit', '#statistic-form', function(){
+		showGlobalLoader();
+	});
+
+    $(function () {
+
+         $('#dateFrom').datetimepicker({
+        	useCurrent: false,
+        	format: "DD.MM.YYYY",
+        	locale: moment.locale('bg')
+        	<?php if ($params->fromQuery('dateTo')) { ?>
+			,
+    		maxDate: '<?=\Application\Service\AppService::getSqlDate($params->fromQuery('dateTo'))?>'
+        	<?php } ?>
+	    });
+
+        $('#dateTo').datetimepicker({
+            useCurrent: false,
+            format: "DD.MM.YYYY",
+            locale: moment.locale('bg')
+            <?php if ($params->fromQuery('dateFrom')) { ?>
+			,
+    		minDate: '<?=\Application\Service\AppService::getSqlDate($params->fromQuery('dateFrom'))?>'
+        	<?php } ?>
+        });
+
+        $("#dateFrom").on("change.datetimepicker", function (e) {
+           $('#dateTo').datetimepicker('minDate', e.date);
+        });
+        $("#dateTo").on("change.datetimepicker", function (e) {
+           $('#dateFrom').datetimepicker('maxDate', e.date);
+        });
+
+    });
+</script>
+
+<script>
+$(document).ready(function(){
+	var val = $("input[name='typeGenarate']:checked").val();
+
+	if (val == 0)
+		$('#url-label').addClass('required-field');
+	else
+		$('#url-label').removeClass('required-field');
+});
+
+$(document).on('click', "input[name='typeGenarate']", function() {
+
+	var val = $(this).val();
+
+	if (val == 0)
+		$('#url-label').addClass('required-field');
+	else
+		$('#url-label').removeClass('required-field');
+});
+</script>

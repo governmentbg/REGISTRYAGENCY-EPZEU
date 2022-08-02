@@ -1,0 +1,119 @@
+<?php
+$this->headTitle('EP_STATISTICS_UPDATE_TYPE_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_USERS_L')?></li>
+
+
+		<li class="breadcrumb-item">
+				<a href="<?=$this->url(
+				'statistic_list',
+				['lang' => $this->language()->getCurrentLang()],
+				['query' => ['registerId' => $statisticObj->getRegisterid()]]
+				)?>"><?=$this->translate('EP_STATISTICS_TYPE_ADMIN_L')?>
+				</a>
+		</li>
+
+
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_STATISTICS_UPDATE_TYPE_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_STATISTICS_UPDATE_TYPE_L')?></h2>
+</div>
+
+<div class="card">
+
+	<?php
+	$statisticForm->setAttribute('action', $this->url('edit_statistic', ['statisticId' => $statisticId, 'lang' => $this->language()->getCurrentLang()]));
+	$statisticForm->setAttribute('id', 'statistic-form');
+	$statisticForm->prepare();
+
+	echo $this->form()->openTag($statisticForm);
+	?>
+
+	<div class="card-body">
+
+		<?=$this->partial('partial/messages.phtml')?>
+
+		<div class="row">
+
+			<div class="col-sm-6 col-md-4 col-lg-4 form-group">
+				<?=$this->formRow($statisticForm->get('registerId'))?>
+			</div>
+
+			<div class="col-sm-6 col-md-6 col-lg-6 form-group">
+				<?=$this->formRow($statisticForm->get('typeGenarate'), null, false, 'partial/multiradiobox')?>
+			</div>
+
+		</div>
+
+		<div class="row">
+
+			<div class="col-sm-12 col-md-4 col-md-12 col-xl-6 col-xxl-4 form-group">
+				<?=$this->formRow($statisticForm->get('name'), null, true, '')?>
+			</div>
+
+			<div id="url-address" class="col-sm-12 col-md-12 col-xl-6 col-xxl-4 form-group d-none">
+				<?=$this->formRow($statisticForm->get('url'), null, true, '')?>
+				<div class="help-text-inline"><?=$this->translate('EP_STATISTICS_SERVICE_ADDRESS_VALID_I')?></div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url(
+					'statistic_list',
+					['lang' => $this->language()->getCurrentLang()],
+					['query' => ['registerId' => $statisticObj->getRegisterid()]]
+					)?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<button class="btn btn-primary" type="submit"><?=$this->translate('GL_SAVE_L')?></button>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+</div>
+
+
+<script>
+$(document).on('submit', '#statistic-form', function(){
+	showGlobalLoader();
+});
+
+$(document).ready(function(){
+	var val = $("input[name='typeGenarate']:checked").val();
+
+	if (val == 0) {
+		$('#url-label').addClass('required-field');
+		$('#url-address').removeClass('d-none');
+		$('#url').prop('disabled', false);
+	}
+	else {
+		$('#url-label').removeClass('required-field');
+		$('#url-address').addClass('d-none');
+		$('#url').prop('disabled', true);
+	}
+});
+
+$(document).on('click', "input[name='typeGenarate']", function() {
+
+	var val = $(this).val();
+
+	if (val == 0) {
+		$('#url-label').addClass('required-field');
+		$('#url-address').removeClass('d-none');
+		$('#url').prop('disabled', false);
+	}
+	else {
+		$('#url-label').removeClass('required-field');
+		$('#url-address').addClass('d-none');
+		$('#url').prop('disabled', true);
+	}
+});
+</script>

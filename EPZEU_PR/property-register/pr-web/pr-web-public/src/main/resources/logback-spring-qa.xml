@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+
+<configuration scan="true">
+    <!--include resource="org/springframework/boot/logging/logback/base.xml"/-->
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <springProfile name="qa">
+
+        <springProperty name="applicationName" source="spring.application.name"/>
+
+        <!--<appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+            <destination>vm-av-epzeu-elk1.dev.local:22456</destination>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <customFields>{"serviceType":"${applicationName}"}</customFields>
+            </encoder>
+            <keepAliveDuration>5 minutes</keepAliveDuration>
+        </appender>-->
+
+        <appender name="logstash" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>C:/Projects/EPZEU/QA/02 Logs/01 Applications/EPZEU.PR.Web.App/log-%d{yyyyMMdd}.json</fileNamePattern>
+            </rollingPolicy>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <customFields>{"serviceType":"${applicationName}"}</customFields>
+            </encoder>
+        </appender>
+
+        <root encoding="UTF-8">
+            <appender-ref ref="logstash" />
+        </root>
+
+        <!-- https://logback.qos.ch/manual/configuration.html#shutdownHook and https://jira.qos.ch/browse/LOGBACK-1090 -->
+        <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+
+        <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+            <resetJUL>true</resetJUL>
+        </contextListener>
+
+    </springProfile>
+</configuration>

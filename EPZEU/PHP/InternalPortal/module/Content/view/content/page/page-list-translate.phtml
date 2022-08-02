@@ -1,0 +1,67 @@
+<?php
+$this->headTitle('EP_CMS_TRANSLATE_HTML_PAGES_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_TRANSLATION_TRANSLATIONS_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_TRANSLATE_HTML_PAGES_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_CMS_TRANSLATE_HTML_PAGES_L')?></h2>
+</div>
+
+<?=$this->partial('partial\language-drop-down.phtml')?>
+
+<div class="card">
+	<div class="card-body">
+
+	<?if ($pageList->count()) { ?>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<thead>
+				<tr>
+					<th><?=$this->translate('GL_PORTAL_L')?></th>
+					<th><?=$this->translate('EP_CMS_HEADER_L')?></th>
+					<th><?=$this->translate('EP_CMS_HEADER_L')?><span class="label-description"> (<?=$this->language()->getLanguagesName()?>)</span></th>
+					<th><?=$this->translate('GL_ACTIONS_L')?></th>
+				</tr>
+				</thead>
+				<tbody id="content">
+					<?=$this->partial('page-list-translate-partial.phtml')?>
+				</tbody>
+			</table>
+		</div>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<?
+			$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+			$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+		?>
+
+		<script type="text/javascript">
+			pagination('.sync-pagination', '#content', <?=$totalPages?>);
+		</script>
+
+	<? } ?>
+	</div>
+</div>
+
+<?=$this->partial('partial/modal-confirm.phtml')?>

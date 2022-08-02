@@ -1,0 +1,2117 @@
+﻿{
+  "swagger": "2.0",
+  "info": {
+    "title": "CQES Regular Signing API",
+    "description": "Signing API компонента се използва от доверяващите страни за изпращане на заявки за подписване на документии съответно получаване и обработване на резултата. Включена е също и операция за преглед на история на подписванията. Доверяващите страни използват клиентско приложение за подписване (CAS), което се интегрира с настоящите API-та.  <br/><b>Основен сценарий:</b>  <ul><li>Клиентското приложение за подписване (CAS) изпраща документ за подписване на потребител на облачен КЕП.</li> <li>Потребителя получава заявката на мобилното устройство и потвърждава подписването.</li> <li>CAS изтегля подписания от потребителя документ.</li></ul><b>Насочване и оторизиране на заявката за подписване към потребител</b><br/>Клиентското приложение за подписване (CAS) указва получателя на заявката за подписване чрез header параметъра `rpToClientAuthorization`, като се оторизира пред получателя чрез подаване на OTP (one time password) или токен да достъп<br/>Доверяващата страна се оторизира чрез HEADER параметъра rpToClientAuthorization<br/><br/>Следните опции са налични:<ul><li>profileId - чрез потребителски идентификатор. Изисква се OTP потвърждение (one time password) от страна на потребителя. Потребителя може да види потребителския си идентификатор и временната парола през B-Trust Mobile. Клиентското приложение за подписване (CAS) предоставя съответните полета за попълване от страна на потребителя и съответно изпраща параметъра в указания формат: `{profileId}:{OTP}`<li>clientToken - чрез клиентски токен. В този случай потребителят се е регистрирал в CAS чрез отделна форма въвеждайки profileId и OTP. Това позволява на доверяващата страна да изпраща заявки за подписване, без да е необходимо потребителят всеки път да въвежда OTP. CAS изпълнява операция clientAuth за да получи токена.<li>personalId: чрез идентификатор на потребителя (ЕГН/ЛНЧ или друг идентификатор)</ul>Примери за rpToClientAuthorization:<ul><li>personalId:7705256443</li><li>profileId:032-552574:523112</li><li>clientToken:TPC7416DC60EEEC8252E2531413010AD170</li><li>certId:7742</li></ul>",
+    "version": "2.0"
+  },
+  "host": "localhost:8080",
+  "basePath": "/signing-api",
+  "paths": {
+    "/v2/auth": {
+      "post": {
+        "tags": [
+          "signing-controller"
+        ],
+        "summary": "Relying Party to Client Authorization",
+        "description": "Връща client token на база profileID и OTP. В този случай доверяващата страна ще може да изпраща заявки за подписване, без да е необходимо потребителя всеки път да въвежда profileId и OTP (one time password)",
+        "operationId": "clientAuthUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "name": "authInfo",
+            "in": "body",
+            "required": true,
+            "description": "Параметри за оторизиране",
+            "schema": {
+              "$ref": "#/definitions/AuthInfo"
+            }
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Заявката е изпълнена успешно",
+            "schema": {
+              "$ref": "#/definitions/ClientAuthResponse"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/cert/identity/{personalId}": {
+      "get": {
+        "tags": [
+          "signing-controller"
+        ],
+        "summary": "Get client certificate",
+        "description": "Връща клиентския X509 сертификат в base64 формат",
+        "operationId": "getCertByPersonalIdUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "type": "string",
+            "name": "personalId",
+            "in": "path",
+            "required": true,
+            "description": "EGN или LNC"
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Заявката е изпълнена успешно",
+            "schema": {
+              "$ref": "#/definitions/ClientCertResponse"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "404": {
+            "description": "Сертификатът не е намерен"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/cert/{profileId}": {
+      "get": {
+        "tags": [
+          "signing-controller"
+        ],
+        "summary": "Get client certificate",
+        "description": "Връща клиентския X509 сертификат в base64 формат",
+        "operationId": "getCertUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "type": "string",
+            "name": "profileId",
+            "in": "path",
+            "required": true,
+            "description": "ID на облачния КЕП"
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Заявката е изпълнена успешно",
+            "schema": {
+              "$ref": "#/definitions/ClientCertResponse"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "404": {
+            "description": "Сертификатът не е намерен"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/otc-pac/consume": {
+      "post": {
+        "tags": [
+          "otcpac-signing-controller"
+        ],
+        "summary": "Consume documents",
+        "description": "${api.operation.post.certificate.activate.description}",
+        "operationId": "consumeDocumentsUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "name": "documentRequest",
+            "in": "body",
+            "required": true,
+            "description": "Документи за броене",
+            "schema": {
+              "$ref": "#/definitions/OTCPACSignRequest"
+            }
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Заявката за консумиране на документите е успешна",
+            "schema": {
+              "$ref": "#/definitions/GeneralResponse"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "404": {
+            "description": "Клиентския сертификат не е намерен или request ID на сертификата не е намерено"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/otc/archive": {
+      "post": {
+        "tags": [
+          "otc-controller"
+        ],
+        "summary": "Archive otc documents sign by client",
+        "description": "Изпраща заявка за подписване на съдържание към потребител на облачен КЕП. Потребителят ще получи нотификация за заявка за подписване и документите ще бъдат налични в  секция 'Чакащи' на приложеието B-Trust Moblie",
+        "operationId": "archiveOtcDocumentsUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "name": "archiveRequest",
+            "in": "body",
+            "required": true,
+            "description": "Параметри за подписване на документ",
+            "schema": {
+              "$ref": "#/definitions/OTCArchiveRequest"
+            }
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          },
+          {
+            "type": "string",
+            "name": "rpToClientAuthorization",
+            "in": "header",
+            "required": true,
+            "description": "Механизмът на оторизиране на доверяващата страна, което да й позволи да изпраща документи за подписване към съответния потребител"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SendSignResponse"
+            }
+          },
+          "202": {
+            "description": "Заявката за подписване е изпратена успешно",
+            "schema": {
+              "$ref": "#/definitions/SendSignResponse"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "404": {
+            "description": "Клиентския сертификат не е намерен или request ID на сертификата не е намерено"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/otc/content/{id}": {
+      "get": {
+        "tags": [
+          "otc-controller"
+        ],
+        "summary": "Get signed content by callback ID",
+        "description": "Получава подпис/подписан документ по content ID",
+        "operationId": "getOTCSignedContentUsingGET",
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID на заявката за подписване, получено като резултат от синхронната операция по заявка за подписване",
+            "format": "int32"
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Подписан файл as Base64",
+            "schema": {
+              "$ref": "#/definitions/GeneralResponse"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "404": {
+            "description": "Подписаното съдържание не е намерено"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/otc/sign": {
+      "post": {
+        "tags": [
+          "otc-controller"
+        ],
+        "summary": "Send Sign Request",
+        "description": "Изпраща заявка за подписване на съдържание към потребител на облачен КЕП. Потребителят ще получи нотификация за заявка за подписване и документите ще бъдат налични в  секция 'Чакащи' на приложеието B-Trust Moblie",
+        "operationId": "signOtcDocumentsUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Параметри за подписване на документ",
+            "schema": {
+              "$ref": "#/definitions/OTCSignRequest"
+            }
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          },
+          {
+            "type": "string",
+            "name": "rpToClientAuthorization",
+            "in": "header",
+            "required": true,
+            "description": "Механизмът на оторизиране на доверяващата страна, което да й позволи да изпраща документи за подписване към съответния потребител"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SendSignResponse"
+            }
+          },
+          "202": {
+            "description": "Заявката за подписване е изпратена успешно",
+            "schema": {
+              "$ref": "#/definitions/SendSignResponse"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "404": {
+            "description": "Клиентския сертификат не е намерен или request ID на сертификата не е намерено"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/requested-sign-documents/details": {
+      "get": {
+        "tags": [
+          "signing-controller"
+        ],
+        "summary": "Get list of all requested sign documents",
+        "description": "Връща списък с всички наложени документи. Ползва сортиране, странициране и филтриране (relying party, type, etc)",
+        "operationId": "getRequestDocumentsHistoryDetailsUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          },
+          {
+            "type": "integer",
+            "name": "requestedId",
+            "in": "query",
+            "required": true,
+            "description": "Филтър - requestedId",
+            "format": "int64",
+            "x-example": 1
+          },
+          {
+            "type": "integer",
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "description": "Филтър - User_ID",
+            "format": "int64",
+            "x-example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Заявката детайлна информация за подписванията успешно обработена",
+            "schema": {
+              "$ref": "#/definitions/SignHistoryResponse"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/requested-sign-documents/list": {
+      "get": {
+        "tags": [
+          "signing-controller"
+        ],
+        "summary": "Get list of all requested sign documents",
+        "description": "Връща списък с всички наложени документи. Ползва сортиране, странициране и филтриране (relying party, type, etc)",
+        "operationId": "getRequestDocumentsHistoryUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "type": "string",
+            "name": "fromCreatedDate",
+            "in": "query",
+            "description": "Филтър - от ВРЕМЕ НА СЪЗДАВАНЕ НА ЗАПИСА",
+            "format": "date-time"
+          },
+          {
+            "type": "integer",
+            "name": "limit",
+            "in": "query",
+            "description": "Елементи на страница",
+            "format": "int32",
+            "x-example": 20
+          },
+          {
+            "type": "integer",
+            "name": "offset",
+            "in": "query",
+            "description": "страница",
+            "format": "int32",
+            "x-example": 1
+          },
+          {
+            "type": "string",
+            "name": "order",
+            "in": "query",
+            "description": "Вид на подреждане. По подразбиране е DESC.",
+            "enum": [
+              "ASC",
+              "DESC"
+            ],
+            "x-example": "DESC"
+          },
+          {
+            "type": "string",
+            "name": "orderByFilter",
+            "in": "query",
+            "description": "Филтър за подреждане по параметър. По подразбиране е createdDate.",
+            "enum": [
+              "createdDate",
+              "displayedText",
+              "downloadeTimestamp",
+              "relyingPartyId",
+              "relyingPartyName",
+              "status"
+            ],
+            "x-example": "createdDate"
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          },
+          {
+            "type": "string",
+            "name": "status",
+            "in": "query",
+            "description": "Филтър - cтатус на подписа",
+            "enum": [
+              "ERROR",
+              "IN_PROGRESS",
+              "SIGNED",
+              "RECEIVED",
+              "REJECTED",
+              "ARCHIVED",
+              "REMOVED",
+              "EXPIRED"
+            ],
+            "x-example": "2"
+          },
+          {
+            "type": "string",
+            "name": "textToShow",
+            "in": "query",
+            "description": "Филтър -  Документ"
+          },
+          {
+            "type": "string",
+            "name": "toCreatedDate",
+            "in": "query",
+            "description": "Филтър - до ВРЕМЕ НА СЪЗДАВАНЕ НА ЗАПИСА",
+            "format": "date-time"
+          },
+          {
+            "type": "integer",
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "description": "Филтър - User_ID",
+            "format": "int64",
+            "x-example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Заявката за подписване е изпратена успешно",
+            "schema": {
+              "$ref": "#/definitions/SignHistoryResponse"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/rpcallbackid/{rpCallbackId}": {
+      "get": {
+        "tags": [
+          "signing-controller"
+        ],
+        "summary": "Get signed content by relying party callback ID",
+        "description": "Получава резултат с подписано съдържание по изпратеното от доверяващата страна ID на заявката за подписване",
+        "operationId": "getSignedResultByRpCallbackIdUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          },
+          {
+            "type": "string",
+            "name": "rpCallbackId",
+            "in": "path",
+            "required": true,
+            "description": "ID на заявката за подписване, изпратено от доверяващата страна"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Всички файлове са подписани",
+            "schema": {
+              "$ref": "#/definitions/SignedContentsResponse"
+            }
+          },
+          "206": {
+            "description": "Има файлове, чакащи за подпис",
+            "schema": {
+              "$ref": "#/definitions/SignedContentsResponse"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "404": {
+            "description": "Подписаното съдържание не е намерено"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/sign": {
+      "post": {
+        "tags": [
+          "signing-controller"
+        ],
+        "summary": "Send Sign Request",
+        "description": "Изпраща заявка за подписване на съдържание към потребител на облачен КЕП. Потребителят ще получи нотификация за заявка за подписване и документите ще бъдат налични в  секция 'Чакащи' на приложеието B-Trust Moblie",
+        "operationId": "sendSignRequestUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Параметри за подписване на документ",
+            "schema": {
+              "$ref": "#/definitions/SignRequest"
+            }
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          },
+          {
+            "type": "string",
+            "name": "rpToClientAuthorization",
+            "in": "header",
+            "required": true,
+            "description": "Механизмът на оторизиране на доверяващата страна, което да й позволи да изпраща документи за подписване към съответния потребител"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SendSignResponse"
+            }
+          },
+          "202": {
+            "description": "Заявката за подписване е изпратена успешно",
+            "schema": {
+              "$ref": "#/definitions/SendSignResponse"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "404": {
+            "description": "Клиентския сертификат не е намерен или request ID на сертификата не е намерено"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/sign/content/{id}": {
+      "get": {
+        "tags": [
+          "signing-controller"
+        ],
+        "summary": "Get signed content by callback ID",
+        "description": "Получава подпис/подписан документ по content ID",
+        "operationId": "getSignedContentUsingGET",
+        "produces": [
+          "application/octet-stream"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID на заявката за подписване, получено като резултат от синхронната операция по заявка за подписване",
+            "format": "int32"
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Подписан файл",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "404": {
+            "description": "Подписаното съдържание не е намерено"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/sign/content/{id}/userId/{userId}": {
+      "get": {
+        "tags": [
+          "signing-controller"
+        ],
+        "summary": "Get signed content by callback ID",
+        "description": "Получава подпис/подписан документ по content ID",
+        "operationId": "getSignedContentUserIdUsingGET",
+        "produces": [
+          "application/octet-stream"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID на заявката за подписване, получено като резултат от синхронната операция по заявка за подписване",
+            "format": "int32"
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          },
+          {
+            "type": "integer",
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "${api.param.userId.value}",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Подписан файл",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "404": {
+            "description": "Подписаното съдържание не е намерено"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/sign/list": {
+      "get": {
+        "tags": [
+          "signing-controller"
+        ],
+        "summary": "Get list of signed content",
+        "description": "Връща списък заявките за подписване и техния статус. Ползва сортиране, странициране и филтриране (relying party, certificate, status, type, etc)",
+        "operationId": "getSignHistoryUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "type": "array",
+            "name": "certificateNumber",
+            "in": "query",
+            "description": "Филтър - сериен номер на сертификат",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "type": "string",
+            "name": "fromCreatedDate",
+            "in": "query",
+            "description": "Филтър - от ВРЕМЕ НА СЪЗДАВАНЕ НА ЗАПИСА",
+            "format": "date-time"
+          },
+          {
+            "type": "boolean",
+            "name": "isLogin",
+            "in": "query",
+            "description": "Филтър - дали подписа е за вход в системата",
+            "x-example": "false"
+          },
+          {
+            "type": "integer",
+            "name": "limit",
+            "in": "query",
+            "description": "Елементи на страница",
+            "format": "int32",
+            "x-example": 20
+          },
+          {
+            "type": "integer",
+            "name": "offset",
+            "in": "query",
+            "description": "страница",
+            "format": "int32",
+            "x-example": 1
+          },
+          {
+            "type": "string",
+            "name": "order",
+            "in": "query",
+            "description": "Вид на подреждане. По подразбиране е DESC.",
+            "enum": [
+              "ASC",
+              "DESC"
+            ],
+            "x-example": "DESC"
+          },
+          {
+            "type": "string",
+            "name": "orderByFilter",
+            "in": "query",
+            "description": "Филтър за подреждане по параметър. По подразбиране е createdDate.",
+            "enum": [
+              "createdDate",
+              "signedDate",
+              "displayedText",
+              "certId",
+              "certSerialNumber",
+              "relyingPartyId",
+              "relyingPartyName",
+              "status"
+            ],
+            "x-example": "createdDate"
+          },
+          {
+            "type": "string",
+            "name": "relayingParty",
+            "in": "query",
+            "description": "Филтър - доверяващата се страна"
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          },
+          {
+            "type": "string",
+            "name": "signatureType",
+            "in": "query",
+            "description": "Филтър - формата на подписа",
+            "enum": [
+              "SIGNATURE",
+              "CADES_BASELINE_B_ATACHED",
+              "CADES_BASELINE_T_ATACHED",
+              "CADES_BASELINE_LT_ATACHED",
+              "CADES_BASELINE_LTA_ATACHED",
+              "CADES_BASELINE_LTA_ENVELOPED",
+              "CADES_BASELINE_B_DETACHED",
+              "CADES_BASELINE_T_DETACHED",
+              "CADES_BASELINE_LT_DETACHED",
+              "CADES_BASELINE_LTA_DETACHED",
+              "PADES_BASELINE_B",
+              "PADES_BASELINE_T",
+              "PADES_BASELINE_LT",
+              "PADES_BASELINE_LTA",
+              "XADES_BASELINE_B_ENVELOPED",
+              "XADES_BASELINE_T_ENVELOPED",
+              "XADES_BASELINE_LT_ENVELOPED",
+              "XADES_BASELINE_LTA_ENVELOPED",
+              "XADES_BASELINE_B_ENVELOPING",
+              "XADES_BASELINE_T_ENVELOPING",
+              "XADES_BASELINE_LT_ENVELOPING",
+              "XADES_BASELINE_LTA_ENVELOPING",
+              "XADES_BASELINE_B_DETACHED",
+              "XADES_BASELINE_T_DETACHED",
+              "XADES_BASELINE_LT_DETACHED",
+              "XADES_BASELINE_LTA_DETACHED"
+            ]
+          },
+          {
+            "type": "string",
+            "name": "status",
+            "in": "query",
+            "description": "Филтър - cтатус на подписа",
+            "enum": [
+              "ERROR",
+              "IN_PROGRESS",
+              "SIGNED",
+              "RECEIVED",
+              "REJECTED",
+              "ARCHIVED",
+              "REMOVED",
+              "EXPIRED"
+            ],
+            "x-example": "2"
+          },
+          {
+            "type": "string",
+            "name": "textToShow",
+            "in": "query",
+            "description": "Филтър -  Документ"
+          },
+          {
+            "type": "string",
+            "name": "toCreatedDate",
+            "in": "query",
+            "description": "Филтър - до ВРЕМЕ НА СЪЗДАВАНЕ НА ЗАПИСА",
+            "format": "date-time"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Заявката за подписване е изпратена успешно",
+            "schema": {
+              "$ref": "#/definitions/SignHistoryResponse"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/sign/report/{id}/{reportType}": {
+      "get": {
+        "tags": [
+          "signing-controller"
+        ],
+        "summary": "Get report of archived signed content by callback ID",
+        "description": "Получава подпис/подписан документ по content ID",
+        "operationId": "getSignedContentReportUsingGET",
+        "produces": [
+          "application/octet-stream"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID на заявката за подписване, получено като резултат от синхронната операция по заявка за подписване",
+            "format": "int32"
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          },
+          {
+            "type": "string",
+            "name": "reportType",
+            "in": "path",
+            "required": true,
+            "description": "Тип на доказателството (simple/detailed)",
+            "enum": [
+              "SIMPLE",
+              "DETAILED"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Доказателство",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "404": {
+            "description": "Подписаното съдържание не е намерено"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/sign/{callbackId}": {
+      "get": {
+        "tags": [
+          "signing-controller"
+        ],
+        "summary": "Get signed content by callback ID",
+        "description": "Получава резултат с подписано съдържание по ID на заявката за подписване, получено като резултат от синхронната операция по заявка за подписване",
+        "operationId": "getSignedResultUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "type": "string",
+            "name": "callbackId",
+            "in": "path",
+            "required": true,
+            "description": "ID на заявката за подписване, получено като резултат от синхронната операция по заявка за подписване"
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Всички файлове са подписани",
+            "schema": {
+              "$ref": "#/definitions/SignedContentsResponse"
+            }
+          },
+          "206": {
+            "description": "Има файлове, чакащи за подпис",
+            "schema": {
+              "$ref": "#/definitions/SignedContentsResponse"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "404": {
+            "description": "Подписаното съдържание не е намерено"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v2/signviaqr": {
+      "post": {
+        "tags": [
+          "signing-controller"
+        ],
+        "summary": "Send Sign Request via QR",
+        "description": "Изпраща заявка за подписване на документ. Потребителя е необходимо да сканира QR кода на заявката, за да потвърди подписването. След сканиране документа заявката ще бъде свързана с профила на избрания сертификат и тя ще се появи в секция \"чакащи\". Ако не се посочат qrHeight и qrWidth като параметри на заявката, ще бъде върнат QR линк. В противен случай ще бъде върната QR снимка кодирана в Base64 format с размери спрямо подадените в заявката. ",
+        "operationId": "sendSignRequestViaQRUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "Accept-language",
+            "in": "header",
+            "description": "Езикът, на който да бъдат върнати езиково-зависимите съобщения"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Параметри за подписване на съдържание, чрез сканиране на QR код",
+            "schema": {
+              "$ref": "#/definitions/SignRequestViaQr"
+            }
+          },
+          {
+            "type": "string",
+            "name": "relyingPartyID",
+            "in": "header",
+            "required": true,
+            "description": "ID на доверяващата се страна"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SendSignResponseViaQr"
+            }
+          },
+          "202": {
+            "description": "Заявката за подписване е изпратена успешно",
+            "schema": {
+              "$ref": "#/definitions/SendSignResponseViaQr"
+            }
+          },
+          "400": {
+            "description": "Невалидни входни параметри"
+          },
+          "401": {
+            "description": "Неразрешен достъп"
+          },
+          "500": {
+            "description": "Вътрешна грешка"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "AuthInfo": {
+      "title": "AuthInfo",
+      "type": "object",
+      "description": "Параметри за оторизиране",
+      "required": [
+        "otp",
+        "profileId"
+      ],
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "description": "ID на потребителя. Видим от клиента през мобилното приложение",
+          "example": "123-458"
+        },
+        "otp": {
+          "type": "string",
+          "description": "Код за еднократната парола. Видим от клиента през мобилното приложение",
+          "example": 11223344
+        }
+      }
+    },
+    "ClientAuthResponse": {
+      "title": "ClientAuthResponse",
+      "type": "object",
+      "description": "Стандартен отговор за CQES API",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Статус на отговора",
+          "example": "OK"
+        },
+        "message": {
+          "type": "string",
+          "description": "Съобщение на отговора. Съобщението може да бъде локализирано в зависимост от 'Accept-language' хедъра",
+          "example": "Successful operation."
+        },
+        "data": {
+          "$ref": "#/definitions/ClientAuthResponseData"
+        }
+      }
+    },
+    "ClientAuthResponseData": {
+      "title": "ClientAuthResponseData",
+      "type": "object",
+      "properties": {
+        "clientToken": {
+          "type": "string",
+          "description": "Клиентски токен, чрез който доверяващата страна може да изпраща заявки за подписване до конкретен потребител по профил ID.",
+          "example": "560dfaa3sd5asfd6lwhjasf7234adf3"
+        }
+      }
+    },
+    "ClientCertResponse": {
+      "title": "ClientCertResponse",
+      "type": "object",
+      "description": "Стандартен отговор за CQES API",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Статус на отговора",
+          "example": "OK"
+        },
+        "message": {
+          "type": "string",
+          "description": "Съобщение на отговора. Съобщението може да бъде локализирано в зависимост от 'Accept-language' хедъра",
+          "example": "Successful operation."
+        },
+        "data": {
+          "$ref": "#/definitions/ClientCertResponseData"
+        }
+      }
+    },
+    "ClientCertResponseData": {
+      "title": "ClientCertResponseData",
+      "type": "object",
+      "properties": {
+        "encodedCert": {
+          "type": "string",
+          "description": "Kлиентският X509 сертификат в base64 формат",
+          "example": "MTIzNDU2Nzg5MCBjZXJ0aWZpY2F0ZQ=="
+        }
+      }
+    },
+    "Content": {
+      "title": "Content",
+      "type": "object",
+      "description": "Съдържание, което ще бъде подписано от потребителя",
+      "required": [
+        "confirmText",
+        "contentFormat",
+        "data"
+      ],
+      "properties": {
+        "confirmText": {
+          "type": "string",
+          "description": "Управлява дали да се извежда диалоговия прозорец за потвърждаване на подписване на съдържанието и какъв текст да визуализара в него",
+          "example": "Документ за подписване: test.xml"
+        },
+        "contentFormat": {
+          "type": "string",
+          "description": "Типа на съдържанието, което ще бъде подписано",
+          "example": "BINARY_BASE64",
+          "enum": [
+            "DIGEST",
+            "BINARY_BASE64",
+            "TEXT"
+          ]
+        },
+        "data": {
+          "type": "string",
+          "description": "Съдържанието, което ще бъде подписано. Ако типа на документа е BINARY_BASE64 или DIGEST, съдържанието трябва да е BASE64 кодирано. ",
+          "example": "PHRlc3Q+CiAgIDx0aXRsZT7QotC10YHRgtC+0LIg0LTQvtC60YPQvNC10L3Rgjx0aXRsZT4KICA8Y29udGVudD7QotC10YHRgtC+0LLQviDRgdGK0LTRitGA0LbQsNC90LjQtTwvY29udGVudD4KPHRlc3Q+"
+        },
+        "fileName": {
+          "type": "string",
+          "description": "Име на документа, който бива подписван. ",
+          "example": "test.xml"
+        },
+        "padesVisualSignature": {
+          "type": "boolean",
+          "description": "Подписа ще бъде ли видим в подписани PDF файлове",
+          "example": false
+        },
+        "signaturePosition": {
+          "description": "Позиция на подписа",
+          "$ref": "#/definitions/SignaturePositionDTO"
+        },
+        "toBeArchived": {
+          "type": "boolean",
+          "description": "Дали съдържанието да бъде съхранено в дългосрочния архив",
+          "example": false
+        },
+        "hashAlgorithm": {
+          "type": "string",
+          "description": "Алгоритъма на подписване на документа",
+          "example": "SHA256",
+          "enum": [
+            "SHA256",
+            "SHA512"
+          ]
+        },
+        "signatureType": {
+          "type": "string",
+          "description": "Типа на подписа",
+          "example": "XADES_BASELINE_LTA_ENVELOPING",
+          "enum": [
+            "SIGNATURE",
+            "CADES_BASELINE_B_ATACHED",
+            "CADES_BASELINE_T_ATACHED",
+            "CADES_BASELINE_LT_ATACHED",
+            "CADES_BASELINE_LTA_ATACHED",
+            "CADES_BASELINE_LTA_ENVELOPED",
+            "CADES_BASELINE_B_DETACHED",
+            "CADES_BASELINE_T_DETACHED",
+            "CADES_BASELINE_LT_DETACHED",
+            "CADES_BASELINE_LTA_DETACHED",
+            "PADES_BASELINE_B",
+            "PADES_BASELINE_T",
+            "PADES_BASELINE_LT",
+            "PADES_BASELINE_LTA",
+            "XADES_BASELINE_B_ENVELOPED",
+            "XADES_BASELINE_T_ENVELOPED",
+            "XADES_BASELINE_LT_ENVELOPED",
+            "XADES_BASELINE_LTA_ENVELOPED",
+            "XADES_BASELINE_B_ENVELOPING",
+            "XADES_BASELINE_T_ENVELOPING",
+            "XADES_BASELINE_LT_ENVELOPING",
+            "XADES_BASELINE_LTA_ENVELOPING",
+            "XADES_BASELINE_B_DETACHED",
+            "XADES_BASELINE_T_DETACHED",
+            "XADES_BASELINE_LT_DETACHED",
+            "XADES_BASELINE_LTA_DETACHED"
+          ]
+        }
+      }
+    },
+    "Data": {
+      "title": "Data",
+      "type": "object",
+      "properties": {
+        "callbackId": {
+          "type": "string",
+          "description": "ID на заявка за подписване. ID-то се използва за вземане на резултата от подписването чрез операция getSignedContent.",
+          "example": "351f00e7-c0c2-4ffb-967d-2b8220e0806e"
+        },
+        "validity": {
+          "type": "string",
+          "description": "Крайна дата и време на валидност на заявката. ",
+          "format": "date-time",
+          "example": "2019-01-23T23.59.57.000+0000"
+        }
+      }
+    },
+    "GeneralResponse": {
+      "title": "GeneralResponse",
+      "type": "object",
+      "description": "Стандартен отговор за CQES API",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Статус на отговора",
+          "example": "OK"
+        },
+        "message": {
+          "type": "string",
+          "description": "Съобщение на отговора. Съобщението може да бъде локализирано в зависимост от 'Accept-language' хедъра",
+          "example": "Successful operation."
+        }
+      }
+    },
+    "OTCArchiveContent": {
+      "title": "OTCArchiveContent",
+      "type": "object",
+      "properties": {
+        "certReqId": {
+          "type": "string"
+        },
+        "digestTime": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "digestValue": {
+          "type": "string"
+        },
+        "payer": {
+          "type": "string",
+          "enum": [
+            "RELYING_PARTY",
+            "CLIENT"
+          ]
+        },
+        "signature": {
+          "type": "string"
+        },
+        "signedDocument": {
+          "type": "string"
+        },
+        "unsignedDocument": {
+          "$ref": "#/definitions/Content"
+        }
+      }
+    },
+    "OTCArchiveRequest": {
+      "title": "OTCArchiveRequest",
+      "type": "object",
+      "description": "Request for archiving otc sign documents",
+      "properties": {
+        "contentForArchive": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OTCArchiveContent"
+          }
+        }
+      }
+    },
+    "OTCPACSignRequest": {
+      "title": "OTCPACSignRequest",
+      "type": "object",
+      "properties": {
+        "documents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "OTCSignRequest": {
+      "title": "OTCSignRequest",
+      "type": "object",
+      "description": "Заявка за подписване на съдържание",
+      "required": [
+        "incomingNumber",
+        "signRequest"
+      ],
+      "properties": {
+        "agentName": {
+          "type": "string"
+        },
+        "agentNumber": {
+          "type": "string"
+        },
+        "agentPosition": {
+          "type": "string"
+        },
+        "contentForArchive": {
+          "$ref": "#/definitions/OTCArchiveContent"
+        },
+        "incomingCity": {
+          "type": "string"
+        },
+        "incomingDate": {
+          "type": "string"
+        },
+        "incomingNumberNull": {
+          "type": "boolean"
+        },
+        "mediatorName": {
+          "type": "string"
+        },
+        "mediatorNumber": {
+          "type": "string"
+        },
+        "mediatorPosition": {
+          "type": "string"
+        },
+        "signRequest": {
+          "description": "Списък със съдържания за подписване (документ, дайджест или текст)",
+          "$ref": "#/definitions/SignRequest"
+        },
+        "incomingNumber": {
+          "type": "string",
+          "description": "incoming number with prefix 1eXXX or 2eXXX or 3eXXX"
+        }
+      }
+    },
+    "RequestedSequence": {
+      "title": "RequestedSequence",
+      "type": "object",
+      "description": "Наредена заявка за подписване - списък с подписващи",
+      "required": [
+        "certReqId",
+        "sequenceIndex",
+        "timeToSign"
+      ],
+      "properties": {
+        "certReqId": {
+          "type": "string",
+          "description": "Cert req id на кой трябва да подпише"
+        },
+        "sequenceIndex": {
+          "type": "string",
+          "description": "Пореден номер на потребителя който трябва да подпише"
+        },
+        "timeToSign": {
+          "type": "string",
+          "description": "Време в минути, за което трябва да бъде подписано"
+        }
+      }
+    },
+    "SendSignResponse": {
+      "title": "SendSignResponse",
+      "type": "object",
+      "description": "Стандартен отговор за CQES API",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/Data"
+        },
+        "code": {
+          "type": "string",
+          "description": "Статус на отговора",
+          "example": "OK"
+        },
+        "message": {
+          "type": "string",
+          "description": "Съобщение на отговора. Съобщението може да бъде локализирано в зависимост от 'Accept-language' хедъра",
+          "example": "Successful operation."
+        }
+      }
+    },
+    "SendSignResponseViaQr": {
+      "title": "SendSignResponseViaQr",
+      "type": "object",
+      "description": "Стандартен отговор за CQES API",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/SendSignResponseViaQrData"
+        },
+        "code": {
+          "type": "string",
+          "description": "Статус на отговора",
+          "example": "OK"
+        },
+        "message": {
+          "type": "string",
+          "description": "Съобщение на отговора. Съобщението може да бъде локализирано в зависимост от 'Accept-language' хедъра",
+          "example": "Successful operation."
+        }
+      }
+    },
+    "SendSignResponseViaQrData": {
+      "title": "SendSignResponseViaQrData",
+      "type": "object",
+      "properties": {
+        "callbackId": {
+          "type": "string",
+          "description": "ID на заявкаа за подписване. ID-то се използва за вземане на резултата от подписването чрез операция getSignedContent.",
+          "example": "351f00e7-c0c2-4ffb-967d-2b8220e0806e"
+        },
+        "qrImage": {
+          "type": "string",
+          "description": "QR снимка кодирана в Base64 format с размери спрямо подадените в заявката"
+        },
+        "qrPlain": {
+          "type": "string",
+          "description": "QR линк"
+        },
+        "validity": {
+          "type": "string",
+          "description": "Дата и време на валидност на заявката",
+          "format": "date-time"
+        }
+      }
+    },
+    "SignHistoryResponse": {
+      "title": "SignHistoryResponse",
+      "type": "object",
+      "description": "Стандартен отговор за CQES API",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/SignHistoryResponseData"
+        },
+        "code": {
+          "type": "string",
+          "description": "Статус на отговора",
+          "example": "OK"
+        },
+        "message": {
+          "type": "string",
+          "description": "Съобщение на отговора. Съобщението може да бъде локализирано в зависимост от 'Accept-language' хедъра",
+          "example": "Successful operation."
+        }
+      }
+    },
+    "SignHistoryResponseData": {
+      "title": "SignHistoryResponseData",
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "description": "списък на подписано съдържание",
+          "items": {
+            "$ref": "#/definitions/SignedContent"
+          }
+        },
+        "size": {
+          "type": "integer",
+          "description": "брой върнати записи с подписано съдържание",
+          "format": "int32"
+        }
+      }
+    },
+    "SignRequest": {
+      "title": "SignRequest",
+      "type": "object",
+      "description": "Заявка за подписване на съдържание",
+      "required": [
+        "contents"
+      ],
+      "properties": {
+        "contents": {
+          "type": "array",
+          "description": "Списък със съдържания за подписване (документ, дайджест или текст)",
+          "items": {
+            "$ref": "#/definitions/Content"
+          }
+        },
+        "relyingPartyCallbackId": {
+          "type": "string",
+          "description": "ID на заявктата от системата на доверяващата страна. ",
+          "example": 12264785
+        },
+        "payer": {
+          "type": "string",
+          "description": "За сметка на кого, ще бъде таксувана операцията по подписването",
+          "example": "CLIENT",
+          "enum": [
+            "RELYING_PARTY",
+            "CLIENT"
+          ]
+        },
+        "isLogin": {
+          "type": "boolean",
+          "description": "Дали заявката се използва за вход в системата",
+          "example": false
+        },
+        "requestedUserId": {
+          "type": "string",
+          "description": "USER ID на наредител"
+        },
+        "requestedSequences": {
+          "type": "array",
+          "description": "Списък на подписвачите",
+          "items": {
+            "$ref": "#/definitions/RequestedSequence"
+          }
+        }
+      }
+    },
+    "SignRequestViaQr": {
+      "title": "SignRequestViaQr",
+      "type": "object",
+      "required": [
+        "request"
+      ],
+      "properties": {
+        "qrHeight": {
+          "type": "integer",
+          "description": "Височина на картинката на QR кодът, който ще бъде върнат",
+          "format": "int32",
+          "example": 200
+        },
+        "qrWidth": {
+          "type": "integer",
+          "description": "Дължина на картинката на QR кодът, който ще бъде върнат",
+          "format": "int32",
+          "example": 200
+        },
+        "request": {
+          "description": "Параметри за подписване на съдържание",
+          "$ref": "#/definitions/SignRequestWithSingleContent"
+        }
+      }
+    },
+    "SignRequestWithSingleContent": {
+      "title": "SignRequestWithSingleContent",
+      "type": "object",
+      "description": "Заявка за подписване на съдържание",
+      "required": [
+        "content"
+      ],
+      "properties": {
+        "content": {
+          "description": "Съдържание за подписване (файл, дайджест или текст)",
+          "$ref": "#/definitions/Content"
+        },
+        "relyingPartyCallbackId": {
+          "type": "string",
+          "description": "ID на заявктата от системата на доверяващата страна. ",
+          "example": 12264785
+        },
+        "payer": {
+          "type": "string",
+          "description": "За сметка на кого, ще бъде таксувана операцията по подписването",
+          "example": "CLIENT",
+          "enum": [
+            "RELYING_PARTY",
+            "CLIENT"
+          ]
+        },
+        "isLogin": {
+          "type": "boolean",
+          "description": "Дали заявката се използва за вход в системата",
+          "example": false
+        }
+      }
+    },
+    "SignaturePositionDTO": {
+      "title": "SignaturePositionDTO",
+      "type": "object",
+      "properties": {
+        "imageHeight": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "imageWidth": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "imageXAxis": {
+          "type": "number",
+          "format": "float"
+        },
+        "imageYAxis": {
+          "type": "number",
+          "format": "float"
+        },
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "SignatureResponse": {
+      "title": "SignatureResponse",
+      "type": "object",
+      "properties": {
+        "signature": {
+          "type": "string",
+          "description": "Съдържа подписа или референция към подписания документ. \n\r- При тип на подписа SINGATURЕ се връща чистия подпис кодиран в BASE64. \n\r- При останалите типове подписи се връща ID на документа, който може да бъде изтеглен чрез операцията getSignedContent"
+        },
+        "signatureType": {
+          "type": "string",
+          "description": "Типа на подписа, който ще бъде върнат като резултат.",
+          "example": "XADES_BASELINE_LTA_ENVELOPED",
+          "enum": [
+            "SIGNATURE",
+            "CADES_BASELINE_B_ATACHED",
+            "CADES_BASELINE_T_ATACHED",
+            "CADES_BASELINE_LT_ATACHED",
+            "CADES_BASELINE_LTA_ATACHED",
+            "CADES_BASELINE_LTA_ENVELOPED",
+            "CADES_BASELINE_B_DETACHED",
+            "CADES_BASELINE_T_DETACHED",
+            "CADES_BASELINE_LT_DETACHED",
+            "CADES_BASELINE_LTA_DETACHED",
+            "PADES_BASELINE_B",
+            "PADES_BASELINE_T",
+            "PADES_BASELINE_LT",
+            "PADES_BASELINE_LTA",
+            "XADES_BASELINE_B_ENVELOPED",
+            "XADES_BASELINE_T_ENVELOPED",
+            "XADES_BASELINE_LT_ENVELOPED",
+            "XADES_BASELINE_LTA_ENVELOPED",
+            "XADES_BASELINE_B_ENVELOPING",
+            "XADES_BASELINE_T_ENVELOPING",
+            "XADES_BASELINE_LT_ENVELOPING",
+            "XADES_BASELINE_LTA_ENVELOPING",
+            "XADES_BASELINE_B_DETACHED",
+            "XADES_BASELINE_T_DETACHED",
+            "XADES_BASELINE_LT_DETACHED",
+            "XADES_BASELINE_LTA_DETACHED"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "description": "Статуса на подписа, който ще бъде върнат като резултат.",
+          "example": "IN_PROGRESS",
+          "enum": [
+            "ERROR",
+            "IN_PROGRESS",
+            "SIGNED",
+            "RECEIVED",
+            "REJECTED",
+            "ARCHIVED",
+            "REMOVED",
+            "EXPIRED"
+          ]
+        }
+      }
+    },
+    "SignedContent": {
+      "title": "SignedContent",
+      "type": "object",
+      "properties": {
+        "archiveStatusId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "callbackId": {
+          "type": "string"
+        },
+        "certId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "certSerialNumber": {
+          "type": "string"
+        },
+        "contentTypeId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdDate": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "displayedText": {
+          "type": "string"
+        },
+        "fileId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "receivedDate": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "relyingPartyId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "relyingPartyName": {
+          "type": "string"
+        },
+        "rpCallbackId": {
+          "type": "string"
+        },
+        "signType": {
+          "type": "string",
+          "enum": [
+            "SIGNATURE",
+            "CADES_BASELINE_B_ATACHED",
+            "CADES_BASELINE_T_ATACHED",
+            "CADES_BASELINE_LT_ATACHED",
+            "CADES_BASELINE_LTA_ATACHED",
+            "CADES_BASELINE_LTA_ENVELOPED",
+            "CADES_BASELINE_B_DETACHED",
+            "CADES_BASELINE_T_DETACHED",
+            "CADES_BASELINE_LT_DETACHED",
+            "CADES_BASELINE_LTA_DETACHED",
+            "PADES_BASELINE_B",
+            "PADES_BASELINE_T",
+            "PADES_BASELINE_LT",
+            "PADES_BASELINE_LTA",
+            "XADES_BASELINE_B_ENVELOPED",
+            "XADES_BASELINE_T_ENVELOPED",
+            "XADES_BASELINE_LT_ENVELOPED",
+            "XADES_BASELINE_LTA_ENVELOPED",
+            "XADES_BASELINE_B_ENVELOPING",
+            "XADES_BASELINE_T_ENVELOPING",
+            "XADES_BASELINE_LT_ENVELOPING",
+            "XADES_BASELINE_LTA_ENVELOPING",
+            "XADES_BASELINE_B_DETACHED",
+            "XADES_BASELINE_T_DETACHED",
+            "XADES_BASELINE_LT_DETACHED",
+            "XADES_BASELINE_LTA_DETACHED"
+          ]
+        },
+        "signedDate": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ERROR",
+            "IN_PROGRESS",
+            "SIGNED",
+            "RECEIVED",
+            "REJECTED",
+            "ARCHIVED",
+            "REMOVED",
+            "EXPIRED"
+          ]
+        },
+        "toBeArchived": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "usageIdDownloadRequested": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "SignedContentsResponse": {
+      "title": "SignedContentsResponse",
+      "type": "object",
+      "description": "Стандартен отговор за CQES API",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/SignedContentsResponseData"
+        },
+        "code": {
+          "type": "string",
+          "description": "Статус на отговора",
+          "example": "OK"
+        },
+        "message": {
+          "type": "string",
+          "description": "Съобщение на отговора. Съобщението може да бъде локализирано в зависимост от 'Accept-language' хедъра",
+          "example": "Successful operation."
+        }
+      }
+    },
+    "SignedContentsResponseData": {
+      "title": "SignedContentsResponseData",
+      "type": "object",
+      "properties": {
+        "cert": {
+          "type": "string",
+          "description": "Публичния ключ на сертификата, чрез който са подписани файловете в BASE64 Формат. Подава се само при тип на подписа SIGNATURE"
+        },
+        "signatures": {
+          "type": "array",
+          "description": "Списък с подписи и съответните статуси. Подредбата на списъка следва тази на подадените документи.",
+          "items": {
+            "$ref": "#/definitions/SignatureResponse"
+          }
+        }
+      }
+    },
+    "Timestamp": {
+      "title": "Timestamp",
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "day": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hours": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "minutes": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "month": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nanos": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "seconds": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "timezoneOffset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "year": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "otc-controller",
+      "description": "OTC Controller"
+    },
+    {
+      "name": "otcpac-signing-controller",
+      "description": "OTCPAC Signing Controller"
+    },
+    {
+      "name": "signing-controller",
+      "description": "Signing Controller"
+    }
+  ]
+}

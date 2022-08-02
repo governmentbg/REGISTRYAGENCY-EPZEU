@@ -1,0 +1,955 @@
+
+<!-- DOCTYPE -->
+<!DOCTYPE html>
+<html lang="bg">
+    <head>
+        <meta charset="utf-8">
+        <title>ЕПЗЕУ - Агенция по вписванията</title>
+
+        <!-- Viewport Meta Tag -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <base href="../">
+
+        <!-- Fonts -->
+        <link href="css/fonts.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="css/style.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="images/favicon.ico" />
+        <link rel="icon" type="image/ico" href="images/favicon.ico" />
+    </head>
+
+<body>
+
+<div class="layout-wrapper">
+
+    <div id="header-wrapper" class="header-wrapper">
+
+        <header class="header">
+            <div class="row header-container fixed-content-width">
+                <div class="col-auto">
+                    <img class="registryagency-text d-none d-lg-inline-block" src="images/registryagency-text.svg"><img class="registryagency-logo" src="images/registryagency-logo.svg"><div class="divider d-none d-sm-inline-block"></div>
+                </div>
+                <div class="col header-title header-title--register">
+                    <h1>Имотен регистър</h1>
+                    <p>Единен портал за заявяване на електронни административни услуги</p>                    
+                </div>
+            </div>
+
+            <div class="brand-line brand-line--header"></div>
+
+        </header>
+
+        <nav class="navbar-top">
+
+            <div class="fixed-content-width">
+
+                <div class="navbar-top-container">
+                    <ul class="navbar-top-container-left">
+
+                        <li class="navbar-top-menu d-lg-none">
+                            <a class="navbar-top-item" href="javascript:toggleNav();" title="Навигация">
+                                <div class="navbar-top-item-text navbar-top-item-icon navbar-top-item-text--last">
+                                    <i class="ui-icon ui-icon-menu" aria-hidden="true"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="d-none d-lg-block">
+                            <a class="navbar-top-item" href="javascript:toggleSubnav();">
+                                <div class="navbar-top-item-text">
+                                    Регистри
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-top-item" href="#" title="Контакти">
+                                <div class="navbar-top-item-text navbar-top-item-icon">
+                                    <i class="ui-icon ui-icon-contacts-top d-inline-block d-lg-none mr-0" aria-hidden="true"></i><span class="d-none d-lg-inline">Контакти</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-top-item" href="#" title="Помощ">
+                                <div class="navbar-top-item-text navbar-top-item-icon">
+                                    <i class="ui-icon ui-icon-help d-inline-block d-lg-none mr-0" aria-hidden="true"></i><span class="d-none d-lg-inline">Помощ</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a class="navbar-top-item" href="#" role="button" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
+                                <div class="navbar-top-item-text navbar-top-item-icon dropdown-toggle" href="#">
+                                    <i class="ui-icon ui-icon-user-top mr-0 mr-sm-2" aria-hidden="true"></i><span class="navbar-top-text-limited d-none d-sm-inline-block" title="ivan.ivanov@yahoomaildot.com">ivan.ivanov@yahoomaildot.com</span>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <span class="navbar-top-text-limited d-sm-none ml-4 mr-4" title="ivan.ivanov@yahoomaildot.com">ivan.ivanov@yahoomaildot.com</span>
+                                <div class="dropdown-divider d-sm-none"></div>
+                                <a class="dropdown-item" href="#">Моите заявления</a>
+                                <a class="dropdown-item" href="#">Задължения и плащания</a>
+                                <a class="dropdown-item" href="#">Управление на лични сметки</a>
+                                <a class="dropdown-item" href="#">Справка банкови преводи</a>
+                                <a class="dropdown-item" href="#">Форум</a>
+                                <a class="dropdown-item" href="#">Aбонамент за събития в регистри</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Потребителски профил</a>
+                                <a class="dropdown-item" href="#">Средства за автентикация</a>
+                                <a class="dropdown-item" href="#">Смяна на парола</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Изход</a>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <ul class="navbar-top-container-right">
+
+                            <li class="navbar-top-search">
+                                <div class="navbar-top-item">
+                                    <div class="navbar-top-item-text navbar-top-item-icon">
+                                        <input class="form-control" value="" type="text">
+                                        <a href="#" title="Търси"><i class="ui-icon ui-icon-search-top" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="dropdown">
+                                <a class="navbar-top-item" href="#" role="button" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" title="Език">
+                                    <div class="navbar-top-item-text navbar-top-item-icon dropdown-toggle">
+                                        <i class="ui-icon ui-icon-globe-top" aria-hidden="true"></i>bg
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="#">bg - Български</a>
+                                    <a class="dropdown-item" href="#">en - English</a>
+                                </div>
+                            </li>
+
+                            <li class="navbar-top-font-size">
+                                <div class="navbar-top-item">
+                                    <div class="navbar-top-item-text navbar-top-item-icon">
+                                        <a href="javascript:setFontSize(-1);" title="Намали шрифта"><i class="ui-icon ui-icon-font-size-minus" aria-hidden="true"></i></a><a href="javascript:setFontSize();"  title="Нормален шрифт"><i class="ui-icon ui-icon-font-size" aria-hidden="true"></i></a><a href="javascript:setFontSize(1);" title="Увеличи шрифта"><i class="ui-icon ui-icon-font-size-plus" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="navbar-top-subnav collapse">
+                <div class="fixed-content-width">
+
+                    <div class="navbar-top-subnav-container">
+                        <ul>
+                            <li><a class="navbar-top-subnav-item" href="#"><h3 class="navbar-top-subnav-title">Търговски регистър и регистър на ЮЛНЦ</h3></a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Електронни услуги</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Заявления</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Нормативна уредба</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Образци на документи</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Справки</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Видео уроци</a></li>
+							<li><a class="navbar-top-subnav-item" href="#">Статистики</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="navbar-top-subnav-divider"></div>
+
+                    <div class="navbar-top-subnav-container">
+                        <ul>
+                            <li><a class="navbar-top-subnav-item" href="#"><h3 class="navbar-top-subnav-title">Имотен регистър</h3></a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Електронни услуги</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Заявления</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Нормативна уредба</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Образци на документи</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Справки</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Видео уроци</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Калкулатор на държавни такси за услуги</a></li>
+							<li><a class="navbar-top-subnav-item" href="#">Статистики</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="content-wrapper">
+
+        <div class="page-header-wrapper">
+            <div class="breadcrumbs">
+                <div class="fixed-content-width">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Начало</a></li>
+                            <li class="breadcrumb-item"><a href="#">Имотен регистър</a></li>
+                            <li class="breadcrumb-item"><a href="#">Справки</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Преглед на подадените заявления за е-услуги от имотен регистър</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="section-wrapper">
+                <div class="fixed-content-width">
+                    <div class="page-header">
+                        <div class="row">
+                            <div class="col">
+                                <h1 class="page-title">Преглед на подадените заявления за е-услуги от имотен регистър</h1>
+                            </div>
+                            <div class="col-auto d-md-none">
+                                <button id="show_menu" class="button-menu"><i class="ui-icon ui-icon-sub-menu" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="main-wrapper section-wrapper section-wrapper--margins fixed-content-width">
+
+            <div class="nav-wrapper">
+
+                <nav class="page-nav page-nav--without-state page-nav--menu">
+                    <ul class="nav-section">                      
+                        <li>
+                            <a class="nav-item nav-link active" href="#">
+                                <div class="nav-item-title">Преглед на подадените заявления за е-услуги от имотен регистър</div>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+
+            <div class="page-wrapper">
+
+                <div class="section-wrapper">
+
+                    <!-- <h2 class="section-title section-title--form">Справка за подадени до имотен регистър чрез портал на АВ заявления за е-услуги</h2> -->
+
+                    <div class="search-box search-box--report">
+                        <div class="card card--search card--collapsible">
+                            <div class="card-header" data-toggle="collapse" data-target="#collapsable-content" aria-expanded="true">
+                                <h3>Търсене</h3>
+                                <button class="system-button toggle-collapse">
+                                    <i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div id="collapsable-content" class="collapse show">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-auto">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="">Период на приемане на заявлението</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group col-auto">
+                                                    <div class="d-flex">
+                                                        <label class="mr-2 col-form-label">от</label>
+                                                        <div class="input-group date-control">
+                                                            <input class="form-control" value="29.03.2019" type="text">
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-secondary" type="button">
+                                                                    <i class="ui-icon ui-icon-calendar"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-auto">
+                                                    <div class="d-flex">
+                                                        <label class="mr-2 col-form-label">до</label>
+                                                        <div class="input-group date-control">
+                                                            <input class="form-control" value="29.03.2019" type="text">
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-secondary" type="button">
+                                                                    <i class="ui-icon ui-icon-calendar"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>                                        
+                                        <div class="form-group col-12">
+                                            <label for="">Вид заявление</label>
+                                            <div class="auto-complete-container">
+                                                <div class="input-group custom-combobox">
+                                                    <input type="text" class="form-control" value="Всички">
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="custom-combobox-toggle btn btn-secondary">
+                                                            <i class="ui-icon ui-icon-chevron-down-alt"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <ul class="auto-complete-options d-none">
+                                                    <li class="auto-complete-active-option">Всички</li>
+                                                    <li>Заявление за издаване на удостоверение за лице от Имотен регистър</li>
+                                                    <li>Заявление за издаване на удостоверение за имот от Имотен регистър</li>
+                                                    <li>Заявление за издаване на удостоверение за лице / имот за определен период от Имотен регистър</li>
+                                                    <li>Заявление за издаване на заверен препис от акт, вписан в имотен регистър</li>
+                                                    <li>Заявление за издаване на незаверен препис от акт, вписан в имотен регистър</li>
+                                                    <li>Искане за справка чрез отдалечен достъп за документ от Имотен регистър</li>
+                                                    <li>Искане за справка чрез отдалечен достъп за имот от Имотен регистър</li>
+                                                    <li>Искане за справка чрез отдалечен достъп за лице от Имотен регистър за избрана служба по вписвания</li>
+                                                    <li>Искане за справка чрез отдалечен достъп от електронна партида за имот</li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-auto col-xl-6">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="">Период на установяване на статуса</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group col-auto">
+                                                    <div class="d-flex">
+                                                        <label class="mr-2 col-form-label">от</label>
+                                                        <div class="input-group date-control">
+                                                            <input class="form-control" value="" type="text">
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-secondary" type="button">
+                                                                    <i class="ui-icon ui-icon-calendar"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-auto">
+                                                    <div class="d-flex">
+                                                        <label class="mr-2 col-form-label">до</label>
+                                                        <div class="input-group date-control">
+                                                            <input class="form-control" value="" type="text">
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-secondary" type="button">
+                                                                    <i class="ui-icon ui-icon-calendar"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-xl-6">
+                                            <label for="">Статус на заявлението</label>
+                                            <div class="auto-complete-container">
+                                                <div class="input-group custom-combobox">
+                                                    <input type="text" class="form-control" value="Всички">
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="custom-combobox-toggle btn btn-secondary">
+                                                            <i class="ui-icon ui-icon-chevron-down-alt"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <ul class="auto-complete-options d-none">
+                                                    <li class="auto-complete-active-option">Всички</li>
+                                                    <li>Прието</li>
+                                                    <li>Чака регистриране</li>
+                                                    <li>Чака плащане</li>
+                                                    <li>Обработва се</li>
+                                                    <li>Чака регистриране</li>
+                                                    <li>Прекратено</li>
+                                                    <li>Без движение</li>
+                                                    <li>Изпълнено</li>
+                                                    <li>Регистриран</li>
+                                                    <li>Последвало вписване</li>
+                                                    <li>Приключен акт</li>
+                                                    <li>Отказ</li>
+                                                    <li>Отказ с изтекъл срок за обжалване</li>
+                                                    <li>Обжалван отказ</li>
+                                                    <li>Обжалван отказ потвърден от ОС</li>
+                                                    <li>Обжалван отказ с последвало вписване</li>
+                                                    <li>Частичен отказ с последвало вписване</li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">                                    
+                                        <div class="form-group col-sm-6">
+                                            <label for="">№ на заявление</label>
+                                            <input class="form-control" type="text">
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="">Служба по вписванията</label>
+                                            <select class="form-control">
+                                                <option>Всички</option>
+                                                <option>София</option>
+                                            </select>                                     
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="button-bar">
+                                        <div class="left-side">
+                                            <button type="button" class="btn btn-secondary">Изчисти</button>
+                                        </div>
+                                        <div class="right-side">
+                                            <button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;Търси</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="button-bar button-bar--table-actionbar-top">
+                        <div class="left-side">
+                        </div>
+                        <div class="right-side">
+                            <button class="btn btn-outline-light text-dark"><i class="ui-icon ui-icon-download" aria-hidden="true"></i> Експорт в Excel формат</button>               
+                        </div>
+                    </div>
+
+                    <nav class="pagination-container pagination-container--page-top" aria-label="Page navigation">
+                        <div class="result-count">
+                            общо: 56
+                        </div>
+                        <ul class="pagination pagination--page">
+                            <li class="page-item first disabled">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">«</span>
+                                <span class="sr-only">First</span>
+                                </a>
+                            </li>
+                            <li class="page-item prev disabled">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">‹</span>
+                                <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item next">
+                                <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">›</span>
+                                <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                            <li class="page-item last">
+                                <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">»</span>
+                                <span class="sr-only">Last</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <div class="table-responsive-block">
+                        <table class="table table-borderless table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Заявление</th>                                    
+                                    <th>КИН</th>                                    
+                                    <th>Дата на приемане</th>
+                                    <th>Статус</th>
+                                    <th>Регистрационни данни</th>
+                                    <th class="buttons-td"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+
+                                    <td>
+                                        <p class="field-text">
+                                            <b>ИР-20181221-110128</b>
+                                        </p>
+                                        <b><a href="#">Заявление за издаване на удостоверение за лице от ИР</a></b>
+                                    </td>
+                                    <td>
+                                        <span class="field-title field-title--preview d-sm-none">КИН </span>
+                                        <p><a href="" data-toggle="modal" data-target="#myModal_2">120198800005</a></p>
+                                    </td>                                    
+                                    <td>
+                                        <span class="field-title field-title--preview d-sm-none">Дата на приемане </span>
+                                        <p class="field-text">21.12.2018 г. 12:05:00</p>
+                                    </td>
+                                    <td>
+                                        <span class="field-title field-title--preview d-sm-none">Статус </span>
+                                        <p class="field-text">
+                                            <span title="Заявлението изчаква вписване в официален регистър">Чака регистрация</span><br>
+                                            22.12.2018 г. 10:00:00 ч.
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <span class="field-title field-title--preview d-sm-none">Регистрационни данни </span>
+                                        <p class="field-text">
+                                            вх.№ 12345/21.12.2018 г., 22.12.2018 г. 10:00:00 ч., Регистър yдостоверения, СВ София
+                                        </p>
+                                    </td>
+                                    <td class="buttons-td">
+                                        <button class="btn btn-secondary" title="История на статусите" data-toggle="modal" data-target="#myModal_1"><i class="ui-icon ui-icon-history" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p class="field-text"><b>ИР-20181221-110128</b></p>
+                                        <b><a href="#">Заявление за издаване на удостоверение за имот от ИР</a></b>
+                                    </td>
+                                    <td>
+                                        <span class="field-title field-title--preview d-sm-none">КИН </span>
+                                        <p><a href="" data-toggle="modal" data-target="#myModal_2">120198800001</a></p>
+                                    </td>
+                                    <td>
+                                        <span class="field-title field-title--preview d-sm-none">Дата на приемане </span>
+                                        <p class="field-text">21.12.2018 г. 12:05:00</p>
+                                    </td>
+                                    <td>
+                                        <span class="field-title field-title--preview d-sm-none">Статус </span>
+                                        <p class="field-text">
+                                            <span title="-----------">Без движение</span><br>
+                                            22.12.2018 г. 10:00:00 ч. <br>                                            
+                                            <a href="#">Резолюция на съдия по вписване</a>                                            
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <span class="field-title field-title--preview d-sm-none">Регистрационни данни </span>
+                                        <p class="field-text">
+                                            вх.№ 12345/21.12.2018 г., 22.12.2018 г. 10:00:00 ч., Регистър yдостоверения, СВ София
+                                        </p>
+                                    </td>
+                                    <td class="buttons-td">
+                                        <button class="btn btn-secondary" title="История на статусите" data-toggle="modal" data-target="#myModal_1"><i class="ui-icon ui-icon-history" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p class="field-text"><b>ИР-20181221-110128</b></p>
+                                        <b><a href="#">Заявление за издаване на удостоверение за имот от ИР</a></b>
+                                    </td>
+                                    <td>
+                                        <span class="field-title field-title--preview d-sm-none">КИН </span>
+                                        <p><a href="" data-toggle="modal" data-target="#myModal_2">120198300004</a></p>
+                                    </td>
+                                    <td>
+                                        <span class="field-title field-title--preview d-sm-none">Дата на приемане </span>
+                                        <p class="field-text">21.12.2018 г. 12:05:00</p>
+                                    </td>
+                                    <td>
+                                        <span class="field-title field-title--preview d-sm-none">Статус </span>
+                                        <p class="field-text">
+                                            <span title="-----------">Без движение</span><br>
+                                            22.12.2018 г. 10:00:00 ч.<br>
+                                            <a href="#">Резолюция на съдия по вписване</a>                                            
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <span class="field-title field-title--preview d-sm-none">Регистрационни данни </span>
+                                        <p class="field-text">
+                                            вх.№ 12345/21.12.2018 г., 22.12.2018 г. 10:00:00 ч., Регистър yдостоверения, СВ София
+                                        </p>
+                                    </td>
+                                    <td class="buttons-td">
+                                        <button class="btn btn-secondary" title="История на статусите" data-toggle="modal" data-target="#myModal_1"><i class="ui-icon ui-icon-history" aria-hidden="true"></i></button>
+                                    </td>                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <nav class="pagination-container pagination-container--page-bottom" aria-label="Page navigation">
+                        <div class="result-count">
+                            общо: 56
+                        </div>
+                        <ul class="pagination pagination--page">
+                            <li class="page-item first disabled">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">«</span>
+                                <span class="sr-only">First</span>
+                                </a>
+                            </li>
+                            <li class="page-item prev disabled">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">‹</span>
+                                <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item next">
+                                <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">›</span>
+                                <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                            <li class="page-item last">
+                                <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">»</span>
+                                <span class="sr-only">Last</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer-wrapper">
+        <footer class="footer">
+            <div class="brand-line brand-line--footer"></div>
+            <div class="footer-links-container fixed-content-width">
+
+                    <ul>
+                        <li class="footer-link"><a href="#">Тестово подписване</a></li>
+                        <li class="footer-link"><a href="#">Банкови сметки</a></li>
+                        <li class="footer-link"><a href="#">Контакти</a></li>
+                    </ul>
+
+                    <ul>
+                        <li class="footer-link"><a href="#">Условия за ползване</a></li>
+                        <li class="footer-link"><a href="#">Бисквитки</a></li>
+                        <li class="footer-link"><a href="#">Помощ</a></li>
+                    </ul>
+
+                   <ul>
+                        <li class="footer-link"><a href="#">Политика за достъпност</a></li>
+                        <li class="footer-link"><a href="#">Политика за сигурност</a></li>
+                        <li class="footer-link"><a href="#">Политика за защита на личнитe данни</a></li>
+                   </ul>
+
+                    <ul>
+                        <li class="footer-link"><a href="#">Бюлетини</a></li>
+                        <li class="footer-link"><a href="#">Връзки</a></li>
+                        <li class="footer-link"><a href="#">Карта на сайта</a></li>
+                    </ul>
+
+            </div>
+
+            <div class="section-wrapper">
+                <div class="fixed-content-width">
+                    <div class="software-version">Версия: 0.5.0.1</div>
+                    <hr class="footer-divider">
+                </div>
+            </div>
+
+			<div class="row footer-containter fixed-content-width">
+
+					<div class="col-sm-8 order-sm-2">
+						<p class="footer-text">Проектът се осъществява с финансовата подкрепа на Оперативна програма „Добро управление”, съфинансирана от Европейския съюз чрез Европейския социален фонд</p>
+					</div>
+					<div class="col-6 col-sm-2 order-sm-1 text-center text-sm-left">
+						<img class="" src="images/footer-logo-eu.svg">
+					</div>
+					<div class="col-6 col-sm-2 order-sm-3 text-center text-sm-right">
+						<img class="" src="images/footer-logo-opdu.svg">
+					</div>
+
+			</div>
+		</footer>
+    </div>
+
+</div>
+
+
+
+<!-- Modal History -->
+<div id="myModal_1" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">История на статусите</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="field-container">
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label class="field-title field-title--form">№ на заявление</label>
+                            <p class="field-text">ИР-20181221-110128</p>
+                        </div>
+                        <div class="form-group col-12">
+                            <label class="field-title field-title--form">Вид заявление</label>
+                            <p class="field-text">Заявление за издаване на удостоверение за имот от ИР</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive-block">
+                    <table class="table table-borderless table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th width="20%">Дата</th>
+                                <th width="25%">Статус</th>
+                                <th>Документ</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="field-title field-title--preview d-sm-none">Дата</span>
+                                    <p class="field-text">
+                                        11.05.2018 г. 12:10:33
+                                    </p>
+                                </td>
+                                <td>
+                                    <span class="field-title field-title--preview d-sm-none">Статус</span>
+                                    <p class="field-text">
+                                        <span title="Заявлението изчаква вписване в официален регистър">Чака регистрация</span>
+                                    </p>                                        
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="field-title field-title--preview d-sm-none">Дата</span>
+                                    <p class="field-text">
+                                        16.05.2018 г. 15:10:38
+                                    </p>
+                                </td>
+                                <td>
+                                    <span class="field-title field-title--preview d-sm-none">Статус</span>                                    
+                                    <p class="field-text">
+                                        <span title="Без движение">
+                                            Без движение
+                                        </span>
+                                    </p>                                        
+                                </td>
+                                <td>
+                                    <span class="field-title field-title--preview d-sm-none">Документ</span>                                    
+                                    <p class="field-text">
+                                        <a href="#">Резолюция на съдия по вписване</a>
+                                    </p>                                        
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <div class="button-bar">
+                    <div class="left-side">
+                    </div>
+                    <div class="right-side">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Затвори
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal User -->
+<div id="myModal_2" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Потребителски профил</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="field-container">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label class="field-title field-title--form">Дата на създаване / последна промяна </label>
+                            <p class="field-text">22.03.2019 г. 14:01 ч.</p>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="field-title field-title--form">Статус</label>
+                            <p class="field-text">Активен</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-container">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label class="field-title field-title--form">КИН</label>
+                            <p class="field-text">120198800005</p>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="field-title field-title--form">Име</label>
+                            <p class="field-text">Весела Руменова Рангелова</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-container">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label class="field-title field-title--form">Потребителско име</label>
+                            <p class="field-text">v.rangelova</p>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="field-title field-title--form">Aдрес на електронна поща</label>
+                            <p class="field-text">v.rangelova@cnsys.bg</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-container">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label class="field-title field-title--form">Организация и длъжност</label>
+                            <p class="field-text">Софийски съд, Съдия</p>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="field-title field-title--form">Вид потребител със специален достъп</label>
+                            <p class="field-text">Съдия по вписванията</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-container">
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label class="field-title field-title--form">Данни за контакт</label>
+                            <p class="field-text">гр. София, ул. "Лерин" №39, тел.0000004</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-container">
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label class="field-title field-title--form">Права за достъп до функционалности</label>
+                            <p class="field-text">
+                                <ul class="pl-4 m-0">
+                                    <li>Подаване на заявление за вписване на нотариален акт</li>
+                                    <li>Деклариране на предстояща сделка</li>
+                                    <li>Служебен достъп до одитна информация</li>
+                                    <li>Издаване на удостоверение за имот - безплатен достъп</li>
+                                    <li>Издаване на удостоверение за лице - безплатен достъп</li>
+                                    <li>Издаване на удостоверение за период - безплатен достъп</li>
+                                    <li>Издаване на заверен препис - безплатен достъп</li>
+                                    <li>Справка (име на справка) в ИР - безплатен достъп</li>            
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="button-bar">
+                    <div class="left-side">
+                    </div>
+                    <div class="right-side">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Затвори
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+	<!-- jQuery library -->
+	<script src="js/jquery-3.2.1.min.js"></script>
+
+
+	<!-- Latest compiled and minified Bootstrap JavaScript -->
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+
+	<!-- Page Scripst -->
+	<script>
+
+            function modalEdit() {
+                $('#myModal_1').modal('show');
+            }
+
+
+            function activateFieldEditControls () {
+
+                var field = $('.interactive-container').find('.interactive-container__controls').find('.system-button, .btn');
+
+                field.on('mouseover focus', function () {
+                    $(this).closest('.interactive-container').addClass("interactive-container--focus");
+                });
+
+                field.on('mouseout focusout', function () {
+                    $(this).closest('.interactive-container').removeClass("interactive-container--focus");
+                });
+            }
+
+
+        $(document).ready(function () {
+
+            // modalEdit2();
+
+            // Show Page Navigation
+            $('#show_menu').on('click', function () {
+                $(".nav-wrapper").toggleClass("nav-wrapper--show");
+            });
+
+
+            activateFieldEditControls ();
+
+            // Autocomplete Show
+            $('.auto-complete-container .auto-complete-options').addClass("d-none");
+
+            $('.auto-complete-container .custom-combobox-toggle').on('click', function () {
+                $(this).closest('.auto-complete-container').find('.auto-complete-options').toggleClass("d-none");
+            });
+
+            $('.auto-complete-container input').on('focus', function () {
+                $(this).closest('.auto-complete-container').find('.auto-complete-options').removeClass("d-none");
+            });
+
+            $('.auto-complete-container input').on('focusout', function () {
+                $(this).closest('.auto-complete-container').find('.auto-complete-options').addClass("d-none");
+            });
+        });
+
+
+        // Show Navigation
+        function toggleNav() {
+
+            $(".navbar-top-container-right").toggleClass('d-flex');
+            $(".navbar-top-subnav").collapse('toggle');
+
+        };
+
+        function toggleSubnav() {
+            // $(".navbar-top-subnav").toggleClass("navbar-top-subnav--show");
+            $(".navbar-top-subnav").collapse('toggle');
+        };
+
+
+        function setFontSize(arg) {
+            var doc = document.getElementsByTagName ("HTML")[0];
+            switch(arg) {
+                case -1:
+                doc.style.fontSize = "12px";
+                break;
+                case 1:
+                doc.style.fontSize = "20px";
+                break;
+                default:
+                doc.style.fontSize = "16px";
+            }
+
+        }
+
+	</script>
+
+  </body>
+</html>

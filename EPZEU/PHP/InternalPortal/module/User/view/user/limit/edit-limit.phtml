@@ -1,0 +1,47 @@
+<? $this->headTitle('EP_NOM_EDIT_USERS_SERVICES_LIMITS_L') ?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('CONFIG_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page">
+			<a href="<?=$this->url('limit_list', ['lang' => $lang, 'total_count' => false])?>">
+			<?=$this->translate('EP_NOM_SERVICES_LIMITS_L')?>
+			</a>
+		</li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_NOM_EDIT_USERS_SERVICES_LIMITS_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_NOM_EDIT_USERS_SERVICES_LIMITS_L')?></h2>
+</div>
+
+
+<div class="card">
+	<div class="card-body">
+
+		<h2><?=$limitObj->getServiceName()?></h2>
+
+		<div class="row">
+
+			<div class="form-group col-sm-5 col-md-2">
+				<div class="input-group">
+					<input class="form-control" type="text" value="<?=$limitObj->getRequestsInterval()?>">
+					<div class="input-group-append">
+						<button class="btn btn-secondary" type="button">
+							<i class="ui-icon ui-icon-clock"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group col-sm-5 col-md-2">
+				<input class="form-control" name="requestsNumber" type="text" value="<?=$limitObj->getRequestsNumber()?>">
+			</div>
+
+
+		</div>
+
+	</div>
+</div>

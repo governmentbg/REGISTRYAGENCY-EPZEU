@@ -1,0 +1,42 @@
+<? foreach ($newsList as $baseObj) {
+
+	$lang = $this->language()->getCurrentLang();
+	if (!empty($baseObj->getLanguageId()) && !empty($this->language()->getLangById($baseObj->getLanguageId())))
+		$lang = $this->language()->getLangById($baseObj->getLanguageId());
+?>
+
+	<article class="article article--news">
+
+		<? if (!empty($baseObj->getFileName())) {?>
+			<a href="<?=$this->url('preview_news', ['newsId' => $baseObj->getNewsId(), 'lang' => $lang])?>">
+				<img class="rounded article-thumbnail" src="<?=$this->url('load_image', ['newsId' => $baseObj->getNewsId(), 'timestamp' => strtotime($baseObj->getUpdatedOn()), 'imageName' => $baseObj->getFileName()])?>">
+			</a>
+		<? } ?>
+
+		<h3 class="article-title">
+			<a href="<?=$this->url('preview_news', ['newsId' => $baseObj->getNewsId(), 'lang' => $lang])?>"><?=$baseObj->getTitle()?></a>
+		</h3>
+
+		<p>
+			<em>
+				<?=$this->dateFormat(
+					strtotime($baseObj->getNewsDate()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATE
+				);
+				?>
+			</em> <a href="<?=$this->url(($registerList[$baseObj->getRegisterId()] == 'CR' ? 'commercial_register' : 'property_register'), ['lang' => $this->language()->getCurrentLang()])?>">
+				<?=$this->translate('GL_'.$registerList[$baseObj->getRegisterId()].'_REG_NAME_L'.($registerList[$baseObj->getRegisterId()] == 'CR'? '_SHORT_L' : ''))?>
+			</a>
+		</p>
+
+		<p>
+			<?=$baseObj->getShortDescription()?>
+		</p>
+		<a href="<?=$this->url('preview_news', ['newsId' => $baseObj->getNewsId(), 'lang' => $lang])?>" class="read-more"><?=$this->translate('EP_PUBLIC_NEWS_READ_MORE_L')?></a>
+
+	</article>
+
+<? } ?>

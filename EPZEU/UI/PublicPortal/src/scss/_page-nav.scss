@@ -1,0 +1,200 @@
+/* ----  Page-Nav  ---- */
+
+
+$vertical-padding: 0.625rem;
+$horizontal-padding: 0.625rem;
+
+.page-nav--sticky {
+    position: sticky;
+    top: 0;
+    max-height: 100vh;
+    overflow-y: auto;
+
+    @include media-breakpoint-down(sm) {
+        max-height: none;
+        overflow-y: visible;
+        position: static;
+    }
+
+    &:before,
+    &:after {
+        content: '';
+        display: table;
+    }
+}
+
+.page-nav {
+
+    background-color: $white;
+
+    ul {
+        list-style: none;
+		padding:0;
+		margin:0;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+
+    padding-top: $vertical-padding /2;
+    padding-bottom: $vertical-padding /2;
+
+    padding-right: $horizontal-padding;
+    @include media-breakpoint-down(sm) {
+        padding-right: 0;
+    }
+
+    .nav-section {
+
+        margin-top: $vertical-padding /2;
+        margin-bottom: $vertical-padding /2;
+
+    }
+
+    .nav-item {
+        border-radius: $border-radius;
+        // background-color: aqua;
+        display: flex;
+        width: 100%;
+
+        padding-left: $template-container-padding-horizontal;
+        padding-right: $template-container-padding-horizontal;
+
+        padding-top: $template-container-padding-vertical / 2;
+        padding-bottom: $template-container-padding-vertical / 2;
+    }
+        .nav-item-title {
+            flex: 1 1 auto;
+            // flex-wrap: wrap;
+
+            // font-size: 0.875rem; //14px
+            font-size: 0.8438rem;
+            // font-weight: bold;
+            line-height: 1.2;
+
+            // color: $link-color;
+        }
+
+        .nav-section-title {
+            font-size: 1.125rem;
+            line-height: .9;
+            color: $primary;
+            font-weight: bold;
+        }
+
+        .nav-item-state {
+            flex: 0 0 auto;
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.375rem;
+            line-height: .9;
+            .ui-icon {
+                width: 1rem;
+                height: 1rem;
+            }
+        }
+
+        .nav-item-action {
+            flex: 0 0 auto;
+            line-height: .9;
+
+            .btn-sm {
+
+                padding: 0.125rem 0.125rem;
+
+                .ui-icon {
+                    line-height: 1;
+                    font-size: 0.8125rem;
+                    width: 0.875rem;
+                    height: 0.875rem;
+                }
+            }
+        }
+
+        .nav-item-text {
+            font-size: .8125rem;
+            color: $gray-800;
+            font-weight: normal;
+            margin-bottom: $vertical-padding /3;
+        }
+
+
+    .nav-link {
+
+        cursor: pointer;
+
+        // border-top: 1px solid transparent;
+        // border-bottom: 1px solid transparent;
+
+        &:hover, &:focus, &.selected {
+            background-color: $gray-100;
+            // border-top: 1px solid lighten($gray-300,10%);
+            // border-bottom: 1px solid darken($gray-200,3%);
+
+            .nav-item-title {
+                // color: $link-hover-color;
+                // color: $gray-800;
+            }
+
+        }
+
+        &.active {
+            background-color: $gray-200;
+        }
+    }
+
+    hr {
+        margin-top: $vertical-padding;
+        margin-bottom: $vertical-padding;
+        margin-left: $horizontal-padding * 3;
+        margin-right: $horizontal-padding * 3;
+    }
+
+
+
+}
+
+    .page-nav--without-state {
+        .nav-item {
+            padding-left: $horizontal-padding *2;
+            padding-right: $horizontal-padding;
+            @include media-breakpoint-down(sm) {
+                padding-left: $horizontal-padding;
+                padding-right: $horizontal-padding;
+            }
+        }
+
+        hr {
+            margin-left: $horizontal-padding *2;
+            margin-right: $horizontal-padding *2;
+        }
+
+    }
+
+.nav-footer-text {
+    font-size: 0.87em;
+    line-height: 1.2;
+    color: $gray-700;
+    margin: $vertical-padding $horizontal-padding * 1.5;
+}
+
+
+.page-nav--menu {
+    .nav-item {
+        padding-left: $template-container-padding-horizontal * 2.5;
+
+        background-image: url("../images/icons/box-nav-bullet.svg");
+        background-size: 6px 6px;
+	    background-repeat: no-repeat;
+        background-position: $template-container-padding-vertical $template-container-padding-vertical;
+    }
+    hr {
+        margin-left: $horizontal-padding * 2.5;
+        margin-right: $horizontal-padding;
+    }
+}
+
+
+/* ----  /Page-Nav  ---- */

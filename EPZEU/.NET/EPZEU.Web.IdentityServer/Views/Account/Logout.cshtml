@@ -1,0 +1,24 @@
+﻿@model LoggedOutViewModel
+@inject Microsoft.Extensions.Localization.IStringLocalizer Localizer
+
+@{
+    // set this so the layout rendering sees an anonymous user
+    ViewData["signed-out"] = true;
+}
+
+<div class="fixed-content-width">
+    <div class="alert alert-success"><p>@Localizer["GL_SUCCESSFUL_EXIT_I"] <a class="PostLogoutRedirectUri alert-link font-weight-bold" href="@Model.PostLogoutRedirectUri">@Localizer["GL_BACK_HOME_PAGE_I"]</a></p>@{if (!string.IsNullOrEmpty(Model.NotifyUserForWindowCloseText)) { <p>@Model.NotifyUserForWindowCloseText</p> }}</div>
+
+    @if (Model.SignOutIframeUrl != null)
+    {
+        <iframe width="0" height="0" class="d-none" src="@Model.SignOutIframeUrl"></iframe>
+    }
+</div>
+
+@section scripts {
+
+    @if (Model.PostLogoutAutoRedirect)
+    {
+        <script src="~/js/signout-redirect.js"></script>
+    }
+}

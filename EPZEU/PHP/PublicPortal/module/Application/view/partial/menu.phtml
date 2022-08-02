@@ -1,0 +1,183 @@
+<?php
+$routeName = isset($routeName) ? $routeName : '';
+?>
+
+<ul class="navbar-top-container-left">
+	<li class="navbar-top-menu d-lg-none">
+		<a class="navbar-top-item" href="javascript:toggleNav();" title="">
+			<div class="navbar-top-item-text navbar-top-item-icon navbar-top-item-text--last">
+				<i class="ui-icon ui-icon-menu" aria-hidden="true"></i>
+			</div>
+		</a>
+	</li>
+
+	<?
+	$isActive = '';
+		$routeArr = ['commercial_register', 'property_register', 'legislation', 'document_template', 'video_lesson_list', 'statistic'];
+		if (in_array($routeName, $routeArr))
+			$isActive = 'active';
+	?>
+
+	<li class="d-none d-lg-block">
+		<a class="navbar-top-item <?=$isActive?>" href="javascript:toggleSubnav();">
+			<div class="navbar-top-item-text"><?=$this->translate('EP_PUBLIC_REGS_L')?></div>
+		</a>
+	</li>
+
+
+	<li>
+		<a class="navbar-top-item <?=($routeName == 'redefined_page' && isset($params['url']) && $params['url'] == 'contacts')? 'active' : ''?>"  href="<?=$this->url('redefined_page', ['lang' => $currentLang, 'url' => 'contacts'])?>" title="<?=$this->getTitleI18n('contacts')?>">
+			<div class="navbar-top-item-text navbar-top-item-icon">
+				<i class="ui-icon ui-icon-contacts-top d-inline-block d-lg-none mr-0" aria-hidden="true"></i><span class="d-none d-lg-inline"><?=$this->getTitleI18n('contacts')?></span>
+			</div>
+		</a>
+	</li>
+
+	<? if (isset($staticPageList['EP_HELP']) && $urlObj = $staticPageList['EP_HELP']) { ?>
+	<li>
+		<a class="navbar-top-item" onclick="openWebHelp()" href="javascript:;" title="<?=$this->translate($urlObj->labelKey)?>" nav_key="help">
+			<div class="navbar-top-item-text navbar-top-item-icon">
+				<i class="ui-icon ui-icon-help d-inline-block d-lg-none mr-0" aria-hidden="true"></i><span class="d-none d-lg-inline"><?=$this->translate($urlObj->labelKey)?></span>
+			</div>
+		</a>
+	</li>
+	<? } ?>
+	<li class="dropdown position-static show" id="user_data">
+
+	<? if ($routeName == 'integration_container') {
+
+		// контейнер за интеграция на регистри - два панела за логнат и нелогнат потребител с всички възможни линкове ?>
+
+		<a class="navbar-top-item" href="#" role="button" data-boundary="window" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<div class="navbar-top-item-text navbar-top-item-icon dropdown-toggle">
+				<i class="ui-icon ui-icon-user-top mr-0 mr-sm-2" aria-hidden="true"></i>
+				<span class="d-none d-sm-inline" nav_key="unauthenticated"><?=$this->translate('GL_USER_L')?></span>
+				<span class="navbar-top-text-limited d-none d-sm-inline-block" title="" nav_key="user_email" style="display: none;"></span>
+			</div>
+		</a>
+
+		<div class="dropdown-menu" aria-labelledby="dropdownMenuLink" nav_key="unauthenticated">
+			<a href="<?=$this->url('login', ['lang' => $currentLang])?>" class="dropdown-item" nav_key="login"><?=$this->translate('GL_ENTRANCE_L')?></a>
+			<a href="<?=$this->url('register', ['lang' => $currentLang])?>" class="dropdown-item"><?=$this->translate("GL_REGISTRATION_L")?></a>
+			<a href="<?=$this->url('forgot_password', ['lang' => $currentLang])?>" class="dropdown-item"><?=$this->translate("EP_USR_FORG_PASS_L")?></a>
+		</div>
+
+		<div class="dropdown-menu" aria-labelledby="dropdownMenuLink" nav_key="authenticated">
+			<span class="navbar-top-text-limited d-sm-none ml-4 mr-4" title="" nav_key="user_email"></span>
+			<div class="dropdown-divider d-sm-none"></div>
+			<a class="dropdown-item" href="<?=$this->url('application_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_MY_APPLICATIONS_L')?></a>
+			<a class="dropdown-item" href="<?=$this->url('duty_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_PAY_REVIEW_PAY_REQ_L')?></a>
+			<a class="dropdown-item" href="<?=$this->url('personal_account_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_PAY_MANAG_PERS_ACC_L')?></a>
+			<a class="dropdown-item" href="<?=$this->url('payment_order_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_PAY_BAKN_TRANSFERS_L')?></a>
+			<a class="dropdown-item" href="<?=$this->url('topic_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_CMS_FORUM_L')?></a>
+			<a class="dropdown-item" href="<?=$this->url('email_subscription', ['lang' => $currentLang])?>"><?=$this->translate('EP_SUBSCRIPTION_L')?></a>
+
+			<a class="dropdown-item" href="<?=$this->url('united_profile_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_USRM_MERGE_USERS_L')?></a>
+
+			<div class="dropdown-divider" nav_key="public_user"></div>
+			<a class="dropdown-item" href="<?=$this->url('user_profile', ['lang' => $currentLang])?>" nav_key="public_user"><?=$this->translate('EP_USR_ACC_L')?></a>
+			<a class="dropdown-item" href="<?=$this->url('user_auth_list', ['lang' => $currentLang])?>" nav_key="public_user"><?=$this->translate('EP_USR_AUTHENTICATION_MEANS_L')?></a>
+			<a class="dropdown-item" href="<?=$this->url('change_password', ['lang' => $currentLang])?>" nav_key="public_user"><?=$this->translate('EP_USR_00010_L')?></a>
+
+			<div class="dropdown-divider"></div>
+			<a class="dropdown-item" href="<?=$this->url('logout', ['lang' => $currentLang])?>" nav_key="logout"><?=$this->translate('GL_EXIT_L')?></a>
+		</div>
+
+	<? }
+
+	else { // меню за логнат или нелогнат потребител
+
+		$isActive = '';
+		$routeArr = ['topic_list', 'user_profile', 'change_password', 'login', 'register', 'forgot_password'];
+		if (in_array($routeName, $routeArr))
+			$isActive = 'active';
+		?>
+
+		<a class="navbar-top-item <?=$isActive?>" href="#" role="button" data-boundary="window" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<div class="navbar-top-item-text navbar-top-item-icon dropdown-toggle">
+				<? if ($user = $this->identity()) { ?>
+					<i class="ui-icon ui-icon-user-top mr-0 mr-sm-2" aria-hidden="true"></i><span class="navbar-top-text-limited d-none d-sm-inline-block" title="<?=$user->getEmail()?>"><?=$user->getEmail()?></span>
+				<? } else { ?>
+					<i class="ui-icon ui-icon-user-top mr-0 mr-sm-2" aria-hidden="true"></i><span class="d-none d-sm-inline"><?=$this->translate('GL_USER_L')?></span>
+				<? } ?>
+			</div>
+		</a>
+
+		<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+			<? if ($user = $this->identity()) { ?>
+
+				<span class="navbar-top-text-limited d-sm-none ml-4 mr-4" title="<?=$user->getEmail()?>"><?=$user->getEmail()?></span>
+				<div class="dropdown-divider d-sm-none"></div>
+
+				<?php if ($this->isAllowed('application_list')) { ?>
+					<a class="dropdown-item <?=$routeName == 'application_list' ? 'active' : '' ?>" href="<?=$this->url('application_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_MY_APPLICATIONS_L')?></a>
+				<?php }?>
+
+				<?php if ($this->isAllowed('duty_list')) { ?>
+					<a class="dropdown-item <?=$routeName == 'duty_list' ? 'active' : '' ?>" href="<?=$this->url('duty_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_PAY_REVIEW_PAY_REQ_L')?></a>
+				<?php }?>
+
+				<?php if ($this->isAllowed('personal_account_list')) { ?>
+					<a class="dropdown-item <?=$routeName == 'personal_account_list' ? 'active' : '' ?>" href="<?=$this->url('personal_account_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_PAY_MANAG_PERS_ACC_L')?></a>
+				<?php }?>
+
+				<?php if ($this->isAllowed('payment_order_list')) { ?>
+					<a class="dropdown-item <?=$routeName == 'payment_order_list' ? 'active' : '' ?>" href="<?=$this->url('payment_order_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_PAY_BAKN_TRANSFERS_L')?></a>
+				<?php }?>
+
+				<?php if ($this->isAllowed('topic_list')) { ?>
+					<a class="dropdown-item <?=$routeName == 'topic_list' ? 'active' : '' ?>" href="<?=$this->url('topic_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_CMS_FORUM_L')?></a>
+				<?php }?>
+
+				<?php if ($this->isAllowed('email_subscription')) { ?>
+					<a class="dropdown-item <?=$routeName == 'email_subscription' ? 'active' : '' ?>" href="<?=$this->url('email_subscription', ['lang' => $currentLang])?>"><?=$this->translate('EP_SUBSCRIPTION_L')?></a>
+				<?php }?>
+
+
+				<?php if ($this->isAllowed('united_profile_list')) { ?>
+					<a class="dropdown-item <?=$routeName == 'united_profile_list' ? 'active' : '' ?>" href="<?=$this->url('united_profile_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_USRM_MERGE_USERS_L')?></a>
+				<?php }?>
+
+
+				<?php if ($user->getIsPublicUser()) { ?>
+
+					<div class="dropdown-divider"></div>
+
+					<?php if ($this->isAllowed('user_profile')) { ?>
+					<a class="dropdown-item <?=$routeName == 'user_profile' ? 'active' : '' ?>" href="<?=$this->url('user_profile', ['lang' => $currentLang])?>"><?=$this->translate('EP_USR_ACC_L')?></a>
+					<? } ?>
+
+					<?php if ($this->isAllowed('user_auth_list')) { ?>
+					<a class="dropdown-item <?=$routeName == 'user_auth_list' ? 'active' : '' ?>" href="<?=$this->url('user_auth_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_USR_AUTHENTICATION_MEANS_L')?></a>
+					<? } ?>
+
+					<?php if ($this->isAllowed('change_password')) { ?>
+					<a class="dropdown-item <?=$routeName == 'change_password' ? 'active' : '' ?>" href="<?=$this->url('change_password', ['lang' => $currentLang])?>"><?=$this->translate('EP_USR_00010_L')?></a>
+					<? } ?>
+
+				<?php } ?>
+
+				<?php if ($this->isAllowed('logout')) { ?>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="<?=$this->url('logout', ['lang' => $currentLang])?>"><?=$this->translate('GL_EXIT_L')?></a>
+				<? } ?>
+
+			<? } else { ?>
+				<?php if ($this->isAllowed('login')) { ?>
+				<a href="<?=$this->url('login', ['lang' => $currentLang])?>" class="dropdown-item <?=$routeName == 'login' ? 'active' : '' ?>"><?=$this->translate('GL_ENTRANCE_L')?></a>
+				<? } ?>
+
+				<?php if ($this->isAllowed('register')) { ?>
+				<a href="<?=$this->url('register', ['lang' => $currentLang])?>" class="dropdown-item <?=$routeName == 'register' ? 'active' : '' ?>"><?=$this->translate("GL_REGISTRATION_L")?></a>
+				<? } ?>
+
+				<?php if ($this->isAllowed('forgot_password')) { ?>
+				<a href="<?=$this->url('forgot_password', ['lang' => $currentLang])?>" class="dropdown-item <?=$routeName == 'forgot_password' ? 'active' : '' ?>"><?=$this->translate("EP_USR_FORG_PASS_L")?></a>
+				<? } ?>
+			<? } ?>
+		</div>
+	<? } ?>
+
+	</li>
+</ul>

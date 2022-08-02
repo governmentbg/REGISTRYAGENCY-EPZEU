@@ -1,0 +1,57 @@
+<?php
+$this->headTitle('EP_CMS_ADD_BAAN_WORD_L');
+?>
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_FORUM_L')?></li>
+		<li class="breadcrumb-item"><a href="<?=$this->url('forbidden_word_list')?>"><?=$this->translate('EP_CMS_BAAN_WORDS_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_ADD_BAAN_WORD_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_CMS_ADD_BAAN_WORD_L')?></h2>
+</div>
+
+<div class="card">
+
+	<?php
+	$forbiddenWordForm->setAttribute('method', 'post');
+	$forbiddenWordForm->setAttribute('action', $this->url('add_forbidden_word', ['lang' => $params->fromRoute('lang')]));
+	$forbiddenWordForm->setAttribute('id', 'forbidden-word-form');
+	$forbiddenWordForm->prepare();
+
+	echo $this->form()->openTag($forbiddenWordForm);
+	?>
+
+	<div class="card-body">
+
+		<?=$this->partial('partial/messages.phtml')?>
+
+		<div class="row form-group">
+
+			<div class="col-sm-6">
+				<?=$this->formRow($forbiddenWordForm->get('word'))?>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url('forbidden_word_list', ['lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<?=$this->formSubmit($forbiddenWordForm->get('submit'));?>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+
+</div>
+
+<script>
+$(document).on('submit', '#forbidden-word-form', function(){
+	showGlobalLoader();
+});
+</script>

@@ -1,0 +1,46 @@
+/* ----  Footer  ---- */
+
+.footer {	
+	color: $gray-700;
+	background-color: $gray-100;
+    border-top: 1px solid $gray-300;
+}
+
+.footer-containter {
+    display: flex;
+    flex-wrap: nowrap;
+
+	margin-left: 0;
+	margin-right: 0;
+	padding: $template-container-padding-vertical * 2 $template-container-padding-horizontal;		
+	align-items: center;
+}
+
+.footer-logo {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 0 $template-container-padding-horizontal;
+}
+
+.footer-middle {
+    flex: 1 1 auto;
+    width: auto;
+    padding: 0 $template-container-padding-horizontal;
+}
+
+.footer-text {
+	display: block;
+	margin: 0 auto;
+	max-width: 42.5rem;	
+	padding-top: .65rem;
+	padding-bottom: 1.25rem;
+	text-align: center;
+	line-height: 1.15;	
+}
+
+.brand-line--footer {
+	border-top: 1px solid $white;
+}	
+
+
+/* ----  /Footer  ---- */

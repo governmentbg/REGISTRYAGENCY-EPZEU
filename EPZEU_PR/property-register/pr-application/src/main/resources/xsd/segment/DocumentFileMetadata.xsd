@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+    <xsd:complexType name="DocumentFileMetadata">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Метаданни на файла на приложен документ</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="FileName" type="val:FileName" />
+            <xsd:element name="ContentType" type="val:ContentType" />
+            <xsd:element name="Size" type="val:FileSize" />
+            <xsd:element name="HashAlgorithm" type="val:HashAlgorithm" />
+            <xsd:element name="Hash" type="val:FileHash" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

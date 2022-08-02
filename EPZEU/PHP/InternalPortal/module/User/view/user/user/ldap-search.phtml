@@ -1,0 +1,81 @@
+<div class="ldap-body">
+
+	<?php
+	$ldapSearchForm->setAttribute('action', $this->url('ldap_search', ['lang' => $lang]));
+	$ldapSearchForm->prepare();
+
+	echo $this->form()->openTag($ldapSearchForm);
+	?>
+
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="row">
+
+				<div class="col-12">
+					<?=$this->formRow($ldapSearchForm->get('search'))?>
+				</div>
+
+				<div class="col-12">
+					<?=$this->formLabel($ldapSearchForm->get('username'))?>
+				</div>
+				<div class="form-group col">
+					<?=$this->formElement($ldapSearchForm->get('username'));?>
+				</div>
+
+				<div class="form-group col-auto">
+					<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+
+	<? if (!empty($userActiveDirectoryList)){ ?>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<div class="row">
+			<div class="col-sm-12 table-responsive">
+				<table class="table table-bordered table-striped table-hover">
+					<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th><?=$this->translate('EP_USR_USER_ACTIVE_DIRECTORY_L')?></th>
+					</tr>
+					</thead>
+					<tbody id="content">
+						<?=$this->partial('user/user/ldap-search-list-partial.phtml')?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<?php
+		$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+		$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+		?>
+
+		<script type="text/javascript">
+			pagination('.sync-pagination', '#content', <?=$totalPages?>, '.ldap-body');
+		</script>
+	<? }
+
+	else if ($params->fromQuery('search') && empty($userActiveDirectoryList)) { ?>
+		<div class="alert alert-warning" role="alert">
+			<?=$this->translate('EP_USR_00012_I')?>
+		</div>
+	<? } ?>
+</div>

@@ -1,0 +1,590 @@
+
+<!-- DOCTYPE -->
+<!DOCTYPE html>
+<html lang="bg">
+    <head>
+        <meta charset="utf-8">
+        <title>ЕПЗЕУ - Агенция по вписванията</title>
+
+        <!-- Viewport Meta Tag -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <base href="../">
+
+        <!-- Fonts -->
+        <link href="css/fonts.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="css/style.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="images/favicon.ico" />
+        <link rel="icon" type="image/ico" href="images/favicon.ico" />
+    </head>
+
+<body>
+
+<div class="layout-wrapper">
+
+    <div class="header-wrapper">
+
+        <header class="header">
+            <div class="row header-container fixed-content-width">
+                <div class="col-sm-auto">
+                    <img class="registryagency-text d-none d-lg-inline-block" src="images/registryagency-text.svg"><img class="registryagency-logo" src="images/registryagency-logo.svg"><div class="divider d-none d-sm-inline-block"></div>
+                </div>
+                <div class="col-sm header-title header-title--register">
+                    <h1>Търговски регистър и регистър на юридическите лица с нестопанска цел</h1>
+                    <p>Единен портал за заявяване на административни електронни услуги</p>
+                </div>
+            </div>
+
+            <div class="brand-line brand-line--header"></div>
+        </header>
+
+        <nav class="navbar-top">
+
+            <div class="fixed-content-width">
+
+                <div class="navbar-top-container">
+                    <ul class="navbar-top-container-left">
+
+                        <li class="navbar-top-menu d-lg-none">
+                            <a class="navbar-top-item" href="javascript:toggleNav();" title="Навигация">
+                                <div class="navbar-top-item-text navbar-top-item-icon navbar-top-item-text--last">
+                                    <i class="ui-icon ui-icon-menu" aria-hidden="true"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="d-none d-lg-block">
+                            <a class="navbar-top-item" href="javascript:toggleSubnav();">
+                                <div class="navbar-top-item-text">
+                                    Регистри
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-top-item" href="#" title="Контакти">
+                                <div class="navbar-top-item-text navbar-top-item-icon">
+                                    <i class="ui-icon ui-icon-contacts-top d-inline-block d-lg-none mr-0" aria-hidden="true"></i><span class="d-none d-lg-inline">Контакти</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-top-item" href="#" title="Помощ">
+                                <div class="navbar-top-item-text navbar-top-item-icon">
+                                    <i class="ui-icon ui-icon-help d-inline-block d-lg-none mr-0" aria-hidden="true"></i><span class="d-none d-lg-inline">Помощ</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a class="navbar-top-item" href="#" role="button" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false">
+                                <div class="navbar-top-item-text navbar-top-item-icon dropdown-toggle" href="#">
+                                    <i class="ui-icon ui-icon-user-top mr-0 mr-sm-2" aria-hidden="true"></i><span class="navbar-top-text-limited d-none d-sm-inline-block" title="ivan.ivanov@yahoomaildot.com">ivan.ivanov@yahoomaildot.com</span>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <span class="navbar-top-text-limited d-sm-none ml-4 mr-4" title="ivan.ivanov@yahoomaildot.com">ivan.ivanov@yahoomaildot.com</span>
+                                <div class="dropdown-divider d-sm-none"></div>
+                                <a class="dropdown-item" href="#">Моите заявления</a>
+                                <a class="dropdown-item" href="#">Задължения и плащания</a>
+                                <a class="dropdown-item" href="#">Управление на лични сметки</a>
+                                <a class="dropdown-item" href="#">Справка банкови преводи</a>
+                                <a class="dropdown-item" href="#">Форум</a>
+                                <a class="dropdown-item" href="#">Aбонамент за събития в регистри</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Потребителски профил</a>
+                                <a class="dropdown-item" href="#">Средства за автентикация</a>
+                                <a class="dropdown-item" href="#">Смяна на парола</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Изход</a>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <ul class="navbar-top-container-right">
+
+                            <li class="navbar-top-search">
+                                <div class="navbar-top-item">
+                                    <div class="navbar-top-item-text navbar-top-item-icon">
+                                        <input class="form-control" value="" type="text">
+                                        <a href="#" title="Търси"><i class="ui-icon ui-icon-search-top" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="dropdown">
+                                <a class="navbar-top-item" href="#" role="button" data-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" title="Език">
+                                    <div class="navbar-top-item-text navbar-top-item-icon dropdown-toggle">
+                                        <i class="ui-icon ui-icon-globe-top" aria-hidden="true"></i>bg
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="#">bg - Български</a>
+                                    <a class="dropdown-item" href="#">en - English</a>
+                                </div>
+                            </li>
+
+                            <li class="navbar-top-font-size">
+                                <div class="navbar-top-item">
+                                    <div class="navbar-top-item-text navbar-top-item-icon">
+                                        <a href="javascript:setFontSize(-1);" title="Намали шрифта"><i class="ui-icon ui-icon-font-size-minus" aria-hidden="true"></i></a><a href="javascript:setFontSize();"  title="Нормален шрифт"><i class="ui-icon ui-icon-font-size" aria-hidden="true"></i></a><a href="javascript:setFontSize(1);" title="Увеличи шрифта"><i class="ui-icon ui-icon-font-size-plus" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="navbar-top-subnav collapse">
+                <div class="fixed-content-width">
+
+                    <div class="navbar-top-subnav-container">
+                        <ul>
+                            <li><a class="navbar-top-subnav-item" href="#"><h3 class="navbar-top-subnav-title">Търговски регистър и регистър на ЮЛНЦ</h3></a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Електронни услуги</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Заявления</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Нормативна уредба</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Образци на документи</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Справки</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Видео уроци</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Статистики</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="navbar-top-subnav-divider"></div>
+
+                    <div class="navbar-top-subnav-container">
+                        <ul>
+                            <li><a class="navbar-top-subnav-item" href="#"><h3 class="navbar-top-subnav-title">Имотен регистър</h3></a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Електронни услуги</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Заявления</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Нормативна уредба</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Образци на документи</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Справки</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Видео уроци</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Калкулатор на държавни такси за услуги</a></li>
+                            <li><a class="navbar-top-subnav-item" href="#">Статистики</a></li>
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
+        </nav>
+
+    </div>
+
+    <div class="content-wrapper">
+
+        <div class="page-header-wrapper">
+            <div class="section-wrapper">
+                <div class="fixed-content-width">
+                    <div class="page-header">
+                        <div class="row">
+                            <div class="col">
+                                <h1 class="page-title">Искане за издаване на удостоверение за обявяване или копие от обявен акт</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-wrapper section-wrapper section-wrapper--margins fixed-content-width">
+
+            <div class="nav-wrapper">                
+                <nav class="page-nav">
+                    <ul class="nav-section">            
+                        <li>
+                            <a class="nav-item nav-link" href="ui_services/ui_services_7_2_2_Искане за издаване на удостоверение за вписано обстоятелство.html">
+                                <div class="nav-item-state">
+                                    <i class="ui-icon ui-icon-processed"></i>
+                                </div>
+                                <div class="nav-item-title">Актуално към дата</div>
+                                <div class="nav-item-action"></div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-item nav-link active" href="ui_services/ui_services_7_2_3_Искане за издаване на удостоверение за вписано обстоятелство.html">
+                                <div class="nav-item-state">
+                                    
+                                </div>
+                                <div class="nav-item-title">Обстоятелства</div>
+                                <div class="nav-item-action"></div>
+                            </a>                            
+                        </li>
+                        <li>
+                            <a class="nav-item nav-link" href="ui_services/ui_services_7_2_4_Искане за издаване на удостоверение за вписано обстоятелство.html">
+                                <div class="nav-item-state">
+                                    
+                                </div>
+                                <div class="nav-item-title">Адрес на електронна поща</div>
+                                <div class="nav-item-action"></div>
+                            </a>                            
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="page-wrapper">
+
+                <div class="section-wrapper" >
+
+                    <h2 class="section-title section-title--form">Обстоятелства, за които се издава удостоверението</h2>
+                    <div class="field-container">
+                        <div class="row">
+                            <div class="form-group col">
+                                <label class="field-title field-title--form" for="">ЕИК / ПИК</label>
+                                <p class="field-text">204640170</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field-container">
+                        <div class="row">
+                            <div class="form-group col">
+                                <label class="field-title field-title--form" for="">Фирма / Наименование</label>
+                                <p class="field-text">"РОСИ И МАРЧЕЛО" ЕООД</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field-container">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="field-title field-title--form" for="">Вид акт</label>
+                            </div>                            
+                            <div class="form-group col-12">
+                                <input type="text" class="form-control" value="Съобщение за мястото, където списъкът на приетите вземания ще бъде на разположение за проверка, съгласно чл. 64, ал. 2 от Закона за банковата несъстоятелност">
+                            </div>                            
+                        </div>
+                    </div>
+                    <!-- <div class="field-container">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="field-title field-title--form" for="">Вид акт</label>
+                            </div>                            
+                            <div class="form-group col-12">
+                                    <select size="15"  class="form-control" >
+                                        <option value="36">Актуален дружествен договор/учредителен акт/устав</option>
+                                        <option value="1">Актуален учредителен акт</option>
+                                        <option value="2">Годишен финансов отчет</option>
+                                        <option value="61">Декларация по чл.38, ал.9, т.2 от ЗСч</option>
+                                        <option selected="selected" value="29">Договор / план за преобразуване</option>
+                                        <option value="15">Доклад на управителния орган</option>
+                                        <option value="35">Доклад на управителния орган за преобразуването</option>
+                                        <option value="25">Жалба срещу определение на съда за одобряване на сметката за разпределение</option>
+                                        <option value="18">Молба за възстановяване на права</option>
+                                        <option value="21">Определение на съда за одобряване на сметката за разпределение</option>
+                                        <option value="22">Определение на съда за одобряване на списъка на приетите от синдика вземания</option>
+                                        <option value="14">План за преобразуване</option>
+                                        <option value="6">Покана до кредиторите</option>
+                                        <option value="5">Покана за записване на нови акции</option>
+                                        <option value="3">Покана за свикване на общо събрание на акционерите</option>
+                                        <option value="4">Покана за свикване на общо събрание на облигационерите</option>
+                                        <option value="7">Покана за събрание на кредиторите</option>
+                                        <option value="13">Предложение за обратно изкупуване на акциите</option>
+                                        <option value="26">Предложение от миноритарните акционери по чл. 223а, ал. 1 и 2 от Търговския закон</option>
+                                        <option value="9">Предупреждение за изключване на акционер</option>
+                                        <option value="24">Приемане на плана за оздравяване от събранието на кредиторите</option>
+                                        <option value="20">Призовка до кредитор със седалище в чужбина без съдебен адрес в страната</option>
+                                        <option value="27">Решение за едновременно увеличаване и намаляване на капитала по чл. 203 от Търговския закон</option>
+                                        <option value="10">Решение за намаляване на капитала</option>
+                                        <option value="12">Решение за отпадане или ограничаване на предимствата на акционерите</option>
+                                        <option value="11">Решение за увеличаване на капитала</option>
+                                        <option value="16">Списък на приетите вземания и финансовите отчети</option>
+                                        <option value="23">Съобщение за датата на провеждане на събранието на кредиторите за приемане на допуснатия за разглеждане план</option>
+                                        <option value="17">Съобщение за изготвена сметка за разпределение</option>
+                                        <option value="28">Съобщение за мястото, където списъкът на приетите вземания ще бъде на разположение за проверка, съгласно чл. 64, ал. 2 от Закона за банковата несъстоятелност</option>
+                                        <option value="8">Съобщение за сключен облигационен заем</option>
+                                        <option value="19">Друг акт</option>
+                                        <option value="37">Молба за откриване на производство по несъстоятелност</option>
+                                        <option value="38">Вписване на решение на чуждестранен съд относно образувано производство по несъстоятелност в чужбина</option>
+                                        <option value="39">Друг акт несъстоятелност</option>
+                                        <option value="57">Покана за свикване на общо събрание на членовете на ЮЛНЦ</option>
+                                        <option value="58">Решение за учредяване на ЮЛНЦ</option>
+                                        <option value="59">Решенията за промени в обстоятелствата, подлежащи на вписване за ЮЛНЦ</option>
+                                        <option value="60">Годишен доклад за дейността</option>
+                        
+                                    </select>
+                            </div>                            
+                        </div>
+                    </div> -->
+                    <!-- <div class="field-container">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="field-title field-title--form" for="">Вид акт</label>
+                            </div>
+                            <div class="form-group col-12">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA1" value="option1" checked="" type="radio">
+                                    <label class="custom-control-label" for="exampleRadiosA1">Актуален
+                                        дружествен договор/учредителен акт/устав
+                                    </label>
+                                </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA2"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA2">Актуален
+                                        учредителен акт</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA3"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA3">Годишен
+                                        финансов отчет</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA4"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA4">Декларация
+                                        по чл.38, ал.9, т.2 от ЗСч</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA5"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA5">Договор
+                                        / план за преобразуване</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA1a"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA1a">Доклад
+                                        на управителния орган</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA6"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA6">Доклад
+                                        на управителния орган за преобразуването</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA7"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA7">Жалба
+                                        срещу определение на съда за одобряване на сметката за разпределение</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA8"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA8">Молба за
+                                        възстановяване на права</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA9"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA9">Определение
+                                        на съда за одобряване на сметката за разпределение</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA10"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA10">Определение
+                                        на съда за одобряване на списъка на приетите от синдика вземания</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA11"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA11">План за
+                                        преобразуване</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA12"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA12">Покана
+                                        до кредиторите</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA13"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA13">Покана
+                                        за записване на нови акции</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA14"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA14">Покана
+                                        за свикване на общо събрание на акционерите</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA15"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA15">Покана
+                                        за свикване на общо събрание на облигационерите</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA6"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA16">Покана
+                                        за събрание на кредиторите</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA17"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA17">Предложение
+                                        за обратно изкупуване на акциите</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA18"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA18">Предложение
+                                        от миноритарните акционери по чл. 223а, ал. 1 и 2 от Търговския закон</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA19"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA19">Предупреждение
+                                        за изключване на акционер</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA20"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA20">Приемане
+                                        на плана за оздравяване от събранието на кредиторите</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA21"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA21">Призовка
+                                        до кредитор със седалище в чужбина без съдебен адрес в страната</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA22"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA22">Решение
+                                        за едновременно увеличаване и намаляване на капитала по чл. 203 от Търговския закон</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA23"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA23">Решение
+                                        за намаляване на капитала</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA24"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA24">Решение
+                                        за отпадане или ограничаване на предимствата на акционерите</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA25"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA25">Решение
+                                        за увеличаване на капитала</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA26"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA26">Списък
+                                        на приетите вземания и финансовите отчети</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA27"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA27">Съобщение
+                                        за датата на провеждане на събранието на кредиторите за приемане на допуснатия за разглеждане план</label>
+                                </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA28"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA28">Съобщение
+                                        за изготвена сметка за разпределение</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA29"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA29">Съобщение
+                                        за мястото, където списъкът на приетите вземания ще бъде на разположение за проверка, съгласно чл. 64, ал.
+                                        2 от Закона за банковата несъстоятелност</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA30"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA30">Съобщение
+                                        за сключен облигационен заем</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA31"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA31">Друг акт</label>
+                                </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA32"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA32">Молба за
+                                        откриване на производство по несъстоятелност</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA33"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA33">Вписване
+                                        на решение на чуждестранен съд относно образувано производство по несъстоятелност в чужбина</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA34"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA34">Друг акт
+                                        несъстоятелност</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA35"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA35">Покана
+                                        за свикване на общо събрание на членовете на ЮЛНЦ</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA36"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA36">Решение
+                                        за учредяване на ЮЛНЦ</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA37"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA37">Решенията
+                                        за промени в обстоятелствата, подлежащи на вписване за ЮЛНЦ</label> </div>
+                                <div class="custom-control custom-radio"> <input class="custom-control-input" name="exampleRadiosA" id="exampleRadiosA38"
+                                        value="option1" type="radio"> <label class="custom-control-label" for="exampleRadiosA38">Годишен
+                                        доклад за дейността</label> </div>
+                            
+                            
+                            </div>
+                        </div>
+
+
+                    </div>                     -->
+    
+
+                    <div class="button-bar button-bar--form">
+                        <div class="left-side">
+                            <button type="button" class="btn btn-secondary">Откажи</button>
+                        </div>
+                        <div class="right-side">                            
+                            <a class="btn btn-primary" href="ui_services/ui_services_7_2_4_Искане за издаване на удостоверение за вписано обстоятелство.html">Продължи</a>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer-wrapper">
+        <footer class="footer">
+            <div class="brand-line brand-line--footer"></div>
+            <div class="footer-links-container fixed-content-width">
+
+                    <ul>
+                        <li class="footer-link"><a href="#">Тестово подписване</a></li>
+                        <li class="footer-link"><a href="#">Банкови сметки</a></li>
+                        <li class="footer-link"><a href="#">Контакти</a></li>
+                    </ul>
+
+                    <ul>
+                        <li class="footer-link"><a href="#">Условия за ползване</a></li>
+                        <li class="footer-link"><a href="#">Бисквитки</a></li>
+                        <li class="footer-link"><a href="#">Помощ</a></li>
+                    </ul>
+
+                   <ul>
+                        <li class="footer-link"><a href="#">Политика за достъпност</a></li>
+                        <li class="footer-link"><a href="#">Политика за сигурност</a></li>
+                        <li class="footer-link"><a href="#">Политика за защита на личнитe данни</a></li>
+                   </ul>
+
+                    <ul>
+                        <li class="footer-link"><a href="#">Бюлетини</a></li>
+                        <li class="footer-link"><a href="#">Връзки</a></li>
+                        <li class="footer-link"><a href="#">Карта на сайта</a></li>
+                    </ul>
+
+            </div>
+
+            <div class="section-wrapper">
+                <div class="fixed-content-width">
+                    <div class="software-version">Версия: 0.5.0.1</div>
+                    <hr class="footer-divider">
+                </div>
+            </div>
+
+			<div class="row footer-containter fixed-content-width">
+
+					<div class="col-sm-8 order-sm-2">
+						<p class="footer-text">Проектът се осъществява с финансовата подкрепа на Оперативна програма „Добро управление”, съфинансирана от Европейския съюз чрез Европейския социален фонд</p>
+					</div>
+					<div class="col-6 col-sm-2 order-sm-1 text-center text-sm-left">
+						<img class="" src="images/footer-logo-eu.svg">
+					</div>
+					<div class="col-6 col-sm-2 order-sm-3 text-center text-sm-right">
+						<img class="" src="images/footer-logo-opdu.svg">
+					</div>
+
+			</div>
+		</footer>
+    </div>
+
+</div>
+
+
+
+
+
+	<!-- jQuery library -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+
+
+	<!-- Latest compiled and minified Bootstrap JavaScript -->
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+
+	<!-- Page Scripst -->
+	<script>
+
+
+        $(document).ready(function () {
+
+            // Show Page Navigation
+            $('#show_menu').on('click', function () {
+            $(".nav-wrapper").toggleClass("nav-wrapper--show");
+            });
+
+
+            activateFieldEditControls ();
+
+        });
+
+        // function selectField(){
+        //     $('#myModal_1').modal('show');
+        // }
+
+        // Show Navigation
+        function toggleNav() {
+
+            $(".navbar-top-container-right").toggleClass('d-flex');
+            $(".navbar-top-subnav").collapse('toggle');
+
+        };
+
+        function toggleSubnav() {
+            // $(".navbar-top-subnav").toggleClass("navbar-top-subnav--show");
+            $(".navbar-top-subnav").collapse('toggle');
+        };
+
+
+        function setFontSize(arg) {
+            var doc = document.getElementsByTagName ("HTML")[0];
+            switch(arg) {
+                case -1:
+                doc.style.fontSize = "12px";
+                break;
+                case 1:
+                doc.style.fontSize = "20px";
+                break;
+                default:
+                doc.style.fontSize = "16px";
+            }
+
+        }
+
+	</script>
+
+  </body>
+</html>

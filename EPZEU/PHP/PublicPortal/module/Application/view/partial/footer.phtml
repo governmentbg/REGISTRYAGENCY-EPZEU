@@ -1,0 +1,90 @@
+<div class="footer-wrapper">
+	<footer class="footer">
+		<div class="brand-line brand-line--footer"></div>
+		 <div class="footer-links-container fixed-content-width">
+			<ul>
+				<? if (isset($staticPageList['EP_TEST_SIGNATURE']) && $urlObj = $staticPageList['EP_TEST_SIGNATURE']) { ?>
+				<li class="footer-link">
+					<a href="<?=$urlObj->url?>"><?=$this->translate($urlObj->labelKey)?></a>
+				</li>
+				<? } ?>
+
+				<li class="footer-link">
+					<a href="<?=$this->url('bank_accounts', ['lang' => $currentLang])?>"><?=$this->translate('EP_BANK_ACCOUNTS_L')?></a>
+				</li>
+				<li class="footer-link">
+					<a href="<?=$this->url('redefined_page', ['lang' => $currentLang, 'url' => 'contacts'])?>"><?=$this->getTitleI18n('contacts')?></a>
+				</li>
+			</ul>
+
+			<ul>
+				<li class="footer-link">
+					<a href="<?=$this->url('redefined_page', ['lang' => $currentLang, 'url' => 'terms-of-use'])?>">
+						<?=$this->getTitleI18n('terms-of-use')?>
+					</a>
+				</li>
+				<li class="footer-link">
+					<a href="<?=$this->url('redefined_page', ['lang' => $currentLang, 'url' => 'cookies'])?>">
+						<?=$this->getTitleI18n('cookies')?>
+					</a>
+				</li>
+
+				<? if (isset($staticPageList['EP_HELP']) && $urlObj = $staticPageList['EP_HELP']) { ?>
+				<li class="footer-link">
+					<a onclick="openWebHelp()" href="javascript:;" nav_key="help">
+						<?=$this->translate($urlObj->labelKey)?>
+					</a>
+				</li>
+				<? } ?>
+			</ul>
+
+			<ul>
+				<li class="footer-link">
+					<a href="<?=$this->url('redefined_page', ['lang' => $currentLang, 'url' => 'accessibility-policy'])?>">
+						<?=$this->getTitleI18n('accessibility-policy')?>
+					</a>
+				</li>
+				<li class="footer-link">
+					<a href="<?=$this->url('redefined_page', ['lang' => $currentLang, 'url' => 'security-policy'])?>">
+						<?=$this->getTitleI18n('security-policy')?>
+					</a>
+				</li>
+				<li class="footer-link">
+					<a href="<?=$this->url('redefined_page', ['lang' => $currentLang, 'url' => 'privacy-policy'])?>">
+						<?=$this->getTitleI18n('privacy-policy')?>
+					</a>
+				</li>
+			</ul>
+
+			<ul>
+				<li class="footer-link"><a href="<?=$this->url('bulletin_list', ['lang' => $currentLang])?>"><?=$this->translate('EP_CMS_BULLETINS_L')?></a></li>
+				<li class="footer-link">
+					<a href="<?=$this->url('redefined_page', ['lang' => $currentLang, 'url' => 'links'])?>">
+						<?=$this->getTitleI18n('links')?>
+					</a>
+				</li>
+				<li class="footer-link"><a href="<?=$this->url('site_map', ['lang' => $currentLang])?>"><?=$this->translate('EP_SITE_MAPS_L')?></a></li>
+			</ul>
+
+		</div>
+
+		<div class="section-wrapper">
+			<div class="fixed-content-width">
+			<div class="software-version"><?=$this->translate('GL_VERSION_L')?>: <?=$version?></div>
+			<hr class="footer-divider">
+			</div>
+		</div>
+
+		<div class="row footer-containter fixed-content-width">
+			<div class="col-sm-8 order-sm-2">
+				<p class="footer-text"><?=$this->translate('GL_EPZEU_PAGE_FOOTER_L')?></p>
+			</div>
+			<div class="col-6 col-sm-2 order-sm-1 text-center text-sm-left">
+				<img class="" src="<?=$this->basePath($currentLang == 'en' ? 'images/footer-logo-eu-en.svg' : 'images/footer-logo-eu.svg')?>">
+			</div>
+			<div class="col-6 col-sm-2 order-sm-3 text-center text-sm-right">
+				<img class="" src="<?=$this->basePath($currentLang == 'en' ? 'images/footer-logo-opdu-en.svg' : 'images/footer-logo-opdu.svg')?>">
+			</div>
+		</div>
+	</footer>
+</div>

@@ -1,0 +1,61 @@
+<? foreach ($personalAccountList as  $key => $obj) {?>
+
+	<tr class="<?=($key%2==0 ? 'odd-color' : 'even-color')?>">
+		<td class="toggle-collapse">
+			<button class="system-button collapsed personal-account-collapsed" data-id="<?=$obj->getId()?>" data-paymentdate="<?=\Application\Service\AppService::getSqlDate($obj->getPaymentDate())?>" data-toggle="collapse" data-target="#collapsable-content-<?=$obj->getId()?>" aria-expanded="false">
+				<i class="ui-icon ui-icon-chevron-right" aria-hidden="true"></i>
+			</button>
+		</td>
+		<td>
+			<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_PAY_PERS_ACC_L')?></span>
+			<p class="field-text">
+				<a href="" data-toggle="collapse" data-target="#collapsable-content-<?=$obj->getId()?>" aria-expanded="false" class="collapsed personal-account-collapsed">
+					<b><?=$obj->getInvoiceNumber()?></b>
+				</a>
+			</p>
+		</td>
+		<td>
+			<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_DATE_BANK_TRANS_L')?></span>
+			<p class="field-text">
+				<?=$this->dateFormat(
+					strtotime($obj->getPaymentDate()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATETIME
+					);
+				?>
+			</p>
+		</td>
+		<td class="word-break">
+			<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_PAY_METHOD_PAYMENT_L')?></span>
+			<p class="field-text"><?=$this->translate($paymentMethodArr[$obj->getProviderKind()])?></p>
+		</td>
+		<td class="text-right">
+			<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_VALUE_L')?></span>
+			<p class="field-text"><?=number_format($obj->getAmount(), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+		</td>
+	</tr>
+
+	<tr class="collapsible-row">
+		<td colspan="5">
+			<div id="collapsable-content-<?=$obj->getId()?>" class="collapse">
+
+				<div class="personal-account-detail-info personal-account-detail-info-<?=$obj->getId()?>"></div>
+
+			</div>
+		</td>
+	</tr>
+<? } ?>
+
+<script>
+$('.personal-account-collapsed').on('click', function(){
+
+	var paymentId = $(this).closest('tr').find('td.toggle-collapse').find('button.personal-account-collapsed').data("id");
+	var paymentDate = $(this).closest('tr').find('td.toggle-collapse').find('button.personal-account-collapsed').data("paymentdate");
+
+	if ($('.personal-account-detail-info-'+paymentId).is(':empty')) {
+		ajaxRequest(null, {showDetailInfo: true, paymentId:paymentId, paymentDate:paymentDate}, '.personal-account-detail-info-'+paymentId, '.personal-account-detail-info-'+paymentId);
+	}
+});
+</script>

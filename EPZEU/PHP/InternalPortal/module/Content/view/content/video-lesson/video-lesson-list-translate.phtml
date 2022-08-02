@@ -1,0 +1,114 @@
+<?php
+$this->headTitle('EP_CMS_TRANSLATE_VIDEO_PAGES_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_TRANSLATION_TRANSLATIONS_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_TRANSLATE_VIDEO_PAGES_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_CMS_TRANSLATE_VIDEO_PAGES_L')?></h2>
+</div>
+
+<?=$this->partial('partial\language-drop-down.phtml')?>
+
+<div class="card">
+
+	<div class="card-header">
+		<h3><?=$this->translate('GL_SEARCHING_L')?>
+			<button class="system-button toggle-collapse" data-toggle="collapse" data-target="#collapsable-content">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+		</h3>
+	</div>
+
+	<div id="collapsable-content" class="collapse show">
+		<?
+		$searchForm->setAttribute('action', $this->url('video_lesson_list_translate', ['lang' => $params->fromRoute('lang')]));
+		$searchForm->prepare();
+
+		echo $this->form()->openTag($searchForm);
+		?>
+
+
+		<div class="card-body">
+			<div class="row">
+				<div class="col-xl-6">
+					<div class="row">
+						<div class="form-group col-sm-6 col-xl-3">
+							<?=$this->formRow($searchForm->get('registerSelectId'))?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card-footer">
+			<div class="button-bar">
+				<a href="<?=$this->url(null, ['lang' => $lang])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+				<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+			</div>
+		</div>
+		<?=$this->form()->closeTag();?>
+	</div>
+</div>
+
+
+
+<div class="card">
+
+	<div class="card-body">
+
+	<?=$this->partial('partial/messages.phtml')?>
+
+	<?php if ($videoLessonList->count()) { ?>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+			<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+			<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<thead>
+				<tr>
+					<th><?=$this->translate('GL_REGISTER_L')?></th>
+					<th><?=$this->translate('EP_CMS_HEADER_L')?></th>
+					<th><?=$this->translate('EP_CMS_HEADER_L')?><span class="label-description"> (<?=$this->language()->getLanguagesName()?>)</span></th>
+					<? if ($this->isAllowed('video_lesson_translate') || $this->isAllowed('preview_video_lesson')) {?>
+						<th><?=$this->translate('GL_ACTIONS_L')?></th>
+					<? } ?>
+				</tr>
+				</thead>
+				<tbody id="content">
+					<?=$this->partial('content/video-lesson/video-lesson-list-translate-partial.phtml')?>
+				</tbody>
+			</table>
+		</div>
+
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+			<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+			<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<?php
+			$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+			$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+		?>
+
+		<script type="text/javascript">
+			pagination('.sync-pagination', '#content', <?=$totalPages?>);
+		</script>
+
+	<?php } ?>
+	</div>
+</div>

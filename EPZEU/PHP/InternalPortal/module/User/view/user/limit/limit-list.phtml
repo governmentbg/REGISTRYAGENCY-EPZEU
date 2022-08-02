@@ -1,0 +1,204 @@
+<? if ($type != 'selectLimitService') { ?>
+
+<? $this->headTitle('EP_NOM_SERVICES_LIMITS_L') ?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_NOM_LIMITS_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_NOM_SERVICES_LIMITS_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_NOM_SERVICES_LIMITS_L')?></h2>
+</div>
+
+<? } ?>
+
+<div class="card">
+	<div class="card-header">
+		<h3><?=$this->translate('GL_SEARCHING_L')?>
+			<button class="system-button toggle-collapse" data-toggle="collapse" data-target="#collapsable-content">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+		</h3>
+	</div>
+
+	<div id="collapsable-content" class="collapse show">
+
+		<?php
+		$searchForm->setAttribute('action', $this->url(null, ['lang' => $lang]));
+		$searchForm->prepare();
+
+		echo $this->form()->openTag($searchForm);
+		?>
+
+		<div class="card-body">
+
+			<div class="row">
+				<div class="form-group col-sm-12 col-md-6 col-xl-4">
+				<?=$this->formRow($searchForm->get('moduleId'))?>
+				</div>
+
+				<div class="form-group col-sm-12 col-md-6 col-xl-4">
+				<?=$this->formRow($searchForm->get('serviceName'))?>
+				</div>
+
+				<div class="form-group col-sm-12 col-md-6 col-xl-4">
+				<?=$this->formRow($searchForm->get('status'))?>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="card-footer">
+			<div class="button-bar">
+				<a href="<?=$this->url(null, ['lang' => $lang])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+				<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+			</div>
+		</div>
+
+		<?=$this->form()->closeTag();?>
+	</div>
+</div>
+
+<div class="card">
+	<div class="card-body">
+
+		<div class="row">
+			<div class="col">
+			<?=$this->partial('partial/messages.phtml')?>
+			</div>
+		</div>
+
+		<? if (!empty($this->params->fromQuery()) || $limitList->count()) { ?>
+
+			<?php if ($limitList->count()) { ?>
+			<nav class="button-bar" aria-label="Page navigation">
+				<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+				</div>
+			</nav>
+
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped table-hover">
+					<thead>
+					<tr>
+						<? if ($type == 'selectLimitService') { ?>
+							<td></td>
+						<? } ?>
+						<th><?=$this->translate('EP_NOM_PORTAL_IS_L')?></th>
+						<th><?=$this->translate('EP_NOM_SERVICE_DATA_L')?></th>
+						<th><?=$this->translate('GL_PERIOD_L')?></th>
+						<th><?=$this->translate('EP_NOM_MAX_REQUESTS_L')?></th>
+						<th><?=$this->translate('GL_CONDITION_L')?></th>
+
+						<? if ($type != 'selectLimitService' && $this->isAllowed('edit_limit')) { ?>
+							<th><?=$this->translate('GL_ACTIONS_L')?></th>
+						<? } ?>
+					</tr>
+					</thead>
+					<tbody id="content">
+						<?=$this->partial('user/limit/limit-list-partial.phtml')?>
+					</tbody>
+				</table>
+			</div>
+
+			<nav class="button-bar" aria-label="Page navigation">
+				<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+				</div>
+			</nav>
+
+			<?php
+				$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+				$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+			?>
+
+			<script type="text/javascript">
+				pagination('.sync-pagination', '#content', <?=$totalPages?>);
+			</script>
+
+			<?php } else { ?>
+				<div class="alert alert-warning" role="alert">
+					<?=$this->translate('EP_NOM_NO_SERVICES_LIMIT_I');?>
+				</div>
+			<?php }
+
+		} ?>
+
+	</div>
+</div>
+
+<?=$this->partial('partial\modal-confirm.phtml',['modalId' => 'changeStatus'])?>
+
+<script>
+
+var oldValueInterval = '';
+var oldValueRequestsNumber = '';
+
+function editLimit(serviceLimitId) {
+	$('.preview-'+serviceLimitId).hide();
+	$('.edit-'+serviceLimitId).removeClass('d-none');
+
+	var days  = $('.edit-request-interval-'+serviceLimitId +' input[name="days"]').val();
+	var hours  = $('.edit-request-interval-'+serviceLimitId +' input[name="hours"]').val();
+	var minutes  = $('.edit-request-interval-'+serviceLimitId +' input[name="minutes"]').val();
+	var seconds  = $('.edit-request-interval-'+serviceLimitId +' input[name="seconds"]').val();
+	var milliseconds  = $('.edit-request-interval-'+serviceLimitId +' input[name="milliseconds"]').val();
+	var requestsNumber = $('.edit-request-number-'+serviceLimitId +' input[name="requestNumber"]').val();
+
+	var dayLabel = days == 1 ? "<?=$this->translate('GL_DAY_L')?>" : "<?=$this->translate('GL_DAYS_L')?>";
+
+	if (oldValueInterval == '')
+		oldValueInterval = (parseInt(days) ? days+' '+ dayLabel + ' ' : '') + pad(hours, 2)+':'+pad(minutes, 2)+':'+pad(seconds, 2)+'.' + milliseconds;
+
+	if (oldValueRequestsNumber == '')
+		oldValueRequestsNumber = $('.edit-request-number-'+serviceLimitId +' input[name="requestNumber"]').val();
+
+}
+
+/**
+ * Отказ на редакция на лимит
+ */
+function cancelEditLimit(serviceLimitId) {
+	$("#edit-row-"+serviceLimitId+" .invalid-feedback").remove();
+	$('.edit-'+serviceLimitId).addClass('d-none');
+	$('.preview-'+serviceLimitId).show();
+
+	$('.edit-request-interval-'+serviceLimitId+' .preview-'+serviceLimitId+' .request-interval').html(oldValueInterval);
+	$('.edit-request-number-'+serviceLimitId+' .preview-'+serviceLimitId+' .request-number').html(oldValueRequestsNumber);
+}
+
+/**
+ * Запис на промяна на лимит
+ */
+function saveLimitChanges(serviceLimitId) {
+
+	$("#edit-row-"+serviceLimitId+" .invalid-feedback").remove();
+
+	var days  = $('.edit-request-interval-'+serviceLimitId +' input[name="days"]').val();
+	var hours  = $('.edit-request-interval-'+serviceLimitId +' input[name="hours"]').val();
+	var minutes  = $('.edit-request-interval-'+serviceLimitId +' input[name="minutes"]').val();
+	var seconds  = $('.edit-request-interval-'+serviceLimitId +' input[name="seconds"]').val();
+	var milliseconds  = $('.edit-request-interval-'+serviceLimitId +' input[name="milliseconds"]').val();
+	var requestsNumber = $('.edit-request-number-'+serviceLimitId +' input[name="requestNumber"]').val();
+
+	ajaxRequest('', {'updateLimit': 1, 'id':serviceLimitId, 'requestInterval': {'days':days, 'hours':hours, 'minutes':minutes, 'seconds':seconds, 'milliseconds':milliseconds}, 'requestsNumber':requestsNumber}, '#edit-request-number-'+serviceLimitId, '#edit-row-'+serviceLimitId);
+
+	var dayLabel = days == 1 ? "<?=mb_strtolower($this->translate('GL_DAY_L'))?>" : "<?=mb_strtolower($this->translate('GL_DAYS_L'))?>";
+
+	var requestsIntervalSting = (parseInt(days) ? days+' '+ dayLabel + ' ' : '') + pad(hours, 2)+':'+pad(minutes, 2)+':'+pad(seconds, 2)+'.' + milliseconds;
+
+	$('.edit-request-interval-'+serviceLimitId+' .preview-'+serviceLimitId+' .request-interval').html(requestsIntervalSting);
+
+	if (requestsNumber)
+		$('.edit-request-number-'+serviceLimitId+' .preview-'+serviceLimitId+' .request-number').html(requestsNumber);
+
+	$('.edit-'+serviceLimitId).addClass('d-none');
+	$('.preview-'+serviceLimitId).show();
+}
+</script>

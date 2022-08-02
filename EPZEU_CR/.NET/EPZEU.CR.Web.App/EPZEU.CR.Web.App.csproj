@@ -1,0 +1,1093 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+    <PackageReference Include="CNSys.Rebus.Oracle" Version="1.2.6" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Include="LZStringCSharp" Version="1.3.0.26157" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="RA.Payments.Core" Version="2.3.3">
+      <CopyToOutputDirectory>lib\netcoreapp3.1\*</CopyToOutputDirectory>
+    </PackageReference>
+    <PackageReference Include="Rebus.Microsoft.Extensions.Logging" Version="1.0.1" />
+    <PackageReference Include="Rebus.ServiceProvider" Version="4.0.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.1.3" />
+    <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.1" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="3.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+    <PackageReference Include="StructureMap" Version="4.7.1" />
+    <PackageReference Include="StructureMap.Microsoft.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="RA.CR.Integration.EPZEU.Core" Version="1.0.108">
+      <CopyToOutputDirectory>lib\netstandard2.0\*</CopyToOutputDirectory>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
+    <Compile Remove="ClientApp\EPZEU.CR.Domain.Applications.E\**" />
+    <Compile Remove="ClientApp\EPZEU.CR.Domain.Applications.J\**" />
+    <Content Remove="ClientApp\**" />
+	<Content Update="tsconfig.json" CopyToPublishDirectory="Never" />
+    <EmbeddedResource Remove="ClientApp\EPZEU.CR.Domain.Applications.E\**" />
+    <EmbeddedResource Remove="ClientApp\EPZEU.CR.Domain.Applications.J\**" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.E\**" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.J\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="package-lock.json" />
+    <Content Remove="package.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\Cnsys.Core\Common\ErrorBoundary.ts" />
+    <None Remove="ClientApp\Cnsys.UI.React\PropsRoute.tsx" />
+    <None Remove="ClientApp\Cnsys.UI.React\TreeViewer\Index.ts" />
+    <None Remove="ClientApp\Cnsys.UI.React\TreeViewer\TreeNode.ts" />
+    <None Remove="ClientApp\Cnsys.UI.React\TreeViewer\TreeNodeUI.tsx" />
+    <None Remove="ClientApp\Cnsys.UI.React\TreeViewer\TreeViewModes.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\ActsCache.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\ApplicationTypesCache.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\CMS.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\CountriesCache.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\DocumentTemplatesCache.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\DocumentTypeApplicationDocumentTypeCache.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\EkatteAreasCache.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\EkatteDistrictsCache.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\EkatteMunicipalitiesCache.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\EkatteSettlementsCache.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\Index.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\Nomenclatures.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\PageCache.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Cache\ServicesCache.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Common\ApplicationConfig.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Common\Breadcrumb.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Common\Constants.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Common\DataServiceContext.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Common\EPZEULogAppender.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Common\EPZEUValidationHelper.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Common\Index.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Common\ModuleManager.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Common\ResourceManager.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Models\Act.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Models\BtrustUserInputRequest.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Models\DocumentTemplate.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Models\ForeignCommercialRegister.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Models\ForeignLegalForm.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Models\Index.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Models\LegalForm.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Models\Obligation.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Models\Signer.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Models\SigningProcess.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Models\Validators\EPZEUBaseValidator.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Models\Validators\Index.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Services\CMSDataService.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Services\EPZEUAuthenticationService.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Services\Index.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Services\NomenclaturesDataService.ts" />
+    <None Remove="ClientApp\EPZEU.Core\Services\SigningProcessesDataService.ts" />
+    <None Remove="ClientApp\EPZEU.Core\UI\BreadcrumbUI.tsx" />
+    <None Remove="ClientApp\EPZEU.Core\UI\CommonFields\Index.ts" />
+    <None Remove="ClientApp\EPZEU.Core\UI\CommonFields\Period.tsx" />
+    <None Remove="ClientApp\EPZEU.Core\UI\CommonFields\TextArea.tsx" />
+    <None Remove="ClientApp\EPZEU.Core\UI\EPZEUPagination.tsx" />
+    <None Remove="ClientApp\EPZEU.Core\UI\SigningProcessUI.tsx" />
+    <None Remove="ClientApp\EPZEU.Core\UI\TestSignUI.tsx" />
+    <None Remove="ClientApp\EPZEU.Core\UI\withSimpleErrorLabel.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\ApplicationProcessContext.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\ApplicationProcessPreviewContext.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\Domain\ApplicationFormBaseManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\Domain\ApplicationInfoFormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\Models\Validators\RequestForCorrectionForScanningValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\Services\ApplicationProcessDataService.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\Services\CommunicationsDataService.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\UI\AcceptedUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\UI\DocumentsUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\UI\EditUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\UI\ErrorUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\UI\LayoutUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\UI\MenuUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\UI\PreregistrationUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\UI\PreviewUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\UI\ProcessedUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\UI\SendingUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\UI\SignUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Core\Cache\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Core\Constants.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Core\Models\DeedSummary.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Core\Models\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\Domain\ApplicationInfoProvider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\Domain\ApplicationProvider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\Domain\ApplicationProviderFactory.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\Domain\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\Domain\Models\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\Domain\UI\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\ModuleBootstrapper.ts" />
+    <None Remove="ClientApp\EPZEU.CR.ApplicationProcesses\UI\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Core\Models\UnassignedAssignmentSearchCriteria.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Core\Models\Validation\index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Core\Models\Validation\UnassignedAssignmentSearchCriteriaValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Core\Services\DocumentsDataService.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Core\Services\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Core\UI\AppInfoStatusUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Core\UI\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Common\A12FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Common\A12Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F012a_BoardOfManagers3Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F012b_AdministrativeBoardValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F012v_AdministrativeBoardSupportersValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F013b_LeadingBoardValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F013v_BoardOfManagersSupporters2Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F014b_SupervisingBoard2Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F014v_SupervisingBoardSupportersValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F024a_HiddenNonMonetaryDepositValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F027a_AddemptionOfTraderSeatChangeValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F070a_WayOfEstablishingEuropeanCooperativeSocietyValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F070_WayOfEstablishingEuropeanCompanyValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F071_SeatChangeValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\ApplicationFormBBaseManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B1FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B1Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B2FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B2Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B3FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B3Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B4FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B4Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B5FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B5Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B6FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B6Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B7FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B7Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Common\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\ApplicationFormBValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\B1Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\B2Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\B4Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\B5Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\B6Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\B7Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F051a_BranchFirmValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F051b_BranchIdentifierValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F052a_MainActivityNKIDValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F052_BranchSubjectOfActivityValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F0530_BranchManagerValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F053_BranchManagersValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F054_VolumeOfRepresentationPowerValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F055_BranchClosureValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\ModuleBootstrapper.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\ModuleContext.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B1UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B2UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B3UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B4UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B5UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B6UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B7StartUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B7UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F051a_BranchFirmUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F051b_BranchIdentifierUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F051_BranchSeatUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F052a_MainActivityNKIDUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F052_BranchSubjectOfActivityUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F053_BranchManagersUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F054_VolumeOfRepresentationPowerUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F055_BranchClosureUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F200_PledgeDDIdentifierUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F201_PledgorsUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F203_SecuredClaimDebtorsUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F205_PledgeCreditorsUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F207_SecuredClaimReasonUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F208_SecuredClaimSubjectUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F209_SecuredClaimAmountUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F210_SecuredClaimInterestsUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F223a_EntryIntoPledgeCreditorRightsUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F324a_EntryIntoPledgeCreditorRight2UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\Common\ApplicationFormGBaseManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\Common\G1FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\Common\G1Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\Common\G2FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\Common\G2Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\Common\G3FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\Common\G3Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\Common\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\Models\ApplicationForms\Validators\ApplicationFormGValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\Models\ApplicationForms\Validators\G1Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\Models\ApplicationForms\Validators\G2Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\Models\ApplicationForms\Validators\G3Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\Models\Fields\Validators\F10019A0_StatementAValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\ModuleBootstrapper.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\ModuleContext.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\UI\Applicaitons\G1UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\UI\Applicaitons\G2UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\UI\Applicaitons\G3UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\UI\Fields\ActsMultiCompaniesUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.G\UI\Fields\F1001_DescriptionOfDeclaredStatementUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V23FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V23Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V24FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V24Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V25FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V25Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V26FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V26Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V31FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V31Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V32FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V32Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V33FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V33Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V21FieldsValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V22FieldsValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V23Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V24FieldsValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V24Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V25Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V26FieldsValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V26Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V31FieldsValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V31Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V32FieldsValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V32Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V33FieldsValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V33Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F7020a_TransformingCompanyValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F702a_TransformingCompaniesValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F8020a_ReorganizeCoOperativeValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F8020_ReorganizeCoOperativeValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F802_ReorganizeCoOperativesValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F8030_SuccessorValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F803_SuccessorsValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F8040_ReorgBranchesValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F804_ReorgBranchesValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V23UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V24UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V25UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V26UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V31UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V32UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V33UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F702a_TransformingCompanyUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F702b_TransformingNPOsUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F705_StoppingEntryUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F706_NumberApplicationUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F801a_FormOfTransformingUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F801_FormOfTransformingUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F802a_ReorganizeCoOperativesUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F802_ReorganizeCoOperativesUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F803_SuccessorsUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\ActOfContestationFormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\ActOfContestationProvider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\AppealRefusalFormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\AppealRefusalProvider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\AppointingDemandDocumentsFormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\AppointingDemandDocumentsProvider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\AppointingDemandFormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\AppointingDemandProvider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\D1FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\D1Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\E1FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\E1Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\IncomingRequestForCorrectionFormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\IncomingRequestForCorrectionProvider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\J1FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\J1Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\RequestForCertificateFormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\RequestForCertificateForReservedCompanyFormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\RequestForCertificateForReservedCompanyProvider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Common\RequestForCertificateProvider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\ActOfContestationValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\AppealRefusalSearchCriteriaValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\AppealRefusalValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\AppointingDemandDocumentsValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\AppointingDemandValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\ConformityWithLawReasonValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\ContestationActValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\IncomingNumberValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\IncomingRequestForCorrectionSearchCriteriaValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\IncomingRequestForCorrectionValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\RefusalValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\RequestForCertificateSearchValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\RequestForCorrectionValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\ModuleBootstrapper.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\ModuleContext.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\UI\ActOfContestationUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\UI\AppealRefusalUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\UI\Applications\D1UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\UI\Applications\E1UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\UI\Applications\J1UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\UI\AppointingDemandDocumentsStartUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\UI\AppointingDemandUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\UI\Fields\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\UI\IncomingRequestForCorrectionUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V1FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V1Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V21FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V21Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V22FormManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V22Provider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\ModelsTemplate.tst" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\ApplicationFormVValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V1Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V21Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V22Validator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F6020_AcquisitionEnterpriseValidator .ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F602_AcquisitionEnterprisesValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F701_FormOfTransformingValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F7020_TransformingCompanyValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F702_TransformingCompaniesValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F7030_SuccessorValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F703_SuccessorsValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F704_BranchesValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F704_BranchSubjectValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\ModuleBootstrapper.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\ModuleContext.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V1UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V21UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V22UI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F600_TransferringTypeOfTradeEnterpriseUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F601_TransferringEnterpriseUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F602_AcquisitionEnterprisesUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F701_FormOfTransformingUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F702_TransformingCompanyUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F703_SuccessorUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F704_BranchSubjectUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\UI\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\UI\RequestForCertificateForReservedCompanyUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\UI\RequestForCertificateStartUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain.Applications\UI\RequestForCertificateUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\ApplicantCapacityHelper.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\ApplicationFormTypesHelper.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\DomainModelHepler.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\FormManagers\ApplicationWithFieldsFormBaseManager.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\FormManagers\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\IApplicationProcessContext.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\ApplicationDocument.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\BulstatSummary.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\OutgoingNumber.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\Person.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\SubDeedSummary.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\Validators\AddressValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\Validators\ApplicantCapacityValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\Validators\ApplicantInfoValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\Validators\ApplicantValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\Validators\ApplicationFormBaseValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\Validators\EntityIdentificationValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\Validators\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\Validators\PersonManagerValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\Validators\UICValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Models\Validators\ValidatorHelpers.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Providers\ApplicantExchangeProvider.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Providers\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Services\BulstatsDataService.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Services\CompaniesDataService.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\Services\DeedsDataService.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\SpecificApplicationInfoAccessor.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\ActivityNKIDUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\AddressUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\ApplicantCapacityUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\ApplicantsUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\ApplicationInfoUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\Applications\ApplicantExchangeUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\Applications\EntityIdentificationUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\Applications\NRA100VatLaw.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\Applications\UICUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\ApplicationWithFieldsStartUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\ApplicationWithFieldsStart\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\CommonInfoComponents.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\DocumentsUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\Documents\DocumentsGroupEditUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\Documents\EditDocumentUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\Fields\FieldContainer.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\Fields\FieldRecordContainer.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\Fields\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\Fields\ListRecordsContainer.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\Fields\RecordContainer.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\PersonUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\RecordContainerUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\RecordListContainerUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Domain\UI\RecordListElementContainerUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Portal\ModuleBootstrapper.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Portal\UI\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Portal\UI\Shared\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Portal\UI\Shared\LayoutUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Portal\UI\Shared\PageHeaderUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Portal\UI\Shared\SystemUnavailablePageUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Portal\UI\Shared\UnauthorizedPageUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\ActiveConditionCaseResult.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\ActiveConditionMenu.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\ActiveConditionMenuItem.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\ActiveConditionSearch.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\ActiveConditionVM.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\DeedsInStabilizationSearchCriteria.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\Instruction.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\Notification.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\NotificationResult.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\NotificationsUnderNPOSearchCriteria.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\PreservedCompaniesResult.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\PreservedCompaniesSearch.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\RightsForCompanyResult.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\StatementsByDateResult.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\StatementsByDateSearch.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\Validation\ActiveConditionSearchValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\Validation\DeedsInStabilizationValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\Validation\NotificationsUnderNPOSearchCriteriaValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\Validation\PreservedCompaniesSearchValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\Validation\RightsForCompanySearchValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\Validation\VerificationPersonOrgSearchValidator.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\VerificationPersonOrgResult.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Models\VerificationPersonOrgSearch.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\ModuleBootstrapper.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\Services\DeedsDataService.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\ActiveConditionCompanyCasesUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\ActiveConditionMenuUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\ActiveConditionNotificationUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\ActiveConditionResultUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\ActiveConditionTabResultUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\ActiveConditionUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\CompanyCaseTreeNodeUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\SubDeedPreviewUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\DocumentsWithoutAppointment\DocumentsWithoutAppointmentResultUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\DocumentsWithoutAppointment\DocumentsWithoutAppointmentSearchUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\DocumentsWithoutAppointment\DocumentsWithoutAppointmentUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\DocumentsWithoutAppointment\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\EntriesDelitionsAnnouncements\EntriesResultUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\EntriesDelitionsAnnouncements\EntriesSearchUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\EntriesDelitionsAnnouncements\EntriesUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\EntriesDelitionsAnnouncements\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\NotificationsUnderNPO\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\NotificationsUnderNPO\NotificationsUnderNPOResultUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\NotificationsUnderNPO\NotificationsUnderNPOSearchUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\NotificationsUnderNPO\NotificationsUnderNPOUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\PreservedCompanies\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\PreservedCompanies\PreservedCompaniesResultUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\PreservedCompanies\PreservedCompaniesSearchUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\PreservedCompanies\PreservedCompaniesUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\Registrations\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\RightsForCompany\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\RightsForCompany\RightsForCompanyResultUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\RightsForCompany\RightsForCompanySearchUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\RightsForCompany\RightsForCompanyUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\Stabilization\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\Stabilization\StabilizationResultUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\Stabilization\StabilizationSearchUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\Stabilization\StabilizationUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\Transformations\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\VerificationActs\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\VerificationActs\VerificationActsSearchUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\VerificationActs\VerificationActsTabResultUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\VerificationActs\VerificationActsUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\VerificationPersonOrg\Index.ts" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\VerificationPersonOrg\VerificationPersonOrgResultRowUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\VerificationPersonOrg\VerificationPersonOrgResultUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\VerificationPersonOrg\VerificationPersonOrgSearchUI.tsx" />
+    <None Remove="ClientApp\EPZEU.CR.Reports\UI\VerificationPersonOrg\VerificationPersonOrgUI.tsx" />
+    <None Remove="ClientApp\GlobalResolver.d.ts" />
+    <None Remove="ClientApp\nomstesting.tsx" />
+    <None Remove="ClientApp\oidcsignin.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\EPZEU\.NET\EPZEU.Cache.Polling\EPZEU.Cache.Polling.csproj" />
+    <ProjectReference Include="..\..\..\EPZEU\.NET\EPZEU.Core\EPZEU.Core.csproj" />
+    <ProjectReference Include="..\..\..\EPZEU\.NET\EPZEU.ServiceLimits.AspNetCore\EPZEU.ServiceLimits.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\..\EPZEU\.NET\EPZEU.Web.Core\EPZEU.Web.Core.csproj" />
+    <ProjectReference Include="..\..\..\EPZEU\.NET\EPZEU.Web.Swagger\EPZEU.Web.Swagger.csproj" />
+    <ProjectReference Include="..\EPZEU.CR.Domain\EPZEU.CR.Domain.csproj" />
+    <ProjectReference Include="..\EPZEU.CR.Web\EPZEU.CR.Web.Core.csproj" />
+    <ProjectReference Include="..\EPZEU.CR\EPZEU.CR.csproj" />  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\Cnsys.Core\Common\ErrorBoundary.ts" />
+    <TypeScriptCompile Include="ClientApp\Cnsys.UI.React\PropsRoute.tsx" />
+    <TypeScriptCompile Include="ClientApp\Cnsys.UI.React\TreeViewer\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\Cnsys.UI.React\TreeViewer\TreeNode.ts" />
+    <TypeScriptCompile Include="ClientApp\Cnsys.UI.React\TreeViewer\TreeNodeUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\Cnsys.UI.React\TreeViewer\TreeViewModes.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\ActsCache.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\DocumentTemplatesCache.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\ApplicationTypesCache.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\DocumentTypeApplicationDocumentTypeCache.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\CountriesCache.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\EkatteAreasCache.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\EkatteDistrictsCache.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\EkatteMunicipalitiesCache.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\EkatteSettlementsCache.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\CMS.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\Nomenclatures.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\PageCache.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Cache\ServicesCache.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Common\ApplicationConfig.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Common\Breadcrumb.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Common\Constants.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Common\DataServiceContext.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Common\EPZEUValidationHelper.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Common\ResourceManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Common\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Common\ModuleManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Models\BtrustUserInputRequest.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Models\DocumentTemplate.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Models\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Models\ForeignCommercialRegister.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Models\ForeignLegalForm.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Models\Act.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Models\LegalForm.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Models\Obligation.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Models\Signer.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Models\SigningProcess.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Models\Validators\EPZEUBaseValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Models\Validators\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Services\EPZEUAuthenticationService.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Services\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Services\CMSDataService.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Services\NomenclaturesDataService.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\Services\SigningProcessesDataService.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\UI\BreadcrumbUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\UI\CommonFields\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\UI\CommonFields\Period.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\UI\CommonFields\TextArea.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\UI\EPZEUPagination.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\UI\SigningProcessUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\UI\TestSignUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.Core\UI\withSimpleErrorLabel.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\ApplicationProcessPreviewContext.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\Models\Validators\RequestForCorrectionForScanningValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\Services\CommunicationsDataService.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\UI\AcceptedUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\UI\EditUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\UI\ErrorUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\UI\LayoutUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\UI\MenuUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\UI\PreregistrationUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\UI\PreviewUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\UI\ProcessedUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\UI\SendingUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\UI\SignUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Core\Cache\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Core\Constants.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Core\Models\DeedSummary.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Core\Models\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Core\Models\UnassignedAssignmentSearchCriteria.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Core\Models\Validation\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Core\Models\Validation\UnassignedAssignmentSearchCriteriaValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Core\Services\DocumentsDataService.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Core\Services\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Core\UI\AppInfoStatusUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Core\UI\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Common\A12FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Common\A12Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F012v_AdministrativeBoardSupportersValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F012b_AdministrativeBoardValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F012a_BoardOfManagers3Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F013v_BoardOfManagersSupporters2Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F013b_LeadingBoardValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F014v_SupervisingBoardSupportersValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F014b_SupervisingBoard2Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F024a_HiddenNonMonetaryDepositValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F027a_AddemptionOfTraderSeatChangeValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F070a_WayOfEstablishingEuropeanCooperativeSocietyValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F070_WayOfEstablishingEuropeanCompanyValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\Validators\F071_SeatChangeValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\ApplicationFormBBaseManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B1FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B4FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B7Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B6Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B5Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B6FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B7FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B5FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B3FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B2FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B1Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B4Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B3Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\B2Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Common\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\ApplicationFormBValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\B1Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\B4Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\B6Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\B7Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\B5Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\Validators\B2Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F0530_BranchManagerValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F051b_BranchIdentifierValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F052_BranchSubjectOfActivityValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F052a_MainActivityNKIDValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F054_VolumeOfRepresentationPowerValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F055_BranchClosureValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F053_BranchManagersValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\Validators\F051a_BranchFirmValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\ModuleBootstrapper.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\ModuleContext.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B1UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B7UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B6UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B5UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B4UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B3UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Applicaitons\B2UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F324a_EntryIntoPledgeCreditorRight2UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F223a_EntryIntoPledgeCreditorRightsUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F205_PledgeCreditorsUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F203_SecuredClaimDebtorsUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F201_PledgorsUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F051a_BranchFirmUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F210_SecuredClaimInterestsUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F209_SecuredClaimAmountUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F208_SecuredClaimSubjectUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F207_SecuredClaimReasonUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F200_PledgeDDIdentifierUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F054_VolumeOfRepresentationPowerUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F051_BranchSeatUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F052_BranchSubjectOfActivityUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F052a_MainActivityNKIDUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F053_BranchManagersUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F055_BranchClosureUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.B\UI\Fields\F051b_BranchIdentifierUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\Common\ApplicationFormGBaseManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\Common\G3FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\Common\G2FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\Common\G1FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\Common\G3Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\Common\G2Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\Common\G1Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\Common\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\Models\ApplicationForms\Validators\G3Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\Models\ApplicationForms\Validators\G2Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\Models\ApplicationForms\Validators\G1Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\Models\ApplicationForms\Validators\ApplicationFormGValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\ModuleBootstrapper.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\ModuleContext.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\UI\Applicaitons\G3UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\UI\Applicaitons\G2UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\UI\Applicaitons\G1UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\UI\Fields\ActsMultiCompaniesUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.G\UI\Fields\F1001_DescriptionOfDeclaredStatementUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V23FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V26FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V25FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V26Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V25Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V24Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V23Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V24FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V33Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V32Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V33FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V32FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V31Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V31FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V24FieldsValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V22FieldsValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V21FieldsValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V26Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V25Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V24Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V23Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V31FieldsValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V32FieldsValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V33FieldsValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V33Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V32Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V31Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F7020a_TransformingCompanyValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F702a_TransformingCompaniesValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F8020a_ReorganizeCoOperativeValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F8040_ReorgBranchesValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F804_ReorgBranchesValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F8030_SuccessorValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F8020_ReorganizeCoOperativeValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F803_SuccessorsValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F802_ReorganizeCoOperativesValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V26UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V25UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V24UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V23UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V33UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V32UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V31UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F702a_TransformingCompanyUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F702b_TransformingNPOsUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F706_NumberApplicationUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F705_StoppingEntryUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F801a_FormOfTransformingUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F801_FormOfTransformingUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F802a_ReorganizeCoOperativesUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F802_ReorganizeCoOperativesUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F803_SuccessorsUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\RequestForCertificateFormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\RequestForCertificateForReservedCompanyFormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\RequestForCertificateProvider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\RequestForCertificateForReservedCompanyProvider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\AppointingDemandDocumentsFormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\AppointingDemandDocumentsProvider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\AppointingDemandFormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\AppointingDemandProvider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\J1FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\E1FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\D1FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\J1Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\E1Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\D1Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\IncomingRequestForCorrectionProvider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\IncomingRequestForCorrectionFormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\ActOfContestationFormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\AppealRefusalFormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\ActOfContestationProvider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\AppealRefusalProvider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Common\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\AppointingDemandDocumentsValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\AppointingDemandValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\IncomingNumberValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\ConformityWithLawReasonValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\IncomingRequestForCorrectionSearchCriteriaValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\ContestationActValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\ActOfContestationValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\AppealRefusalSearchCriteriaValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\RequestForCertificateSearchValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\RequestForCorrectionValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\RefusalValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\AppealRefusalValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\Models\Validators\IncomingRequestForCorrectionValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\ModuleBootstrapper.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\ModuleContext.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\UI\AppointingDemandDocumentsStartUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\UI\RequestForCertificateStartUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\UI\RequestForCertificateUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\UI\Fields\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\UI\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\UI\RequestForCertificateForReservedCompanyUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\UI\AppointingDemandUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\UI\ActOfContestationUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\UI\AppealRefusalUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\UI\Applications\J1UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\UI\Applications\E1UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\UI\Applications\D1UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications\UI\IncomingRequestForCorrectionUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V1FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V21FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V1Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V22FormManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V21Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Common\V22Provider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\ModelsTemplate.tst" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\ApplicationFormVValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V1Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V21Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\Validators\V22Validator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F6020_AcquisitionEnterpriseValidator .ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F602_AcquisitionEnterprisesValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F701_FormOfTransformingValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F7020_TransformingCompanyValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F702_TransformingCompaniesValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F703_SuccessorsValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F7030_SuccessorValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F704_BranchesValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\Validators\F704_BranchSubjectValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\ModuleBootstrapper.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\ModuleContext.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V1UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V21UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Applications\V22UI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F600_TransferringTypeOfTradeEnterpriseUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F701_FormOfTransformingUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F601_TransferringEnterpriseUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F702_TransformingCompanyUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F602_AcquisitionEnterprisesUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F703_SuccessorUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain.Applications.V\UI\Fields\F704_BranchSubjectUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\ApplicantCapacityHelper.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\ApplicationFormTypesHelper.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\FormManagers\ApplicationFormBaseManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\FormManagers\ApplicationWithFieldsFormBaseManager.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\FormManagers\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\IApplicationProcessContext.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\BulstatSummary.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Core\Models\ApplicationDocument.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\OutgoingNumber.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\Person.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\SubDeedSummary.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\Validators\ApplicantValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\Validators\EntityIdentificationValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\Validators\ApplicantCapacityValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\Validators\UICValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\Validators\ApplicantInfoValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Providers\ApplicationProvider.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Providers\ApplicationProviderFactory.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\DomainModelHepler.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\Validators\AddressValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\Validators\ApplicationFormBaseValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\Validators\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Models\Validators\ValidatorHelpers.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Providers\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Services\BulstatsDataService.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Core\Services\CompaniesDataService.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\Services\DeedsDataService.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\SpecificApplicationInfoAccessor.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\ActivityNKIDUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Applications\NRA100VatLaw.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\ApplicationWithFieldsStart\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Documents\DocumentsGroupEditUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Documents\DocumentsUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\ApplicantsUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\ApplicantCapacityUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Documents\EditDocumentUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Fields\FieldRecordContainer.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\PersonUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\AddressUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Applications\ApplicantExchangeUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Applications\EntityIdentificationUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Applications\UICUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Applications\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\ModuleBootstrapper.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\ApplicationProcessContext.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\Services\ApplicationProcessDataService.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\UI\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Applications\ApplicantInfoUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\CommonInfoComponents.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Fields\FieldContainer.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Fields\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Fields\ListRecordsContainer.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Fields\RecordContainer.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Domain\UI\ApplicationWithFieldsStart\StartUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.ApplicationProcesses\Models\RequestForCorrectionForScanning.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Portal\ModuleBootstrapper.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Portal\UI\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Portal\UI\Shared\PageHeaderUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Portal\UI\Shared\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Portal\UI\Shared\LayoutUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Portal\UI\Shared\SystemUnavailablePageUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Portal\UI\Shared\UnauthorizedPageUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\ActiveConditionCaseResult.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\ActiveConditionMenu.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\ActiveConditionMenuItem.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\ActiveConditionSearch.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\DeedsInStabilizationSearchCriteria.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\Instruction.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\Notification.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\NotificationResult.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\NotificationsUnderNPOSearchCriteria.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\PreservedCompaniesResult.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\PreservedCompaniesSearch.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\StatementsByDateResult.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\RightsForCompanyResult.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\RightsForCompanySearch.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\Validation\ActiveConditionSearchValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\Validation\DeedsInStabilizationValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\Validation\NotificationsUnderNPOSearchCriteriaValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\Validation\PreservedCompaniesSearchValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\Validation\RightsForCompanySearchValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\Validation\VerificationPersonOrgSearchValidator.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\VerificationPersonOrgResult.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\StatementsByDateSearch.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Models\VerificationPersonOrgSearch.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\ModuleBootstrapper.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\Services\DeedsDataService.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\ActiveConditionCompanyCasesUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\ActiveConditionMenuUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\ActiveConditionNotificationUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\ActiveConditionResultUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\ActiveConditionTabResultUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\ActiveConditionUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\CompanyCaseTreeNodeUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\ActiveCondition\SubDeedPreviewUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\DocumentsWithoutAppointment\DocumentsWithoutAppointmentResultUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\DocumentsWithoutAppointment\DocumentsWithoutAppointmentSearchUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\DocumentsWithoutAppointment\DocumentsWithoutAppointmentUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\DocumentsWithoutAppointment\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\EntriesDelitionsAnnouncements\EntriesSearchUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\EntriesDelitionsAnnouncements\EntriesUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\EntriesDelitionsAnnouncements\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\NotificationsUnderNPO\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\NotificationsUnderNPO\NotificationsUnderNPOResultUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\NotificationsUnderNPO\NotificationsUnderNPOSearchUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\NotificationsUnderNPO\NotificationsUnderNPOUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\PreservedCompanies\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\PreservedCompanies\PreservedCompaniesResultUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\PreservedCompanies\PreservedCompaniesSearchUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\PreservedCompanies\PreservedCompaniesUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\Registrations\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\RightsForCompany\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\RightsForCompany\RightsForCompanyResultUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\RightsForCompany\RightsForCompanySearchUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\RightsForCompany\RightsForCompanyUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\Stabilization\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\Stabilization\StabilizationResultUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\Stabilization\StabilizationSearchUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\Stabilization\StabilizationUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\Transformations\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\VerificationActs\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\VerificationActs\VerificationActsSearchUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\VerificationActs\VerificationActsTabResultUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\VerificationActs\VerificationActsUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\VerificationPersonOrg\Index.ts" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\VerificationPersonOrg\VerificationPersonOrgResultRowUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\VerificationPersonOrg\VerificationPersonOrgResultUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\VerificationPersonOrg\VerificationPersonOrgSearchUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\EPZEU.CR.Reports\UI\VerificationPersonOrg\VerificationPersonOrgUI.tsx" />
+    <TypeScriptCompile Include="ClientApp\GlobalResolver.d.ts" />
+    <TypeScriptCompile Include="ClientApp\oidcsignin.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\EPZEU.CR.ApplicationProcesses\Cache\" />
+    <Folder Include="ClientApp\EPZEU.CR.Domain.Applications.G\Models\Fields\Validators\" />
+    <Folder Include="ClientApp\EPZEU.CR.Domain.Applications\UI\Applications\BRIS\" />
+    <Folder Include="ClientApp\EPZEU.CR.Reports\UI\Bankruptcy\" />
+    <Folder Include="ClientApp\EPZEU.CR.Reports\UI\Liquidation\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="package-lock.json" />
+    <None Include="package.json" />
+    <None Include="tsconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ClientApp\EPZEU.CR.Core\Models\ModelsAutoGenerated.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\FieldTypeFactory.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain.Applications.A\Models\ApplicationForms\ModelsAutoGenerated.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\FieldTypeFactory.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\F0223_EuropeanEconomicInterestGrouping.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Properties\AssemblyInfo.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\F02200_ForeignTraderRegistration.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Properties\AssemblyInfo.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain.Applications.A\Models\Fields\ModelsAutoGenerated.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\FieldTypeFactory.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain.Applications.B\Models\ApplicationForms\ModelsAutoGenerated.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\FieldTypeFactory.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain.Applications.B\Models\Fields\ModelsAutoGenerated.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\FieldTypeFactory.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain.Applications.G\Models\ApplicationForms\ModelsAutoGenerated.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Properties\AssemblyInfo.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain.Applications.G\Models\Fields\ModelsAutoGenerated.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\F1001_DescriptionOfDeclaredStatement.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain.Applications\Models\ContestationAct.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Properties\AssemblyInfo.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain.Applications\Models\ModelsAutoGenerated.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\FieldTypeFactory.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain.Applications.V\Models\ApplicationForms\ModelsAutoGenerated.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\FieldTypeFactory.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain.Applications.V\Models\Fields\ModelsAutoGenerated.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\FieldTypeFactory.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain\Models\AttachedDocument.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\FieldTypeFactory.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain\Models\Address.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\FieldTypeFactory.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Domain\Models\ModelsAutoGenerated.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\FieldTypeFactory.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.ApplicationProcesses\Models\ModelsAutoGenerated.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\FieldTypeFactory.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\EPZEU.CR.Reports\Models\ModelsAutoGenerated.ts">
+      <CustomToolNamespace>..\EPZEU.CR.Domain\Fields\FieldTypeFactory.cs</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+  
+  <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+
+    <!-- In development, the dist files won't exist on the first run or when cloning to
+         a different machine, so rebuild them if not already present. -->
+    <Message Importance="high" Text="Performing first-run Webpack build..." />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js" />
+  </Target>
+
+  <Target Name="PrepareClientAppForPublish" AfterTargets="BeforePublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec Command="npm ci" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
+  </Target>
+
+  <!-- We want xml documentation from nuget packages to be copied to project after build, so it can be uised for swagger -->
+  <!-- https://snede.net/add-nuget-package-xml-documentation-to-swagger/ -->
+  <!-- https://github.com/dotnet/sdk/issues/9498 -->
+  <Target Name="CopyPackages" AfterTargets="Build">
+    <ItemGroup>
+      <PackageReferenceFiles Condition="%(PackageReference.CopyToOutputDirectory) != ''" Include="$(NugetPackageRoot)\%(PackageReference.Identity)\%(PackageReference.Version)\%(PackageReference.CopyToOutputDirectory)" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PackageReferenceFiles)" DestinationFolder="$(OutDir)" />
+  </Target>
+  
+  <!-- We want xml documentation from nuget packages to be copied to pubish folder, so it can be uised for swagger -->
+  <Target Name="CopyPackagess" BeforeTargets="PrepareForPublish">
+    <ItemGroup>
+      <PackageReferenceFiles Condition="%(PackageReference.CopyToOutputDirectory) != ''" Include="$(NugetPackageRoot)\%(PackageReference.Identity)\%(PackageReference.Version)\%(PackageReference.CopyToOutputDirectory)" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PackageReferenceFiles)" DestinationFolder="$(PublishDir)" />
+  </Target>
+</Project>

@@ -1,0 +1,111 @@
+<? if ($statisticList && $statisticList->count()) { ?>
+
+	<nav class="button-bar" aria-label="Page navigation">
+		<div class="pagination-container">
+			<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+		</div>
+	</nav>
+
+	<div class="table-responsive">
+		<table class="table table-bordered table-striped table-hover table-sortable">
+			<thead>
+				<tr>
+					<th></th>
+					<th><?=$this->translate('GL_REGISTER_L')?></th>
+					<th><?=$this->translate('GL_NAME_L')?></th>
+					<th><?=$this->translate('EP_STATISTICS_GENERATION_TYPE_L')?></th>
+					<th><?=$this->translate('EP_STATISTICS_SERVICE_ADDRESS_L')?></th>
+					<th><?=$this->translate('GL_PERIOD_L')?> <?=$this->translate('GL_START_DATE_L')?></th>
+					<th><?=$this->translate('GL_PERIOD_L')?> <?=$this->translate('GL_END_DATE_L')?></th>
+					<th><?=$this->translate('GL_ACTIONS_L')?></th>
+				</tr>
+			</thead>
+			<tbody id="content" data-registerid="<?=$registerId?>">
+				<? foreach ($statisticList as $baseObj) { ?>
+					<tr data-rowid="<?=$baseObj->getStatisticId()?>" >
+						<td class="drag-handle" title="<?=$this->translate('GL_MOVE_L')?>"></td>
+						<td>
+						<?=$this->translate(array_search($baseObj->getRegisterId(), $registerList)) ?>
+						</td>
+
+						<td><?=$baseObj->getName()?></td>
+						<td><?=$this->translate(Statistic\Controller\StatisticController::STATISTIC_TYPE[$baseObj->getTypeGenarate()])?></td>
+						<td class="word-break"><?=$baseObj->getUrl()?></td>
+						<td>
+							<?=$this->dateFormat(
+								strtotime($baseObj->getDateFrom()),
+							    IntlDateFormatter::MEDIUM, // date
+							    IntlDateFormatter::NONE, // time
+							    $this->plugin('translate')->getTranslator()->getLocale(),
+								\Application\View\Helper\DateFormat::DATE
+							)?>
+						</td>
+						<td>
+							<?=$this->dateFormat(
+								strtotime($baseObj->getDateTo()),
+							    IntlDateFormatter::MEDIUM, // date
+							    IntlDateFormatter::NONE, // time
+							    $this->plugin('translate')->getTranslator()->getLocale(),
+								\Application\View\Helper\DateFormat::DATE
+							)?>
+						<td class="buttons-td">
+							<? if ($this->isAllowed('edit_statistic')) { ?>
+								<a href="<?=$this->url('edit_statistic', ['statisticId' => $baseObj->getStatisticId(), 'lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_EDIT_L'))?>">
+									<i class="ui-icon ui-icon-edit"></i>
+								</a>
+
+								<a href="<?=$this->url('statistic_report_list', ['statisticId' => $baseObj->getStatisticId(), 'lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('EP_STATISTICS_REPORT_ADMIN_L'))?>">
+									<i class="ui-icon ui-icon-document"></i>
+								</a>
+
+							<? } ?>
+						</td>
+					</tr>
+				<? } ?>
+			</tbody>
+		</table>
+	</div>
+
+	<nav class="button-bar" aria-label="Page navigation">
+		<div class="pagination-container">
+			<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+		</div>
+	</nav>
+<? } ?>
+
+<script>
+//Sortable-Draggable Table
+$(document).ready(function () {
+	var fixHelperModified = function(e, tr) {
+		var $originals = tr.children();
+		var $helper = tr.clone();
+
+		$helper.children().each(function(index) {
+			$(this).outerWidth($originals.eq(index).outerWidth())
+		});
+
+		return $helper;
+	};
+
+	$(".table-sortable tbody").sortable({
+		handle: ".drag-handle",
+		helper: fixHelperModified,
+		start: function(e, ui){
+			ui.placeholder.css({'visibility': 'visible', 'height': '50px'});
+		},
+		update: function() {
+
+			var list = this.children;
+			var statsIdArr = [];
+
+			var registerId = this.dataset.registerid;
+
+			for (i = 0; i < list.length; i++)
+				statsIdArr.push(list[i].dataset.rowid);
+
+		   ajaxRequest('', {statsIdArr:statsIdArr, registerId:registerId, reorderItem:true});
+       }
+	});
+});
+</script>
+<?$this->headScript()->appendFile($this->basePath('js/jquery-ui-sortable.min.js'));?>

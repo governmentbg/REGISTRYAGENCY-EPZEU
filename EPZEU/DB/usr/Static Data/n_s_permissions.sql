@@ -1,0 +1,32 @@
+/* Data for the 'usr.n_s_permissions' table  (Records 1 - 28) */
+
+INSERT INTO usr.n_s_permissions ("permission_id", "permission_key", "name", "order", "group_id")
+VALUES 
+  (25, E'PR_APP_PROVIDE_CERTCOPY_TO_OFFICIAL', E'Предоставяне на заверен препис от ИР на длъжностно лице', 14, 1),
+  (6, E'PR_APP_UVT_PROPERTY_FREE', E'Издаване на удостоверение за имот от ИР - безплатен достъп', 21, 2),
+  (7, E'PR_APP_UVT_PERSON_FREE', E'Издаване на удостоверение за лице от ИР - безплатен достъп', 22, 2),
+  (12, E'PR_APP_FUT_DEAL_DECL', E'Деклариране на предстояща сделка от ИР', 12, 1),
+  (35, E'PR_APP_ADMIN_REPORTS', E'Справки по ИР за администратори', 39, 3),
+  (34, E'PR_APP_PERSON_REPORT_FOR_ALL_SERVICES_REPORT_FREE', E'Справка чрез отдалечен достъп за лице от ИР за всички СВ - безплатен достъп', 31, 2),
+  (13, E'EP_ADM_NOM_PARAMS', E'Номенклатури и параметри', 32, 3),
+  (42, E'PR_APP_UVT_PERIOD_PROPERTY_FREE', E'Издаване на удостоверение за период за имот от ИР - безплатен достъп', 23, 2),
+  (8, E'PR_APP_UVT_PERIOD_PERSON_FREE', E'Издаване на удостоверение за период за лице от ИР - безплатен достъп', 24, 2),
+  (9, E'PR_APP_CERTCOPY_FREE', E'Издаване на заверен препис от ИР - безплатен достъп', 25, 2),
+  (30, E'PR_APP_UNCERTCOPY_FREE', E'Издаване на незаверен препис от ИР - безплатен достъп', 26, 2),
+  (10, E'PR_APP_DOCUMENT_REPORT_FREE', E'Справка чрез отдалечен достъп за документ от ИР - безплатен достъп', 27, 2),
+  (31, E'PR_APP_PERSON_REPORT_FOR_SELECTED_SERVICE_FREE', E'Справка чрез отдалечен достъп за лице от ИР за избрана СВ - безплатен достъп', 28, 2),
+  (32, E'PR_APP_PROPERTY_REPORT_FREE', E'Справка чрез отдалечен достъп за имот от ИР - безплатен достъп', 29, 2),
+  (33, E'PR_APP_PROPERTY_LOT_REPORT_FREE', E'Справка чрез отдалечен достъп за електронна партида на имот от ИР - безплатен достъп', 30, 2),
+  (14, E'EP_ADM_USERS', E'Администриране на потребители', 33, 3),
+  (21, E'EP_ADM_LIMITS', E'Администриране на лимити', 34, 3),
+  (24, E'EP_ADM_STATISTICS', E'Администриране на статистики', 35, 3),
+  (22, E'EP_ADM_NEWS', E'Администриране на новини', 36, 3),
+  (18, E'EP_ADM_CMS', E'Поддържане на съдържание на ЕПЗЕУ', 37, 3),
+  (23, E'EP_PREVIEW_CMS', E'Преглед на съдържание през административен модул', 38, 3),
+  (19, E'EP_AUDIT', E'Одит', 39, 3),
+  (37, E'PR_REPORTS_INVESTIGATING_AUTHORITIES', E'Справки по ИР за разследващи органи', 41, 3),
+  (36, E'EP_AUDIT_INVESTIGATING_AUTHORITIES', E'Одит за разследващи органи', 42, 3),
+  (38, E'EP_ADM_PAYMENTS_L', E'Администриране на модул Плащания', 43, 3),
+  (39, E'EP_DRAWN_PAID_AMOUNT_DUTY_L', E'Усвояване на платени суми по задължения', 44, 3),
+  (40, E'EP_CORRECTION_CANCELLATION_DUTY_L', E'Корекция и анулиране на задължения', 45, 3),
+  (41, E'EP_RESTORE_AMOUNT_L', E'Възстановяване на суми', 46, 3);

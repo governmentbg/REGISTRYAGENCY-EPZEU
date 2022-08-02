@@ -1,0 +1,83 @@
+<?php
+$this->headTitle('EP_TMP_CONFIG_TEMPLATE_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_CONTENT_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_TMP_CONFIG_TEMPLATE_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_TMP_CONFIG_TEMPLATE_L')?></h2>
+</div>
+
+
+<div class="card">
+	<div class="card-body">
+
+		<?=$this->partial('partial/messages.phtml')?>
+
+		<?php if ($this->isAllowed('add_declaration_template')) { ?>
+			<div class="card-navbar">
+				<div class="button-bar">
+					<div class="left-side"></div>
+					<div class="right-side">
+						<a href="<?=$this->url('add_declaration_template', ['lang' => $lang])?>" class="btn btn-primary">
+							<i class="ui-icon ui-icon-plus-white"></i>
+							<?=$this->translate('EP_TMP_ADD_TEMPLATE_L')?>
+						</a>
+					</div>
+				</div>
+			</div>
+		<?php } ?>
+
+		<?php if (count($declarationTemplateList)) { ?>
+
+		<nav class="button-bar mt-1" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<div class="row">
+			<div class="col-sm-12 table-responsive">
+				<table class="table table-bordered table-striped table-hover">
+					<thead>
+					<tr>
+						<th><?=$this->translate('GL_MANIFEST_L')?></th>
+						<th><?=$this->translate('GL_CREATE_UPDATE_DATE_L')?></th>
+						<th><?=$this->translate('GL_ACTIONS_L')?></th>
+					</tr>
+					</thead>
+					<tbody id="content">
+					<?=$this->partial('declaration-template/module/declaration-template-list-partial.phtml')?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<?php
+		$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+		$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+		?>
+		<script type="text/javascript">
+			pagination('.sync-pagination', '#content', <?=$totalPages?>);
+		</script>
+		<?php } ?>
+	</div>
+</div>
+
+
+<?=$this->partial('partial/modal-preview.phtml', ['title' => $this->translate('EP_TMP_VIEW_TEMPLATE_L')])?>
+<?=$this->partial('partial/modal-confirm.phtml')?>

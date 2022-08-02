@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="Individual.xsd"/>
+    <xsd:include schemaLocation="LegalEntity.xsd"/>
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/values" schemaLocation="../value/Values.xsd"/>
+
+    <xsd:complexType name="Person">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Данни за физическо или юридическо лице</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="Type" type="val:PersonType" />
+            <xsd:choice>
+                <xsd:element name="Individual" type="Individual" />
+                <xsd:element name="LegalEntity" type="LegalEntity" />
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

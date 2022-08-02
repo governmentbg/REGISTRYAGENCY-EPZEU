@@ -1,0 +1,154 @@
+<? $this->headTitle('EP_CMS_BULLETINS_L'); ?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $lang])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_CONTENT_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_BULLETINS_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_CMS_BULLETINS_L')?></h2>
+</div>
+
+<div class="card">
+	<div class="card-body">
+
+	<?=$this->partial('partial/messages.phtml')?>
+
+	<?if ($this->isAllowed('add_bulletin')) { ?>
+		<div class="card-navbar">
+			<div class="button-bar">
+				<div class="left-side"></div>
+				<div class="left-side">
+					<a href="<?=$this->url('add_bulletin', ['lang' => $lang])?>" class="btn btn-primary" role="button" aria-pressed="true">
+						<i class="ui-icon ui-icon-plus-white"></i>
+						<?=$this->translate('EP_CMS_ADD_BULLETIN_L')?>
+					</a>
+				</div>
+			</div>
+		</div>
+	<?}?>
+
+
+	<?if ($bulletinList->count()) { ?>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<thead>
+				<tr>
+					<th><?=$this->translate('GL_PERIOD_L')?></th>
+					<th><?=$this->translate('EP_CMS_BULLETIN_L')?></th>
+					<th><?=$this->translate('GL_CREATE_UPDATE_DATE_L')?></th>
+					<th><?=$this->translate('GL_CONDITION_L')?></th>
+					<th><?=$this->translate('GL_ACTIONS_L')?></th>
+				</tr>
+				</thead>
+				<tbody id="content">
+					<?=$this->partial('bulletin-list-partial.phtml')?>
+				</tbody>
+			</table>
+		</div>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<?
+			$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+			$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+		?>
+
+		<script type="text/javascript">
+			pagination('.sync-pagination', '#content', <?=$totalPages?>);
+		</script>
+
+	<? } ?>
+
+	</div>
+</div>
+
+<div id="modal-confirm" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+            	<?
+            	$class = 'alert alert-warning';
+            	if (!empty($classMessageBody))
+            		$class = $classMessageBody;
+
+            	echo '<div class="'.$class.'">';
+
+            	echo '</div>';
+            	?>
+
+            </div>
+
+            <div id="sendEmailContainer" class="container ml-2 d-none">
+	            <div class="custom-control custom-checkbox">
+					<input class="custom-control-input" name="sendEmails" id="sendEmails" value="0" type="checkbox">
+					<label class="custom-control-label" for="sendEmails">E-mail оповестяване</label>
+				</div>
+            </div>
+
+
+
+            <div class="modal-footer">
+				<div class="button-bar">
+					<button type="button" class="btn btn-secondary close-preview-modal" data-dismiss="modal"><?=(!empty($buttonRefuse) ? $buttonRefuse : $this->translate('GL_REFUSE_L'))?></button>
+					<button type="button" id="confirm-bnt" class="btn btn-primary close-preview-modal" data-confirm="modal"><?=$this->translate('GL_CONFIRM_L')?></button>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+function confirmBulletinPublish(url, message, status, e) {
+
+	status ? $("#sendEmailContainer").addClass("d-none") : $("#sendEmailContainer").removeClass("d-none");
+
+	if ($('#modal-confirm .modal-body').has('div').length) {
+		$('#modal-confirm .modal-body div').html(message);
+	}
+	else {
+		$('#modal-confirm .modal-body').html(message);
+	}
+
+	$('#modal-confirm').modal('show');
+
+	$('#confirm-bnt').on('click', function(event){
+
+		var form = $(document.createElement('form'));
+		$(form).attr("action", url);
+		$(form).attr("method", "POST");
+
+		var input = $("<input>")
+		    .attr("type", "hidden")
+		    .attr("name", "sendEmails")
+		    .val(Number(document.getElementById('sendEmails').checked));
+		$(form).append($(input));
+		form.appendTo( document.body )
+		$(form).submit();
+
+		showGlobalLoader();
+
+		return true;
+	});
+
+	e.preventDefault();
+}
+</script>

@@ -1,0 +1,255 @@
+<!-- DOCTYPE -->
+<!DOCTYPE html>
+<html lang="bg">
+    <head>
+        <meta charset="utf-8">
+        <title>Имотен регистър - Дизайн компоненти - Заявление</title>
+
+        <!-- Viewport Meta Tag -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+        <base href="../">
+
+
+        <!-- Fonts -->
+        <link href="css/fonts.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="css/style.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="images/favicon.ico" />
+        <link rel="icon" type="image/ico" href="images/favicon.ico" />
+
+    </head>
+
+<body>
+
+<div class="layout-wrapper">
+    <div class="content-wrapper">
+        <div class="page-header-wrapper">
+            <div class="section-wrapper">
+                <div class="fixed-content-width">
+                    <div class="page-header">
+                        <div class="row">
+                            <div class="col">
+                                <h1 class="page-title">Заявление за деклариране на предстояща сделка с недвижим имот</h1>
+                            </div>
+                            <div class="col-auto d-md-none">
+                                <button id="show_menu" class="button-menu"><i class="ui-icon ui-icon-sub-menu" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-wrapper section-wrapper section-wrapper--margins fixed-content-width">
+
+            <div class="nav-wrapper">
+
+                    <nav class="page-nav">
+                        <ul class="nav-section">
+                            <li>
+                                <a class="nav-item nav-link active" href="ui_application_Заявление за деклариране на предстояща сделка ИР/ui_application_Заявление за деклариране на предстояща сделка_1_Данни за заявителя.html">
+                                    <div class="nav-item-state">
+                                        <i class="ui-icon ui-icon-error"></i>
+                                    </div>
+                                    <div class="nav-item-title">Данни за заявителя</div>
+                                    <div class="nav-item-action"></div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-item nav-link" href="ui_application_Заявление за деклариране на предстояща сделка ИР/ui_application_Заявление за деклариране на предстояща сделка_2_Имоти за които се декларира сделка.html">
+                                    <div class="nav-item-state">
+                                    </div>
+                                    <div class="nav-item-title">Предстояща сделка</div>
+                                    <div class="nav-item-action"></div>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+            </div>
+
+            <div class="page-wrapper">
+
+                <div class="section-wrapper" ><h2 class="section-title section-title--form">Данни за заявителя</h2><div class="alert alert-danger" role="alert"><p>В секцията има непопълнена или невалидна информация, отбелязана в червено.</p></div>
+
+                    <div class="help-text"><p>Попълнете данните за подаващия заявлението. Ако сте чуждестранно физическо лице, което няма ЕГН или ЛНЧ, в съответното поле попълнете датата на раждане във формат "ГГГГММДД" и задължително попълнете полето “Място на раждане”.</p></div>
+
+                    <div id="" class="field-container">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="field-title field-title--form" for="">Гражданство</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <input class="form-control" aria-describedby="" value="БЪЛГАРИЯ" disabled>                                    
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="" class="field-container">
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="field-title field-title--form required-field" for="">ЕГН</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <input type="text" class="form-control is-invalid" id="" aria-describedby="" value="10101010102">
+                                <ul class="invalid-feedback">
+                                    <li>Невалиден идентификатор</li>
+                                </ul>                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="" class="field-container">
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <label class="field-title field-title--form required-field" for="">Собствено име</label>
+                                <input type="text" class="form-control" id="" value="Роска">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label class="field-title field-title--form " for="">Бащино име</label>
+                                <input type="text" class="form-control" id="" value="Илиева">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label class="field-title field-title--form required-field" for="">Фамилно име</label>
+                                <input type="text" class="form-control" id="" value="Иванова">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field-container">
+                        <div class="row">
+                            <div class="col-12 form-group">
+                                <label class="field-title field-title--form" >Вид на заявителя</label>
+                                <p class="field-text">длъжностно (служебно) лице</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field-container">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="field-title field-title--form required-field" >Качество на лицето, което декларира предстояща сделка</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 form-group">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" name="exampleRadiosAD" id="exampleRadiosAD4" value="5"  type="radio">
+                                    <label class="custom-control-label" for="exampleRadiosAD4">нотариус</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" name="exampleRadiosAD" id="exampleRadiosAD5" value="6" type="radio">
+                                    <label class="custom-control-label" for="exampleRadiosAD5">ЧСИ</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" name="exampleRadiosAD" id="exampleRadiosAD6" value="7"  type="radio">
+                                    <label class="custom-control-label" for="exampleRadiosAD6">ДСИ</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" name="exampleRadiosAD" id="exampleRadiosAD7" value="8"  type="radio">
+                                    <label class="custom-control-label" for="exampleRadiosAD7">публичен изпълнител (НАП)</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" name="exampleRadiosAD" id="exampleRadiosAD8" value="9"  type="radio">
+                                    <label class="custom-control-label" for="exampleRadiosAD8">министър/ръководител на ведомство</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" name="exampleRadiosAD" id="exampleRadiosAD9" value="10" type="radio" checked>
+                                    <label class="custom-control-label" for="exampleRadiosAD9">областен управител</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" name="exampleRadiosAD" id="exampleRadiosAD10" value="11"  type="radio">
+                                    <label class="custom-control-label" for="exampleRadiosAD10">кмет</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <fieldset class="field-container">
+                        <div class="field-container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="field-title field-title--form">Вид потребител със специален достъп</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <p class="field-text">                                    
+                                        областен управител
+                                    </p>                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field-container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="field-title field-title--form">Данни за длъжностно (служебно) лице</label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <textarea class="form-control" rows="3">Област София</textarea>
+                                    <div class="help-text-inline">
+                                        <p>Данните са от потребителския Ви профил, като се допуска редакция. При липса на ригистрационен номер (за нотариусите, ДСИ/ЧСИ и адвокатите) и длъжност с орган към който работи лицето (в останалите случаи), данните следва да бъдат допълнени. </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+
+                    <div class="button-bar button-bar--form">
+                        <div class="left-side">
+                            <button type="button" class="btn btn-secondary">Откажи</button>
+                        </div>
+                        <div class="right-side">
+                            <a class="btn btn-secondary" href="ui_application_Заявление за деклариране на предстояща сделка ИР/ui_application_Заявление за деклариране на предстояща сделка_3_Преглед.html">Прегледай</a>
+                            <a class="btn btn-primary" href="ui_application_Заявление за деклариране на предстояща сделка ИР/ui_application_Заявление за деклариране на предстояща сделка_2_Имоти за които се декларира сделка.html">Продължи</a>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+	<!-- jQuery library -->
+	<script src="js/jquery-3.2.1.min.js"></script>
+
+
+	<!-- Latest compiled and minified Bootstrap JavaScript -->
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+
+	<!-- Page Scripst -->
+	<script>
+
+		$(document).ready(function () {
+
+            // Show Navigation
+            $('#show_menu').on('click', function () {
+                $(".nav-wrapper").toggleClass("nav-wrapper--show");
+            });                
+
+        });
+
+	</script>
+
+  </body>
+</html>

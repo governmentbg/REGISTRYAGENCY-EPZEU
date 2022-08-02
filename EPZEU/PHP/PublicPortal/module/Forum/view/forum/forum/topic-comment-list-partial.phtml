@@ -1,0 +1,48 @@
+<section>
+	<? foreach ($commentList as $comment) { ?>
+		<article class="article article--news">
+			<div class="row">
+				<div class="col-auto d-none d-sm-block">
+					<i class="ui-icon ui-icon-comment article-icon" aria-hidden="true" title=""></i>
+				</div>
+				<div class="col">
+					<p>
+					<i class="mr-3">
+						<?=$this->dateFormat(
+							strtotime($comment->getCreatedOn()),
+						    IntlDateFormatter::MEDIUM, // date
+						    IntlDateFormatter::NONE, // time
+						    $this->plugin('translate')->getTranslator()->getLocale(),
+							\Application\View\Helper\DateFormat::DATETIME
+						)?>
+
+					</i><?=$this->translate('EP_AUTOR_L')?>: <i><span class="text-info"><?=$comment->getFirstName()?></span></i></p>
+
+
+					<div id="comment-<?=$comment->getThemeCommentId() ?>" class="comment-wrapper show-more">
+						<p><?=nl2br($comment->getComment())?></p>
+					</div>
+
+				</div>
+			</div>
+		</article>
+	<? } ?>
+</section>
+
+<script>
+$(function(){
+	$('.comment-wrapper').each(function( index ) {
+		if ($(this).height() < 160) {
+			$(this).removeClass('show-more short');
+		}
+		else {
+			var button = '<button type="button" class="btn btn-sm btn-outline-light text-info show-more--button" onclick="$(\'#'+this.id+'\').removeClass(\'short\');">' +
+            '<i class="ui-icon ui-icon-chevron-down" aria-hidden="true"></i> <?=$this->translate('GL_READ_MORE_I')?>'+
+            '</button>';
+			$(button).insertAfter("#"+this.id);
+			$(this).addClass('short');
+		}
+
+	});
+});
+</script>

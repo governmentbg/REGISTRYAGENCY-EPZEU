@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns="http://www.registryagency.bg/schemas/property-register/values"
+            xmlns:nom="http://www.registryagency.bg/schemas/property-register/nomenclatures"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/nomenclatures" schemaLocation="../nomenclature/Nomenclatures.xsd"/>
+
+    <xsd:simpleType name="ApplicantType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Вид заявител</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="nom:ApplicantTypeNomenclature" />
+    </xsd:simpleType>
+</xsd:schema>

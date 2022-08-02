@@ -1,0 +1,74 @@
+<?php
+$this->headTitle('EP_CMS_ADD_PAGE_HTML_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_CONTENT_L')?></li>
+		<li class="breadcrumb-item"><a href="<?=$this->url('html_page_list')?>"><?=$this->translate('EP_CMS_MANAGING_PAGES_HTML_CONTENT_CREATE_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_ADD_PAGE_HTML_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_CMS_ADD_PAGE_HTML_L')?></h2>
+</div>
+
+<div class="card">
+
+	<?php
+	$pageForm->setAttribute('action', $this->url('add_html_page', ['lang' => $params->fromRoute('lang')]));
+	$pageForm->setAttribute('id', 'html-page-form');
+	$pageForm->prepare();
+
+	echo $this->form()->openTag($pageForm);
+	?>
+
+	<div class="card-body">
+
+		<?=$this->partial('partial/messages.phtml')?>
+
+		<div class="row">
+			<div class="col-sm-4 col-xl-3 form-group">
+				<?=$this->formRow($pageForm->get('moduleId'))?>
+			</div>
+			<div class="col-sm-8 col-xl-9 form-group">
+				<?=$this->formRow($pageForm->get('title'))?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 form-group">
+				<?=$this->formRow($pageForm->get('content'))?>
+
+				<? if ($this->FormElementErrors($pageForm->get('content'))) { ?>
+					<script>
+						CKEDITOR.on('instanceReady', function() {
+							$('#cke_content').addClass('input-error');
+						});
+					</script>
+				<? } ?>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url('html_page_list', ['lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<?=$this->formSubmit($pageForm->get('submit'));?>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+
+</div>
+
+<?$this->headScript()->appendFile($this->basePath('js/ckeditor/ckeditor.js'));?>
+
+<script>
+$(document).on('submit', '#html-page-form', function(){
+	showGlobalLoader();
+});
+</script>

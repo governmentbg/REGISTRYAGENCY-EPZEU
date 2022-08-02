@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns="http://www.registryagency.bg/schemas/property-register/segments"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="DataForRegistrationOfDocumentInBook.xsd"/>
+    <xsd:include schemaLocation="DataForRegistrationOfDocumentInDoubleIncomingRegister.xsd"/>
+    <xsd:include schemaLocation="DataForRegistrationOfDocumentInIncomingRegister.xsd"/>
+
+    <xsd:complexType name="ActData">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">Данни за нов акт в ИР</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="DataForRegistrationOfDocumentInBook" type="DataForRegistrationOfDocumentInBook" minOccurs="0"/>
+            <xsd:element name="DataForRegistrationOfDocumentInDoubleIncomingRegister" type="DataForRegistrationOfDocumentInDoubleIncomingRegister" minOccurs="0"/>
+            <xsd:element name="DataForRegistrationOfDocumentInIncomingRegister" type="DataForRegistrationOfDocumentInIncomingRegister" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

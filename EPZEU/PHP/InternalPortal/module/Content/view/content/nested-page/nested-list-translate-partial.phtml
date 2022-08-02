@@ -1,0 +1,227 @@
+<?php
+$addPageBtnTitle = '';
+$publicUrl = '';
+
+switch ($type) {
+
+	case \Content\Controller\NestedPageController::PAGE_SERVICE_TYPE:
+		$addPageBtnTitle = $this->translate('EP_CMS_ADD_SERVICE_L');
+
+		$publicUrl = '';
+
+		if ($registerCode == 'cr') {
+			$publicUrl = $this->publicUrl([
+						$config['GL_CR_PUBLIC_UI_URL'],
+						$this->language()->getCurrentLang(),
+						$staticPageList['CR_SERVICES']->url,
+					]);
+
+		}
+		elseif ($registerCode == 'pr') {
+			$publicUrl = $this->publicUrl([
+					$config['GL_PR_PUBLIC_UI_URL'],
+					$this->language()->getCurrentLang(),
+					$staticPageList['PR_SERVICES']->url,
+			]);
+		}
+
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_APPLICATION_TYPE:
+		$addPageBtnTitle = $this->translate('EP_CMS_ADD_APLICATION_L');
+
+		$publicUrl = '';
+
+		if ($registerCode == 'cr') {
+
+			$publicUrl = $this->publicUrl([
+					$config['GL_CR_PUBLIC_UI_URL'],
+					$this->language()->getCurrentLang(),
+					$staticPageList['CR_APPLICATIONS']->url,
+			]);
+		}
+		elseif ($registerCode == 'pr') {
+			$publicUrl = $config['GL_PR_PUBLIC_UI_URL'].$staticPageList['PR_APPLICATIONS']->url;
+
+			$publicUrl = $this->publicUrl([
+					$config['GL_PR_PUBLIC_UI_URL'],
+					$this->language()->getCurrentLang(),
+					$staticPageList['PR_APPLICATIONS']->url,
+			]);
+		}
+
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_DOCUMENT_TEMPLATES:
+		$addPageBtnTitle = $this->translate('EP_CMS_ADD_TEMPLATE_L');
+		$publicUrl = $this->publicUrl([$this->language()->getCurrentLang(), 'document-template-'.$registerCode]);
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_LEGISLATION_TYPE:
+		$addPageBtnTitle = $this->translate('EP_CMS_ADD_DOCUMENT_L');
+		$publicUrl = $this->publicUrl([$this->language()->getCurrentLang(), 'legislation-'.$registerCode]);
+		break;
+}
+?>
+
+<ul class="tree-list">
+	<li>
+		<!-- Root Elemen -->
+		<div class="tree-list-tiem">
+			<div class="tree-list-tiem-content">
+				<div class="tree-list-tiem-text">
+
+					<div class="row">
+						<div class="form-group col-12">
+							<b><?=$parentObj->getTitle()?></b>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-12">
+							<div class="tree-list-tiem-edit-box">
+								<label><?=$this->translate('EP_CMS_HEADER_L')?></label><span class="label-description">(<?=$this->language()->getLanguagesName()?>)</span>
+								<p class="preview-i18n-<?=$parentObj->getPageId()?> title-i18n-<?=$parentObj->getPageId()?>"><?=$parentObj->getTitleI18n()?></p>
+							</div>
+						</div>
+					</div>
+
+					<div class="edit-i18n-section edit-i18n-<?=$parentObj->getPageId()?> d-none">
+						<div class="row">
+							<div class="form-group col-12">
+								<input name="titleI18n" class="form-control" maxlength="200" value="<?=$parentObj->getTitleI18n()?>" type="text">
+							</div>
+
+							<div class="form-group col-12">
+								<label for="titleI18n"><?=$this->translate('GL_DESCRIPTION_L')?></label>
+								<div class="form-text-scrollable"><?=$parentObj->getContent()?></div>
+							</div>
+
+
+							<div class="col-12">
+								<label for="titleI18n"><?=$this->translate('GL_DESCRIPTION_L')?></label><span class="label-description">(<?=$this->language()->getLanguagesName()?>)</span>
+								<textarea class="form-control" id="content-<?=$parentObj->getPageId()?>" name="contentI18n" rows="3" maxlength="1000"><?=$parentObj->getContentI18n()?></textarea>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="tree-list-tiem-actions">
+					<div class="preview-i18n-<?=$parentObj->getPageId()?>">
+						<? if ($this->isAllowed('manage_nested_page')) { ?>
+						<button class="btn btn-secondary float-right edit-section-<?=$parentObj->getPageId()?>" onclick="editPageI18n('<?=$parentObj->getPageId()?>')" title="<?=$this->translate('GL_EDIT_L')?>"><i class="ui-icon ui-icon-edit"></i></button>
+						<? } ?>
+
+						<a href="<?=$publicUrl?>" target="_blank" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>">
+							<i class="ui-icon ui-icon-eye"></i>
+						</a>
+
+					</div>
+
+					<? if ($this->isAllowed('manage_nested_page')) { ?>
+						<div class="btn-group edit-i18n-<?=$parentObj->getPageId()?> d-none">
+							<button class="btn btn-secondary float-right" onClick="savePageChangesI18n('<?=$parentObj->getPageId()?>')" title="<?=$this->translate('GL_SAVE_L')?>"><i class="ui-icon ui-icon-check"></i></button>
+							<button class="btn btn-secondary float-right" onClick="cancelEditPageI18n('<?=$parentObj->getPageId()?>')" title="<?=$this->translate('GL_REFUSE_L')?>"><i class="ui-icon ui-icon-ban"></i></button>
+						</div>
+					<? } ?>
+
+
+				</div>
+
+			</div>
+		</div>
+		<!-- End Root Elemen -->
+
+		<!-- Start Groups -->
+		<div class="tree-list-collapsible">
+			<ul class="tree-list">
+
+				<?php foreach ($groupArr as $group) { ?>
+				<li class="tree-list-group" id="group-<?=$group->getPageId()?>" data-id="<?=$group->getPageId()?>">
+					<div class="tree-list-tiem">
+
+						<?php if ($group->getElementCount()) { ?>
+							<button class="system-button toggle-collapse-group toggle-collapse collapsed" >
+								<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+							</button>
+						<? } ?>
+
+						<div class="tree-list-tiem-content">
+
+							<div class="tree-list-tiem-text">
+
+								<div class="row">
+									<div class="form-group col-12">
+										<b><?=$group->getTitle()?></b>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-12">
+										<div class="tree-list-tiem-edit-box">
+											<label><?=$this->translate('EP_CMS_HEADER_L')?></label><span class="label-description">(<?=$this->language()->getLanguagesName()?>)</span>
+											<p class="preview-i18n-<?=$group->getPageId()?> title-i18n-<?=$group->getPageId()?>"><?=$group->getTitleI18n()?></p>
+										</div>
+									</div>
+								</div>
+
+								<div class="edit-i18n-section edit-i18n-<?=$group->getPageId()?> d-none">
+									<div class="row">
+										<div class="form-group col-12">
+											<input name="titleI18n" class="form-control" maxlength="200" value="<?=$group->getTitleI18n()?>" type="text">
+										</div>
+
+										<div class="form-group col-12">
+											<label for="titleI18n"><?=$this->translate('GL_DESCRIPTION_L')?></label>
+											<div class="form-text-scrollable"><?=$group->getContent()?></div>
+										</div>
+
+										<div class="col-12">
+											<label for="titleI18n"><?=$this->translate('GL_DESCRIPTION_L')?></label><span class="label-description">(<?=$this->language()->getLanguagesName()?>)</span>
+											<textarea class="form-control" id="content-<?=$group->getPageId()?>" name="contentI18n" rows="3" maxlength="1000"><?=$group->getContentI18n()?></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="tree-list-tiem-actions">
+								<? if ($this->isAllowed('manage_nested_page')) { ?>
+									<div class="preview-i18n-<?=$group->getPageId()?>">
+										<button class="btn btn-secondary float-right edit-section-<?=$group->getPageId()?>" onclick="editPageI18n('<?=$group->getPageId()?>')" title="<?=$this->translate('GL_EDIT_L')?>"><i class="ui-icon ui-icon-edit"></i></button>
+									</div>
+
+									<div class="btn-group edit-i18n-<?=$group->getPageId()?> d-none">
+										<button class="btn btn-secondary float-right" onClick="savePageChangesI18n('<?=$group->getPageId()?>')" title="<?=$this->translate('GL_SAVE_L')?>"><i class="ui-icon ui-icon-check"></i></button>
+										<button class="btn btn-secondary float-right" onClick="cancelEditPageI18n('<?=$group->getPageId()?>')" title="<?=$this->translate('GL_REFUSE_L')?>"><i class="ui-icon ui-icon-ban"></i></button>
+									</div>
+								<? } ?>
+							</div>
+						</div>
+					</div>
+
+					<div id="tree-list-collapsable-content-<?=$group->getPageId()?>" class="nav-tabs-container" data-id="<?=$group->getPageId()?>">
+						<ul class="tree-list tree-list-group-items"></ul>
+					</div>
+				</li>
+				<? } ?>
+
+			</ul>
+		</div>
+
+		<!-- End Groups -->
+
+		<!-- Item list -->
+		<? if ($pageArr) { ?>
+			<ul class="tree-list tree-list-group">
+				<?=$this->partial('content/nested-page/group-item-partial-translate.phtml', [
+					'pageList'			=> $pageArr,
+					'managePage'		=> $managePage,
+					'params' 			=> $params
+				])?>
+			</ul>
+		<? } ?>
+		<!-- End Item List -->
+	</li>
+</ul>
+<?$this->headScript()->appendFile($this->basePath('js/ckeditor/ckeditor.js'));?>

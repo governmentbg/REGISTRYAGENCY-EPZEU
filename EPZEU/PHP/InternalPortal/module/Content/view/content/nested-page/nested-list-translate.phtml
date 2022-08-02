@@ -1,0 +1,185 @@
+<?php
+$pageTitle = '';
+
+switch ($type) {
+
+	case \Content\Controller\NestedPageController::PAGE_SERVICE_TYPE:
+		$pageTitle = $this->translate('EP_CMS_TRANSLATE_PAGES_SERVICES_L');
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_APPLICATION_TYPE:
+		$pageTitle = $this->translate('EP_CMS_TRANSLATE_PAGES_APPLICATIONS_L');
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_DOCUMENT_TEMPLATES:
+		$pageTitle = $this->translate('EP_CMS_TRANSLATE_PAGES_TEMPLATES_L');
+		break;
+
+	case \Content\Controller\NestedPageController::PAGE_LEGISLATION_TYPE:
+		$pageTitle = $this->translate('EP_CMS_TRANSLATE_PAGES_DOCUMENTS_L');
+		break;
+}
+
+$this->headTitle($pageTitle);
+
+?>
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_TRANSLATION_TRANSLATIONS_L')?></li>
+		<li class="breadcrumb-item"><?=$pageTitle?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$pageTitle?> </h2>
+</div>
+
+<?=$this->partial('partial\language-drop-down.phtml')?>
+
+<ul class="nav nav-tabs flex-column flex-sm-row">
+	<? foreach ($registerList as $registerName => $regId) {?>
+		<li class="nav-item <?=$registerId == $regId ? 'active': ''?> ">
+			<a class="tab-navigation nav-link <?=$registerId == $regId ? 'active': ''?>" data-id="<?=$regId?>" data-toggle="tab" href="#tab-<?=$regId?>"><?=$this->translate($registerName)?></a>
+		</li>
+	<? }?>
+</ul>
+
+<div class="tab-content">
+	<? foreach ($registerList as $registerName => $regId) {?>
+	<div id="tab-<?=$regId?>" class="tab-pane <?=$registerId ? ($registerId == $regId ? 'in active': '') : 'active' ?>">
+		<div class="card nav-tabs-container" id="register-id-<?=$regId?>" data-id="<?=$regId?>">
+			<div class="card-body" id="tab-content-<?=$regId?>">
+				<? if ($registerId == $regId) { ?>
+					<?=$this->partial('nested-list-translate-partial.phtml')?>
+				<? } ?>
+			</div>
+		</div>
+	</div>
+	<? } ?>
+</div>
+
+<script>
+	$(document).on('click', '.tab-navigation', function(){
+
+		var registerId = this.dataset.id;
+
+		var element = document.getElementById('tab-content-'+registerId);
+
+		if (!element.childElementCount)
+			ajaxRequest('', {registerId: registerId, getTabContent: true}, '#tab-content-'+registerId, '#tab-content-'+registerId);
+
+		var queryParams = createQuery({registerId: registerId});
+		history.pushState(null, null, queryParams);
+	});
+
+	function toggleLanguageSelect() {
+
+		var editableItemsArr = [];
+
+		$('.edit-i18n-section').each(function() {
+			if($(this).is(":visible")) {
+				editableItemsArr.push(1);
+			}
+			else {
+				editableItemsArr.push(0);
+			}
+		})
+
+		if(jQuery.inArray(1, editableItemsArr) !== -1) {
+			$('#language-select').attr("disabled", true);
+		}
+		else {
+			$('#language-select').attr("disabled", false);
+		}
+	}
+
+	function editPageI18n(pageId) {
+
+		$('.preview-i18n-'+pageId).hide();
+		$('.edit-i18n-'+pageId).removeClass('d-none');
+
+		if (document.getElementById('content-'+pageId) && !CKEDITOR.instances['content-'+pageId])
+			CKEDITOR.replace('content-'+pageId, {toolbar: 'LabelDescription', height: 100});
+
+		$('#language-select').attr("disabled", true);
+	}
+
+	function cancelEditPageI18n(pageId) {
+
+		$("#edit-row-"+pageId+" .invalid-feedback").remove();
+
+		$('.edit-i18n-'+pageId).addClass('d-none');
+		$('.preview-i18n-'+pageId).show();
+
+		var oldValue = $('.title-i18n-'+pageId).html();
+		var oldValue = br2nl(oldValue);
+
+		$('.edit-i18n-'+pageId+' input[name="titleI18n"]').val(oldValue);
+
+		toggleLanguageSelect();
+	}
+
+	function savePageChangesI18n(pageId) {
+
+		$("#edit-row-"+pageId+" .invalid-feedback").remove();
+
+		var title = $('.edit-i18n-'+pageId +' input[name="titleI18n"]').val();
+
+
+		content = null;
+
+		if (CKEDITOR.instances['content-'+pageId]) {
+			content = CKEDITOR.instances['content-'+pageId].getData();
+		}
+
+		ajaxRequest('', {'updateI18nPage': 1, 'pageId':pageId, 'title': title, content:content}, '#edit-page-'+pageId, '.edit-i18n-language-'+pageId);
+
+		$('.title-i18n-'+pageId).html(nl2br(title));
+		$('.edit-i18n-'+pageId).addClass('d-none');
+
+		$('.preview-i18n-'+pageId).show();
+
+		toggleLanguageSelect();
+	}
+
+
+
+    $(document).on("click", ".toggle-collapse-group",  function() {
+
+ 		var group = $(this).closest(".tree-list-group").find(".tree-list")[0];
+
+ 		$this = this;
+
+		if (group.childNodes.length) {
+			$(this).toggleClass('collapsed');
+			$(this).closest(".tree-list-group").find(".tree-list").slideToggle();
+		}
+
+		else {
+
+			$($this).find('i').removeClass('ui-icon-chevron-up');
+			$($this).find('i').addClass('ui-icon-loading ui-icon-spin');
+
+			var groupId = $(this).closest(".tree-list-group").data("id");
+			content  = $(this).closest(".tree-list-group").find(".tree-list");
+
+			$.ajax({
+				  method: "POST",
+				  url: '',
+				  data: {groupId:groupId, getGroupItems:1},
+				  async: true
+				})
+			 .done(function(msg) {
+
+				$($this).find('i').addClass('ui-icon-chevron-up');
+				$($this).find('i').removeClass('ui-icon-loading ui-icon-spin');
+
+				$(content).html(msg);
+				$(content).slideToggle();
+				$($this).toggleClass('collapsed');
+			 });
+		}
+  });
+
+</script>

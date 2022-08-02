@@ -1,0 +1,149 @@
+<? foreach ($dutyList as $key => $dutyObj) {
+	$dutyRegisterId = $registerServiceList[$dutyObj->getRegister()];
+?>
+
+	<tr>
+		<td>
+			<? if (bccomp($dutyObj->getObligationAmount(), $dutyObj->getPaidAmount(), 2) != 0) { ?>
+				<div class="custom-control custom-checkbox">
+					<input class="custom-control-input select-application" id="duty_<?=$key?>" value="<?=$dutyObj->getApplicationNumber()?>" type="checkbox">
+					<label class="custom-control-label" for="duty_<?=$key?>"></label>
+				</div>
+			<? } ?>
+		</td>
+		<td>
+			<p class="field-text"><b><?=$dutyObj->getApplicationNumber()?></b></p>
+			<p class="field-text"><a href="javascript://" onclick="previewApplication('<?=$this->url('preview_application', ['lang' => $this->language()->getCurrentLang()])?>', '<?=$dutyObj->getApplicationNumber()?>', '<?=$dutyRegisterId?>')"><b><?=$applicationTypeList[$dutyObj->getApplicationType()]?></b></a></p>
+		</td>
+		<td class="text-right">
+			<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_PAY_DUTY_AM_L')?></span>
+			<p class="field-text"><?=number_format($dutyObj->getObligationAmount(), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+		</td>
+		<td class="text-right">
+			<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_PAID_AMOUNT_L')?></span>
+			<p class="field-text"><?=number_format($dutyObj->getPaidAmount(), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+		</td>
+		<td class="text-right">
+			<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_UNPAID_AMOUNT_L')?></span>
+			<p class="field-text"><?=number_format(($dutyObj->getObligationAmount() - $dutyObj->getPaidAmount()),2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+		</td>
+		<td class="buttons-td">
+			<? if (bccomp ($dutyObj->getPaidAmount(), 0, 2)) { ?>
+			<button class="btn btn-secondary" title="<?=$this->translate('EP_PAY_PAYMENT_ORDERS_L')?>" onclick="$('#modal-title').html('<?=$this->translate('EP_PAY_PAYMENT_ORDERS_L')?>');openPreview('<?=$this->url('preview_duty_payment_order_list', ['lang' => $this->language()->getCurrentLang(), 'registerId' => $dutyRegisterId, 'applicationType' => $dutyObj->getApplicationType(), 'applicationNumber' => $dutyObj->getApplicationNumber()])?>', event)">
+				<i class="ui-icon ui-icon-document" aria-hidden="true"></i>
+			</button>
+			<? } ?>
+			<button onclick="$('#modal-title').html('<?=$this->translate('EP_PAY_VIEW_DUTIES_L')?>');openPreview('<?=$this->url('preview_application_duty_list_info', ['lang' => $this->language()->getCurrentLang(), 'registerId' => $dutyRegisterId, 'applicationType' => $dutyObj->getApplicationType(), 'applicationNumber' => $dutyObj->getApplicationNumber()])?>', event)" class="btn btn-secondary duty-info" title="<?=$this->translate('GL_DETAILS_L')?>">
+				<i class="ui-icon ui-icon-info" aria-hidden="true"></i>
+			</button>
+		</td>
+	</tr>
+<? } ?>
+
+<script>
+$(document).ready(function() {
+
+	$('.select-application:checkbox').prop('checked', false);
+
+	var selectedValues = $('#selectedApplicationList').val();
+
+	var selectedValuesPageArr = [];
+
+	// маркира избраните заявления, запазва маркирането при странициране
+	$('.select-application').each(function() {
+		var tempValue = $(this).val();
+		if(jQuery.inArray(tempValue, selectedValues) !== -1) {
+			$('.select-application:checkbox[value='+tempValue+']').prop('checked', true);
+			selectedValuesPageArr.push(tempValue);
+		}
+		else {
+			if (!$(this).is(':disabled')) {
+				selectedValuesPageArr.push(0);
+			}
+		}
+	})
+
+	$('#count-selected-application-pay').text(selectedValues.length);
+
+	$('.check-all').prop('checked', false);
+
+	if (selectedValuesPageArr.length == 0)
+		$('.check-all-div').addClass('d-none');
+	else
+		$('.check-all-div').removeClass('d-none');
+
+	if(selectedValuesPageArr.length > 0 && jQuery.inArray(0, selectedValuesPageArr) === -1) {
+		$('.check-all').prop('checked', true);
+	}
+})
+
+$('.check-all').on("click", function(e){
+
+	var selectedValues = $('#selectedApplicationList').val();
+
+	if($(this).is(':checked')) {
+		$('.select-application').not(":disabled").each(function() {
+			var tempValue = $(this).val();
+			if(jQuery.inArray(tempValue, selectedValues) === -1 && !$(this).is(':disabled')) {
+				$('#selectedApplicationList').append('<option value="'+tempValue+'" selected="selected"></option>');
+				$('.select-application:checkbox[value='+tempValue+']').prop('checked', true);
+			}
+		})
+	}
+	else {
+		$('.select-application').not(":disabled").each(function() {
+			var tempValue = $(this).val();
+			if(jQuery.inArray(tempValue, selectedValues) !== -1) {
+				$('#selectedApplicationList option[value="'+tempValue+'"]').remove();
+				$('.select-application:checkbox[value='+tempValue+']').prop('checked', false);
+			}
+		})
+	}
+
+	var selectedValues = $('#selectedApplicationList').val();
+	$('#count-selected-application-pay').text(selectedValues.length);
+
+	if (selectedValues.length > 0) {
+		$('#pay-duty-list').removeAttr("disabled");
+	}
+	else {
+		$('#pay-duty-list').attr('disabled', true);
+	}
+})
+
+$('.select-application').on("click", function(e){
+
+	var applicationNumber = $(this).val();
+
+	if($(this).is(':checked'))
+		$('#selectedApplicationList').append('<option value="'+applicationNumber+'" selected="selected"></option>');
+	else
+		$('#selectedApplicationList option[value="'+applicationNumber+'"]').remove();
+
+	var selectedValues = $('#selectedApplicationList').val();
+	$('#count-selected-application-pay').text(selectedValues.length);
+
+	if (selectedValues.length > 0)
+		$('#pay-duty-list').removeAttr("disabled");
+	else
+		$('#pay-duty-list').attr('disabled', true);
+
+	var dutyCount = 0;
+	var dutyCountChecked = 0;
+
+	$('.select-application').not(":disabled").each(function(obj, item) {
+
+		dutyCount = dutyCount + 1;
+
+		if($(item).is(':checked'))
+			dutyCountChecked = dutyCountChecked + 1;
+	})
+
+	if (dutyCount == dutyCountChecked) {
+		$('.check-all').prop('checked', true);
+	}
+	else {
+		$('.check-all').prop('checked', false);
+	}
+})
+</script>

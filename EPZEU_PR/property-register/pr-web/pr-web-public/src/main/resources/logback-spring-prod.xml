@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+
+<configuration scan="true">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <springProfile name="prod">
+
+        <!-- The FILE and ASYNC appenders are here as examples for a production configuration -->
+        <!--
+            <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+                    <maxHistory>90</maxHistory>
+                </rollingPolicy>
+                <encoder>
+                    <charset>utf-8</charset>
+                    <Pattern>%d %-5level [%thread] %logger{0}: %msg%n</Pattern>
+                </encoder>
+            </appender>
+
+            <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+                <queueSize>512</queueSize>
+                <appender-ref ref="FILE"/>
+            </appender>
+
+            <root level="${logging.level.root}">
+                <appender-ref ref="ASYNC"/>
+            </root>
+        -->
+
+        <springProperty name="applicationName" source="spring.application.name"/>
+
+        <!--        <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
+        <!--            <destination>vm-av-epzeu-elk1.dev.local:12456</destination>-->
+        <!--            <encoder class="net.logstash.logback.encoder.LogstashEncoder">-->
+        <!--                <customFields>{"serviceType":"${applicationName}"}</customFields>-->
+        <!--            </encoder>-->
+        <!--            <keepAliveDuration>5 minutes</keepAliveDuration>-->
+        <!--        </appender>-->
+
+        <appender name="logstash" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>logback/api-logstash.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>logback/api-logstash.%d{yyyy-MM-dd}.log</fileNamePattern>
+            </rollingPolicy>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <customFields>{"serviceType":"${applicationName}"}</customFields>
+            </encoder>
+        </appender>
+
+        <root encoding="UTF-8">
+            <appender-ref ref="logstash" />
+        </root>
+
+        <!-- https://logback.qos.ch/manual/configuration.html#shutdownHook and https://jira.qos.ch/browse/LOGBACK-1090 -->
+        <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+
+        <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+            <resetJUL>true</resetJUL>
+        </contextListener>
+
+    </springProfile>
+</configuration>

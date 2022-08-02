@@ -1,0 +1,187 @@
+<? $this->headTitle('EP_USR_00006_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_00006_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_USR_00006_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+				<div class="card card-page">
+
+					<? if ($isRateLimitReached) { ?>
+						<div class="alert alert-warning" role="alert"><?=$this->translate('GL_TOO_MANY_REQUESTS_E')?></div>
+					<?} else { ?>
+
+						<?php
+						$userForm->setAttribute('action', $this->url('register', ['lang' => $this->language()->getCurrentLang()]));
+						$userForm->prepare();
+
+						$userFieldset = $userForm->get('userFieldset');
+
+						echo $this->form()->openTag($userForm);
+
+						?>
+						<div class="card-body card-page__body">
+
+							<div class="row">
+								<div class="col-12">
+									<?=$this->partial('partial/messages.phtml')?>
+
+									<?=$this->formHidden($userFieldset->get('id'))?>
+
+									<div class="row">
+										<div class="col-sm-6 form-group">
+											<?=$this->formRow($userFieldset->get('email'))?>
+											<div class="help-text-inline"><?=$this->translate('EP_USR_00003_I')?></div>
+										</div>
+
+										<div class="col-sm-6 form-group">
+											<?=$this->formRow($userFieldset->get('firstName'))?>
+										</div>
+
+										<div class="col-sm-6 form-group">
+											<?=$this->formRow($userFieldset->get('middleName'))?>
+										</div>
+
+										<div class="col-sm-6 form-group">
+											<?=$this->formRow($userFieldset->get('familyName'))?>
+										</div>
+									</div>
+
+
+									<div class="row">
+										<div class="col-sm-6 form-group">
+											<?=$this->formRow($userFieldset->get('password'))?>
+									        <div class="help-text-inline"><?=$this->translate('EP_USR_ALLOW_PASSWORD_I')?></div>
+										</div>
+
+										<div class="col-sm-6 form-group">
+											<?=$this->formRow($userFieldset->get('confirmPassword'))?>
+										</div>
+									</div>
+
+									<div class="row">
+
+										<div class="col-sm-6 form-group">
+											<label class="field-title field-title--form"><?=$this->translate('EP_USR_00002_L')?></label>
+											<?=$this->formRow($userFieldset->get('crBulletinAcceptance'), 'append', null, 'partial/checkbox')?>
+											<?=$this->formRow($userFieldset->get('prBulletinAcceptance'), 'append', null, 'partial/checkbox')?>
+										</div>
+
+										<div class="col-sm-6 form-group">
+											<label class="field-title field-title--form"><?=$this->translate('EP_USR_00013_L')?></label>
+											<?=$this->formRow($userFieldset->get('crMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+											<?=$this->formRow($userFieldset->get('prMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+											<?=$this->formRow($userFieldset->get('epzeuMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+
+
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group form-inline">
+											<?=$this->formRow($userFieldset->get('specialAccess'), 'append', null, 'partial/checkbox')?>
+											</div>
+										</div>
+									</div>
+
+									<fieldset id="special-access-section" style="display: none;">
+											<h2 class="section-title section-title--form"><?=$this->translate('EP_USR_00007_L');?></h2>
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="alert alert-info"><?=$this->translate('EP_USR_00002_I');?></div>
+												</div>
+
+												<div class="col-sm-6 remove-errors">
+													<?=$this->formRow($userFieldset->get('contactData'), null, true, "")?>
+													<div class="help-text-inline"><?=$this->translate('EP_USR_00006_I')?></div>
+												</div>
+
+												<div class="col-sm-6 remove-errors">
+													<?=$this->formRow($userFieldset->get('organization'), null, true, "")?>
+												</div>
+
+												<div class="w-100"></div>
+
+												<div class="col-sm-12 mb-2 mt-1">
+													<label class="required-field field-title field-title--form"><?=$this->translate('EP_USR_00008_L')?></label>
+													<?=$this->partial('partial/uploader.phtml', ['maxFileSize' => $config['GL_DOCUMENT_MAX_FILE_SIZE'], 'fileArr' => $fileArr])?>
+													<?=$this->formRow($userFieldset->get('files'))?>
+												</div>
+
+										</div>
+									</fieldset>
+									<div class="row">
+										<div class="col-12">
+											<?=$this->formRow($userFieldset->get('terms'), 'append', false, 'partial/checkbox')?>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="card-footer card-page__footer">
+							<div class="button-bar">
+								<a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+								<?=$this->formSubmit($userForm->get('submit'));?>
+							</div>
+						</div>
+
+						<?=$this->form()->closeTag();?>
+
+						<script>
+							$(document).ready(function(){
+								showPasswordStrength();
+							});
+
+							$("#special-access").on('click', function(){
+								this.checked ? $('#contact-label').addClass('required-field') : $('#contact-label').removeClass('required-field');
+								this.checked ? $("#special-access-section").show() : $("#special-access-section").hide();
+								$('#contactData').removeClass('input-error');
+								$('.remove-errors .invalid-feedback').hide();
+
+								$('#organization').removeClass('input-error');
+
+							});
+
+							$(document).ready(function(){
+								var specialAccess = document.getElementById("special-access").checked
+								specialAccess ? $("#special-access-section").show() : $("#special-access-section").hide();
+							});
+
+							$(document).on('submit','#userform',function(){
+								showGlobalLoader();
+							});
+						</script>
+					<? } ?>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

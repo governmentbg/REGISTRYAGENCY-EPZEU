@@ -1,0 +1,35 @@
+# ZF modules
+vendor/
+
+# ZF local and development config
+config/autoload/local.php
+config/autoload/development-php.local.php
+config/development.config.php
+
+# ZF data
+data/cache/*
+data/language/*
+data/log/*
+data/tmp/*
+
+# ZF include cache folders 
+!data/cache/document/
+!data/cache/document/news/
+!data/cache/images/
+!data/cache/images/news/
+!data/cache/media/
+!data/cache/media/video-tutorials/
+!data/cache/document/nested-page/
+!data/cache/document/bulletin/
+!data/cache/document/statistic-report/
+
+# ZF include .gitkeep files
+!.gitkeep
+
+# Eclipse settings
+.settings/
+.buildpath
+.project
+
+# TFS 2012 Local Workspace
+$tf/

@@ -1,0 +1,149 @@
+<? if ($statisticList) { ?>
+
+	<nav class="button-bar" aria-label="Page navigation">
+		<div class="pagination-container">
+			<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+		</div>
+	</nav>
+
+	<div class="table-responsive">
+		<table class="table table-bordered table-striped table-hover table-sortable">
+			<thead>
+				<tr>
+					<th><?=$this->translate('GL_REGISTER_L')?></th>
+					<th class="w-40"><?=$this->translate('GL_NAME_L')?></th>
+					<th class="w-50"><?=$this->translate('GL_NAME_L')?><span class="label-description"> (<?=$this->language()->getLanguagesName()?>)</span></th>
+					<th><?=$this->translate('GL_ACTIONS_L')?></th>
+				</tr>
+			</thead>
+			<tbody id="content" data-registerid="<?=$registerId?>">
+				<? foreach ($statisticList as $baseObj) { ?>
+					<tr data-rowid="<?=$baseObj->getStatisticId()?>" >
+						<td>
+						<?=$this->translate(array_search($baseObj->getRegisterId(), $registerList)) ?>
+						</td>
+
+						<td><?=$baseObj->getName()?></td>
+						<td>
+
+							<div class="edit-i18n-language-<?=$baseObj->getStatisticId()?>">
+								<div class="preview-i18n-<?=$baseObj->getStatisticId()?>">
+
+									<? if ($this->isAllowed('statistic_translate_action')) { ?>
+									<button class="btn btn-secondary float-right edit-section-<?=$baseObj->getStatisticId()?>" onclick="editNamelI18n('<?=$baseObj->getStatisticId()?>')" title="<?=$this->translate('GL_EDIT_L')?>"><i class="ui-icon ui-icon-edit"></i></button>
+									<? } ?>
+
+									<span class="label-value"><?=nl2br($baseObj->getNameI18n())?></span>
+								</div>
+
+								<? if ($this->isAllowed('statistic_translate_action')) { ?>
+									<div class="edit-i18n-section edit-i18n-<?=$baseObj->getStatisticId()?> d-none">
+
+										<div class="row">
+											<div class="form-group col-12">
+												<textarea class="form-control ckeditor" id="exampleTextarea" name="labelValue" rows="3" maxlength="1000"><?=$baseObj->getNameI18n()?></textarea>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-12">
+												<div class="btn-group float-right">
+													<button class="btn btn-secondary float-right" onClick="saveNameChangesI18n('<?=$baseObj->getStatisticId()?>')" title="<?=$this->translate('GL_SAVE_L')?>"><i class="ui-icon ui-icon-check"></i></button>
+													<button class="btn btn-secondary float-right" onClick="cancelEditNameI18n('<?=$baseObj->getStatisticId()?>')" title="<?=$this->translate('GL_REFUSE_L')?>"><i class="ui-icon ui-icon-ban"></i></button>
+												</div>
+											</div>
+										</div>
+									</div>
+								<? } ?>
+
+
+							</div>
+						</td>
+
+						<td class="">
+							<a href="<?=$this->publicUrl([$this->language()->getCurrentLang(), 'statistic-'.$registerCode])?>" target="_blank" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>">
+								<i class="ui-icon ui-icon-eye"></i>
+							</a>
+						</td>
+					</tr>
+				<? } ?>
+			</tbody>
+		</table>
+	</div>
+
+	<nav class="button-bar" aria-label="Page navigation">
+		<div class="pagination-container">
+			<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+		</div>
+	</nav>
+
+<? } else { ?>
+	<div class="alert alert-warning" role="alert">
+		<?=$this->translate('GL_NO_DATA_FOUND_L')?>
+	</div>
+<? } ?>
+
+<script>
+function toggleLanguageSelect() {
+
+	var editableItemsArr = [];
+
+	$('.edit-i18n-section').each(function() {
+		if($(this).is(":visible")) {
+			editableItemsArr.push(1);
+		}
+		else {
+			editableItemsArr.push(0);
+		}
+	})
+
+	if(jQuery.inArray(1, editableItemsArr) !== -1) {
+		$('#language-select').attr("disabled", true);
+	}
+	else {
+		$('#language-select').attr("disabled", false);
+	}
+}
+
+function editNamelI18n(id) {
+	$('.preview-i18n-'+id).hide();
+	$('.edit-i18n-'+id).removeClass('d-none');
+
+	$('#language-select').attr("disabled", true);
+}
+
+function cancelEditNameI18n(id) {
+	$("#edit-row-"+id+" .invalid-feedback").remove();
+
+	$('.edit-i18n-'+id).addClass('d-none');
+	$('.preview-i18n-'+id).show();
+
+	var oldValue = $('.preview-i18n-'+id+' .label-value').html();
+	var oldValue = br2nl(oldValue);
+
+	$('.edit-i18n-'+id+' textarea[name="labelValue"]').val(oldValue);
+
+	toggleLanguageSelect();
+}
+
+function saveNameChangesI18n(id, code) {
+
+	stripTags(id);
+
+	$("#edit-row-"+id+" .invalid-feedback").remove();
+
+	var labelValue = $('.edit-i18n-'+id +' textarea[name="labelValue"]').val();
+	ajaxRequest('', {'updateI18nLabel': 1, 'id':id, 'value': labelValue, 'code': code}, '#edit-label-'+id, '.edit-i18n-language-'+id);
+
+	$('.preview-i18n-'+id+' .label-value').html(nl2br(labelValue));
+	$('.edit-i18n-'+id).addClass('d-none');
+
+	$('.preview-i18n-'+id).show();
+
+	toggleLanguageSelect();
+}
+
+$(document).ready(function(){
+	$('#language-select').attr("disabled", false);
+})
+</script>

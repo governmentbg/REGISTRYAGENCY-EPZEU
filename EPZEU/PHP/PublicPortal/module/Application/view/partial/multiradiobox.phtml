@@ -1,0 +1,24 @@
+<?
+$optionList = $this->element->getValueOptions();
+$id = $this->element->getAttribute('id');
+$name = $this->element->getAttribute('name');
+$class = $this->element->getAttribute('class');
+$label = $this->element->getLabel();
+$checkedValues = $this->element->getValue();
+$disabled = $this->element->getAttribute('disabled');
+
+if (isset($checkedValues) && !is_array($checkedValues))
+	$checkedValues = [$checkedValues];
+?>
+
+<label class="control-label"><?=$this->translate($label)?></label>
+<div class="<?=(!empty($class) ? $class : 'form-inline')?>">
+	<?foreach($optionList as $option => $value){ ?>
+		<div class="custom-control-inline custom-control custom-radio">
+	    	<input class="custom-control-input" name="<?=$name?>" id="<?=$id.'_'.$option?>" value="<?=$option?>" type="radio"<? if(!empty($checkedValues) && in_array($option, $checkedValues)){ echo ' checked'; }?> <?=(!empty($disabled) ? 'disabled="disabled"' : '')?>>
+	        <label class="custom-control-label" for="<?=$id.'_'.$option?>"><?=$this->translate($value)?></label>
+	    </div>
+	<?}?>
+</div>
+
+

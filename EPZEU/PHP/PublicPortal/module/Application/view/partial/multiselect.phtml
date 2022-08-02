@@ -1,0 +1,104 @@
+<?
+$optionList = $this->element->getValueOptions();
+$id = $this->element->getAttribute('id');
+$name = $this->element->getAttribute('name');
+$checkedValues = $this->element->getValue();
+$label = $this->element->getLabel();
+?>
+
+<label class="control-label"><?=$this->translate($label)?></label>
+
+<div class="form-control multiple-select" id="container_<?=$id?>" tabindex="0">
+	<div class="result-list">
+		<div id="result_<?=$id?>" class="test">
+		<? if (!empty($checkedValues)) {
+
+			foreach ($checkedValues as $option) {
+
+				$selectedId = $id.'_'.$option;
+				$selectedLabel = $optionList[$option];
+
+				echo '
+				<div class="badge badge-secondary result-selected-item" id="item-selected-name-'.$selectedId.'">'.$selectedLabel.'
+					<button type="button" class="close" aria-label="Close" onclick="deleteSelectedItem(\''.$selectedId.'\', '.$option.');">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>';
+			}
+		}
+		?>
+		</div>
+	</div>
+	<div id="content_<?=$id?>" class="dropdown-menu multiple-select-option-box">
+		<?foreach($optionList as $option => $value){ ?>
+			<div class="custom-control custom-checkbox">
+		    	<input class="custom-control-input" name="<?=$name?>[]" id="<?=$id.'_'.$option?>" value="<?=$option?>" type="checkbox" <?php if(!empty($checkedValues) && in_array($option, $checkedValues)){ echo ' checked'; }?>>
+		        <label class="custom-control-label" id="label_<?=$id.'_'.$option?>" for="<?=$id.'_'.$option?>"><?=$value?></label>
+		    </div>
+		<?}?>
+	</div>
+</div>
+
+<select multiple name="<?=$name?>_hidden[]" id="<?=$name?>_hidden" style="display:none">
+<? if (!empty($checkedValues)) { ?>
+	<? foreach ($checkedValues as $option) { ?>
+		 <option selected="selected" value="<?=$option?>">
+	<? } ?>
+<? } ?>
+</select>
+
+<script type="text/javascript">
+
+$("#container_<?=$id?>").on("click",function(){
+	$("#content_<?=$id?>").addClass('show');
+});
+
+$("#container_<?=$id?>").focusin(function() {
+	$("#content_<?=$id?>").addClass('show');
+});
+
+function addSelectedItem(selectedItem) {
+
+	selectedValues = $('#<?=$name?>_hidden').val();
+
+	var selectedId = selectedItem.attr('id');
+	var selectedLabelText = $('#label_'+selectedId).text();
+	var selectedOptionValue = selectedItem.val();
+
+	if (selectedItem.is(':checked')) {
+
+		if (selectedValues == null || $.inArray(selectedOptionValue, selectedValues) == -1 ) {
+
+			selectedItem.prop("checked",true);
+
+			var selectedResultItem = '<div class="badge badge-secondary result-selected-item" id="item-selected-name-'+selectedId+'">'+selectedLabelText
+										+'<button type="button" class="close" aria-label="Close" onclick="deleteSelectedItem(\''+selectedId+'\', '+selectedOptionValue+');">'
+											+'<span aria-hidden="true">×</span>'
+										+'</button>'
+									+'</div>';
+
+			$('#result_<?=$id?>').append(selectedResultItem);
+			$('#<?=$name?>_hidden').append('<option selected="selected" value="'+selectedOptionValue+'">');
+		}
+	}
+	else {
+		deleteSelectedItem(selectedId, selectedOptionValue);
+	}
+}
+
+function deleteSelectedItem(id, selectedOption) {
+	$('#item-selected-name-'+id).remove();
+	$('#'+id).prop("checked",false);
+	$("#<?=$name?>_hidden option[value='"+selectedOption+"']").remove();
+}
+
+$(".custom-control-input").on("click", function() {
+	addSelectedItem($(this));
+});
+
+$("body").on("click",function(e){
+	if(e.target.id != "container_<?=$id?>" && $(e.target).attr("id") != "result_<?=$id?>" && $(e.target).attr("class") != "custom-control-input" && $(e.target).attr("class") != "badge badge-secondary result-selected-item" && $(e.target).attr("class") != "custom-control custom-checkbox") {
+		$("#content_<?=$id?>").removeClass('show');
+	}
+});
+</script>

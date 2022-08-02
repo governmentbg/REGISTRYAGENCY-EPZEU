@@ -1,0 +1,94 @@
+<div class="field-container">
+	<div class="row">
+		<div class="col">
+			<label class="field-title field-title--form"><?=$this->translate('GL_APPLICATION_L')?></label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-12">
+			<p class="field-text"><?=$params['applicationNumber']?></p>
+			<p class="field-text">
+				<? if(!empty($applicationTypeList)) {?>
+					<a href="javascript://" onclick="previewApplication('<?=$this->url('preview_application', ['lang' => $this->language()->getCurrentLang()])?>', '<?=$params['applicationNumber']?>', '<?=$params['registerId']?>')"><?=$applicationTypeList[$params['applicationType']]?></a>
+				<? } ?>
+			</p>
+		</div>
+	</div>
+</div>
+
+<div class="table-responsive-block">
+	<table class="table table-borderless table-striped table-hover">
+		<thead>
+			<tr>
+				<th width="20%"><?=$this->translate('EP_PAY_DUTY_L')?></th>
+				<th width="20%"><?=$this->translate('EP_PAY_PAYMENT_DEADLINE_L')?></th>
+				<th width="15%"><?=$this->translate('GL_STATE_OBLIGATION_L')?></th>
+				<th width="15%" class="text-right"><?=$this->translate('GL_VALUE_L')?></th>
+				<th width="15%" class="text-right"><?=$this->translate('EP_UNPAID_AMOUNT_L')?></th>
+				<th><?=$this->translate('GL_CONDITION_L')?></th>
+			</tr>
+		</thead>
+		<tbody>
+			<? if (!empty($applicationDutyList)) {
+				foreach ($applicationDutyList as $applicationNumber => $obligationList) {
+					foreach ($obligationList as $obligation) {
+			?>
+					<tr>
+						<td class="word-break">
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_PAY_DUTY_L')?></span>
+							<p class="field-text"><?=$obligation->getObligationNumber()?></p>
+						</td>
+						<td>
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_PAY_PAYMENT_DEADLINE_L')?></span>
+							<p class="field-text">
+								<?=$this->dateFormat(
+									strtotime($obligation->getDeadline()),
+									IntlDateFormatter::NONE, // date
+									IntlDateFormatter::NONE, // time
+									$this->plugin('translate')->getTranslator()->getLocale(),
+									\Application\View\Helper\DateFormat::DATETIME
+								);
+								?>
+							</p>
+						</td>
+						<td>
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_STATE_OBLIGATION_L')?></span>
+							<p class="field-text"><?=(!empty($obligation->getFreeOfCharge()) ? $this->translate('GL_OK_L') : $this->translate('GL_NO_L'))?></p>
+						</td>
+						<td class="text-right">
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_VALUE_L')?></span>
+							<p class="field-text"><?=number_format($obligation->getObligationAmount(), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+						</td>
+						<td class="text-right">
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_UNPAID_AMOUNT_L')?></span>
+							<p class="field-text"><?=number_format(($obligation->getObligationAmount() - $obligation->getPaidAmount()),2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+						</td>
+						<td class="icons-td">
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_CONDITION_L')?></span>
+
+							<?
+							switch ($obligation->getStatus()) {
+								case 'Requested':
+									$labelStatus = $this->translate('GL_PAY_STATUS_UNPAID_L');
+									$iconClass = 'ui-icon-state-waiting';
+									break;
+								case 'Paid':
+									$labelStatus = mb_convert_case($this->translate('GL_PAID_L'),  MB_CASE_TITLE, "UTF-8");
+									$iconClass = 'ui-icon-state-active';
+									break;
+								case 'Canceled':
+									$labelStatus = $this->translate('GL_PAY_STATUS_CANCELED_L');
+									$iconClass = 'ui-icon-state-canceled';
+									break;
+							}
+							?>
+
+							<p><i class="ui-icon <?=$iconClass?>" aria-hidden="true"></i><?=$labelStatus?></p>
+						</td>
+					</tr>
+				<? }
+				}
+			}?>
+		</tbody>
+	</table>
+</div>

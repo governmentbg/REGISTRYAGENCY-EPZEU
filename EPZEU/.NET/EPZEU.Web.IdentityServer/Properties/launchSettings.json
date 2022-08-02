@@ -1,0 +1,25 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": true,
+    "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "https://localhost/EPZEU.Web.IdentityServer",
+      "sslPort": 0
+    },
+    "iisExpress": {
+      "applicationUrl": "http://localhost:55290/",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "EPZEU.Web.IdentityServer": {
+      "commandName": "IIS",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development.Local"
+      },
+      "ancmHostingModel": "OutOfProcess",
+      "applicationUrl": "http://localhost:55291/"
+    }
+  }
+}

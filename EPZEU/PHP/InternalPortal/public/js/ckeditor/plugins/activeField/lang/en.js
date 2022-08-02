@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.setLang('activeField','en',{activeField:{dialogTitle:'Active field',buttonName:'Add active field',errNoData:'Please select active field',fieldName:'Active field name',selectFieldName:'Select active field'}});

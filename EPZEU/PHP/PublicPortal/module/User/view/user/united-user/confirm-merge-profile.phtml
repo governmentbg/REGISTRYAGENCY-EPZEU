@@ -1,0 +1,94 @@
+<? $this->headTitle('EP_USRM_USER_DATA_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item"><a href="<?=$this->url('united_profile_list', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('EP_USRM_MERGE_USERS_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USRM_USER_DATA_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_USRM_USER_DATA_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="main-wrapper section-wrapper section-wrapper--margins fixed-content-width">
+	<div class="page-wrapper">
+		<div class="section-wrapper">
+
+			<? if ($errorMessage) { ?>
+				<div class="alert alert-danger" role="alert"><?=$this->translate($errorMessage) ?></div>
+			<? } else { ?>
+
+			<div class="row">
+				<div class="col-md-4 form-group">
+					<label class="field-title field-title--form" for=""><?=$this->translate('GL_USER_NAME_L')?></label>
+					<p class="field-text"><?=$migarationObject->getMigrantUsername()?></p>
+				</div>
+				<div class="col-md-4 form-group">
+					<label class="field-title field-title--form" for=""><?=$this->translate('GL_REGISTER_L')?></label>
+					<p class="field-text"><?=$this->translate($registerLabel)?></p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4 form-group">
+					<label class="field-title field-title--form" for=""><?=$this->translate('GL_EMAIL_L')?></label>
+					<p class="field-text"><?=$migarationObject->getEmail()?></p>
+				</div>
+				<div class="col-md-4 form-group">
+					<label class="field-title field-title--form" for=""><?=$this->translate('EP_USRM_CLIENT_IND_L')?></label>
+					<p class="field-text"><?=$migarationObject->getAdmId()?></p>
+				</div>
+				<div class="col-md-4 form-group">
+					<label class="field-title field-title--form" for=""><?=$this->translate('EP_USRM_NAME_L')?></label>
+					<p class="field-text"><?=$migarationObject->getFullname()?></p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4 form-group">
+					<label class="field-title field-title--form" for=""><?=$this->translate('EP_PAY_BALANS_PERS_ACC')?></label>
+					<p class="field-text"><?=$migarationObject->getMigrantAmount()?> <?=$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+				</div>
+			</div>
+
+			<form action="<?=$this->url('confirm_merge_profile', ['lang' => $this->language()->getCurrentLang(), 'userData' => $encryptData])?>" method="post">
+
+				<input type="hidden" name="confirm" value="1"/>
+
+				<div class="button-bar button-bar--form">
+					<div class="left-side">
+						<a href="<?=$this->url('united_profile_list', ['lang' => $this->language()->getCurrentLang()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+					</div>
+					<div class="right-side">
+						<input type="submit" name="submit" class="btn btn-primary" value="<?=$this->translate('GL_CONFIRM_L')?>">
+					</div>
+				</div>
+			</form>
+
+			<? } ?>
+
+			<? if ($errorMessage) { ?>
+				<div class="left-side">
+					<a href="<?=$this->url('united_profile_list', ['lang' => $this->language()->getCurrentLang()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+				</div>
+			<? } ?>
+
+		</div>
+	</div>
+</div>

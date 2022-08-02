@@ -1,0 +1,176 @@
+/* ----  UI Icons ---- */
+
+
+$icons-path: (
+	// navigation-icons:	'../images/icons/nav/',
+	button-icons: 		'../images/icons/btn/',
+	state-icons: 		'../images/icons/stat/'
+);
+
+$icons: (
+
+	// navigation-icons: (
+	// 	about: 		'about.svg',
+	// 	book: 		'book.svg',
+	// 	comments: 	'comments.svg',
+	// 	config:		'config.svg',
+	// 	documents: 	'documents.svg',
+	// 	home: 		'home.svg',
+	// 	links: 		'link.svg',
+	// 	services: 	'services.svg'
+	// ),
+
+
+	button-icons: (
+		menu: 			'bars.svg',
+		sub-menu: 		'sub-menu.svg',
+		calendar:		'calendar-alt.svg',
+		calendar-color:	'calendar-alt.svg',
+		calculator:		'calculator.svg',
+		clock: 			'clock.svg',
+		history: 		'history-color.svg',
+		search: 		'search.svg',
+		document: 		'file-alt-color.svg',
+		book: 			'book-color.svg',
+		download: 		'download.svg',
+		download-color:	'download-color.svg',
+		upload: 		'upload.svg',
+		upload-color: 	'upload.svg',
+		user: 			'user-circle.svg',
+		help:	 		'question-circle.svg',
+		help-alt:		'question.svg',
+		chevron-down-alt:'chevron-down-alt.svg',
+		chevron-down:	'chevron-down.svg',
+		chevron-left:	'chevron-left.svg',
+		chevron-right:	'chevron-right.svg',
+		chevron-up:		'chevron-up.svg',
+		angle-double-right:	'angle-double-right.svg',
+		eye:			'eye.svg',
+		ban:			'ban.svg',
+		check:			'check.svg',
+		warning:		'exclamation-triangle.svg',
+		copy:			'copy.svg',
+		clipboard:		'clipboard.svg',
+		sort:			'sort.svg',
+		sort-up:		'sort-up.svg',
+		sort-down:		'sort-down.svg',
+		trash:			'trash.svg',
+		edit:			'edit.svg',
+		edit-alt:		'edit_alt.svg',
+		edit-color:		'edit_color.svg',
+		edit-white:		'edit_white.svg',
+		sign:			'pen.svg',
+		remote-sign:	'remote-sign-alt.svg',
+		redo:			'redo.svg',
+		plus:			'plus.svg',
+		times:			'times.svg',
+		times-alt:		'times-alt.svg',
+		erasure:		'erasure.svg',
+		erasure-uncheck:'erasure_uncheck_old.svg',
+		erasure-check:	'erasure_check_old.svg',
+		import:			'import.svg',
+		globe-top: 		'globe-top.svg',
+		user-top: 		'user-top.svg',
+		search-top: 	'search-top.svg',		
+		contacts-top: 	'contacts-top.svg',
+
+		font-size: 		'font-size.svg',
+		font-size-plus: 'font-size-plus.svg',
+		font-size-minus:'font-size-minus.svg',
+
+		video-box:		'video.svg',
+		document-box:	'document.svg',
+		book-box:		'book.svg',
+		statistics-box:	'chart-bar.svg',
+		calculator-box:	'calculator-box.svg',
+		users:			'users-circle.svg',
+		id-card:		'id-card-circle.svg',
+		num-card:		'num-card-circle.svg',
+
+		comments:		'comments.svg',
+		comment:		'comment-dots.svg',
+		hand:			'hand-pointer.svg',
+
+		pay:			'payment-white.svg',
+		pay-alt:		'payment.svg',
+
+		instructions:	'instructions.svg',
+		info:			'info.svg',
+		scroll-to-top:	'scroll-to-top.svg',
+		number:			'hashtag.svg'
+		
+	),
+
+	state-icons: (
+		canceled: 		'ban.svg',
+		processed: 		'check-circle.svg',
+		processed-white:'check-circle-white.svg',
+		waiting: 		'exclamation-circle.svg',
+		waiting-white: 	'exclamation-circle-white.svg',
+		error: 			'minus-circle.svg',
+		error-white:	'minus-circle-white.svg',
+		erased:			'times-circle.svg',
+		loading:		'spinner.svg',
+
+		state-active:	'active.svg',
+		state-inactive:	'inactive.svg',
+		state-waiting:	'waiting.svg',
+		state-canceled:	'canceled.svg'
+	)
+
+);
+
+
+@each $icons-list-name, $icons-list in $icons {
+
+	$path: map-get($icons-path, $icons-list-name);
+	@each $icon-name, $icon-file in $icons-list {
+
+		.ui-icon-#{$icon-name} {
+			background-image: url('#{$path}#{$icon-file}');
+		}
+
+	}
+
+}
+
+
+%ui-icon {
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	width: 1rem;
+	height: 1rem;
+	background-position: center center;
+	background-repeat: no-repeat;
+	vertical-align: middle;
+}
+
+.ui-icon {
+
+	@extend %ui-icon;
+
+	&.rotate-90 {
+		transform: rotate(90deg);
+	}
+
+	&.rotate-180 {
+		transform: rotate(180deg);
+	}
+
+	&.rotate-270 {
+		transform: rotate(270deg);
+	}
+}
+
+.ui-icon-spin {
+	@include spin();
+}
+
+
+
+.ui-icon.mr-1 {
+	margin-right: 0.25rem !important;
+}
+
+/* ----  /UI Icons ---- */

@@ -1,0 +1,75 @@
+<? $this->headTitle('EP_STATISTICS_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item"><a href="<?=$this->url(($registerType == 'cr' ? 'commercial_register' : 'property_register'), ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_'.strtoupper($registerType).'_REG_NAME_L'.($registerType == 'cr'? '_SHORT_L' : ''))?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_STATISTICS_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_STATISTICS_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+
+			<? foreach ($statisticList as $statisticObj)  {
+				if (!$userService->isAllowed('preview_statistic') && !$statisticObj->getElementCount())
+					continue;
+			?>
+
+				<section class="card card-page card--collapsible">
+					<div class="card-header card-page__header collapsed <?=$statisticObj->getElementCount() ? 'group-collapsed' : '' ?>" data-id="<?=$statisticObj->getStatisticId()?>" <?=$statisticObj->getElementCount() ? 'data-toggle="collapse"' : '' ?> data-target="#collapsable-content-<?=$statisticObj->getStatisticId()?>" aria-expanded="false">
+						<h2 class="section-title section-title--page">
+							<?=$statisticObj->getName()?>
+						</h2>
+						<? if ($statisticObj->getElementCount()) { ?>
+						<button class="system-button toggle-collapse">
+							<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+						</button>
+						<? } ?>
+					</div>
+
+					<div id="collapsable-content-<?=$statisticObj->getStatisticId()?>" class="collapse">
+						<div class="card-body card-page__body">
+							<div class="statistic-reports-<?=$statisticObj->getStatisticId()?>"></div>
+						</div>
+					</div>
+				</section>
+			<? } ?>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$('.group-collapsed').on('click', function(){
+
+	var target = $(this).data("target");
+	var statisticId = $(this).data("id")
+
+	if ($('.statistic-reports-'+statisticId).is(':empty')) {
+		ajaxRequest(null, {getStatisticReport: true, statisticId:statisticId}, '.statistic-reports-'+statisticId, '#content-wrapper');
+	}
+});
+</script>
+
+<iframe src="" name="open-file" width="0" height="0" style="display: none;"></iframe>

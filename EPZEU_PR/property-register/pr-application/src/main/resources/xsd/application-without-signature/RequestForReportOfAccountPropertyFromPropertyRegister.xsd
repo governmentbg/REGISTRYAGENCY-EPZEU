@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+	targetNamespace="http://www.registryagency.bg/schemas/property-register/applications"
+	xmlns="http://www.registryagency.bg/schemas/property-register/applications"
+    xmlns:seg="http://www.registryagency.bg/schemas/property-register/segments"
+    xmlns:val="http://www.registryagency.bg/schemas/property-register/values"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+
+    <xsd:import namespace="http://www.registryagency.bg/schemas/property-register/segments" schemaLocation="../segment/Segments.xsd" />
+
+	<xsd:element
+		name="RequestForReportOfAccountPropertyFromPropertyRegister"
+		type="RequestForReportOfAccountPropertyFromPropertyRegister" />
+
+	<xsd:complexType
+		name="RequestForReportOfAccountPropertyFromPropertyRegister">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="bg">Искане за справка чрез отдалечен достъп за електронна партида от Имотен регистър</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+            <xsd:element name="AccountProperty" type="seg:AccountPropertyOfReport"/>
+            <xsd:element name="ApplicantData" type="seg:ApplicantDataOfReport"/>
+            <xsd:element name="GDPRAgreement" type="seg:GDPRAgreement" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

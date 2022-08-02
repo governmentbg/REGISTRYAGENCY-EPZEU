@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://www.registryagency.bg/schemas/property-register/nomenclatures"
+            xmlns="http://www.registryagency.bg/schemas/property-register/nomenclatures"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:simpleType name="ApplicantTypeNomenclature">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="bg">
+                Вид на заявителя:
+
+                PERSONAL_QUALITY - лично качество (за собствени нужди)
+                ATTORNEY - пълномощник на физическо или юридическо лице
+                LEGAL_REPRESENTATIVE - законен представител на физическо или юридическо лице
+                OFFICIAL_PERSON - длъжностно (служебно) лице
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="PERSONAL_QUALITY" />
+            <xsd:enumeration value="ATTORNEY" />
+            <xsd:enumeration value="LEGAL_REPRESENTATIVE" />
+            <xsd:enumeration value="OFFICIAL_PERSON" />
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

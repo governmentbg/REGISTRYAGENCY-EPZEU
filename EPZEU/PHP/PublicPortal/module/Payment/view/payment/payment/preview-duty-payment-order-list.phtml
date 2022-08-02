@@ -1,0 +1,174 @@
+<div class="field-container">
+	<div class="row">
+		<div class="col">
+			<label class="field-title field-title--form" for="exampleInputEmail1"><?=$this->translate('GL_APPLICATION_L')?></label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-12">
+			<p class="field-text"><?=$params['applicationNumber']?></p>
+			<p class="field-text">
+				<? if(!empty($applicationTypeList)) {?>
+					<a href="javascript://" onclick="previewApplication('<?=$this->url('preview_application', ['lang' => $this->language()->getCurrentLang()])?>', '<?=$params['applicationNumber']?>', '<?=$params['registerId']?>')"><?=$applicationTypeList[$params['applicationType']]?></a>
+				<? } ?>
+			</p>
+		</div>
+	</div>
+</div>
+
+<div class="table-responsive-block">
+
+	<table class="table table-borderless table-striped table-hover table-collapsible">
+
+		<?
+		// платежно нареждане
+		if (!empty($paymentOrderList)) { ?>
+			<thead>
+				<tr>
+					<th class="single-icon-td"></th>
+					<th width="15%"><?=$this->translate('GL_DATE_BANK_TRANS_L')?></th>
+					<th><?=$this->translate('GL_REASON_L')?></th>
+					<th width="15%"><?=$this->translate('EP_PAY_METHOD_PAYMENT_L')?></th>
+					<th width="15%" class="text-right"><?=$this->translate('EP_ORD_AMOUNT_L')?></th>
+					<th width="15%" class="text-right"><?=$this->translate('GL_DRAWN_AM_L')?></th>
+				</tr>
+			</thead>
+
+			<tbody>
+
+				<? foreach ($paymentOrderList as $key => $obj) {
+					if (empty($paymentOrderDrawnAmount[$obj->getId()]))
+						continue;
+				?>
+
+					<tr class="<?=($key%2==0 ? 'odd-color' : 'even-color')?>">
+						<td class="toggle-collapse">
+							<button class="system-button collapsed" data-toggle="collapse" data-target="#collapsable-content-<?=$obj->getId()?>" aria-expanded="false">
+								<i class="ui-icon ui-icon-chevron-right" aria-hidden="true"></i>
+							</button>
+						</td>
+						<td>
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_DATE_BANK_TRANS_L')?></span>
+							<p class="field-text">
+								<a href="" data-toggle="collapse" data-target="#collapsable-content-<?=$obj->getId()?>" aria-expanded="false" class="collapsed">
+									<b>
+										<?=$this->dateFormat(
+											strtotime($obj->getPaymentDate()),
+											IntlDateFormatter::NONE, // date
+											IntlDateFormatter::NONE, // time
+											$this->plugin('translate')->getTranslator()->getLocale(),
+											\Application\View\Helper\DateFormat::DATETIME
+										);
+										?>
+									</b>
+								</a>
+							</p>
+						</td>
+						<td class="word-break">
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_REASON_L')?></span>
+							<p class="field-text"><?=($obj->getProviderKind() == 'ePay' || $obj->getProviderKind() == 'PEPDAEU') ? str_replace(",", ", ", $obj->getPaymentDescription()) : $obj->getReason()?></p>
+						</td>
+						<td>
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_PAY_METHOD_PAYMENT_L')?></span>
+							<p class="field-text"><?=$this->translate($paymentMethodArr[$obj->getProviderKind()])?></p>
+						</td>
+						<td class="text-right">
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_ORD_AMOUNT_L')?></span>
+							<p class="field-text"><?=number_format($obj->getAmount(), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+						</td>
+						<td class="text-right">
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_DRAWN_AM_L')?></span>
+							<p class="field-text"><?=!empty($paymentOrderDrawnAmount[$obj->getId()]) ? number_format(array_sum($paymentOrderDrawnAmount[$obj->getId()]), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L') : ''?></p>
+						</td>
+					</tr>
+
+					<tr class="collapsible-row">
+						<td colspan="6">
+							<div id="collapsable-content-<?=$obj->getId()?>" class="collapse">
+								<div class="collapsible-row-content">
+
+									<hr class="hr--report">
+
+									<div class="row no-gutters">
+										<div class="col-12 col-sm-6 col-md-4 form-group">
+											<div class="field-container">
+												<span class="field-title field-title--preview"><?=$this->translate('EP_FREE_AMOUNT_L')?></span>
+												<p class="field-text"><?=number_format($obj->getBalance(), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+											</div>
+										</div>
+										<div class="col-12 col-sm-6 col-md-4 form-group">
+											<div class="field-container">
+												<span class="field-title field-title--preview"><?=$this->translate('EP_REFUNDED_AMOUNT_L')?></span>
+												<p class="field-text"><?=number_format($obj->getAmountRefunded(), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+											</div>
+										</div>
+									</div>
+
+									<div class="field-container">
+										<span class="field-title field-title--preview"><?=$this->translate('GL_REASON2_L')?></span>
+										<p class="field-text"><?=$obj->getAdditionalClarifications()?></p>
+									</div>
+
+								</div>
+							</div>
+						</td>
+					</tr>
+				<? } ?>
+
+			</tbody>
+		<? } ?>
+
+		<?
+		// плащане през лична сметка
+		if (!empty($paymentTransactionList)) {?>
+			<thead>
+				<tr>
+					<th width="32%"><?=$this->translate('EP_PAY_TIME_REG_DUTY_L')?></th>
+					<th width="32%"><?=$this->translate('EP_PAY_METHOD_PAYMENT_L')?></th>
+					<th class="text-right"><?=$this->translate('GL_VALUE_L')?></th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<? foreach ($paymentTransactionList as $key => $transaction) {?>
+
+					<tr class="<?=($key%2==0 ? 'odd-color' : 'even-color')?>">
+						<td>
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_PAY_TIME_REG_DUTY_L')?></span>
+							<p class="field-text">
+								<b>
+									<?=$this->dateFormat(
+										strtotime($transaction->getCreatedOn()),
+										IntlDateFormatter::NONE, // date
+										IntlDateFormatter::NONE, // time
+										$this->plugin('translate')->getTranslator()->getLocale(),
+										\Application\View\Helper\DateFormat::DATETIME
+									);
+									?>
+								</b>
+							</p>
+						</td>
+						<td>
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_PAY_METHOD_PAYMENT_L')?></span>
+							<p class="field-text"><?=!empty($transaction->getFromPersonalAccountID()) ? $this->translate('EP_PERS_ACC_PAYMENT_L') : ''?></p>
+						</td>
+						<td class="text-right">
+							<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_VALUE_L')?></span>
+							<p class="field-text"><?=number_format($transaction->getAmount(), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+						</td>
+					</tr>
+				<? } ?>
+
+			</tbody>
+		<? } ?>
+	</table>
+</div>
+
+<script>
+$(document).ready(function (e) {
+	<?if (!empty($errors)) { ?>
+		$("#modal-preview .modal-body").html('');
+		$("#modal-preview .close").click();
+	<? }?>
+})
+</script>

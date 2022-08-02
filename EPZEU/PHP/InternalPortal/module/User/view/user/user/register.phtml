@@ -1,0 +1,188 @@
+<? $this->headTitle('EP_USR_INTERNAL_USER_REGISTRATION_L') ?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_USERS_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_INTERNAL_USER_REGISTRATION_L')?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_USR_INTERNAL_USER_REGISTRATION_L')?></h2>
+</div>
+
+<div class="card">
+
+	<?php
+	$userForm->setAttribute('action', $this->url('register', ['lang' => $lang]));
+	$userForm->prepare();
+
+	$userFieldset = $userForm->get('userFieldset');
+
+	echo $this->form()->openTag($userForm);
+
+	?>
+	<div class="card-body">
+
+		<div class="row">
+			<div class="col-12">
+				<?=$this->partial('partial/messages.phtml')?>
+
+				<div class="row">
+					<div class="col-sm-6 col-lg-4 form-group">
+						<label for="selected-username" class="<?=!empty($userFieldset->get('username')->getLabelAttributes()['class']) ? $userFieldset->get('username')->getLabelAttributes()['class'] : ''?>"><?=$this->translate($userFieldset->get('username')->getLabel())?></label>
+						<div class="input-group">
+
+							<div class="form-control <?=(!empty($this->FormElementErrors($userFieldset->get('username'))) ? 'input-error' : '')?> multiple-select multiple-select--scrollable">
+								<div class="result-list <?=!empty($userFieldset->get('username')->getValue()) ? '' : 'd-none'?>" id="resultList">
+									<div class="badge badge-secondary"><span class="word-break" id="selected-username"><?=(!empty($userFieldset->get('username')->getValue()) ? $userFieldset->get('username')->getValue() : '')?></span>
+										<button type="button" class="close" aria-label="Close" id="removeSelectUser">
+											<span aria-hidden="true">×</span>
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="input-group-append">
+								<button class="btn btn-secondary" type="button" title="<?=$this->translate('EP_USR_SEARCH_USER_AD_L')?>" onclick="openPreview(undefined, event, '<?=$this->url('ldap_search')?>');">
+								<i class="ui-icon ui-icon-hand"></i>
+								</button>
+							</div>
+						</div>
+						<?=$this->FormElement($userFieldset->get('username'))?>
+						<?=$this->FormElementErrors($userFieldset->get('username'))?>
+					</div>
+
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('email'))?>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('status'), null, null, 'partial/multiradiobox')?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-4 form-group">
+						<?=$this->formRow($userFieldset->get('firstName'), null, true, "")?>
+					</div>
+					<div class="col-sm-4 form-group">
+						<?=$this->formRow($userFieldset->get('middleName'))?>
+					</div>
+
+					<div class="col-sm-4 form-group">
+						<?=$this->formRow($userFieldset->get('familyName'))?>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('contactData'))?>
+						<div class="help-text-inline"><?=$this->translate('EP_USR_00006_I')?></div>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($userFieldset->get('organization'))?>
+					</div>
+				</div>
+
+				<div class="row">
+
+					<div class="col-sm-12 col-lg-6 form-group">
+						<label><?=$this->translate('EP_USR_00002_L')?></label>
+						<?=$this->formRow($userFieldset->get('crBulletinAcceptance'), 'append', null, 'partial/checkbox')?>
+						<?=$this->formRow($userFieldset->get('prBulletinAcceptance'), 'append', null, 'partial/checkbox')?>
+
+					</div>
+					<div class="col-sm-12 col-lg-6 form-group">
+						<label><?=$this->translate('EP_USR_00013_L')?></label>
+						<?=$this->formRow($userFieldset->get('crMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+						<?=$this->formRow($userFieldset->get('prMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+						<?=$this->formRow($userFieldset->get('epzeuMessageAcceptance'), 'append', null, 'partial/checkbox')?>
+					</div>
+				</div>
+
+				<fieldset id="special-access-section">
+					<legend><?=$this->translate('GL_ADD_DOCUMENT_L');?></legend>
+					<div class="row">
+						<div class="col-sm-4 form-group">
+						<?=$this->partial('partial/uploader.phtml', ['maxFileSize' => $config['GL_DOCUMENT_MAX_FILE_SIZE'], 'fileArr' => $fileArr])?>
+						<?=$this->formRow($userFieldset->get('files'), null, true, "")?>
+						</div>
+					</div>
+				</fieldset>
+
+				 <fieldset id="user-permission-section">
+					<legend><?=$this->translate('EP_USR_USER_RIGHTS_L');?></legend>
+					<div class="row">
+						<div class="form-group col-sm-12">
+							<?=$this->formRow($userFieldset->get('permissionList'), null, null, 'partial/multicheckbox')?>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-footer">
+		<div class="button-bar">
+			<a href="<?=$this->url('register')?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+			<?=$this->formSubmit($userForm->get('submit'));?>
+		</div>
+	</div>
+
+	<?=$this->form()->closeTag();?>
+
+</div>
+
+<?=$this->partial('partial/modal-preview', ['classModalWindow' => 'modal-dialog-centered', 'title' => $this->translate('EP_USR_SEARCH_USER_AD_L'), 'buttonRefuse' => $this->translate('GL_REFUSE_L'), 'buttonConfirm' => $this->translate('GL_CONFIRM_L')])?>
+
+<script>
+
+$(document).on('submit', '#userform', function(){
+	showGlobalLoader();
+});
+
+$(".btn-confirm").on('click', function(){
+
+	var activeDirectoryUser = $('#iframe_content').contents().find('input[name=activeDirectoryUser]:checked').val();
+
+	if(!isNaN(activeDirectoryUser)){
+
+		$("#resultList").removeClass('d-none');
+
+		var name = $('#iframe_content').contents().find('input[id=userFullName_'+activeDirectoryUser+']').val().split(' ');
+
+		var firstName = name[0];
+
+		var middleName = '';
+		if(typeof name[(name.length-2)] !== 'undefined' && name.length == 3) {
+			var middleName = name[(name.length-2)];
+		}
+
+		var familyName = name[(name.length-1)];
+
+		var username = $('#iframe_content').contents().find('input[id=userAccountName_'+activeDirectoryUser+']').val();
+		var email = $('#iframe_content').contents().find('input[id=userEmail_'+activeDirectoryUser+']').val();
+		var mobilePhone = $('#iframe_content').contents().find('input[id=userMobilePhone_'+activeDirectoryUser+']').val();
+
+		$("input[name='userFieldset[email]']").removeClass('input-error');
+		$("div#selected-username").removeClass('input-error');
+		$("input[name='userFieldset[email]']").closest('div').find( "ul.invalid-feedback" ).remove();
+		$("input[name='userFieldset[username]']").closest('div').find( "ul.invalid-feedback" ).remove();
+
+		$("#username").val(username);
+		$("#selected-username").html(username);
+		$("#email").val(email);
+		$("#firstName").val(firstName);
+		$("#middleName").val(middleName);
+		$("#familyName").val(familyName);
+		$("#contactData").val(mobilePhone);
+	}
+});
+
+$(document).on('click', "#removeSelectUser", function() {
+	$("#resultList").addClass('d-none');
+	$("#selected-username").html('');
+	$("#username").val('');
+});
+</script>

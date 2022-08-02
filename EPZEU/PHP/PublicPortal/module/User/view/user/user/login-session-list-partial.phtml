@@ -1,0 +1,40 @@
+<? foreach ($loginSessionList as $loginObj) { ?>
+	<tr>
+
+		<td>
+			<div class="custom-control custom-radio">
+				<input class="custom-control-input" type="radio" id="login-session-<?=$loginObj->getLoginSessionId()?>" name="selectLoginSession" value="<?=$loginObj->getLoginSessionId()?>">
+				<label class="custom-control-label" for="login-session-<?=$loginObj->getLoginSessionId()?>"></label>
+			</div>
+		</td>
+		<td>
+			<?=$this->dateFormat(
+					strtotime($loginObj->getLoginDate()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATETIME
+				);
+			?>
+		</td>
+
+		<td>
+			<?=$this->dateFormat(
+					strtotime($loginObj->getLogoutDate()),
+					IntlDateFormatter::NONE, // date
+					IntlDateFormatter::NONE, // time
+					$this->plugin('translate')->getTranslator()->getLocale(),
+					\Application\View\Helper\DateFormat::DATETIME
+				);
+			?>
+		</td>
+
+		<td><?=$loginObj->getUserName()?></td>
+		<td><?=$loginObj->getEmail()?></td>
+		<td><?=$loginObj->getIpAddress()?></td>
+		<td><?=$this->translate(\User\Controller\UserController::AUTH_TYPE_LIST[$loginObj->getAuthenticationType()])?></td>
+		<td><?=$loginObj->getLoginSessionId()?></td>
+
+	</tr>
+
+<? } ?>

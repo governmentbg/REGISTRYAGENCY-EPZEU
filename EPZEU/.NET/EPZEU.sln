@@ -1,0 +1,443 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EPZEU", "EPZEU", "{447C19AE-3634-45A0-AA09-6FD4A8F41309}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EPZEU_CR", "EPZEU_CR", "{FE69262F-DE78-4AB0-9765-63D233A5D751}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.CR.Web.App", "..\..\EPZEU_CR\.NET\EPZEU.CR.Web.App\EPZEU.CR.Web.App.csproj", "{21E29FEC-8CC9-4648-9E83-8B8EE0F4AA20}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.CR", "..\..\EPZEU_CR\.NET\EPZEU.CR\EPZEU.CR.csproj", "{8093D4F6-A3B8-4415-8621-50B78BA59DE1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.CR.Domain", "..\..\EPZEU_CR\.NET\EPZEU.CR.Domain\EPZEU.CR.Domain.csproj", "{ABB6F707-A152-4DFA-A2E5-754EA715BF94}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Core", "EPZEU.Core\EPZEU.Core.csproj", "{A17DC679-DAE1-4616-A8BF-CDE6B3D39EF6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SigningKeys", "SigningKeys", "{CF29DDE0-9671-48AC-9048-A54414ED32AB}"
+	ProjectSection(SolutionItems) = preProject
+		SigningKeys\DefaultSigningKey.snk = SigningKeys\DefaultSigningKey.snk
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Web.Api", "EPZEU.Web.Api\EPZEU.Web.Api.csproj", "{A90A72BC-E518-4B87-991F-8D90511AD3D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{A7F9E8EA-F306-4A0A-9308-24FF408132A3}"
+	ProjectSection(SolutionItems) = preProject
+		EPZEU.UnitTests\Properties\AssemblyInfo.cs = EPZEU.UnitTests\Properties\AssemblyInfo.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGG", "Test\TestGG\TestGG.csproj", "{4DF02858-64D5-4174-A63B-F10278722EA7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU", "EPZEU\EPZEU.csproj", "{4952EBEA-7E47-4EEB-8453-392C0841FD26}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Emails", "EPZEU.Emails\EPZEU.Emails.csproj", "{7BCDD59A-D3F3-4F9E-B5CD-AF6D619FBB8F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalDlls", "ExternalDlls", "{4A6751D2-D986-451A-89A3-E98291B90A67}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Web.IdentityServer", "EPZEU.Web.IdentityServer\EPZEU.Web.IdentityServer.csproj", "{CF650DEB-EB16-4FC6-980E-0F058CD272AF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Web.Core", "EPZEU.Web.Core\EPZEU.Web.Core.csproj", "{6CD77638-B43C-43D1-AC8A-02B0FF2AAFA4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Users", "EPZEU.Users\EPZEU.Users.csproj", "{0B233C93-420C-4BDF-B40A-370722D57B07}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Integration.IISDA", "EPZEU.Integration.IISDA\EPZEU.Integration.IISDA.csproj", "{3BFE3A35-DBC8-4E0B-80CD-179AE42ECA52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPZEU.UnitTests", "EPZEU.UnitTests\EPZEU.UnitTests.csproj", "{E2E8B7BF-9F91-432B-8D50-F73B60CC8B22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPZEU.Web.ClientCertificateHttpModule", "EPZEU.Web.ClientCertificateHttpModule\EPZEU.Web.ClientCertificateHttpModule.csproj", "{039B7E8A-37A7-47AD-A269-04CF1FDFF9BC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Npgsql", "EPZEU.Npgsql\EPZEU.Npgsql.csproj", "{80D84215-88B5-4CC2-83F8-9F01BF2C1E63}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Cache.Polling", "EPZEU.Cache.Polling\EPZEU.Cache.Polling.csproj", "{1383949E-4D2F-48E8-BB5B-B131D4572911}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.ServiceLimits.Server.Manager", "EPZEU.ServiceLimits.Server.Manager\EPZEU.ServiceLimits.Server.Manager.csproj", "{5948343E-9199-406F-A172-C94D689F484C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.ServiceLimits.AspNetCore", "EPZEU.ServiceLimits.AspNetCore\EPZEU.ServiceLimits.AspNetCore.csproj", "{B8A07E84-5D48-4D27-AC49-1D6078DA0443}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.CR.Core", "..\..\EPZEU_CR\.NET\EPZEU.CR.Core\EPZEU.CR.Core.csproj", "{D6C343C5-8CAE-4680-9BC3-CE7801B098CE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Web.NRA.IdentitySimulator", "EPZEU.Web.NRA.IdentitySimulator\EPZEU.Web.NRA.IdentitySimulator.csproj", "{BE322B32-22B2-481F-9E6D-1928C666A358}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.AspNetCore.Authentication", "EPZEU.AspNetCore.Authentication\EPZEU.AspNetCore.Authentication.csproj", "{129B83FA-F874-4951-8C96-F351E7CEC0BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Net.Http", "EPZEU.Net.Http\EPZEU.Net.Http.csproj", "{672D996F-8039-4A85-AD82-0F921ECB9E00}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Web.Api.Public", "EPZEU.Web.Api.Public\EPZEU.Web.Api.Public.csproj", "{95DDEB2F-779E-411D-9449-E0C2F035F6E4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Web.Api.Private", "EPZEU.Web.Api.Private\EPZEU.Web.Api.Private.csproj", "{9205A05E-0876-4CB1-B2E9-5CB85B53FCDB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.CR.Web.Api.Private", "..\..\EPZEU_CR\.NET\EPZEU.CR.Web.Api.Private\EPZEU.CR.Web.Api.Private.csproj", "{07A13AA2-4BCA-4474-938F-B27A6FC38DB8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAtanas", "Test\TestAtanas\TestAtanas.csproj", "{BAA39FEF-8561-4EEB-B223-D53F6CBB60F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.CR.Web.Core", "..\..\EPZEU_CR\.NET\EPZEU.CR.Web\EPZEU.CR.Web.Core.csproj", "{77A23C6A-7D63-4D1D-AFD8-26BF0066AA65}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Emails.Service", "EPZEU.Emails.Service\EPZEU.Emails.Service.csproj", "{6559AF85-851B-4C27-9E5A-39D85CC52399}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Integration.IISDA.Service", "EPZEU.Integration.IISDA.Service\EPZEU.Integration.IISDA.Service.csproj", "{5F54AF06-0359-473E-9EB7-3E441F9376CD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Signing", "EPZEU.Signing\EPZEU.Signing.csproj", "{CE4D23B7-673B-4550-B31C-2BFECC457828}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Users.Migrations", "EPZEU.Users.Migrations\EPZEU.Users.Migrations.csproj", "{CCD2021E-B8BB-4DA4-953B-27BCFA321DCB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FutureServices", "FutureServices", "{88317C5C-8CE0-42F2-9037-4D9CAE0FD4F9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integration.FutureServices.Api", "Test\FutureServices\Integration.FutureServices.Api\Integration.FutureServices.Api.csproj", "{10EA2EC5-CF7F-47FD-B603-D660A0596DD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integration.FutureServices.Core", "Test\FutureServices\Integration.FutureServices.Core\Integration.FutureServices.Core.csproj", "{7FF8F2B5-6160-461F-ACC7-D47A6532243D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleEntryPoint.Test", "Test\FutureServices\SingleEntryPoint.Test\SingleEntryPoint.Test.csproj", "{841B0575-A9E3-47BA-B546-2F21A79A4C2C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPZEU.Web.Test.Perf", "Test\EPZEU.Web.Test.Perf\EPZEU.Web.Test.Perf.csproj", "{39C22946-7E2E-4E4F-BABB-04AC853363AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPZEU.Web.Swagger", "EPZEU.Web.Swagger\EPZEU.Web.Swagger.csproj", "{F9C3E195-F685-4B5A-AC7B-B54F72CD820C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21E29FEC-8CC9-4648-9E83-8B8EE0F4AA20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21E29FEC-8CC9-4648-9E83-8B8EE0F4AA20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21E29FEC-8CC9-4648-9E83-8B8EE0F4AA20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21E29FEC-8CC9-4648-9E83-8B8EE0F4AA20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8093D4F6-A3B8-4415-8621-50B78BA59DE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8093D4F6-A3B8-4415-8621-50B78BA59DE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8093D4F6-A3B8-4415-8621-50B78BA59DE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8093D4F6-A3B8-4415-8621-50B78BA59DE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB6F707-A152-4DFA-A2E5-754EA715BF94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB6F707-A152-4DFA-A2E5-754EA715BF94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB6F707-A152-4DFA-A2E5-754EA715BF94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB6F707-A152-4DFA-A2E5-754EA715BF94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A17DC679-DAE1-4616-A8BF-CDE6B3D39EF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A17DC679-DAE1-4616-A8BF-CDE6B3D39EF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A17DC679-DAE1-4616-A8BF-CDE6B3D39EF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A17DC679-DAE1-4616-A8BF-CDE6B3D39EF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A90A72BC-E518-4B87-991F-8D90511AD3D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A90A72BC-E518-4B87-991F-8D90511AD3D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A90A72BC-E518-4B87-991F-8D90511AD3D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A90A72BC-E518-4B87-991F-8D90511AD3D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DF02858-64D5-4174-A63B-F10278722EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DF02858-64D5-4174-A63B-F10278722EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DF02858-64D5-4174-A63B-F10278722EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DF02858-64D5-4174-A63B-F10278722EA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4952EBEA-7E47-4EEB-8453-392C0841FD26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4952EBEA-7E47-4EEB-8453-392C0841FD26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4952EBEA-7E47-4EEB-8453-392C0841FD26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4952EBEA-7E47-4EEB-8453-392C0841FD26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BCDD59A-D3F3-4F9E-B5CD-AF6D619FBB8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BCDD59A-D3F3-4F9E-B5CD-AF6D619FBB8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BCDD59A-D3F3-4F9E-B5CD-AF6D619FBB8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BCDD59A-D3F3-4F9E-B5CD-AF6D619FBB8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF650DEB-EB16-4FC6-980E-0F058CD272AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF650DEB-EB16-4FC6-980E-0F058CD272AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF650DEB-EB16-4FC6-980E-0F058CD272AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF650DEB-EB16-4FC6-980E-0F058CD272AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CD77638-B43C-43D1-AC8A-02B0FF2AAFA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CD77638-B43C-43D1-AC8A-02B0FF2AAFA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CD77638-B43C-43D1-AC8A-02B0FF2AAFA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CD77638-B43C-43D1-AC8A-02B0FF2AAFA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B233C93-420C-4BDF-B40A-370722D57B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B233C93-420C-4BDF-B40A-370722D57B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B233C93-420C-4BDF-B40A-370722D57B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B233C93-420C-4BDF-B40A-370722D57B07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BFE3A35-DBC8-4E0B-80CD-179AE42ECA52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BFE3A35-DBC8-4E0B-80CD-179AE42ECA52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BFE3A35-DBC8-4E0B-80CD-179AE42ECA52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BFE3A35-DBC8-4E0B-80CD-179AE42ECA52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2E8B7BF-9F91-432B-8D50-F73B60CC8B22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2E8B7BF-9F91-432B-8D50-F73B60CC8B22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2E8B7BF-9F91-432B-8D50-F73B60CC8B22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2E8B7BF-9F91-432B-8D50-F73B60CC8B22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{039B7E8A-37A7-47AD-A269-04CF1FDFF9BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{039B7E8A-37A7-47AD-A269-04CF1FDFF9BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{039B7E8A-37A7-47AD-A269-04CF1FDFF9BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{039B7E8A-37A7-47AD-A269-04CF1FDFF9BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80D84215-88B5-4CC2-83F8-9F01BF2C1E63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80D84215-88B5-4CC2-83F8-9F01BF2C1E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80D84215-88B5-4CC2-83F8-9F01BF2C1E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80D84215-88B5-4CC2-83F8-9F01BF2C1E63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1383949E-4D2F-48E8-BB5B-B131D4572911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1383949E-4D2F-48E8-BB5B-B131D4572911}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1383949E-4D2F-48E8-BB5B-B131D4572911}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1383949E-4D2F-48E8-BB5B-B131D4572911}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5948343E-9199-406F-A172-C94D689F484C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5948343E-9199-406F-A172-C94D689F484C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5948343E-9199-406F-A172-C94D689F484C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5948343E-9199-406F-A172-C94D689F484C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8A07E84-5D48-4D27-AC49-1D6078DA0443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8A07E84-5D48-4D27-AC49-1D6078DA0443}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8A07E84-5D48-4D27-AC49-1D6078DA0443}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8A07E84-5D48-4D27-AC49-1D6078DA0443}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6C343C5-8CAE-4680-9BC3-CE7801B098CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6C343C5-8CAE-4680-9BC3-CE7801B098CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6C343C5-8CAE-4680-9BC3-CE7801B098CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6C343C5-8CAE-4680-9BC3-CE7801B098CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE322B32-22B2-481F-9E6D-1928C666A358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE322B32-22B2-481F-9E6D-1928C666A358}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE322B32-22B2-481F-9E6D-1928C666A358}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE322B32-22B2-481F-9E6D-1928C666A358}.Release|Any CPU.Build.0 = Release|Any CPU
+		{129B83FA-F874-4951-8C96-F351E7CEC0BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{129B83FA-F874-4951-8C96-F351E7CEC0BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{129B83FA-F874-4951-8C96-F351E7CEC0BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{129B83FA-F874-4951-8C96-F351E7CEC0BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{672D996F-8039-4A85-AD82-0F921ECB9E00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{672D996F-8039-4A85-AD82-0F921ECB9E00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{672D996F-8039-4A85-AD82-0F921ECB9E00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{672D996F-8039-4A85-AD82-0F921ECB9E00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95DDEB2F-779E-411D-9449-E0C2F035F6E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95DDEB2F-779E-411D-9449-E0C2F035F6E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95DDEB2F-779E-411D-9449-E0C2F035F6E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95DDEB2F-779E-411D-9449-E0C2F035F6E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9205A05E-0876-4CB1-B2E9-5CB85B53FCDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9205A05E-0876-4CB1-B2E9-5CB85B53FCDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9205A05E-0876-4CB1-B2E9-5CB85B53FCDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9205A05E-0876-4CB1-B2E9-5CB85B53FCDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07A13AA2-4BCA-4474-938F-B27A6FC38DB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07A13AA2-4BCA-4474-938F-B27A6FC38DB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07A13AA2-4BCA-4474-938F-B27A6FC38DB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07A13AA2-4BCA-4474-938F-B27A6FC38DB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAA39FEF-8561-4EEB-B223-D53F6CBB60F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAA39FEF-8561-4EEB-B223-D53F6CBB60F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAA39FEF-8561-4EEB-B223-D53F6CBB60F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAA39FEF-8561-4EEB-B223-D53F6CBB60F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77A23C6A-7D63-4D1D-AFD8-26BF0066AA65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77A23C6A-7D63-4D1D-AFD8-26BF0066AA65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77A23C6A-7D63-4D1D-AFD8-26BF0066AA65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77A23C6A-7D63-4D1D-AFD8-26BF0066AA65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6559AF85-851B-4C27-9E5A-39D85CC52399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6559AF85-851B-4C27-9E5A-39D85CC52399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6559AF85-851B-4C27-9E5A-39D85CC52399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6559AF85-851B-4C27-9E5A-39D85CC52399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F54AF06-0359-473E-9EB7-3E441F9376CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F54AF06-0359-473E-9EB7-3E441F9376CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F54AF06-0359-473E-9EB7-3E441F9376CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F54AF06-0359-473E-9EB7-3E441F9376CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE4D23B7-673B-4550-B31C-2BFECC457828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE4D23B7-673B-4550-B31C-2BFECC457828}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE4D23B7-673B-4550-B31C-2BFECC457828}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE4D23B7-673B-4550-B31C-2BFECC457828}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCD2021E-B8BB-4DA4-953B-27BCFA321DCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCD2021E-B8BB-4DA4-953B-27BCFA321DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCD2021E-B8BB-4DA4-953B-27BCFA321DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCD2021E-B8BB-4DA4-953B-27BCFA321DCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10EA2EC5-CF7F-47FD-B603-D660A0596DD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10EA2EC5-CF7F-47FD-B603-D660A0596DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10EA2EC5-CF7F-47FD-B603-D660A0596DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10EA2EC5-CF7F-47FD-B603-D660A0596DD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FF8F2B5-6160-461F-ACC7-D47A6532243D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FF8F2B5-6160-461F-ACC7-D47A6532243D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FF8F2B5-6160-461F-ACC7-D47A6532243D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FF8F2B5-6160-461F-ACC7-D47A6532243D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{841B0575-A9E3-47BA-B546-2F21A79A4C2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{841B0575-A9E3-47BA-B546-2F21A79A4C2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{841B0575-A9E3-47BA-B546-2F21A79A4C2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{841B0575-A9E3-47BA-B546-2F21A79A4C2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39C22946-7E2E-4E4F-BABB-04AC853363AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39C22946-7E2E-4E4F-BABB-04AC853363AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39C22946-7E2E-4E4F-BABB-04AC853363AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39C22946-7E2E-4E4F-BABB-04AC853363AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9C3E195-F685-4B5A-AC7B-B54F72CD820C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9C3E195-F685-4B5A-AC7B-B54F72CD820C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9C3E195-F685-4B5A-AC7B-B54F72CD820C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9C3E195-F685-4B5A-AC7B-B54F72CD820C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{21E29FEC-8CC9-4648-9E83-8B8EE0F4AA20} = {FE69262F-DE78-4AB0-9765-63D233A5D751}
+		{8093D4F6-A3B8-4415-8621-50B78BA59DE1} = {FE69262F-DE78-4AB0-9765-63D233A5D751}
+		{ABB6F707-A152-4DFA-A2E5-754EA715BF94} = {FE69262F-DE78-4AB0-9765-63D233A5D751}
+		{A17DC679-DAE1-4616-A8BF-CDE6B3D39EF6} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{CF29DDE0-9671-48AC-9048-A54414ED32AB} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{A90A72BC-E518-4B87-991F-8D90511AD3D3} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{4DF02858-64D5-4174-A63B-F10278722EA7} = {A7F9E8EA-F306-4A0A-9308-24FF408132A3}
+		{4952EBEA-7E47-4EEB-8453-392C0841FD26} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{7BCDD59A-D3F3-4F9E-B5CD-AF6D619FBB8F} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{CF650DEB-EB16-4FC6-980E-0F058CD272AF} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{6CD77638-B43C-43D1-AC8A-02B0FF2AAFA4} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{0B233C93-420C-4BDF-B40A-370722D57B07} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{3BFE3A35-DBC8-4E0B-80CD-179AE42ECA52} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{E2E8B7BF-9F91-432B-8D50-F73B60CC8B22} = {A7F9E8EA-F306-4A0A-9308-24FF408132A3}
+		{039B7E8A-37A7-47AD-A269-04CF1FDFF9BC} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{80D84215-88B5-4CC2-83F8-9F01BF2C1E63} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{1383949E-4D2F-48E8-BB5B-B131D4572911} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{5948343E-9199-406F-A172-C94D689F484C} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{B8A07E84-5D48-4D27-AC49-1D6078DA0443} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{D6C343C5-8CAE-4680-9BC3-CE7801B098CE} = {FE69262F-DE78-4AB0-9765-63D233A5D751}
+		{BE322B32-22B2-481F-9E6D-1928C666A358} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{129B83FA-F874-4951-8C96-F351E7CEC0BE} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{672D996F-8039-4A85-AD82-0F921ECB9E00} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{95DDEB2F-779E-411D-9449-E0C2F035F6E4} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{9205A05E-0876-4CB1-B2E9-5CB85B53FCDB} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{07A13AA2-4BCA-4474-938F-B27A6FC38DB8} = {FE69262F-DE78-4AB0-9765-63D233A5D751}
+		{BAA39FEF-8561-4EEB-B223-D53F6CBB60F1} = {A7F9E8EA-F306-4A0A-9308-24FF408132A3}
+		{77A23C6A-7D63-4D1D-AFD8-26BF0066AA65} = {FE69262F-DE78-4AB0-9765-63D233A5D751}
+		{6559AF85-851B-4C27-9E5A-39D85CC52399} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{5F54AF06-0359-473E-9EB7-3E441F9376CD} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{CE4D23B7-673B-4550-B31C-2BFECC457828} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{CCD2021E-B8BB-4DA4-953B-27BCFA321DCB} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+		{88317C5C-8CE0-42F2-9037-4D9CAE0FD4F9} = {A7F9E8EA-F306-4A0A-9308-24FF408132A3}
+		{10EA2EC5-CF7F-47FD-B603-D660A0596DD8} = {88317C5C-8CE0-42F2-9037-4D9CAE0FD4F9}
+		{7FF8F2B5-6160-461F-ACC7-D47A6532243D} = {88317C5C-8CE0-42F2-9037-4D9CAE0FD4F9}
+		{841B0575-A9E3-47BA-B546-2F21A79A4C2C} = {88317C5C-8CE0-42F2-9037-4D9CAE0FD4F9}
+		{39C22946-7E2E-4E4F-BABB-04AC853363AF} = {A7F9E8EA-F306-4A0A-9308-24FF408132A3}
+		{F9C3E195-F685-4B5A-AC7B-B54F72CD820C} = {447C19AE-3634-45A0-AA09-6FD4A8F41309}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {03343ABE-0DF0-4773-84DA-4F01579D69BC}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 37
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://vm-tfs:8080/tfs/projects
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ..\\..\\EPZEU_CR\\.NET\\EPZEU.CR\\EPZEU.CR.csproj
+		SccProjectTopLevelParentUniqueName1 = EPZEU.sln
+		SccProjectName1 = ../../EPZEU_CR/.NET/EPZEU.CR
+		SccLocalPath1 = ..\\..\\EPZEU_CR\\.NET\\EPZEU.CR
+		SccProjectUniqueName2 = ..\\..\\EPZEU_CR\\.NET\\EPZEU.CR.Domain\\EPZEU.CR.Domain.csproj
+		SccProjectTopLevelParentUniqueName2 = EPZEU.sln
+		SccProjectName2 = ../../EPZEU_CR/.NET/EPZEU.CR.Domain
+		SccLocalPath2 = ..\\..\\EPZEU_CR\\.NET\\EPZEU.CR.Domain
+		SccProjectUniqueName3 = EPZEU.Core\\EPZEU.Core.csproj
+		SccProjectTopLevelParentUniqueName3 = EPZEU.sln
+		SccProjectName3 = EPZEU.Core
+		SccLocalPath3 = EPZEU.Core
+		SccProjectUniqueName4 = EPZEU.Web.Api\\EPZEU.Web.Api.csproj
+		SccProjectTopLevelParentUniqueName4 = EPZEU.sln
+		SccProjectName4 = EPZEU.Web.Api
+		SccLocalPath4 = EPZEU.Web.Api
+		SccProjectUniqueName5 = Test\\TestGG\\TestGG.csproj
+		SccProjectTopLevelParentUniqueName5 = EPZEU.sln
+		SccProjectName5 = Test/TestGG
+		SccLocalPath5 = Test\\TestGG
+		SccProjectUniqueName6 = EPZEU\\EPZEU.csproj
+		SccProjectTopLevelParentUniqueName6 = EPZEU.sln
+		SccProjectName6 = EPZEU
+		SccLocalPath6 = EPZEU
+		SccProjectUniqueName7 = EPZEU.Emails\\EPZEU.Emails.csproj
+		SccProjectTopLevelParentUniqueName7 = EPZEU.sln
+		SccProjectName7 = EPZEU.Emails
+		SccLocalPath7 = EPZEU.Emails
+		SccProjectUniqueName8 = EPZEU.Web.IdentityServer\\EPZEU.Web.IdentityServer.csproj
+		SccProjectTopLevelParentUniqueName8 = EPZEU.sln
+		SccProjectName8 = EPZEU.Web.IdentityServer
+		SccLocalPath8 = EPZEU.Web.IdentityServer
+		SccProjectUniqueName9 = EPZEU.Web.Core\\EPZEU.Web.Core.csproj
+		SccProjectTopLevelParentUniqueName9 = EPZEU.sln
+		SccProjectName9 = EPZEU.Web.Core
+		SccLocalPath9 = EPZEU.Web.Core
+		SccProjectUniqueName10 = EPZEU.Users\\EPZEU.Users.csproj
+		SccProjectTopLevelParentUniqueName10 = EPZEU.sln
+		SccProjectName10 = EPZEU.Users
+		SccLocalPath10 = EPZEU.Users
+		SccProjectUniqueName11 = EPZEU.Integration.IISDA\\EPZEU.Integration.IISDA.csproj
+		SccProjectTopLevelParentUniqueName11 = EPZEU.sln
+		SccProjectName11 = EPZEU.Integration.IISDA
+		SccLocalPath11 = EPZEU.Integration.IISDA
+		SccProjectUniqueName12 = EPZEU.UnitTests\\EPZEU.UnitTests.csproj
+		SccProjectTopLevelParentUniqueName12 = EPZEU.sln
+		SccProjectName12 = EPZEU.UnitTests
+		SccLocalPath12 = EPZEU.UnitTests
+		SccProjectUniqueName13 = EPZEU.Web.ClientCertificateHttpModule\\EPZEU.Web.ClientCertificateHttpModule.csproj
+		SccProjectTopLevelParentUniqueName13 = EPZEU.sln
+		SccProjectName13 = EPZEU.Web.ClientCertificateHttpModule
+		SccLocalPath13 = EPZEU.Web.ClientCertificateHttpModule
+		SccProjectUniqueName14 = EPZEU.Npgsql\\EPZEU.Npgsql.csproj
+		SccProjectTopLevelParentUniqueName14 = EPZEU.sln
+		SccProjectName14 = EPZEU.Npgsql
+		SccLocalPath14 = EPZEU.Npgsql
+		SccProjectUniqueName15 = EPZEU.Cache.Polling\\EPZEU.Cache.Polling.csproj
+		SccProjectTopLevelParentUniqueName15 = EPZEU.sln
+		SccProjectName15 = EPZEU.Cache.Polling
+		SccLocalPath15 = EPZEU.Cache.Polling
+		SccProjectUniqueName16 = EPZEU.ServiceLimits.Server.Manager\\EPZEU.ServiceLimits.Server.Manager.csproj
+		SccProjectTopLevelParentUniqueName16 = EPZEU.sln
+		SccProjectName16 = EPZEU.ServiceLimits.Server.Manager
+		SccLocalPath16 = EPZEU.ServiceLimits.Server.Manager
+		SccProjectUniqueName17 = EPZEU.ServiceLimits.AspNetCore\\EPZEU.ServiceLimits.AspNetCore.csproj
+		SccProjectTopLevelParentUniqueName17 = EPZEU.sln
+		SccProjectName17 = EPZEU.ServiceLimits.AspNetCore
+		SccLocalPath17 = EPZEU.ServiceLimits.AspNetCore
+		SccProjectUniqueName18 = ..\\..\\EPZEU_CR\\.NET\\EPZEU.CR.Core\\EPZEU.CR.Core.csproj
+		SccProjectTopLevelParentUniqueName18 = EPZEU.sln
+		SccProjectName18 = ../../EPZEU_CR/.NET/EPZEU.CR.Core
+		SccLocalPath18 = ..\\..\\EPZEU_CR\\.NET\\EPZEU.CR.Core
+		SccProjectUniqueName19 = EPZEU.Web.NRA.IdentitySimulator\\EPZEU.Web.NRA.IdentitySimulator.csproj
+		SccProjectTopLevelParentUniqueName19 = EPZEU.sln
+		SccProjectName19 = EPZEU.Web.NRA.IdentitySimulator
+		SccLocalPath19 = EPZEU.Web.NRA.IdentitySimulator
+		SccProjectUniqueName20 = EPZEU.AspNetCore.Authentication\\EPZEU.AspNetCore.Authentication.csproj
+		SccProjectTopLevelParentUniqueName20 = EPZEU.sln
+		SccProjectName20 = EPZEU.AspNetCore.Authentication
+		SccLocalPath20 = EPZEU.AspNetCore.Authentication
+		SccProjectUniqueName21 = EPZEU.Net.Http\\EPZEU.Net.Http.csproj
+		SccProjectTopLevelParentUniqueName21 = EPZEU.sln
+		SccProjectName21 = EPZEU.Net.Http
+		SccLocalPath21 = EPZEU.Net.Http
+		SccProjectUniqueName22 = EPZEU.Web.Api.Public\\EPZEU.Web.Api.Public.csproj
+		SccProjectTopLevelParentUniqueName22 = EPZEU.sln
+		SccProjectName22 = EPZEU.Web.Api.Public
+		SccLocalPath22 = EPZEU.Web.Api.Public
+		SccProjectUniqueName23 = EPZEU.Web.Api.Private\\EPZEU.Web.Api.Private.csproj
+		SccProjectTopLevelParentUniqueName23 = EPZEU.sln
+		SccProjectName23 = EPZEU.Web.Api.Private
+		SccLocalPath23 = EPZEU.Web.Api.Private
+		SccProjectUniqueName24 = ..\\..\\EPZEU_CR\\.NET\\EPZEU.CR.Web.Api.Private\\EPZEU.CR.Web.Api.Private.csproj
+		SccProjectTopLevelParentUniqueName24 = EPZEU.sln
+		SccProjectName24 = ../../EPZEU_CR/.NET/EPZEU.CR.Web.Api.Private
+		SccLocalPath24 = ..\\..\\EPZEU_CR\\.NET\\EPZEU.CR.Web.Api.Private
+		SccProjectUniqueName25 = ..\\..\\EPZEU_CR\\.NET\\EPZEU.CR.Web.App\\EPZEU.CR.Web.App.csproj
+		SccProjectTopLevelParentUniqueName25 = EPZEU.sln
+		SccProjectName25 = ../../EPZEU_CR/.NET/EPZEU.CR.Web.App
+		SccLocalPath25 = ..\\..\\EPZEU_CR\\.NET\\EPZEU.CR.Web.App
+		SccProjectUniqueName26 = Test\\TestAtanas\\TestAtanas.csproj
+		SccProjectTopLevelParentUniqueName26 = EPZEU.sln
+		SccProjectName26 = Test/TestAtanas
+		SccLocalPath26 = Test\\TestAtanas
+		SccProjectUniqueName27 = ..\\..\\EPZEU_CR\\.NET\\EPZEU.CR.Web\\EPZEU.CR.Web.Core.csproj
+		SccProjectTopLevelParentUniqueName27 = EPZEU.sln
+		SccProjectName27 = ../../EPZEU_CR/.NET/EPZEU.CR.Web
+		SccLocalPath27 = ..\\..\\EPZEU_CR\\.NET\\EPZEU.CR.Web
+		SccProjectUniqueName28 = EPZEU.Emails.Service\\EPZEU.Emails.Service.csproj
+		SccProjectTopLevelParentUniqueName28 = EPZEU.sln
+		SccProjectName28 = EPZEU.Emails.Service
+		SccLocalPath28 = EPZEU.Emails.Service
+		SccProjectUniqueName29 = EPZEU.Integration.IISDA.Service\\EPZEU.Integration.IISDA.Service.csproj
+		SccProjectTopLevelParentUniqueName29 = EPZEU.sln
+		SccProjectName29 = EPZEU.Integration.IISDA.Service
+		SccLocalPath29 = EPZEU.Integration.IISDA.Service
+		SccProjectUniqueName30 = EPZEU.Signing\\EPZEU.Signing.csproj
+		SccProjectTopLevelParentUniqueName30 = EPZEU.sln
+		SccProjectName30 = EPZEU.Signing
+		SccLocalPath30 = EPZEU.Signing
+		SccProjectUniqueName31 = EPZEU.Users.Migrations\\EPZEU.Users.Migrations.csproj
+		SccProjectTopLevelParentUniqueName31 = EPZEU.sln
+		SccProjectName31 = EPZEU.Users.Migrations
+		SccLocalPath31 = EPZEU.Users.Migrations
+		SccProjectUniqueName32 = Test\\FutureServices\\Integration.FutureServices.Api\\Integration.FutureServices.Api.csproj
+		SccProjectTopLevelParentUniqueName32 = EPZEU.sln
+		SccProjectName32 = Test/FutureServices/Integration.FutureServices.Api
+		SccLocalPath32 = Test\\FutureServices\\Integration.FutureServices.Api
+		SccProjectUniqueName33 = Test\\FutureServices\\Integration.FutureServices.Core\\Integration.FutureServices.Core.csproj
+		SccProjectTopLevelParentUniqueName33 = EPZEU.sln
+		SccProjectName33 = Test/FutureServices/Integration.FutureServices.Core
+		SccLocalPath33 = Test\\FutureServices\\Integration.FutureServices.Core
+		SccProjectUniqueName34 = Test\\FutureServices\\SingleEntryPoint.Test\\SingleEntryPoint.Test.csproj
+		SccProjectTopLevelParentUniqueName34 = EPZEU.sln
+		SccProjectName34 = Test/FutureServices/SingleEntryPoint.Test
+		SccLocalPath34 = Test\\FutureServices\\SingleEntryPoint.Test
+		SccProjectUniqueName35 = Test\\EPZEU.Web.Test.Perf\\EPZEU.Web.Test.Perf.csproj
+		SccProjectTopLevelParentUniqueName35 = EPZEU.sln
+		SccProjectName35 = Test/EPZEU.Web.Test.Perf
+		SccLocalPath35 = Test\\EPZEU.Web.Test.Perf
+		SccProjectUniqueName36 = EPZEU.Web.Swagger\\EPZEU.Web.Swagger.csproj
+		SccProjectTopLevelParentUniqueName36 = EPZEU.sln
+		SccProjectName36 = EPZEU.Web.Swagger
+		SccLocalPath36 = EPZEU.Web.Swagger
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,26 @@
+<?
+foreach ($videoLessonList as $baseObj) {?>
+	<tr>
+		<td><?=$this->translate($registerList[$baseObj->getRegisterId()])?></td>
+		<td><?=$baseObj->getTitle()?></td>
+		<td><?=nl2br($baseObj->getTitleI18n())?></td>
+		<? if ($this->isAllowed('video_lesson_translate') || $this->isAllowed('preview_video_lesson')) {?>
+			<td class="buttons-td">
+				<span>
+
+					<? if ($this->isAllowed('preview_video_lesson')) { ?>
+						<a href="<?=$this->publicUrl([$this->language()->getCurrentLang(), 'preview-video-lesson', $baseObj->getLessonId()])?>" target="_blank" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>">
+							<i class="ui-icon ui-icon-eye"></i>
+						</a>
+					<? } ?>
+
+					<? if ($this->isAllowed('video_lesson_translate')) { ?>
+						<a href="<?=$this->url('video_lesson_translate', ['lessonId' => $baseObj->getLessonId(), 'lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_EDIT_L'))?>">
+							<i class="ui-icon ui-icon-edit"></i>
+						</a>
+					<? } ?>
+				</span>
+			</td>
+		<?}?>
+	</tr>
+<? } ?>

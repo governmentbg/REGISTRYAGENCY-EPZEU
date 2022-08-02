@@ -1,0 +1,61 @@
+<? $this->headTitle('EP_CMS_PAGE_VIDEO_VIEW_L') ?>
+
+<div class="page-header-wrapper">
+
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item"><a href="<?=$this->url(($registerType == 'CR' ? 'commercial_register' : 'property_register'), ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_'.$registerType.'_REG_NAME_L'.($registerType == 'CR'? '_SHORT_L' : ''))?></a></li>
+					<li class="breadcrumb-item"><a href="<?=$this->url('video_lesson_list', ['lang' => $this->language()->getCurrentLang(), 'registerType' => ($registerType == 'CR' ? 'cr' : 'pr')])?>"><?=$this->translate('EP_VIDEOS_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_PAGE_VIDEO_VIEW_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$baseObj->getTitle()?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+
+				<div class="card card-page">
+
+					<div class="card-body card-page__body">
+						<article class="article">
+							<?=$baseObj->getDescription()?>
+							<video class="rounded video-player" controls>
+								<source src="<?=$this->url('load_video_lesson', ['lang' => $this->language()->getCurrentLang(), 'lessonId' => $baseObj->getLessonId(), 'timestamp' => strtotime($baseObj->getUpdatedOn()), 'fileName' => $baseObj->getFileName()])?>" type="<?=$baseObj->getContentType()?>">
+							</video>
+						</article>
+					</div>
+
+					<div class="card-footer card-page__footer">
+						<div class="button-bar">
+							<div class="left-side"></div>
+							<div class="right-side">
+								<a href="<?=$this->url('video_lesson_list', ['lang' => $this->language()->getCurrentLang(), 'registerType' => ($registerType == 'CR' ? 'cr' : 'pr')])?>" class="read-more"><?=$this->translate('EP_ALL_VIDEOS')?></a>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,77 @@
+<?
+foreach ($serviceList as $baseObj) {?>
+	<tr id="edit-row-<?=$baseObj->getServiceId()?>">
+		<td><?=$this->translate($registerList[$baseObj->getRegisterId()])?></td>
+
+		<?if (empty($baseObj->getIsDiscontinued())) {?>
+
+			<td>
+				<?=$baseObj->getServiceNumber().' '.nl2br($baseObj->getName());?>
+			</td>
+			<td>
+				<?if (!empty($baseObj->getShortDescription())) {
+					if (mb_strlen(strip_tags($baseObj->getShortDescription()), 'UTF-8') > $serviceDescriptionLength) {?>
+						<a href="javascript://" onclick="openPreview('<?=$this->url('preview_service', ['serviceId' => $baseObj->getServiceId(), 'lang' => $lang], ['query'=>['shortDescription'=>'1']])?>', event)" role="button" aria-pressed="true"><?=nl2br(mb_substr(strip_tags($baseObj->getShortDescription()), 0, $serviceDescriptionLength, 'UTF-8')).'...'?></a>
+					<?}
+					else
+						echo nl2br($baseObj->getShortDescription());
+				}?>
+			</td>
+			<td>
+				<?=nl2br($baseObj->getNameI18n())?>
+			</td>
+			<td>
+				<?if (!empty($baseObj->getShortDescriptionI18n())) {
+					if (mb_strlen(strip_tags($baseObj->getShortDescriptionI18n()), 'UTF-8') > $serviceDescriptionLength) {?>
+						<a href="javascript://" onclick="openPreview('<?=$this->url('preview_service', ['serviceId' => $baseObj->getServiceId(), 'lang' => $lang], ['query'=>['getTranslated'=>'1', 'shortDescription'=>'1']])?>', event)" role="button" aria-pressed="true"><?=nl2br(mb_substr(strip_tags($baseObj->getShortDescriptionI18n()), 0, $serviceDescriptionLength, 'UTF-8')).'...'?></a>
+					<?}
+					else
+						echo nl2br($baseObj->getShortDescriptionI18n());
+				}?>
+			</td>
+			<td class="buttons-td">
+
+				<?
+				if ($registerList[$baseObj->getRegisterId()] == 'GL_CR_REG_ABBREVATION_L') {
+					$registerPrefix = $config['GL_CR_PUBLIC_UI_URL'];
+					$urlObj = $statisPageList['CR_SERVICE'];
+				}
+				else {
+					$registerPrefix = $config['GL_PR_PUBLIC_UI_URL'];
+					$urlObj = $statisPageList['PR_SERVICE'];
+				}
+				?>
+
+				<? $url = $this->publicUrl(
+						[$registerPrefix, $this->language()->getCurrentLang(), $urlObj->url],
+						[],
+						['{EP_SERVICE_ID}' => $baseObj->getServiceId()]
+					) ?>
+
+				<a href="<?=$url?>" target="_blank" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>">
+					<i class="ui-icon ui-icon-eye"></i>
+				</a>
+
+				<?if ($this->isAllowed('manage_service_translate')) {?>
+				<span>
+					<a href="<?=$this->url('manage_service_translate', ['serviceId' => $baseObj->getServiceId(), 'lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_EDIT_L'))?>">
+						<i class="ui-icon ui-icon-edit"></i>
+					</a>
+				</span>
+				<?}?>
+			</td>
+		<?}
+
+		else {?>
+			<td>
+				<span class="text-danger">
+					<?=$this->translate('EP_NOM_NO_SERVICES_IISDA_E')?>
+				</span>
+			</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td class="buttons-td"></td>
+		<?}?>
+	</tr>
+<? } ?>

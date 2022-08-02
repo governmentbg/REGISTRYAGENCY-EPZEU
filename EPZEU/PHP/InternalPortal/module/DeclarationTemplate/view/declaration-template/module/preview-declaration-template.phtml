@@ -1,0 +1,14 @@
+<div class="row">
+	<div class="col-6">
+		<strong><?=$this->translate('GL_MANIFEST_L')?></strong>
+		<p><?=$baseObj->getName()?></p>
+	</div>
+	<div class="col-6">
+		<p><strong><?=$this->translate('EP_TMP_ACTIVE_FIELDS_L')?></strong></p>
+		<textarea class="form-control form-control-plaintext" rows="3" readonly="readonly"><?=$templateActiveFields?></textarea>
+	</div>
+	<div class="col-12">
+		<p><strong><?=$this->translate('GL_CONTENT_L')?></strong></p>
+		<?=$baseObj->getContent()?>
+	</div>
+</div>

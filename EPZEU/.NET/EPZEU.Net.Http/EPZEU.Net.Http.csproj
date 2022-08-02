@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
+    <AssemblyName>EPZEU.Net.Http</AssemblyName>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>RA.EPZEU.Net.Http</PackageId>
+    <Company>CNSys</Company>
+    <Authors>CNSys</Authors>
+    <Description>Предоставя класове и extension методи за работа с и конфигурация на http клиенти от EPZEU</Description>
+    <AssemblyVersion>1.3.3.0</AssemblyVersion>
+    <FileVersion>1.3.3.0</FileVersion>
+    <Version>1.3.3</Version>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <!--За .Net Framework работи с максимална версия на IdentityServer4.AccessTokenValidation 2.7.0, който работи с IdentityModel < 4.0--> 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
+    <PackageReference Include="IdentityModel" Version="3.10.10" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+    <PackageReference Include="IdentityModel" Version="4.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.0" />
+  </ItemGroup>
+  
+</Project>

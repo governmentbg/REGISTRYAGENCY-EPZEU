@@ -1,0 +1,191 @@
+<?php $sufix = isset($sufix) ? $sufix : '';?>
+
+<div class="row">
+	<div class="col-12">
+		<ul id="image-list<?=$sufix?>" class="custom-image-list float-left">
+			<?php
+				if (!empty($imageArr)) {
+					foreach ($imageArr as $image) {
+					$imageData = json_decode($image['value']);
+					?>
+					<li class="input-group" data-uuid="<?=$imageData->uuid?>">
+						<div class="form-control">
+							<img src="<?=$this->basePath()?>/load-tmp-image/<?=$imageData->uuid?>" width="120" height="auto">
+						</div>
+						<div class="input-group-append">
+							<button class="btn btn-secondary delete-file" onClick="deleteFile<?=$sufix?>('<?=$imageData->uuid?>')" title="<?=$this->escapeHtmlAttr($this->translate('GL_DELETE_L'))?>" type="button">
+								<i class="ui-icon ui-icon-trash" aria-hidden="true"></i>
+							</button>
+						</div>
+					</li>
+				<?php
+				}
+			}
+			?>
+		</ul>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+	<ul id="image-error" class="custom-image-list">
+		<li><p class="text-danger"><?=$this->translate('GL_FILE_UPLOAD_ERROR_I')?>:</p></li>
+	</ul>
+	</div>
+</div>
+
+
+<?php
+$class = '';
+if (isset($singleFile) && $singleFile && !empty($imageArr))
+	$class = 'd-none';
+?>
+
+
+<div class="custom-file-button btn btn-secondary upload-image-section<?=$sufix?> <?=$class?>">
+	<i class="ui-icon ui-icon-upload" aria-hidden="true"></i>&nbsp;<?=$this->translate('EP_USR_UPLOAD_FILE_L')?>
+	<input class="custom-file-input" id="imageInput" <?=(isset($singleFile) ? '' : 'multiple="multiple"')?> type="file" title="<?=$this->escapeHtmlAttr($this->translate('EP_USR_UPLOAD_FILE_L'))?>" />
+</div>
+
+
+<script type="text/javascript">
+
+ii = 1;
+$('#imageInput').on('change', function () {
+
+	$("#image-error").find('li').not(':first').remove();
+	$("#image-error").hide();
+
+	var files = $('#imageInput')[0].files;
+
+	<? if (isset($maxImageSize)) { ?>
+
+		var fileSize = (files[0].size)/1024;
+		fileSize = Math.round(fileSize * 100) / 100
+
+		var maxImageSize = <?=$maxImageSize?>;
+
+		if (fileSize > maxImageSize) {
+
+			var message = '<?=$this->translate('EP_CMS_IMAGE_MAX_FILE_SIZE_E')?>';
+
+			fileSize = fileSize;
+			var message = message.replace("{FILE_SIZE_IN_KB}", Math.ceil(fileSize));
+
+			maxImageSize = maxImageSize;
+			var message = message.replace("{EP_CMS_IMAGE_MAX_FILE_SIZE}", maxImageSize);
+			$('#image-error').append('<li>'+files[0].name+'<br /><span class="text-danger">' + message +'</li></li>');
+			$('#image-error').show();
+
+			return false;
+	}
+
+<? } ?>
+
+	for (var i = 0; file = files[i]; i++) {
+		var formData = new FormData();
+		var fileName = file.name;
+
+		formData.append('file', file);
+
+		$('#image-list<?=$sufix?>').append('<li class="input-group" data-file-name="'+fileName+'">'
+ 		       + '<div class="form-control">'
+ 			       + '<i class="file-name-wrap mr-2 ui-icon ui-icon-loading ui-icon-spin" aria-hidden="true"></i>'
+ 		       + '</div>'
+ 		       + '<div class="input-group-append">'
+ 			       + '<button class="btn btn-secondary delete-file" title="изтрий" type="button">'
+ 			       	+ '<i class="ui-icon ui-icon-trash" aria-hidden="true"></i>'
+ 			       + '</button>'
+ 		       + '</div>'
+ 		     + '</li>'
+ 	     );
+		$.ajax({
+		       url : '<?=$this->url('upload_image')?>?file='+ii,
+		       type : 'POST',
+		       data : formData,
+		       processData: false,  // tell jQuery not to process the data
+		       contentType: false,  // tell jQuery not to set contentType
+		       success : function(data) {
+
+					var obj = jQuery.parseJSON(JSON.stringify(data));
+
+			        switch(obj.response) {
+						case 'error':
+							if (obj.hasOwnProperty('errors')) {
+								$('#image-error').show();
+								$("[data-file-name='" + obj.originName + "']").remove();
+
+								var errors = '';
+
+								Object.keys(obj.errors).forEach(function(key) {
+									var message = obj.errors[key];
+									errors += '<span class="text-danger">'+message+"</span><br>";
+								});
+
+								$('#image-error').append('<li>' + obj.originName+'</br>' + errors +'</li>');
+							}
+
+						break;
+
+						case 'success':
+							$("[data-file-name='" + obj.originName + "']").replaceWith('<li class="input-group" data-uuid="'+obj.uuid+'">'
+					    		       + '<div class="form-control">'
+									   + '<img src="<?=$this->basePath()?>/load-tmp-image/'+obj.uuid+'" width="120" height="auto">'
+				    		       + '</div>'
+				    		       + '<div class="input-group-append">'
+				    			       + '<button class="btn btn-secondary delete-file" title="изтрий" onClick="deleteFile<?=$sufix?>(\''+obj.uuid+'\')" type="button">'
+				    			       	+ '<i class="ui-icon ui-icon-trash" aria-hidden="true"></i>'
+				    			       + '</button>'
+				    		       + '</div>'
+				    		     + '</li>')
+
+							$('#images').append($('<option>', {
+								value: JSON.stringify(obj),
+							    selected: true,
+							    text: JSON.stringify(obj),
+							    "data-uuid": obj.uuid
+							}));
+
+							$("[data-file-name='" + obj.originName + "']" + ' i.file-name-wrap').toggleClass('ui-icon-loading ui-icon-processed').removeClass('ui-icon-spin');
+							$("#images").trigger("change");
+
+							<? if (isset($singleFile)) {?>
+								toggleUploadFileSection<?=$sufix?>();
+							<? } ?>
+
+						break;
+		    	   }
+		       }
+		});
+
+		ii++;
+	}
+
+	$('#imageInput').val('');
+});
+
+function deleteFile<?=$sufix?>(uuid) {
+	$('#images option[value="' + uuid + '"]').remove();
+	$("[data-uuid='" + uuid + "']").remove();
+	$( "#images" ).trigger("change");
+	ajaxRequest("<?=$this->url('delete_tmp_file')?>?fileName="+uuid, false, false);
+
+	if (ii > 1)
+		ii--;
+
+	<? if (isset($singleFile)) {?>
+		toggleUploadFileSection<?=$sufix?>();
+	<? } ?>
+}
+
+function toggleUploadFileSection<?=$sufix?>() {
+	var countFiles = $('ul#image-list<?=$sufix?> li').length;
+	if (countFiles >= 1) {
+		$('.upload-image-section<?=$sufix?>').addClass('d-none');
+	}
+	else {
+		$('.upload-image-section<?=$sufix?>').removeClass('d-none');
+	}
+}
+
+</script>

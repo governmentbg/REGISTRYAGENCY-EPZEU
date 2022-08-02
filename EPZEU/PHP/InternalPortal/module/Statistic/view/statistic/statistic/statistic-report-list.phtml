@@ -1,0 +1,148 @@
+<?php
+$this->headTitle('EP_STATISTICS_REPORT_ADMIN_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page">
+			<a href="<?=$this->url(
+					'statistic_list',
+					['lang' => $this->language()->getCurrentLang()],
+					['query' => ['registerId' => $statisticObj->getRegisterId()]]
+					)?>"><?=$this->translate('EP_STATISTICS_TYPE_ADMIN_L')?></a>
+		</li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$statisticObj->getName()?></li>
+	</ol>
+</nav>
+
+
+<div class="page-title">
+	<h2><?=$this->translate('EP_STATISTICS_REPORT_ADMIN_L')?></h2>
+</div>
+
+
+<div class="card">
+	<div class="card-body">
+	<?=$this->partial('partial/messages.phtml')?>
+
+	<? if ($this->isAllowed('add_statistic_report')) { ?>
+		<div class="card-navbar">
+			<div class="button-bar">
+				<div class="left-side"></div>
+				<div class="left-side">
+					<a href="<?=$this->url('add_statistic_report', ['statisticId' => $statisticObj->getStatisticId(), 'lang' => $this->language()->getCurrentLang()])?>" class="btn btn-primary" role="button" aria-pressed="true">
+						<i class="ui-icon ui-icon-plus-white"></i>
+						<?=$this->translate('EP_STATISTICS_NEW_REPORT_L')?>
+					</a>
+				</div>
+			</div>
+		</div>
+
+	<? }?>
+
+	<?=$this->partial('statistic-info-partial.phtml')?>
+
+	<? if ($statisticReportList->count()) { ?>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<thead>
+				<tr>
+					<th><?=$this->translate('GL_PERIOD_L')?> <?=$this->translate('GL_START_DATE_L')?></th>
+					<th><?=$this->translate('GL_PERIOD_L')?> <?=$this->translate('GL_END_DATE_L')?></th>
+					<th><?=$this->translate('EP_STATISTICS_DATЕ_LOADED_L')?></th>
+					<th><?=$this->translate('EP_STATISTICS_DATЕ_STATUS_L')?></th>
+					<th><?=$this->translate('GL_CONDITION_L')?></th>
+					<th><?=$this->translate('GL_ACTIONS_L')?></th>
+				</tr>
+				</thead>
+				<tbody id="content">
+					<?=$this->partial('statistic-report-list-partial.phtml')?>
+				</tbody>
+			</table>
+		</div>
+
+		<nav class="button-bar" aria-label="Page navigation">
+			<div class="pagination-container">
+				<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+				<ul class="sync-pagination"></ul>
+			</div>
+		</nav>
+
+		<?
+			$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+			$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+		?>
+
+		<script type="text/javascript">
+			pagination('.sync-pagination', '#content', <?=$totalPages?>);
+		</script>
+
+	<? } else { ?>
+		<div class="alert alert-warning" role="alert">
+			<?=$this->translate('GL_NO_DATA_FOUND_L')?>
+		</div>
+	<? } ?>
+
+	</div>
+</div>
+
+
+<?=$this->partial('partial/modal-confirm.phtml', ['buttonRefuse' => $this->translate('GL_REFUSE_L')])?>
+
+<script>
+function openModalActivateReport(formUrl, e) {
+	$('#modal-activate-report').modal('show');
+	$('#confirm-report-form').attr('action', formUrl);
+	e.preventDefault();
+}
+</script>
+
+<div id="modal-activate-report" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h3 class="modal-title"><?=$this->translate('EP_STATISTICS_PUBLIC_CONFIRM_L')?></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+            	<form action="" id="confirm-report-form" method="post">
+					<div class="form-group col-12">
+						<label class="control-label"><?=$this->translate('EP_STATISTICS_SEND_MAIL_L')?></label>
+							<div class="form-inline">
+								<div class="custom-control-inline custom-control custom-radio">
+									<input class="custom-control-input" type="radio" name="send-email" id="exampleRadiosA1" value="1" checked="checked">
+									<label class="custom-control-label" for="exampleRadiosA1"><?=$this->translate('GL_OK_L')?></label>
+								</div>
+
+								<div class="custom-control-inline custom-control custom-radio">
+									<input class="custom-control-input" type="radio" name="send-email" id="exampleRadiosA2" value="0" >
+									<label class="custom-control-label" for="exampleRadiosA2"><?=$this->translate('GL_NO_L')?></label>
+								</div>
+						</div>
+					</div>
+            	</form>
+
+            </div>
+            <div class="modal-footer">
+				<div class="button-bar">
+					<button type="button" class="btn btn-secondary close-preview-modal" data-dismiss="modal"><?=(!empty($buttonRefuse) ? $buttonRefuse : $this->translate('GL_REFUSE_L'))?></button>
+					<button type="button" onclick="document.getElementById('confirm-report-form').submit();" id="confirm-bnt" class="btn btn-primary close-preview-modal" data-confirm="modal"><?=$this->translate('GL_CONFIRM_L')?></button>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>

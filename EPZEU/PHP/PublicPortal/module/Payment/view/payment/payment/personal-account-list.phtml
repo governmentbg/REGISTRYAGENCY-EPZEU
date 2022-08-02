@@ -1,0 +1,90 @@
+<? $this->headTitle('EP_PAY_MANAG_PERS_ACC_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_PAY_MANAG_PERS_ACC_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_PAY_MANAG_PERS_ACC_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="main-wrapper section-wrapper section-wrapper--margins fixed-content-width">
+
+	<div class="page-wrapper">
+
+		<div class="section-wrapper">
+			<div class="row">
+
+				<? foreach ($registerList as $registerId => $registerCode) { ?>
+
+					<div class="col-sm-6">
+						<div class="alert alert-<?=(bccomp($balance[$registerId], 0 , 2) == 1 ? 'info' : 'warning')?>" role="alert"><div class="form-row align-items-center"><div class="col"><p><b><?=$this->translate('EP_PERS_ACC_L')?> - <?=$this->translate('GL_'.$registerCode.'_REG_NAME_L'.($registerCode == 'CR' ? '_SHORT_L' : ''))?></b></p><p><?=$this->translate('EP_PAY_BALANS_PERS_ACC')?>: <span class="lead"><b><?=number_format($balance[$registerId], 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></b></span></p></div><div class="col-12 mt-2"><a href="javascript://" class="alert-link" onclick="$('#modalTitleRegister').html($(this).children('.register-name').text());openPreview('<?=$this->url('pay_power_personal_account', ['lang' => $this->language()->getCurrentLang(), 'registerId' => $registerId])?>', event)"><span class="d-none register-name"><?=$this->translate('GL_'.$registerCode.'_REG_NAME_L'.($registerCode == 'CR' ? '_SHORT_L' : ''))?></span><b><?=$this->translate('GL_PULL_L')?></b></a></div></div></div>
+					</div>
+				<? } ?>
+
+			</div>
+		</div>
+
+		<ul class="nav nav-tabs flex-column flex-sm-row flex-nowrap">
+			<? foreach ($registerList as $id => $register) { ?>
+				<li class="nav-item <?=($selectedRegisterId == $id ? 'active': '')?> tab-register">
+					<a href="javascript://" class="nav-link <?=($selectedRegisterId == $id ? 'active': '')?>" id="tab_<?=$id?>"><?=$this->translate('GL_'.$register.'_REG_NAME_L'.($register == 'CR' ? '_SHORT_L' : ''))?></a>
+				</li>
+			<? } ?>
+		</ul>
+
+		<div class="section-wrapper">
+			<div id="tab-register-content">
+				<?=$this->partial('personal-account-list-section.phtml')?>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<?$this->headScript()->prependFile($this->basePath('js/jquery-ui.js'));?>
+
+<?$this->headLink()->appendStylesheet($this->basePath('js/bootstrap-4-datepicker/css/tempusdominus-bootstrap-4.min.css'));?>
+<?$this->headScript()->prependFile($this->basePath('js/bootstrap-4-datepicker/js/tempusdominus-bootstrap-4.min.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/moment-with-locales.min.js'));?>
+
+<?$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');?>
+<?$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');?>
+
+<?=$this->partial('partial/modal-preview.phtml', ['title' => $this->translate('EP_EPAYMENT_POWER_PERS_ACC_L').' - <span id="modalTitleRegister"></span>', 'modalDialogClass' => '', 'showBtnLeft' => 1, 'btnLeftName' => 'GL_REFUSE_L', 'showBtnRight' =>1, 'btnRightName' => 'EP_CONFIRM_PAYMENT_L', 'btnRightId' => 'confirmPaymentBtn', 'btnIconRight' => 'ui-icon-pay'])?>
+
+<script>
+$('.tab-register').on("click", function(e){
+
+	var selectedRegisterId = $(this).find('a:first').attr('id').replace('tab_', '');
+
+	$('.nav-link').removeClass('active');
+	$('.nav-item').removeClass('active');
+
+	$('#tab_'+selectedRegisterId).addClass('active');
+	$('#tab_'+selectedRegisterId).closest('.nav-item').addClass('active');
+
+	$("#registerId").val(selectedRegisterId);
+
+	history.pushState(null, null, createQuery({registerId:selectedRegisterId}, {page: 'page', search: 'search', invoice: 'invoice', dateFrom: 'dateFrom', dateTo: 'dateTo', paymentMethod: 'paymentMethod'}));
+
+	ajaxRequest('', {'changeRegisterTab':1, 'registerId': selectedRegisterId}, '#tab-register-content', '#tab-register-content');
+})
+</script>

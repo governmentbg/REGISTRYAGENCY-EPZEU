@@ -1,0 +1,178 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "EPZEU.Web.Api.Private",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "/EPZEU.Web.Api.Private"
+    }
+  ],
+  "paths": {
+    "/AppParameters/GETwithProduceseAttr": {
+      "get": {
+        "tags": [
+          "AppParameters"
+        ],
+        "parameters": [
+          {
+            "name": "ParameterTypeEnm",
+            "in": "query",
+            "description": "Тип на параметъра.",
+            "schema": {
+              "$ref": "#/components/schemas/AppParameterTypesParam"
+            }
+          },
+          {
+            "name": "ParameterTypeEnmNull",
+            "in": "query",
+            "description": "Тип на параметъра.",
+            "schema": {
+              "$ref": "#/components/schemas/AppParameterTypesParam"
+            }
+          },
+          {
+            "name": "ParameterTypeEnmREQ",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/AppParameterTypesParam"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppParameterParam"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppParameterParam"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppParameterParam"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AppParameterTypesParam": {
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "type": "integer",
+        "description": "Типове на параметри",
+        "format": "int32"
+      },
+      "ApiError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Код.",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Съобщение.",
+            "nullable": true
+          },
+          "stackTrace": {
+            "type": "string",
+            "description": "Описва къде в кода е възникнала грешката.",
+            "nullable": true
+          },
+          "innerErrors": {
+            "type": "array",
+            "items": { },
+            "description": "Вътрешни грешки.",
+            "nullable": true
+          }
+        },
+        "description": "Модел на грешка."
+      },
+      "AppParameterParam": {
+        "required": [
+          "parameterTypeEnmREQ"
+        ],
+        "type": "object",
+        "properties": {
+          "parameterTypeEnm": {
+            "$ref": "#/components/schemas/AppParameterTypesParam"
+          },
+          "parameterTypeEnmNull": {
+            "$ref": "#/components/schemas/AppParameterTypesParam"
+          },
+          "parameterTypeEnmREQ": {
+            "$ref": "#/components/schemas/AppParameterTypesParam"
+          }
+        },
+        "description": "Клас за работа с параметри."
+      }
+    },
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://localhost/epzeu.web.identityserver/connect/authorize",
+            "tokenUrl": "https://localhost/epzeu.web.identityserver/connect/token",
+            "scopes": {
+              "epzeu.api": "epzeu.api"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "oauth2": [ ]
+    }
+  ]
+}

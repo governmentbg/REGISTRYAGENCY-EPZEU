@@ -1,0 +1,286 @@
+<?php
+$this->headTitle('GL_SERVICES_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_GL_NOMENCLATURES_L')?></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_SERVICES_L')?></li>
+	</ol>
+</nav>
+
+
+<div class="page-title">
+	<h2><?=$this->translate('GL_SERVICES_L')?></h2>
+</div>
+
+<div class="card">
+
+	<div class="card-header">
+		<h3><?=$this->translate('GL_SEARCHING_L')?>
+			<button class="system-button toggle-collapse" data-toggle="collapse" data-target="#collapsable-content">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+		</h3>
+	</div>
+
+	<div id="collapsable-content" class="collapse show">
+		<?
+		$searchForm->setAttribute('action', $this->url('service_list', ['lang' => $params->fromRoute('lang')]));
+		$searchForm->prepare();
+
+		echo $this->form()->openTag($searchForm);
+		?>
+
+		<div class="card-body">
+
+			<?=$this->partial('partial/messages.phtml')?>
+
+			<?=$this->formRow($searchForm->get('search'))?>
+
+			<div class="row">
+				<div class="form-group col-sm-4">
+					<?=$this->formRow($searchForm->get('registerId'), null, null, 'partial/multiselect')?>
+				</div>
+				<div class="form-group col-sm-4">
+					<?=$this->formRow($searchForm->get('name'), null, true, "")?>
+				</div>
+				<div class="form-group col-sm-4">
+					<?=$this->formRow($searchForm->get('status'), null, null, 'partial/multiselect')?>
+				</div>
+			</div>
+		</div>
+
+		<div class="card-footer">
+			<div class="button-bar">
+				<a href="<?=$this->url('service_list', ['lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+				<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+			</div>
+		</div>
+
+		<?=$this->form()->closeTag();?>
+
+	</div>
+</div>
+
+<div class="card">
+	<div class="card-body">
+
+	<?if ($this->isAllowed('add_service')) { ?>
+		<div class="card-navbar">
+			<div class="button-bar">
+				<div class="left-side"></div>
+				<div class="right-side">
+					<a href="<?=$this->url('add_service', ['lang' => $params->fromRoute('lang')])?>" class="btn btn-primary" role="button" aria-pressed="true">
+					<i class="ui-icon ui-icon-plus-white"></i>
+					<?=$this->translate('EP_NOM_ADD_SERVICE_L')?>
+					</a>
+				</div>
+			</div>
+		</div>
+	<?}?>
+
+	<?if ($params->fromQuery('search') || $serviceList->count()) { ?>
+
+		<?if ($serviceList->count()) { ?>
+
+			<?if (!empty($synchronizeMessage)) {?>
+				<div class="row">
+					<div class="col-12 form-group">
+						<div class="alert alert-warning" role="alert">
+							<?=$synchronizeMessage?>
+						</div>
+					</div>
+				</div>
+			<?}?>
+
+			<nav class="button-bar" aria-label="Page navigation">
+				<div class="pagination-container">
+					<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+					<ul class="sync-pagination"></ul>
+				</div>
+			</nav>
+
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped table-hover">
+					<thead>
+					<tr>
+						<th><?=$this->translate('GL_REGISTER_L')?></th>
+						<th><?=$this->translate('GL_SERVICE_L')?></th>
+						<th><?=$this->translate('GL_APPLICATION_L')?></th>
+						<th><?=$this->translate('GL_SERVICE_TYPE_L')?></th>
+						<th><?=$this->translate('GL_Е_PAYMENT_CHANNEL_L')?></th>
+						<th><?=$this->translate('EP_NOM_START_REVIVAL_SERVICE_L')?></th>
+						<th><?=$this->translate('EP_NOM_STOP_REVIVAL_SERVICE_L')?></th>
+						<th><?=$this->translate('GL_CONDITION_L')?></th>
+						<? if ($this->isAllowed('edit_service')) { ?>
+						<th><?=$this->translate('GL_ACTIONS_L')?></th>
+						<? } ?>
+					</tr>
+					</thead>
+					<tbody id="content">
+						<?=$this->partial('nomenclature/nomenclature/service-list-partial.phtml')?>
+					</tbody>
+				</table>
+			</div>
+
+			<nav class="button-bar" aria-label="Page navigation">
+				<div class="pagination-container">
+					<div class="result-count"><?=$this->translate('GL_TOTAL_L')?>: <?=$totalCount?></div>
+					<ul class="sync-pagination"></ul>
+				</div>
+			</nav>
+
+			<?
+				$this->headScript()->appendFile($this->basePath('/js/jquery.twbsPagination.js'), 'text/javascript');
+				$this->headScript()->appendFile($this->basePath('/js/paginator.js'), 'text/javascript');
+			?>
+
+			<script type="text/javascript">
+				pagination('.sync-pagination', '#content', <?=$totalPages?>);
+			</script>
+
+		<? } else { ?>
+			<div class="alert alert-warning" role="alert">
+				<?=$this->translate('EP_NOM_NO_SERVICES_EPZEU_I')?>
+			</div>
+		<? }
+	}?>
+	</div>
+</div>
+
+<?=$this->partial('partial/modal-preview.phtml', ['title' => $this->translate('GL_SERVICE_L'), 'modalBodyClass' => 'public-portal-css'])?>
+
+<?$this->headLink()->appendStylesheet($this->basePath('js/bootstrap-4-datepicker/css/tempusdominus-bootstrap-4.min.css'));?>
+<?$this->headScript()->prependFile($this->basePath('js/bootstrap-4-datepicker/js/tempusdominus-bootstrap-4.min.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/moment-with-locales.min.js'));?>
+
+<script>
+function openEditSection(serviceId, action) {
+	$('.cancel-edit').addClass('d-none');
+	$('.provide-edit').addClass('d-none');
+	$('.provide-preview').removeClass('d-none');
+	$('.cancel-preview').removeClass('d-none');
+
+	$('#'+action+'-preview-'+serviceId).addClass('d-none');
+	$('#'+action+'-edit-'+serviceId).removeClass('d-none');
+}
+
+function closeEditSection(serviceId, action) {
+	$("#"+action+"-td-"+serviceId+" .invalid-feedback").remove();
+	$('.cancel-edit').addClass('d-none');
+	$('.provide-edit').addClass('d-none');
+
+	$('#'+action+'-preview-'+serviceId).removeClass('d-none');
+	$('#'+action+'-edit-'+serviceId).addClass('d-none');
+
+	var day = new Date().getDate();
+	var month = new Date().getMonth()+1;
+	var year = new Date().getFullYear();
+
+	var hours = new Date().getHours()+1;
+
+	var statusDate = (day<10?"0"+day:day)+"."+(month<10?"0"+month:month)+"."+year;
+	var statusTime = (hours<10?"0"+hours:hours);
+
+	$('#cancelStatusDateInput-'+serviceId).val(statusDate);
+	$('#cancelStatusTimeInput-'+serviceId).val(statusTime);
+
+	$('#provideStatusDateInput-'+serviceId).val(statusDate);
+	$('#provideStatusTimeInput-'+serviceId).val(statusTime);
+}
+
+function saveService(serviceId, action) {
+
+	stripTags(serviceId);
+
+	$("#"+action+"-td-"+serviceId+" .invalid-feedback").remove();
+	var statusDate = $('#'+action+'StatusDateInput-'+serviceId).val();
+	var statusTime = $('#'+action+'StatusTimeInput-'+serviceId).val();
+	var tdSection = action+'-td-'+serviceId;
+
+	var data = {'manageServiceStatus':1, 'id':serviceId, 'action':action, 'statusDate':statusDate, 'statusTime':statusTime};
+
+	$.ajax({
+		method: "POST",
+		url: '',
+		data: data,
+		async: true
+	})
+	.done(function(msg) {
+
+		var obj = jQuery.parseJSON(JSON.stringify(msg));
+
+		if (obj.hasOwnProperty('status')) {
+
+			switch(obj.status) {
+				case 'success':
+
+					var statusDate = obj.statusDate;
+					var statusTime = obj.statusTime;
+
+					var formatedDate =  statusDate+' г. '+statusTime+' ч.';
+					$('#'+action+'-date-time-'+serviceId).html(formatedDate);
+
+					$('#'+action+'-preview-'+serviceId).removeClass('d-none');
+					$('#'+action+'-edit-'+serviceId).addClass('d-none');
+
+					var serviceStatusProvided = '<?=$serviceStatusProvided?>';
+					var serviceStatusPending = '<?=$serviceStatusPending?>';
+					var serviceStatusCancel = '<?=$serviceStatusCancel?>';
+
+					if (obj.serviceStatus == serviceStatusProvided) {
+
+						$('#status-'+serviceId).html('<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i><span class="text-wrap"><?=$this->translate("EP_NOM_STATUS_PROVIDED_L")?></span>');
+
+						$('#cancel-date-time-'+serviceId).addClass('d-none');
+						$('#provide-date-time-'+serviceId).removeClass('d-none');
+						$('#edit-action-'+serviceId).addClass('d-none');
+						$('#cancel-action-'+serviceId).removeClass('d-none');
+						$('#provide-action-'+serviceId).addClass('d-none');
+					}
+					else if (obj.serviceStatus == serviceStatusPending) {
+						$('#status-'+serviceId).html('<i class="ui-icon ui-icon-state-waiting" aria-hidden="true"></i><span class="text-wrap"><?=$this->translate("EP_NOM_STATUS_PENDING_L")?></span>');
+
+						$('#cancel-date-time-'+serviceId).addClass('d-none');
+						$('#provide-date-time-'+serviceId).removeClass('d-none');
+						$('#edit-action-'+serviceId).removeClass('d-none');
+						$('#cancel-action-'+serviceId).addClass('d-none');
+						$('#provide-action-'+serviceId).removeClass('d-none');
+					}
+					else if (obj.serviceStatus == serviceStatusCancel) {
+
+						$('#status-'+serviceId).html('<i class="ui-icon ui-icon-state-inactive" aria-hidden="true"></i><span class="text-wrap"><?=$this->translate("EP_NOM_STATUS_CANCEL_PROVIDED_L")?></span>');
+
+						$('#provide-date-time-'+serviceId).addClass('d-none');
+						$('#cancel-date-time-'+serviceId).removeClass('d-none');
+						$('#edit-action-'+serviceId).addClass('d-none');
+						$('#cancel-action-'+serviceId).addClass('d-none');
+						$('#provide-action-'+serviceId).removeClass('d-none');
+					}
+
+					break;
+				case 'error':
+					var message = createAlertBox('danger', obj.message);
+				   	$('#'+action+'-td-'+serviceId).html(message);
+					break;
+				case 'error-td':
+
+					for (var i = 0; i < obj.errors.length; i++) {
+				    	var key = Object.keys(obj.errors[i])[0];
+				    	var message = createErrorMessage(obj.errors[i][key]);
+				    	$('#'+key+' .invalid-feedback').remove();
+				    	$('#'+key).append(message);
+					}
+
+				   	$("."+obj.editBtnClass).click();
+
+				   	break;
+				default:
+					$('#'+action+'-td-'+serviceId).html(msg);
+			}
+		}
+	});
+}
+</script>

@@ -1,0 +1,74 @@
+<? foreach ($pageList as $page) {
+
+	$lang = $this->language()->getCurrentLang();
+	if (!empty($page->getLanguageId()) && !empty($this->language()->getLangById($page->getLanguageId())))
+		$lang = $this->language()->getLangById($page->getLanguageId());
+?>
+
+	<article class="article article--news">
+		<h3 class="article-title">
+
+			<?
+			switch ($page->getType()) {
+
+				// Страници с услуги
+				case 1:
+					$html = '#';
+
+					if ($registerList[$page->getRegisterId()] == 'CR')
+						$staticPageUrl = $staticPageListCRService->url;
+					else if ($registerList[$page->getRegisterId()] == 'PR')
+						$staticPageUrl = $staticPageListPRService->url;
+
+					if (!empty($staticPageUrl))
+						$html = $this->staticPage()->getUrlFromString(
+							$staticPageUrl,
+							($this->language()->getDefaultLanguage() == $lang) ? '' : $lang,
+							'GL_'.$registerList[$page->getRegisterId()].'_PUBLIC_UI_URL'
+						);
+					break;
+
+				// Страница със заявления/искания/удостоверения
+				case 2:
+
+					$html = '#';
+
+					$staticPageUrl = '';
+
+					if ($registerList[$page->getRegisterId()] == 'CR')
+						$staticPageUrl = $staticPageListCRApplication->url;
+					else if ($registerList[$page->getRegisterId()] == 'PR')
+						$staticPageUrl = $staticPageListPRApplication->url;
+
+					if (!empty($staticPageUrl))
+						$html = $this->staticPage()->getUrlFromString(
+							$staticPageUrl,
+							($this->language()->getDefaultLanguage() == $lang) ? '' : $lang,
+							'GL_'.$registerList[$page->getRegisterId()].'_PUBLIC_UI_URL'
+						);
+					break;
+
+				// Страница с образци на документи
+				case 3:
+					$html = $this->url('document_template', ['lang' => $lang, 'registerType' => strtolower($registerList[$page->getRegisterId()])]);
+					break;
+
+				// страница с нормативната уредба
+				case 4:
+					$html = $this->url('legislation', ['lang' => $lang, 'registerType' => strtolower($registerList[$page->getRegisterId()])]);
+					break;
+
+				// Html страници
+				default:
+					$html = rawurldecode($this->url('redefined_page', ['lang' => $lang, 'url' => $page->getURL()]));
+			}
+			?>
+
+			<a href="<?=$html?>">
+				<?=$page->getTitle()?>
+			</a>
+
+		</h3>
+	</article>
+
+<? } ?>

@@ -1,0 +1,93 @@
+﻿@using EPZEU.Common;
+@using Microsoft.Extensions.Options;
+@using EPZEU.Web.FileUploadProtection;
+
+@inject IOptionsMonitor<GlobalOptions> GlobalOptionsAccessor
+@inject Microsoft.Extensions.Localization.IStringLocalizer localizer
+@inject IOptionsMonitor<FileUploadProtectionOptions> FileUploadProtectionOptionsAccessor
+
+@{
+    var globalOptions = GlobalOptionsAccessor.CurrentValue;
+
+    var uriBuilder = new UriBuilder()
+    {
+        Host = this.ViewContext.HttpContext.Request.Host.Host,
+        Scheme = this.ViewContext.HttpContext.Request.Scheme,
+        Path = Url.Content("~/")
+    };
+
+    if (this.ViewContext.HttpContext.Request.Host.Port.HasValue)
+    {
+        uriBuilder.Port = this.ViewContext.HttpContext.Request.Host.Port.Value;
+    };
+
+    string requestedLang = ViewData["Requested_Client_Lang"] != null ? ViewData["Requested_Client_Lang"] as string : null;
+    List<string> scripts = (List<string>)ViewData["Scripts"];
+    List<string> metas = (List<string>)ViewData["Metas"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    @foreach (var meta in metas)
+    {
+        @Html.Raw(meta)
+    }
+
+    @Html.Raw(ViewData["Title"])
+    <base href="~/" />
+    @Html.Raw(ViewData["Favicon"])
+    <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/siteCss.min.css" asp-append-version="true" />
+</head>
+<body>
+    @RenderBody()
+
+    <script src="~/dist/vendor.js" asp-append-version="true"></script>
+
+    @foreach (var script in scripts)
+    {
+        @Html.Raw(script)
+    }
+
+    <script>
+        var applicationConfig = {
+            baseUrlName: '@uriBuilder.ToString()',
+            epzeuPublicUIUrl: '@globalOptions.GL_EPZEU_PUBLIC_UI_URL',
+            epzeuApiRoot: '@globalOptions.GL_EPZEU_PUBLIC_API',
+            clientLanguage: '@(string.IsNullOrEmpty(requestedLang) ? "bg" : requestedLang.ToLower())',
+            loadingUIText: '@(Html.Raw(localizer["GL_LOADING_I"]))',
+            acceptedFileExt: '@(FileUploadProtectionOptionsAccessor.CurrentValue.AllowedFileExtensions)',
+            allowTestSign: JSON.parse(@(globalOptions.EP_SIGN_ALLOW_TEST_SIGN > 0 ? "true" : "false")),
+            maxRequestLengthInKB: '@globalOptions.GL_DOCUMENT_MAX_FILE_SIZE',
+            userInactivityTimeout: @(globalOptions.EP_USR_SESSION_INACTIVITY_INTERVAL.TotalMilliseconds),
+            appSaveIntervalInMs: @(globalOptions.GL_APPLICATION_DRAFTS_AUTO_SAVE_INTERVAL.TotalMilliseconds),
+            commonCookieDomain: '@globalOptions.GL_COMMON_COOKIE_DOMAIN',
+            paths: {
+                incomingDocuments: '@(EPZEU.CR.Web.Models.PagesURLs.IncomingDocumentsURL)',
+                outgoingDocuments: '@(EPZEU.CR.Web.Models.PagesURLs.OutgoingDocumentsURL)',
+                instructions: '@(EPZEU.CR.Web.Models.PagesURLs.InstructionsURL)',
+                applicationProcesses: '@(EPZEU.CR.Web.Models.PagesURLs.ApplicationProcessesURL)',
+                applicationDraftPreview: '@(EPZEU.CR.Web.Models.PagesURLs.ApplicationDraftPreviewURL)',
+                services: '@(ViewData["CrServicesPath"])',
+                service: '@(ViewData["CrServicePath"])',
+                applications: '@(ViewData["CrApplicationsPath"])',
+            },
+            defaultPageSize: @(globalOptions.GL_ITEMS_PER_PAGE.GetValueOrDefault(10))
+        }
+
+        var oidcUserManagerConfig = {
+            authority: '@globalOptions.GL_IDSRV_URL',
+            client_id: 'epzeu.cr.ui.client',
+	        redirect_uri: '@(uriBuilder.ToString() + "Identity/SignIn")',
+	        response_type: 'id_token token',
+            scope: 'openid profile epzeu.cr.api.public epzeu.api.public',
+	        post_logout_redirect_uri: '@globalOptions.GL_EPZEU_PUBLIC_UI_URL',
+	        silent_redirect_uri: '@(uriBuilder.ToString() + "Identity/Renew")',
+            automaticSilentRenew: true,
+            ui_locales: applicationConfig.clientLanguage
+        }
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

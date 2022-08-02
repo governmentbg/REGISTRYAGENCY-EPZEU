@@ -1,0 +1,128 @@
+<? $this->headTitle('EP_USR_SERT_ADD_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page">
+						<a href="<?=$this->url('user_auth_list', ['lang' => $this->language()->getCurrentLang()])?>">
+						<?=$this->translate('EP_USR_MNG_AUTH_L')?>
+						</a>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_SERT_ADD_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_USR_SERT_ADD_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+				<div class="card card-page">
+
+					<div class="card-body card-page__body">
+						<div class="row">
+							<div class="col-12">
+
+								<? if ($errorMessage) { ?>
+
+									<div class="alert alert-danger" role="alert"><?=$this->translate($errorMessage)?></div>
+
+								<? } else { ?>
+
+
+									<?=$this->partial('partial/messages.phtml')?>
+
+
+									<div class="field-container">
+										<div class="row">
+											<div class="col form-group">
+												<label class="field-title field-title--form" for=""><?=$this->translate('EP_ODIT_PUBLISHER_L')?></label>
+												<p class="field-text"><?=$certificateObj->getIssuer()?></p>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col form-group">
+												<label class="field-title field-title--form" for=""><?=$this->translate('EP_ODIT_NUMBER_SERTIFICATE_KEP_PIC_L')?></label>
+												<p class="field-text"><?=$certificateObj->getSerialNumber()?></p>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col form-group">
+												<label class="field-title field-title--form" for=""><?=$this->translate('EP_VALIDITY_PERIOD_TO_L')?></label>
+												<p class="field-text">
+													<?=$this->dateFormat(
+															strtotime($certificateObj->getNotAfter()),
+														    IntlDateFormatter::MEDIUM, // date
+														    IntlDateFormatter::NONE, // time
+														    $this->plugin('translate')->getTranslator()->getLocale(),
+															\Application\View\Helper\DateFormat::DATETIME
+													)?>
+												</p>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col form-group">
+												<label class="field-title field-title--form" for=""><?=$this->translate('EP_OTHER_INFORMATION_L')?></label>
+												<p class="field-text"><?=$certificateObj->getSubject()?></p>
+											</div>
+										</div>
+									</div>
+
+								<? } ?>
+
+
+							</div>
+						</div>
+					</div>
+
+
+					<form action="" method="post" id="cert-form">
+						<div class="card-footer card-page__footer">
+							<div class="button-bar">
+								<div class="left-side">
+									<a class="btn btn-secondary" href="<?=$this->url('user_auth_list', ['lang' => $this->language()->getCurrentLang()])?>">
+										<?=$this->translate('GL_REFUSE_L')?>
+									</a>
+								</div>
+
+								<? if (!$errorMessage) { ?>
+								<div class="right-side">
+									<button type="submit" class="btn btn-primary"><?=$this->translate('GL_ADD_L') ?></button>
+								</div>
+								<? } ?>
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).on('submit','#cert-form',function(){
+	showGlobalLoader();
+});
+</script>

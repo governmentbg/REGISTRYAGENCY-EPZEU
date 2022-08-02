@@ -1,0 +1,28 @@
+﻿@{ Layout = null; }
+
+@using EPZEU.Common;
+@using Microsoft.Extensions.Options;
+
+@inject IOptionsMonitor<GlobalOptions> GlobalOptionsAccessor
+
+@{
+    var globalOptions = GlobalOptionsAccessor.CurrentValue;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+        var oidcUserManagerConfig = {
+            authority: '@globalOptions.GL_IDSRV_URL',
+            client_id: 'epzeu.cr.ui.client',
+        }
+    </script>
+    <script src="~/dist/vendor.js" asp-append-version="true"></script>
+    <script src="~/dist/oidcfrontchannellogout.js"></script>
+</body>
+</html>

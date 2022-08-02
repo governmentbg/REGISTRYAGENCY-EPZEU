@@ -1,0 +1,79 @@
+<? $this->headTitle('EP_USR_ADDING_USER_POFILE_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item"><a href="<?=$this->url('united_profile_list', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('EP_USRM_MERGE_USERS_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USR_ADDING_USER_POFILE_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_USR_ADDING_USER_POFILE_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="main-wrapper section-wrapper section-wrapper--margins fixed-content-width">
+	<div class="page-wrapper">
+		<div class="section-wrapper">
+
+			<? if ($isRateLimitReached) { ?>
+					<div class="alert alert-warning" role="alert"><?=$this->translate('GL_TOO_MANY_REQUESTS_E')?></div>
+				<?} else { ?>
+
+				<?php
+				$loginForm->setAttribute('action', $this->url('unite_user_profile', ['lang' => $this->language()->getCurrentLang()]));
+				$loginForm->prepare();
+				echo $this->form()->openTag($loginForm);
+				?>
+
+				<div class="row">
+					<div class="col-12">
+						<?=$this->partial('partial/messages.phtml')?>
+					</div>
+				</div>
+
+				<? if ($errorMessage) { ?>
+					<div class="alert alert-danger" role="alert"><?=$this->translate($errorMessage) ?></div>
+				<? } ?>
+
+				<div class="row">
+					<div class="col-lg-4 form-group">
+						<?=$this->formRow($loginForm->get('register'))?>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($loginForm->get('username'))?>
+					</div>
+					<div class="col-sm-6 col-lg-4 form-group">
+						<?=$this->formRow($loginForm->get('password'))?>
+					</div>
+				</div>
+
+				<div class="button-bar button-bar--form">
+					<div class="left-side">
+						<a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+					</div>
+					<div class="right-side">
+						<?=$this->formSubmit($loginForm->get('submit'));?>
+					</div>
+				</div>
+
+				<?=$this->form()->closeTag();?>
+			<?} ?>
+		</div>
+	</div>
+</div>
+

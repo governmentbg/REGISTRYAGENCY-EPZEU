@@ -1,0 +1,13 @@
+CREATE OR REPLACE FUNCTION sys.f_fts_search_config (
+)
+RETURNS varchar AS
+$body$
+BEGIN
+  RETURN 'simple';
+END;
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
+COST 100;

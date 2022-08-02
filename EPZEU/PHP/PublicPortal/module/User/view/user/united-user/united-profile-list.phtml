@@ -1,0 +1,156 @@
+<? $this->headTitle('EP_USRM_MERGE_USERS_L') ?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_USRM_MERGE_USERS_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_USRM_MERGE_USERS_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="main-wrapper section-wrapper section-wrapper--margins fixed-content-width">
+	<div class="page-wrapper">
+		<div class="section-wrapper">
+
+			<div class="row">
+				<div class="form-group col-12">
+					<div class="help-text"><p><?=$this->translate('EP_USR_00022_I')?></p></div>
+				</div>
+			</div>
+
+			<? if ($isMigrantationAllowed) { ?>
+				<div class="button-bar button-bar--table-actionbar-top">
+					<div class="left-side">
+						<a class="btn btn-outline-light text-dark" href="<?=$this->url('unite_user_profile', ['lang' => $this->language()->getCurrentLang()]) ?>"><i class="ui-icon ui-icon-plus" aria-hidden="true" ></i> <?=$this->translate('EP_USR_ADD_USER_POFILE_L')?></a>
+					</div>
+					<div class="right-side">
+					</div>
+				</div>
+			<? } ?>
+
+			<? if (!$isStartDateOccurred) { ?>
+					<div class="alert alert-warning" role="alert"><?=str_replace('{EP_USR_PROFILE_MIGRATION_STARTDATE}',
+						$this->dateFormat(
+								strtotime($startDate),
+								IntlDateFormatter::NONE, // date
+								IntlDateFormatter::NONE, // time
+								$this->plugin('translate')->getTranslator()->getLocale(),
+								\Application\View\Helper\DateFormat::DATETIME
+							),
+							$this->translate('EP_USR_00020_I'))?>
+					</div>
+			<? } ?>
+
+			<? if ($endDate) { ?>
+				<div class="alert alert-warning" role="alert"><?=$this->translate('EP_USR_00024_I') ?></div>
+			<? } ?>
+
+			<?=$this->partial('partial/messages.phtml')?>
+
+			<?
+			if ($migrantatProfileList === false)
+				echo '<div class="alert alert-danger" role="alert">'.$this->translate('GL_ERROR_L').'</div>';
+			?>
+
+			<? if ($migrantatProfileList) { ?>
+
+				<div class="table-responsive-block">
+					<table class="table table-borderless table-striped table-hover">
+						<thead>
+							<tr>
+								<th><?=$this->translate('GL_USER_NAME_L')?></th>
+								<th><?=$this->translate('GL_REGISTER_L')?></th>
+								<th><?=$this->translate('EP_USRM_CLIENT_IND_L')?></th>
+								<th class="text-right"><?=$this->translate('EP_PAY_BALANS_PERS_ACC')?></th>
+								<th><?=$this->translate('EP_USRM_MERG_DATE_L')?></th>
+								<th><?=$this->translate('GL_CONDITION_L')?></th>
+							</tr>
+						</thead>
+						<tbody>
+							<? foreach ($migrantatProfileList as $migrantation) { ?>
+								<tr>
+									<td>
+										<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_USER_NAME_L')?></span>
+										<p class="field-text"><?=$migrantation->getmigrantUsername()?></p>
+									</td>
+									<td>
+										<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_REGISTER_L')?></span>
+										<p class="field-text"><?=$registerList[$migrantation->getRegister()] == 'CR' ? $this->translate('GL_CR_REG_NAME_L_SHORT_L') : $this->translate('GL_'.$registerList[$migrantation->getRegister()].'_REG_NAME_L')?></p>
+									</td>
+									<td>
+										<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_USRM_CLIENT_IND_L')?></span>
+										<p class="field-text"><?=$migrantation->getmigrantClientId()?></p>
+									</td>
+									<td class="text-right">
+										<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_PAY_BALANS_PERS_ACC')?></span>
+										<p class="field-text"><?=$migrantation->getmigrantAmount()?> <?=$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+									</td>
+									<td>
+										<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_USRM_MERG_DATE_L')?></span>
+										<p class="field-text">
+											<?=$this->dateFormat(
+												strtotime($migrantation->getMigrationData()),
+												IntlDateFormatter::NONE, // date
+												IntlDateFormatter::NONE, // time
+												$this->plugin('translate')->getTranslator()->getLocale(),
+												\Application\View\Helper\DateFormat::DATE
+											);?>
+										</p>
+									</td>
+									<td class="icons-td">
+										<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_CONDITION_L')?></span>
+										<p class="field-text">
+											<? $status = \User\Controller\UnitedUserController::MIGRATION_STATUS[$migrantation->getStatus()]?>
+											<?
+											switch ($status) {
+
+												case 'GL_PROCESSED_L':
+													?>
+													<i class="ui-icon ui-icon-state-waiting" aria-hidden="true"></i>
+													<?php
+													break;
+
+												case 'GL_COMPLETED_L':
+													?>
+													<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i>
+													<?php
+													break;
+
+												case 'GL_PROCESSING_PROBLEM_L':
+													?>
+													<i class="ui-icon ui-icon-state-canceled" aria-hidden="true"></i>
+													<?php
+													break;
+											}
+											?>
+
+											<?=$this->translate($status) ?>
+										</p>
+									</td>
+								</tr>
+							<? } ?>
+						</tbody>
+					</table>
+				</div>
+			<? } ?>
+
+		</div>
+	</div>
+</div>

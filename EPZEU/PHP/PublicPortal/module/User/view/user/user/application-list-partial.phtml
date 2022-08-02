@@ -1,0 +1,76 @@
+<? foreach ($applicationList as $key => $applicationObj) {
+
+	// таб регистър
+	if ($selectedTab != 'draft') { ?>
+
+		<tr>
+			<td>
+				<p class="field-text">
+					<b><?=$applicationObj->getIncomingNumber()?></b>
+				</p>
+				<p class="field-text">
+					<? if (!empty($applicationObj->getApplicationDisplayUrl())) {?>
+						<b><a href="javascript://" onclick="window.open('<?=$applicationObj->getApplicationDisplayUrl()?>', '_blank');"><?=$applicationTypeList[$applicationObj->getApplicationTypeId()]?></a></b>
+					<? } else { ?>
+						<b><?=$applicationTypeList[$applicationObj->getApplicationTypeId()]?></b>
+					<? } ?>
+				</p>
+			</td>
+			<td>
+				<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_DATE_APPLICATION_RECEPTION_L')?></span>
+				<p class="field-text">
+					<?=$this->dateFormat(
+						strtotime($applicationObj->getRegistrationDate()),
+						IntlDateFormatter::NONE, // date
+						IntlDateFormatter::NONE, // time
+						$this->plugin('translate')->getTranslator()->getLocale(),
+						\Application\View\Helper\DateFormat::DATETIMESECONDS
+					);
+					?>
+				</p>
+			</td>
+			<td>
+				<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_RESULT_L')?></span>
+				<p class="field-text"><?=$applicationObj->getResultHtml()?></p>
+			</td>
+		</tr>
+
+	<? }
+
+	// таб чернова
+	else { ?>
+
+		<tr>
+			<td>
+				<p class="field-text">
+					<? if (!empty($applicationObj->getApplicationDisplayUrl())) {?>
+						<b><a href="javascript://" onclick="window.open('<?=$applicationObj->getApplicationDisplayUrl()?>', '_blank');"><?=$applicationTypeList[$applicationObj->getApplicationTypeId()]?></a></b>
+					<? } else { ?>
+						<b><?=$applicationTypeList[$applicationObj->getApplicationTypeId()]?></b>
+					<? } ?>
+				</p>
+			</td>
+			<td>
+				<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_REGISTER_L')?></span>
+				<p class="field-text">
+					<?=$this->translate('GL_'.$registerList[$applicationObj->getRegister()].'_REG_NAME_L'.($registerList[$applicationObj->getRegister()] == 'CR' ? '_SHORT_L' : ''))?>
+				</p>
+			</td>
+			<td>
+				<span class="field-title field-title--preview d-sm-none"><?=$this->translate('GL_CREATE_UPDATE_DATE_L')?></span>
+				<p class="field-text">
+					<?=$this->dateFormat(
+						strtotime($applicationObj->getDraftDate()),
+						IntlDateFormatter::NONE, // date
+						IntlDateFormatter::NONE, // time
+						$this->plugin('translate')->getTranslator()->getLocale(),
+						\Application\View\Helper\DateFormat::DATETIMESECONDS
+					);
+					?>
+				</p>
+			</td>
+		</tr>
+
+	<? }
+
+} ?>

@@ -1,0 +1,1 @@
+org.springframework.context.ApplicationListener=bg.registryagency.epzeu.pr.integration.conf.ExternalPropertySourceRegister

@@ -1,0 +1,88 @@
+<? $this->headTitle('EP_CMS_FORUM_NEW_TOPIC_L') ?>
+
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item"><a href="<?=$this->url('topic_list', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('EP_CMS_FORUM_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('EP_CMS_FORUM_NEW_TOPIC_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('EP_CMS_FORUM_NEW_TOPIC_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+				<div class="card card-page">
+
+					<? if ($forumForm->getMessages()) { ?>
+						<div class="alert alert-danger" role="alert"><?=$this->translate('GL_ALL_FIELDS_MANDATORY_E')?></div>
+					<? } ?>
+
+					<?php
+					$forumForm->setAttribute('action', $this->url('new_topic', ['lang' => $this->language()->getCurrentLang()]));
+					$forumForm->setAttribute('id', 'forum-form');
+
+					$forumForm->prepare();
+
+					echo $this->form()->openTag($forumForm);
+
+					?>
+
+					<?=$this->partial('partial/messages.phtml')?>
+
+					<div class="card-body card-page__body">
+
+							<div class="row">
+								<div class="col-sm-8 form-group">
+									<?=$this->formRow($forumForm->get('title'))?>
+								</div>
+
+								<div class="col-sm-4 form-group">
+									<?=$this->formRow($forumForm->get('username'))?>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-12 form-group">
+									<?=$this->formRow($forumForm->get('comment'))?>
+								</div>
+							</div>
+					</div>
+
+					<div class="card-footer card-page__footer">
+						<div class="button-bar">
+							<a href="<?=$this->url('topic_list', ['lang' => $this->language()->getCurrentLang()])?>" class="btn btn-secondary"><?=$this->translate('GL_REFUSE_L')?></a>
+							<?=$this->formSubmit($forumForm->get('submit'));?>
+						</div>
+					</div>
+					<?=$this->form()->closeTag();?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).on('submit','#forum-form',function(){
+	showGlobalLoader();
+});
+</script>

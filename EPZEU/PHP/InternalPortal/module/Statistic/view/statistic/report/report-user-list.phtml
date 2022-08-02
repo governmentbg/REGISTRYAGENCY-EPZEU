@@ -1,0 +1,163 @@
+<?php
+$this->headTitle($typeUserReport == 'admin' ? 'EP_USR_QUERY_INTERNAL_PORTAL_USRS_L' : 'EP_USR_QUERY_SPEC_ACCESS_USRS_L');
+?>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<?=$this->url('home')?>"><?=$this->translate('GL_HOME_L')?></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><?=($typeUserReport == 'admin' ? $this->translate('EP_USR_QUERY_INTERNAL_PORTAL_USRS_L') : $this->translate('EP_USR_QUERY_SPEC_ACCESS_USRS_L'))?></li>
+	</ol>
+</nav>
+
+<div class="page-title">
+	<h2><?=($typeUserReport == 'admin' ? $this->translate('EP_USR_QUERY_INTERNAL_PORTAL_USRS_L') : $this->translate('EP_USR_QUERY_SPEC_ACCESS_USRS_L'))?></h2>
+</div>
+
+<div class="card">
+
+	<div class="card-header">
+		<h3><?=$this->translate('GL_SEARCHING_L')?>
+			<button class="system-button toggle-collapse" data-toggle="collapse" data-target="#collapsable-content">
+				<i class="ui-icon ui-icon-chevron-up" aria-hidden="true"></i>
+			</button>
+		</h3>
+	</div>
+
+	<div id="collapsable-content" class="collapse show">
+		<?
+		$url = $typeUserReport == 'admin' ? 'report_admin_user_list' : 'report_public_user_list';
+		$searchForm->setAttribute('method', 'get');
+		$searchForm->setAttribute('action', $this->url($url, ['lang' => $params->fromRoute('lang')]));
+		$searchForm->prepare();
+
+		echo $this->form()->openTag($searchForm);
+		?>
+
+		<div class="card-body">
+
+			<?=$this->formRow($searchForm->get('search'))?>
+
+			<div class="row">
+
+				<div class="col-sm-12 col-lg-5 col-xxl-3">
+					<label><?=$this->translate('EP_STATISTICS_START_DATE')?></label>
+					<div class="input-group date" id="dateFrom" data-target-input="nearest">
+						<?=$this->formRow($searchForm->get('dateFrom'), null, false)?>
+						<div class="input-group-append" data-target="#dateFrom" data-toggle="datetimepicker">
+							<button class="btn btn-secondary" type="button">
+								<i class="ui-icon ui-icon-calendar"></i>
+							</button>
+						</div>
+						<?=$this->FormElementErrors($searchForm->get('dateFrom'))?>
+					</div>
+				</div>
+
+				<div class="form-group col-sm-12 col-lg-3 col-xxl-4">
+					<?=$this->formRow($searchForm->get('permissionId'), null, null, false)?>
+				</div>
+
+				<div class="form-group col-sm-12 col-lg-3 col-xxl-2">
+					<?=$this->formRow($searchForm->get('status'), null, null, false)?>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="card-footer">
+			<div class="button-bar">
+				<a href="<?=$this->url($url, ['lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary"><?=$this->translate('GL_CLEAR_L')?></a>
+				<button type="submit" class="btn btn-primary"><i class="ui-icon ui-icon-search ci-btn"></i>&nbsp;<?=$this->translate('GL_SEARCH_L')?></button>
+			</div>
+		</div>
+
+		<?=$this->form()->closeTag();?>
+
+	</div>
+</div>
+
+<?if (($params->fromQuery('search') && empty($searchForm->getMessages())) || empty($params->fromQuery('search'))) { ?>
+<div class="card">
+	<div class="card-body">
+
+		<? if ($params->fromQuery('search') || $reportUserList->count()) { ?>
+
+			<?if ($reportUserList->count()) { ?>
+
+				<div class="card-navbar">
+					<div class="button-bar">
+						<div class="left-side"></div>
+						<div class="right-side">
+							<a href="<?=$this->url($url, ['lang' => $params->fromRoute('lang'), 'isExport' => 1], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" role="button" aria-pressed="true">
+							<i class="ui-icon ui-icon-download"></i>
+							<?=$this->translate('GL_EXPORT_EXCEL_L')?>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="table-responsive tableHeadFixer" id="fixTableContent">
+					<table class="table table-bordered table-striped table-hover" id="fixTable">
+						<thead>
+						<tr>
+							<th rowspan="2"><?=($typeUserReport == 'admin' ? $this->translate('GL_USER_NAME_L') : $this->translate('GL_EMAIL_L'))?></th>
+							<th rowspan="2"><?=$this->translate('GL_CONDITION_L')?></th>
+							<th rowspan="2"><?=$this->translate('EP_USR_CUSTOMER_ID_L')?></th>
+							<? if ($typeUserReport == 'public') {?>
+								<th rowspan="2"><?=$this->translate('EP_USR_EXTRENAL_USER_KIND_L')?></th>
+							<? } ?>
+							<th colspan="<?=count($permissionList)?>"><?=$this->translate('EP_USR_USER_RIGHTS_L')?></th>
+							<th rowspan="2"><?=$this->translate('GL_CREATE_UPDATE_DATE_L')?></th>
+						</tr>
+						<tr>
+							<? foreach($permissionList as $permission) { ?>
+								<th><?=$permission?></th>
+							<? } ?>
+						</tr>
+						</thead>
+						<tbody id="content">
+							<?=$this->partial('report-user-list-partial.phtml')?>
+						</tbody>
+					</table>
+				</div>
+
+			<? } else { ?>
+
+				<div class="alert alert-warning" role="alert">
+					<?=$this->translate('GL_NO_RESULTS_I')?>
+				</div>
+		<? }
+	}?>
+
+	</div>
+</div>
+<? } ?>
+
+<?$this->headLink()->appendStylesheet($this->basePath('js/bootstrap-4-datepicker/css/tempusdominus-bootstrap-4.min.css'));?>
+<?$this->headScript()->prependFile($this->basePath('js/bootstrap-4-datepicker/js/tempusdominus-bootstrap-4.min.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/moment-with-locales.min.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/tableHeadFixer.js'));?>
+
+<?$this->headScript()->prependFile($this->basePath('js/combobox.js'));?>
+<?$this->headScript()->prependFile($this->basePath('js/jquery-ui.js'));?>
+<script>
+
+$(function () {
+
+	$('#dateFrom').datetimepicker({
+		useCurrent: false,
+		format: "DD.MM.YYYY",
+		locale: moment.locale('bg')
+		<?php if ($params->fromQuery('dateTo')) { ?>
+		,
+		maxDate: '<?=\Application\Service\AppService::getSqlDate($params->fromQuery('dateTo'))?>'
+		<?php } ?>
+	});
+});
+
+$(document).ready(function() {
+	$("#fixTable").tableHeadFixer({"head": true, "left" : 1});
+
+	$('#permissionId').combobox()
+});
+
+</script>

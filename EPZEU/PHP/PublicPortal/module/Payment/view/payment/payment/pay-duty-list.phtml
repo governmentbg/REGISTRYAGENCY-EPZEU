@@ -1,0 +1,777 @@
+<div id="modal-payment" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+
+			<div class="modal-header">
+                <h3 class="modal-title"><?=$this->translate('EP_PAYMENT_OBLIG_L')?></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+				<div class="table-responsive-block">
+					<table class="table table-borderless table-striped table-hover table-collapsible">
+						<thead>
+							<tr>
+								<th class="single-icon-td toggle-collapse"></th>
+								<th width="70%"><?=$this->translate('GL_APPLICATION_L')?></th>
+								<th class="text-right"><?=$this->translate('EP_UNPAID_AMOUNT_L')?></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?
+							$totalPaymentSum = [];
+
+							$key = 0;
+
+							foreach ($applicationDutyList as $applicationNumber => $obligationList) {
+
+								$registerId = $registerServiceList[$obligationList[0]->getRegister()];
+								$applicationType = $obligationList[0]->getApplicationType();
+
+								$totalPaymentSum[$applicationNumber] = array_reduce($obligationList, function($sum, $item)
+								{
+									return $sum + ($item->getObligationAmount() - $item->getPaidAmount());
+								});
+							?>
+								<tr class="<?=($key%2==0 ? 'odd-color' : 'even-color')?> application">
+									<td class="toggle-collapse">
+										<button class="system-button collapsed application-collapsed" data-toggle="collapse" data-type="<?=$applicationType?>" data-target="#collapsable-content-<?=$key?>" aria-expanded="false">
+											<i class="ui-icon ui-icon-chevron-right" aria-hidden="true"></i>
+										</button>
+									</td>
+									<td>
+										<p class="field-text"><b><?=$applicationNumber?></b></p>
+										<p class="field-text">
+											<a href="javascript://" onclick="previewApplication('<?=$this->url('preview_application', ['lang' => $this->language()->getCurrentLang()])?>', '<?=$applicationNumber?>', '<?=$registerId?>')"><b><?=$applicationTypeList[$applicationType]?></b></a>
+										</p>
+									</td>
+									<td class="text-right">
+										<span class="field-title field-title--preview d-sm-none"><?=$this->translate('EP_UNPAID_AMOUNT_L')?></span>
+										<p class="field-text float-right"><?=number_format($totalPaymentSum[$applicationNumber], 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+									</td>
+								</tr>
+								<tr class="collapsible-row">
+									<td colspan="3">
+										<div id="collapsable-content-<?=$key?>" class="collapse">
+											<div class="collapsible-row-content collapsible-row-content--border">
+												<table class="table table inner-table inner-table--ignore-responsive-block">
+													<thead>
+														<tr>
+															<th class="single-icon-td"></th>
+															<th width="35%"><?=$this->translate('EP_PAY_DUTY_L')?></th>
+															<th class="text-right"><?=$this->translate('EP_UNPAID_AMOUNT_L')?></th>
+														</tr>
+													</thead>
+													<tbody>
+														<? foreach ($obligationList as $dutyKey => $duty) { ?>
+
+															<tr>
+																<td>
+																	<div class="custom-control custom-checkbox">
+																		<input class="custom-control-input check-duty" id="applicationDuty_<?=$duty->getObligationNumber()?>" value="<?=number_format(($duty->getObligationAmount() - $duty->getPaidAmount()),2)?>" type="checkbox" <?=bccomp(($duty->getObligationAmount() - $duty->getPaidAmount()) , 0 , 2) == 1 ? 'checked' : ''?>>
+																		<label class="custom-control-label" for="applicationDuty_<?=$duty->getObligationNumber()?>"></label>
+																	</div>
+																</td>
+																<td>
+																	<p class="field-text"><?=$duty->getObligationNumber()?></p>
+																</td>
+																<td class="text-right">
+																	<p class="field-text"><?=number_format(($duty->getObligationAmount() - $duty->getPaidAmount()),2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></p>
+																</td>
+															</tr>
+														<? } ?>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</td>
+								</tr>
+							<?
+								$key++;
+							} ?>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="row">
+					<div class="col form-group">
+						<div class="field-text text-right mr-2">
+							<strong><?=$this->translate('EP_PAYMENT_AMOUNT_L')?>: <span class="lead totalPaymentSum"><?=number_format(array_sum($totalPaymentSum), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></span></strong>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-12">
+						<label class="field-title field-title--form required-field">
+							<?=$this->translate('EP_PAY_METHOD_PAYMENT_L')?>
+						</label>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-12 form-group" id="paymentSection">
+						<div class="custom-control custom-radio">
+							<input class="custom-control-input" disabled name="paymentMethod" id="personalAccount" value="personalAccount" type="radio">
+							<label class="custom-control-label" for="personalAccount"><?=$this->translate('EP_PERS_ACC_L')?></label>
+						</div>
+						<div class="custom-control custom-radio">
+							<input class="custom-control-input" disabled name="paymentMethod" id="epay" value="epay" type="radio">
+							<label class="custom-control-label" for="epay"><?=$this->translate('EP_EPAY_L')?></label>
+						</div>
+						<div class="custom-control custom-radio ">
+							<input class="custom-control-input" disabled name="paymentMethod" id="pepdaeu" value="pepdaeu" type="radio">
+							<label class="custom-control-label" for="pepdaeu"><?=$this->translate('EP_PEPDAEU_L')?></label>
+						</div>
+					</div>
+				</div>
+
+				<div id="noAcceptablePaymentMsg" class="alert alert-warning d-none" role="alert"><div class="form-row"><div class="col"><?=$this->translate('EP_PAY_00011_I')?></div></div></div>
+
+				<div id="personalAccountBalance" class="alert alert-info expand-section d-none" role="alert"><div class="form-row"><div class="col mb-1"><?=$this->translate('EP_PAY_00001_I')?></div><div class="col-auto mb-1 text-right"><?=number_format($balance, 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></div></div><div class="form-row"><div class="col mb-1"><?=$this->translate('EP_PAY_00009_I')?></div><div class="col-auto mb-1 text-right"><span class="totalPaymentSum"><?=number_format(array_sum($totalPaymentSum), 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></span></div></div><div class="form-row"><div class="col"><?=$this->translate('EP_PAY_00010_I')?></div><div class="col-auto text-right"><span id="balanceAfterPayment"><?=number_format(($balance - array_sum($totalPaymentSum)),2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></span></div></div></div>
+
+				<div id="personalAccountBalanceError" class="alert alert-danger expand-section d-none" role="alert"><div class="form-row"><div class="col"><?=$this->translate('EP_PAY_00006_I')?></div><div class="col-auto text-right"><?=number_format($balance, 2).' '.$this->translate('GL_BGN_ABBRAVETION_L')?></div></div></div>
+
+				<div id="obligPersonSection" class="field-container expand-section d-none">
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label class="field-title field-title--form required-field" for=""><?=$this->translate('EP_NAME_OBL_PERS_L')?></label>
+							<input type="text" class="form-control" name="obligPerson" id="obligPerson" value="<?=$obligPerson?>">
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label class="field-title field-title--form required-field" for=""><?=$this->translate('EP_ORDERER_IDENT_L')?></label>
+							<input type="text" class="form-control" name="obligPersonIdentity" id="obligPersonIdentity" value="" maxlength="10">
+						</div>
+						<div class="form-group col-md-6">
+							<label class="field-title field-title--form required-field" for=""><?=$this->translate('EP_KIND_IDENT_L')?></label>
+							<div class="form-inline" id="identityKindSection">
+								<div class="custom-control-inline custom-control custom-radio">
+									<input class="custom-control-input" name="obligPersonIdentityKind" id="egn" value="1" type="radio">
+									<label class="custom-control-label" for="egn"><?=$this->translate('GL_BULGARIAN_PERSON_ID_L')?></label>
+								</div>
+								<div class="custom-control-inline custom-control custom-radio">
+									<input class="custom-control-input" name="obligPersonIdentityKind" id="lnc" value="2" type="radio">
+									<label class="custom-control-label" for="lnc"><?=$this->translate('GL_FOREIGN_PERSON_ID_L')?></label>
+								</div>
+								<div class="custom-control-inline custom-control custom-radio">
+									<input class="custom-control-input" name="obligPersonIdentityKind" id="bulstat" value="3" type="radio">
+									<label class="custom-control-label" for="bulstat"><?=$this->translate('EP_GL_UIC_BULSTAT_L')?></label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="generateCodePEPDAEU" class="field-container d-none">
+					<div class="help-text"><p><?=$this->translate('EP_PAY_00013_I')?></p></div>
+					<div  class="row">
+						<div class="form-group col-12">
+							<button id="generateCodePEPDAUE" class="btn btn-outline-light text-dark" type="button"><i class="ui-icon ui-icon-number" aria-hidden="true"></i> <?=$this->translate('EP_PAY_GEN_CODE_L')?></button>
+						</div>
+					</div>
+				</div>
+
+				<div id="viewCodePEPDAEU" class="field-container d-none">
+					<div class="help-text"><p><?=$this->translate('EP_PAY_00014_I')?></p></div>
+					<div class="row">
+						<div class="form-group col-12">
+							<label class="field-title field-title--form" for=""><?=$this->translate('EP_PAY_CODE_PEP_L')?></label>
+							<p class="field-text" id="codePEPDAEU"></p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="modal-footer">
+                <div class="button-bar">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?=$this->translate('GL_REFUSE_L')?></button>
+                    </div>
+                    <div class="right-side">
+                        <button id="confirmPaymentBtn" type="button" class="btn btn-primary" data-dismiss="modal" disabled>
+                            <i class="ui-icon ui-icon-pay" aria-hidden="true"></i> <?=$this->translate('EP_CONFIRM_PAYMENT_L')?>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+		</div>
+	</div>
+</div>
+
+<div id="formSection">
+	<form method="POST" name="epayForm" id="epayForm">
+		<input type=hidden name=PAGE value="">
+		<input type=hidden name=ENCODED value="">
+		<input type=hidden name=CHECKSUM value="">
+		<input type=hidden name=URL_OK value="">
+		<input type=hidden name=URL_CANCEL value="">
+	</form>
+</div>
+
+<script>
+
+function intersect() {
+	var result = [];
+	var lists;
+
+	if(arguments.length === 1) {
+	 	lists = arguments[0];
+	} else {
+		lists = arguments;
+	}
+
+	for(var i = 0; i < lists.length; i++) {
+		var currentList = lists[i];
+		for(var y = 0; y < currentList.length; y++) {
+			var currentValue = currentList[y];
+			if(result.indexOf(currentValue) === -1) {
+				if(lists.filter(function(obj) { return obj.indexOf(currentValue) == -1 }).length == 0) {
+					result.push(currentValue);
+				}
+			}
+		}
+	}
+	return result;
+}
+
+function togglePaymentRadioBtn(action) {
+
+	action = typeof action !== 'undefined' ? action : false;
+
+	var applicationPaymentTypeList = <?=json_encode($applicationPaymentTypeList)?>;
+
+	if (Object.keys(applicationPaymentTypeList).length > 0) {
+
+		// всички задължения са маркирани за плащане при първоначално зареждане
+		if (!action) {
+
+			var valueArray = [];
+			var valueArray = Object.keys(applicationPaymentTypeList).map(function(e) {
+				return applicationPaymentTypeList[e]
+			})
+
+			var acceptablePaymentType = intersect(valueArray);
+		}
+
+		//маркиране/размаркиране на задължения
+		else {
+
+			var tempApplicationPaymentTypeList = {};
+
+			$('tr.application').each(function() {
+				if($(this).next('tr.collapsible-row').find('.check-duty').is(":checked")) {
+
+					var tempType = $(this).find('button.application-collapsed').data("type");
+
+					tempApplicationPaymentTypeList[tempType] = applicationPaymentTypeList[tempType];
+				}
+			});
+
+			if (Object.keys(tempApplicationPaymentTypeList).length > 0) {
+
+				var tempValueArray = [];
+				var tempValueArray = Object.keys(tempApplicationPaymentTypeList).map(function(e) {
+					return tempApplicationPaymentTypeList[e]
+				})
+
+				var acceptablePaymentType = intersect(tempValueArray);
+			}
+		}
+	}
+
+	if (typeof acceptablePaymentType !== 'undefined' && acceptablePaymentType.length > 0) {
+
+		var countDutyChecked = $("input.check-duty[type=checkbox]:checked").length;
+
+		if (countDutyChecked > 1 && acceptablePaymentType.indexOf(2) < 0) {
+			$('#noAcceptablePaymentMsg').removeClass("d-none");
+		}
+		else {
+			$('#noAcceptablePaymentMsg').addClass("d-none");
+		}
+
+		// допустим начин на плащане epay
+		if (acceptablePaymentType.indexOf(1) >= 0 && countDutyChecked == 1) {
+			$('#epay').removeAttr("disabled");
+		}
+		else {
+			$('#obligPersonSection').addClass("d-none");
+			$('#epay').attr('disabled', true);
+			$("#epay").prop('checked', false);
+		}
+
+		// допустим начин на плащане пепдаеу
+		if (acceptablePaymentType.indexOf(3) >= 0 && countDutyChecked == 1) {
+			$('#pepdaeu').removeAttr("disabled");
+		}
+		else {
+			$('#obligPersonSection').addClass("d-none");
+			$('#pepdaeu').attr('disabled', true);
+			$("#pepdaeu").prop('checked', false);
+		}
+
+		// допустим начин на плащане лична сметка
+		if (acceptablePaymentType.indexOf(2) >= 0) {
+			$('#personalAccount').removeAttr("disabled");
+		}
+		else {
+			$('#personalAccount').attr('disabled', true);
+			$("#personalAccount").prop('checked', false);
+		}
+	}
+
+	else {
+
+		var countDutyChecked = $("input.check-duty[type=checkbox]:checked").length;
+
+		if (countDutyChecked == 0)
+			$('#noAcceptablePaymentMsg').addClass('d-none');
+		else
+			$('#noAcceptablePaymentMsg').removeClass('d-none');
+
+		$('input[name="paymentMethod"]').attr('disabled', true);
+		$('input[name="paymentMethod"]').prop('checked', false);
+	}
+
+	var paymentMethod = $('input[name="paymentMethod"]:checked').val();
+
+	if (typeof paymentMethod === 'undefined' || (typeof paymentMethod !== 'undefined' && (paymentMethod != 'epay' && paymentMethod != 'pepdaeu' && paymentMethod != 'personalAccount'))) {
+		$('#confirmPaymentBtn').attr('disabled', true);
+		$('.expand-section').addClass("d-none");
+	}
+}
+
+$(document).ready(function (e) {
+
+	<?if (empty($errorPayDuty)) { ?>
+		$('#modal-payment').modal('show');
+	<? }
+	else {?>
+		$("#modal-payment .close").click();
+		$('#pay-duty-list').attr('disabled', false);
+	<? } ?>
+
+	togglePaymentRadioBtn();
+});
+
+$(".check-duty").change(function(){
+
+	var countDutyChecked = $("input.check-duty[type=checkbox]:checked").length;
+
+	var paymentMethod = $('input[name="paymentMethod"]:checked').val();
+
+	var totalPaymentSum = 0;
+	$('input.check-duty[type=checkbox]:checked').each(function() {
+		totalPaymentSum = parseFloat(totalPaymentSum)+parseFloat($(this).val());
+	})
+
+	$('.totalPaymentSum').text(totalPaymentSum.toFixed(2)+'<?=' '.$this->translate('GL_BGN_ABBRAVETION_L')?>');
+
+	if (paymentMethod == 'personalAccount') {
+
+		var balance = <?=$balance?>;
+
+		if (Math.round(parseFloat(balance.toFixed(2))) >= Math.round(parseFloat(totalPaymentSum.toFixed(2)))) {
+
+			var balanceAfterPayment = parseFloat(balance)-parseFloat(totalPaymentSum);
+
+			$('#balanceAfterPayment').text(balanceAfterPayment.toFixed(2)+'<?=' '.$this->translate('GL_BGN_ABBRAVETION_L')?>');
+			$('#personalAccountBalance').removeClass("d-none");
+			$('#personalAccountBalanceError').addClass("d-none");
+			$('#confirmPaymentBtn').removeAttr("disabled");
+		}
+
+		else {
+
+			$('#personalAccountBalance').addClass("d-none");
+			$('#personalAccountBalanceError').removeClass("d-none");
+			$('#confirmPaymentBtn').attr('disabled', true);
+		}
+	}
+
+	togglePaymentRadioBtn('checkUncheckDuty');
+})
+
+//Избрано Лична сметка
+$('#personalAccount').on('click', function () {
+
+	$('.invalid-feedback').remove();
+	$('.alert-warning-info').remove();
+
+	$('.expand-section').addClass("d-none");
+	$('#generateCodePEPDAEU').addClass("d-none");
+	$('#viewCodePEPDAEU').addClass("d-none");
+
+	<? if (bccomp ($balance, array_sum($totalPaymentSum)) != -1) {?>
+
+		$('#personalAccountBalance').removeClass("d-none");
+		$('#personalAccountBalanceError').addClass("d-none");
+		$('#confirmPaymentBtn').removeAttr("disabled");
+
+	<? }  else {?>
+
+		$('#personalAccountBalance').addClass("d-none");
+		$('#personalAccountBalanceError').removeClass("d-none");
+		$('#confirmPaymentBtn').attr('disabled', true);
+	<? } ?>
+});
+
+// Избрано ePay
+$('#epay').on('click', function () {
+
+	$('.invalid-feedback').remove();
+	$('.alert-warning-info').remove();
+
+	var countDutyChecked = $("input.check-duty[type=checkbox]:checked").length;
+
+	$('.expand-section').addClass("d-none");
+	$('#obligPersonSection').removeClass("d-none");
+	$('#generateCodePEPDAEU').addClass("d-none");
+	$('#viewCodePEPDAEU').addClass("d-none");
+
+	if (countDutyChecked == 1)
+		$('#confirmPaymentBtn').removeAttr("disabled");
+});
+
+//Избрано ПЕПДАЕУ
+$('#pepdaeu').on('click', function () {
+
+	$('.invalid-feedback').remove();
+	$('.alert-warning-info').remove();
+
+	var countDutyChecked = $("input.check-duty[type=checkbox]:checked").length;
+
+	$('.expand-section').addClass("d-none");
+	$('#obligPersonSection').removeClass("d-none");
+
+	$('#generateCodePEPDAEU').addClass("d-none");
+	$('#viewCodePEPDAEU').addClass("d-none");
+
+	if (countDutyChecked == 1) {
+
+		$('#confirmPaymentBtn').removeAttr("disabled");
+
+		var dutyObligationNumberId = $('input.check-duty[type=checkbox]:checked').attr('id');
+
+		var dutyObligationNumber = 0;
+		if (typeof dutyObligationNumberId !== 'undefined'){
+			var dutyObligationNumber = $('input.check-duty[type=checkbox]:checked').attr('id').replace("applicationDuty_", "");
+		}
+
+		var registerId = '<?=$registerId?>';
+		var data = {'dutyObligationNumber':dutyObligationNumber, 'registerId': registerId};
+
+		var codePepdaeu = '';
+
+		$.ajax({
+			method: "POST",
+			url: '<?=$this->url('check_duty_code_pepdaeu')?>',
+			data: data,
+			async: true
+		})
+		.done(function( msg ) {
+
+			var obj = jQuery.parseJSON(JSON.stringify(msg));
+
+			if (obj.hasOwnProperty('status')) {
+
+				switch(obj.status) {
+					case 'successCode':
+
+						var codePepdaeu = obj.codePepdaeu;
+
+						if(codePepdaeu.length > 0) {
+							$('#viewCodePEPDAEU').removeClass("d-none");
+							$('#generateCodePEPDAEU').addClass("d-none");
+							$('#codePEPDAEU').html(codePepdaeu);
+						}
+
+						break;
+
+					case 'emptyCode':
+
+						$('#viewCodePEPDAEU').addClass("d-none");
+						$('#generateCodePEPDAEU').removeClass("d-none");
+
+						break;
+				}
+			}
+		});
+	}
+});
+
+$("#confirmPaymentBtn").unbind('click').bind('click', function () {
+
+	$(this).removeAttr('data-dismiss');
+
+	$('.invalid-feedback').remove();
+	$('.alert-warning-info').remove();
+	$('input[type="text"]').removeClass('input-error');
+
+	var selectedApplicationList = '<?=implode(',', array_keys($applicationDutyList));?>';
+
+	var registerId = '<?=$registerId?>';
+
+	var paymentMethod = $('input[name="paymentMethod"]:checked').val();
+
+	var dutyObligationNumberId = $('input.check-duty[type=checkbox]:checked').attr('id');
+
+	var dutyObligationNumber = 0;
+	if (typeof dutyObligationNumberId !== 'undefined'){
+		var dutyObligationNumber = $('input.check-duty[type=checkbox]:checked').attr('id').replace("applicationDuty_", "");
+	}
+
+	var obligPerson = $("#obligPerson").val();
+
+	// плащане към epay, пепдаеу, лична сметка
+	if (paymentMethod == 'epay' || paymentMethod == 'pepdaeu' || paymentMethod == 'personalAccount') {
+
+		showGlobalLoader();
+
+		// плащане към epay
+		if (paymentMethod == 'epay') {
+
+			var obligPersonIdentityKind = $('input[name="obligPersonIdentityKind"]:checked').val();
+
+			var obligPersonIdentity = $("#obligPersonIdentity").val();
+
+			var data ={"paymentMethod" : paymentMethod, "registerId" : registerId, "applicationNumber" : selectedApplicationList, "dutyObligationNumber" : dutyObligationNumber, "obligPerson" : obligPerson, "obligPersonIdentity" : obligPersonIdentity, "obligPersonIdentityKind" : obligPersonIdentityKind};
+
+			var actionUrl = '<?=$this->url('epay_payment_duty_list', ['lang' => $this->language()->getCurrentLang()])?>';
+		}
+
+		// плащане към пепдаеу
+		else if (paymentMethod == 'pepdaeu') {
+
+			var obligPersonIdentityKind = $('input[name="obligPersonIdentityKind"]:checked').val();
+
+			var obligPersonIdentity = $("#obligPersonIdentity").val();
+
+			var data ={"paymentMethod" : paymentMethod, "registerId" : registerId, "applicationNumber" : selectedApplicationList, "dutyObligationNumber" : dutyObligationNumber, "obligPerson" : obligPerson, "obligPersonIdentity" : obligPersonIdentity, "obligPersonIdentityKind" : obligPersonIdentityKind};
+
+			var actionUrl = '<?=$this->url('pepdaeu_payment_duty_list')?>';
+		}
+
+		// плащане през лична сметка
+		else if (paymentMethod == 'personalAccount') {
+
+			var dutyObligationList = [];
+			$('input.check-duty[type=checkbox]:checked').each(function() {
+				dutyObligationList.push($(this).attr('id').replace("applicationDuty_", ""));
+			})
+
+			var applicationNumberList = <?=json_encode(array_keys($applicationDutyList))?>;
+
+			var data ={"paymentMethod" : paymentMethod, "registerId" : registerId, "applicationNumberList" : applicationNumberList, "dutyObligationList" : dutyObligationList};
+
+			var actionUrl = '<?=$this->url('personal_account_payment_duty_list')?>';
+		}
+
+		$.ajax({
+			method: "POST",
+			url: actionUrl,
+			data: data,
+			async: true
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			location.reload();
+		})
+		.done(function(msg) {
+
+			var obj = jQuery.parseJSON(JSON.stringify(msg));
+
+			if (obj.hasOwnProperty('status')) {
+
+				switch(obj.status) {
+					case 'success':
+
+						closeGlobalLoader();
+
+						if (obj.paymentMethod == 'epay') {
+
+							$("#epayForm").attr('action', obj.epayData['URL']);
+
+							$("#epayForm input[name=PAGE]").val("");
+							$("#epayForm input[name=ENCODED]").val("");
+							$("#epayForm input[name=CHECKSUM]").val("");
+							$("#epayForm input[name=URL_OK]").val("");
+							$("#epayForm input[name=URL_CANCEL]").val("");
+
+							$("#epayForm input[name=PAGE]").val(obj.epayData['PAGE']);
+							$("#epayForm input[name=ENCODED]").val(obj.epayData['ENCODED']);
+							$("#epayForm input[name=CHECKSUM]").val(obj.epayData['CHECKSUM']);
+							$("#epayForm input[name=URL_OK]").val(obj.epayData['URL_OK']);
+							$("#epayForm input[name=URL_CANCEL]").val(obj.epayData['URL_CANCEL']);
+
+							$("#epayForm").submit();
+						}
+
+						else if (obj.paymentMethod == 'pepdaeu') {
+							window.location.replace(obj.urlToRedirect);
+						}
+
+						else if (obj.paymentMethod == 'personalAccount') {
+
+							var selectedRegisterId = typeof obj.registerId !== 'undefined' ? obj.registerId : false;
+
+							if (selectedRegisterId) {
+
+								if (selectedRegisterId == 1) {
+									history.pushState(null, null, "<?=$this->url('duty_list', ['lang' => $this->language()->getCurrentLang()])?>");
+								}
+								else {
+									history.pushState(null, null, "<?=$this->url('duty_list', ['lang' => $this->language()->getCurrentLang()], ['query' => ['registerId' => (int)$registerId]])?>");
+								}
+
+								ajaxRequest('', {'changeRegisterTab':1, 'registerId': selectedRegisterId, 'successPaymentMessage': 1}, '#tab-register-content', '#tab-register-content');
+							}
+						}
+
+						$('#confirmPaymentBtn').attr('data-dismiss', 'modal');
+						$("#modal-payment .close").click();
+
+						break;
+
+					case 'error':
+
+						closeGlobalLoader();
+
+						for (var i = 0; i < obj.errors.length; i++) {
+					    	var key = Object.keys(obj.errors[i])[0];
+					    	var message = createErrorMessage(obj.errors[i][key]);
+
+							if (key != 0) {
+					    		$('#'+key+' .invalid-feedback').remove();
+					    		$('#'+key).addClass("input-error");
+					    		$(message).insertAfter('#'+key);
+							}
+
+							else {
+
+								// информационно съобщение
+								if (obj.alertWarning[i][key] == 1) {
+									var message = '';
+									var message = '<div class="alert alert-warning alert-warning-info"><p>'+obj.errors[i][key]+'</p></div>';
+								}
+
+								$('.invalid-feedback').remove();
+								$(".modal-body").prepend(message);
+							}
+						}
+
+						if (obj.hasOwnProperty('errorNotEnoughBalance')) {
+							$('#personalAccountBalance').addClass("d-none");
+							$('#personalAccountBalanceError').removeClass("d-none");
+						}
+
+						break;
+				}
+			}
+		});
+	}
+
+	// няма избран начин на плащане
+	else {
+		var message = createErrorMessage('<?=$this->translate('GL_INPUT_FIELD_MUST_E')?>');
+		$('.invalid-feedback').remove();
+		$('.alert-warning-info').remove();
+		$(message).insertAfter('#paymentSection');
+	}
+})
+
+// генериране на код ПЕПДАЕУ
+$("#generateCodePEPDAUE").unbind('click').bind('click', function () {
+
+	var paymentMethod = $('input[name="paymentMethod"]:checked').val();
+
+	// плащане пепдаеу
+	if (paymentMethod == 'pepdaeu') {
+
+		showGlobalLoader();
+
+		$('.invalid-feedback').remove();
+		$('input[type="text"]').removeClass('input-error');
+		$('.alert-warning-info').remove();
+
+		var selectedApplicationList = '<?=implode(',', array_keys($applicationDutyList));?>';
+
+		var registerId = '<?=$registerId?>';
+
+		var dutyObligationNumberId = $('input.check-duty[type=checkbox]:checked').attr('id');
+
+		var dutyObligationNumber = 0;
+		if (typeof dutyObligationNumberId !== 'undefined'){
+			var dutyObligationNumber = $('input.check-duty[type=checkbox]:checked').attr('id').replace("applicationDuty_", "");
+		}
+
+		var obligPerson = $("#obligPerson").val();
+
+		var obligPersonIdentityKind = $('input[name="obligPersonIdentityKind"]:checked').val();
+
+		var obligPersonIdentity = $("#obligPersonIdentity").val();
+
+		var data ={"paymentMethod" : paymentMethod, "registerId" : registerId, "applicationNumber" : selectedApplicationList, "dutyObligationNumber" : dutyObligationNumber, "obligPerson" : obligPerson, "obligPersonIdentity" : obligPersonIdentity, "obligPersonIdentityKind" : obligPersonIdentityKind};
+
+		$.ajax({
+			method: "POST",
+			url: '<?=$this->url('pepdaeu_duty_generate_code')?>',
+			data: data,
+			async: true
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			location.reload();
+		})
+		.done(function(msg) {
+
+			var obj = jQuery.parseJSON(JSON.stringify(msg));
+
+			if (obj.hasOwnProperty('status')) {
+
+				switch(obj.status) {
+					case 'success':
+
+						closeGlobalLoader();
+
+						$('#generateCodePEPDAEU').addClass("d-none");
+						$('#viewCodePEPDAEU').removeClass("d-none");
+
+						$('#codePEPDAEU').html(obj.codePepdaeu);
+
+						break;
+
+					case 'error':
+
+						closeGlobalLoader();
+
+						for (var i = 0; i < obj.errors.length; i++) {
+					    	var key = Object.keys(obj.errors[i])[0];
+					    	var message = createErrorMessage(obj.errors[i][key]);
+
+							if (key != 0) {
+					    		$('#'+key+' .invalid-feedback').remove();
+					    		$('#'+key).addClass("input-error");
+					    		$(message).insertAfter('#'+key);
+							}
+
+							else {
+								$('.invalid-feedback').remove();
+								$(".modal-body").prepend(message);
+							}
+						}
+
+						break;
+				}
+			}
+		});
+	}
+})
+</script>

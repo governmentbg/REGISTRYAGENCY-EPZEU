@@ -1,0 +1,218 @@
+<? $this->headTitle('GL_TEST_SIGNATURE_L')?>
+
+<div class="page-header-wrapper">
+	<div class="breadcrumbs">
+		<div class="fixed-content-width">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a
+						href="<?=$this->url('home', ['lang' => $this->language()->getCurrentLang()])?>"><?=$this->translate('GL_HOME_L')?></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><?=$this->translate('GL_TEST_SIGNATURE_L')?></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="section-wrapper">
+		<div class="fixed-content-width">
+			<div class="page-header">
+				<div class="row">
+					<div class="col">
+						<h1 class="page-title"><?=$this->translate('GL_TEST_SIGNATURE_L')?></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="main-wrapper" class="main-wrapper">
+	<div class="page-wrapper">
+		<div class="section-wrapper section-wrapper--margins">
+			<div class="fixed-content-width">
+				<div class="card card-page">
+					<div class="card-body card-page__body">
+
+						<div class="alert d-none" id="message-box" role="alert"><p id="message-content"></p></div>
+						<button type="button" class="btn btn-primary" id="btnTestSign"><?=$this->translate('GL_SIGN_LOCAL_L')?></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+var bissWorkingPorts = ['53954', '53952', '53953', '53955']
+var realWorkingPort = undefined; //портът на който реално работи приложението.
+var echoPromises = [];
+
+//ехо заявки за откриване на работния порт на BISS.
+$.each( bissWorkingPorts, function( index, value ){
+	var promise = function() {
+		return $.ajax({
+			url: 'https://localhost:' + value + '/version',
+			dataType: "json",
+			type: "GET",
+			crossDomain: true,
+			cache: false,
+			success: function(r) {
+				var ver = Number(r.version);
+
+				if(!realWorkingPort && !isNaN(ver) && ver >= 2.20) {
+					realWorkingPort = value;
+					startLocalSigning();
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				console.log(errorThrown);
+			}
+		});
+	}
+
+	echoPromises.push(promise);
+});
+
+function startLocalSigning() {
+
+	var baseUrl = 'https://localhost:' + realWorkingPort;
+
+	var getsignerData = {
+		showValidCerts: true,
+		selector: {
+			issuers: []
+      	}
+	};
+
+
+	$('#message-box').removeClass('alert-success alert-danger').addClass('d-none');
+
+    //Команда към BISS за избор на сертификат.
+	$.ajax({
+		url: baseUrl + '/getsigner',
+		contentType: 'application/json',
+		type: 'POST',
+		headers: { 'Accept-Language': 'en' },
+		crossDomain : true,
+		dataType : "json",
+		data: JSON.stringify(getsignerData),
+		success : function(result) {
+
+			if (result.status.toLowerCase() == 'ok') {
+
+				var userCertBase64 = result.chain[0];
+
+				var epzeuRequest = {
+					userCertBase64: userCertBase64 //chain: съдържа сертификационната верига на подписващия сертификат. Подписващия сертификат е на позиция 0.
+				};
+
+				$.ajax({
+					type : "POST",
+					url : "<?=$testSignatureApiUrl?>",
+					crossDomain : true,
+					data : JSON.stringify(epzeuRequest),
+					contentType : "application/json",
+					dataType : "json",
+					success : function(signResult) {
+
+						$.ajax({
+							type : "POST",
+							url : baseUrl + "/sign",
+							crossDomain : true,
+							data : JSON.stringify(signResult.signRequest),
+							contentType : "application/json",
+							dataType : "json",
+							success : function(result) {
+
+								if (result.status.toLowerCase() == 'ok') {
+
+									var validateSignRequest = {
+										base64SigningCert: userCertBase64,
+										base64DocSignature: result.signatures[0],
+										hashTime: signResult.documentHashTime[0]
+									};
+
+									$.ajax({
+										type : "POST",
+										url : "<?=$completeTestBissSignProcessApiUrl?>",
+										crossDomain : true,
+										data : JSON.stringify(validateSignRequest),
+										contentType : "application/json",
+										dataType : "json",
+										success : function() {
+											closeGlobalLoader();
+											$('#message-box').addClass('alert-success').removeClass('d-none');
+											$('#message-content').html('<?=$this->translate('EP_TEST_SIGNING_SUCCESS_I')?>');
+										},
+										error : function(jqXHR, textStatus, errorThrown) {
+											closeGlobalLoader();
+											$('#message-box').addClass('alert-danger').removeClass('d-none');
+											$('#message-content').html(JSON.parse(jqXHR.responseText).message);
+										}
+									});
+
+
+								} else {
+									$('#message-box').addClass('alert-danger').removeClass('d-none');
+									$('#message-content').html(result.reasonText);
+								}
+							},
+							error : function(jqXHR, textStatus, errorThrown) {
+								closeGlobalLoader();
+								$('#message-box').addClass('alert-danger').removeClass('d-none');
+								$('#message-content').html(JSON.parse(jqXHR.responseText));
+
+								if (typeof JSON.parse(jqXHR.responseText).reasonText !== "undefined")
+									$('#message-content').html(JSON.parse(jqXHR.responseText).reasonText);
+							}
+						});
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						closeGlobalLoader();
+						$('#message-box').addClass('alert-danger').removeClass('d-none');
+						$('#message-content').html(JSON.parse(jqXHR.responseText).message);
+					}
+				});
+			} else {
+				closeGlobalLoader();
+				$('#message-box').addClass('alert-danger').removeClass('d-none');
+				$('#message-content').html(result.reasonText);
+			}
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			closeGlobalLoader();
+			$('#message-box').addClass('alert-danger').removeClass('d-none');
+			$('#message-content').html(JSON.parse(jqXHR.responseText).reasonText);
+		}
+	});
+}
+
+$(document).ready(function() {
+	$('#btnTestSign').click(function() {
+		showGlobalLoader();
+		if(!realWorkingPort) {
+			var scriptToEval = '';
+			$.each(echoPromises, function(index, value) {
+				scriptToEval += scriptToEval != '' ? ',echoPromises[' + index + ']()' : 'echoPromises[' + index + ']()';
+			});
+
+			$.when(eval(scriptToEval))
+			.always(function() {
+				if(!realWorkingPort) {
+					closeGlobalLoader();
+					$('#message-box').addClass('alert-danger').removeClass('d-none');
+					<?
+					$message = str_replace('{EP_ADDRESS_DOWNLOAD_SIGNING_APPLICATION}', '<a href="'.$config['EP_ADDRESS_DOWNLOAD_SIGNING_APPLICATION'].'" class="alert-link"><b>'.$this->translate('EP_GL_PUBLIC_SERVICE_DESCRIPTION_LINK_I').'</b></a>', $this->translate('GL_SIGN_LOCAL_E'));
+					$message = str_replace('{EP_ADDRESS_DOWNLOAD_BISS_INSTRUCTION}', '<a href="'.$config['EP_ADDRESS_DOWNLOAD_BISS_INSTRUCTION'].'" target="_blank" class="alert-link"><b>'.$this->translate('EP_GL_PUBLIC_SERVICE_DESCRIPTION_LINK_I').'</b></a>', $message);
+					$message =  json_encode($message);
+					?>
+					$('#message-content').html(<?=$message?>);
+				}
+			});
+		} else {
+			startLocalSigning();
+		}
+	});
+});
+</script>

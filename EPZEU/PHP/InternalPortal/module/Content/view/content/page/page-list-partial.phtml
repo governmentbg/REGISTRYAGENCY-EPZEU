@@ -1,0 +1,39 @@
+<? foreach ($pageList as $baseObj) {?>
+
+	<tr>
+		<td>
+
+		<?=(!empty($moduleList[$baseObj->getModuleId()]) ? $this->translate($moduleList[$baseObj->getModuleId()]) : '')?></td>
+		<td><?=$baseObj->getTitle()?></td>
+
+		<td class="icons-td">
+			<?=$baseObj->getStatus() ? '<i class="ui-icon ui-icon-state-active" aria-hidden="true"></i>'.$this->translate('GL_F_STATE_PUBLIC_L') : '<i class="ui-icon ui-icon-state-inactive" aria-hidden="true"></i>'.$this->translate('GL_F_STATE_NO_PUBLIC_L')?>
+		</td>
+
+		<td class="buttons-td">
+
+			<?
+			$pageRoute = $isRedefined ? 'edit_redefined_page' : 'edit_html_page';
+
+			if ($this->isAllowed('preview_html_page')) { ?>
+			<a href="<?=$this->publicUrl([$baseObj->getURL()])?>" target="_blank" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_VIEW_L'))?>">
+				<i class="ui-icon ui-icon-eye"></i>
+			</a>
+			<? } ?>
+
+			<?
+			if ($this->isAllowed($pageRoute)) {?>
+				<a href="<?=$this->url($pageRoute, ['pageId' => $baseObj->getPageId(), 'lang' => $params->fromRoute('lang')])?>" class="btn btn-secondary" title="<?=$this->escapeHtmlAttr($this->translate('GL_EDIT_L'))?>">
+					<i class="ui-icon ui-icon-edit"></i>
+				</a>
+			<?} ?>
+
+			<? if ($this->isAllowed('change_page_status') && !$isRedefined) {?>
+				<a href="<?=$this->url('change_page_status', ['pageId' => $baseObj->getPageId()], ['query' => $params->fromQuery()])?>" class="btn btn-secondary" onClick="openModalConfirm(this, '<?=$baseObj->getStatus() ? $this->translate('EP_CMS_CONFIRM_PUBLIC_CANCEL_OK_I') : $this->translate('EP_CMS_CONFIRM_PUBLIC_OK_I')?>', event)" title="<?=$baseObj->getStatus() ? $this->translate('GL_PUBLIC_CANCEL_L') : $this->translate('GL_PUBLIC_L')?>">
+					<?=$baseObj->getStatus() ? '<i class="ui-icon ui-icon-deactivate"></i>' : '<i class="ui-icon ui-icon-activate"></i>'?>
+				</a>
+			<? } ?>
+		</td>
+
+	</tr>
+<? } ?>
