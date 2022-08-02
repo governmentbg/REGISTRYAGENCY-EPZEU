@@ -1,4 +1,4 @@
-﻿using EPZEU.Common;
+using EPZEU.Common;
 using EPZEU.Users;
 using EPZEU.Users.Models;
 using IdentityModel;
@@ -62,7 +62,7 @@ namespace EPZEU.UnitTests.Core
         [TestMethod]
         public void Test_PasswordHashValidation()
         {
-            string secret1 = "epzeu.cr.api.client.secret".ToSha256();
+            string secret1 = "".ToSha256();
 
             string shared = "ILLJ+lwcWlUKWRiahi6g0kZ0RDtsIN8xaRBa510i29E=";
             var  decoded = Convert.FromBase64String(shared);

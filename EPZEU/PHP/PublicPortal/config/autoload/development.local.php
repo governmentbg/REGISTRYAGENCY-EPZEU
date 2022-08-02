@@ -31,7 +31,7 @@ return [
 		'verify_host'					=> true,
 		'verify_peer'					=> true,
 		'client_id'						=> 'phpdev.client',
-		'client_secret'					=> 'php.client.secret',
+		'client_secret'					=> '',
 		'api_scope'						=> ['api.payments.obligations.ro', 'api.payments.transactions', 'api.payments.reporting', 'api.payments.paymentorders', 'epzeu.api', 'epzeu.cr.api'],
 		'user_scope'					=> ['openid', 'profile', 'epzeu.api', 'offline_access'],
 		'redirect_uri'					=> 'https://portal.dev.epzeu.dev.local/login',

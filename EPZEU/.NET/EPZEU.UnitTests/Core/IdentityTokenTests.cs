@@ -1,4 +1,4 @@
-﻿using IdentityModel.Client;
+using IdentityModel.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -51,7 +51,7 @@ namespace EPZEU.UnitTests.Core
                     {
                         GrantType = "ra_legacy",
                         ClientId = "integration.epzeu.api.client",
-                        ClientSecret = "integration.epzeu.api.client.secret",
+                        ClientSecret = "",
                         Parameters = new Dictionary<string, string> {
                             { "scope", "payments.api" },
                             { "subject", @"ra_agency\ivanov" }

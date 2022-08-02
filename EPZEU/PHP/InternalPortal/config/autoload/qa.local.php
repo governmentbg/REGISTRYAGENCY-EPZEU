@@ -31,7 +31,7 @@ return [
 		'verify_host'					=> true,
 		'verify_peer'					=> true,
 		'client_id'						=> 'epzeu.ui.client',
-		'client_secret'					=> 'php.client.secret',
+		'client_secret'					=> '',
 		'api_scope'						=> ['epzeu.api', 'epzeu.cr.api'],
 		'user_scope'					=> ['openid', 'profile', 'epzeu.api', 'offline_access'],
 		'redirect_uri'					=> 'https://admin.qa.epzeu.dev.local/login',
